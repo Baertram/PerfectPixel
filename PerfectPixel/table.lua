@@ -15,7 +15,7 @@ PP.TabList = {
 	ZO_StoreWindowList,
 	ZO_BuyBackList,
 	ZO_RepairWindowList,
-	--Smithing, Woodworking, Ñlothier
+	--Smithing, Woodworking, Ã‘lothier
 	ZO_SmithingTopLevelRefinementPanelInventoryBackpack,
 	ZO_SmithingTopLevelDeconstructionPanelInventoryBackpack,
 	ZO_SmithingTopLevelImprovementPanelInventoryBackpack,

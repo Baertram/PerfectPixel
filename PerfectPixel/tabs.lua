@@ -9,11 +9,11 @@ PP.tabs = function()
 	---------------------------------------------
 	table.insert(PP.optionsData,
 	{	type				= "header",
-		name				= "Tabs",
+		name				= GetString(PP_LAM_TABS),
 	})
 	table.insert(PP.optionsData,
 	{	type				= "checkbox",
-		name				= "Hide Menu Bar Label",
+		name				= GetString(PP_LAM_TABS_HIDE_MENU_BAR_LABEL),
 		getFunc				= function() return SV.MenuBarLabel_toggle end,
 		setFunc				= function(value) SV.MenuBarLabel_toggle = value end,
 		default				= DEF.MenuBarLabel_toggle,
@@ -21,7 +21,7 @@ PP.tabs = function()
 	})
 	table.insert(PP.optionsData,
 	{	type				= "checkbox",
-		name				= "Hide Top Bar Background",
+		name				= GetString(PP_LAM_TABS_HIDE_TOP_BAR_BG),
 		getFunc				= function() return SV.TopBarBG_toggle end,
 		setFunc				= function(value) SV.TopBarBG_toggle = value end,
 		default				= DEF.TopBarBG_toggle,

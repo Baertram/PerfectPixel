@@ -32,11 +32,11 @@ local function Core()
 	---------------------------------------------
 	table.insert(PP.optionsData,
 	{	type				= "header",
-		name				= "Others",
+		name				= GetString(PP_LAM_OTHERS),
 	})
 	table.insert(PP.optionsData,
 	{	type				= "checkbox",
-		name				= "Do not interrupt interactive activities",
+		name				= GetString(PP_LAM_DONOTINTERRUPT),
 		getFunc				= function() return SV.DoNotInterrupt_toggle end,
 		setFunc				= function(value) SV.DoNotInterrupt_toggle = value end,
 		default				= DEF.DoNotInterrupt_toggle,

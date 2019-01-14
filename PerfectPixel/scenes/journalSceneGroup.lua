@@ -9,23 +9,25 @@ PP.journalSceneGroup = function()
 	---------------------------------------------
 	table.insert(PP.optionsData,
 	{	type				= "submenu",
-		name				= "Journal Scene",
-		controls = {
-			{	type				= "checkbox",
-				name				= "Large quest list",
-				getFunc				= function() return SV.largeQuestList end,
-				setFunc				= function(value) SV.largeQuestList = value end,
-				default				= DEF.largeQuestList,
-				requiresReload		= true,
-			},
-			{	type				= "checkbox",
-				name				= "List background",
-				getFunc				= function() return SV.questListBG end,
-				setFunc				= function(value) SV.questListBG = value end,
-				default				= DEF.questListBG,
-				requiresReload		= true,
-			},
-		},
+		name				= GetString(PP_LAM_SCENE_JOURNAL),
+    controls    = {
+      table.insert(PP.optionsData,
+      {	type				= "checkbox",
+        name				= GetString(PP_LAM_SCENE_JOURNAL_QUEST_LARGE_LIST),
+        getFunc				= function() return SV.largeQuestList end,
+        setFunc				= function(value) SV.largeQuestList = value end,
+        default				= DEF.largeQuestList,
+        requiresReload		= true,
+      })
+      table.insert(PP.optionsData,
+      {	type				= "checkbox",
+         name				= GetString(PP_LAM_SCENE_JOURNAL_QUEST_BG),
+        getFunc				= function() return SV.questListBG end,
+        setFunc				= function(value) SV.questListBG = value end,
+        default				= DEF.questListBG,
+        requiresReload		= true,
+      })
+    },
 	})
 --===============================================================================================--
 --questJournal--ZO_QuestJournal--------------------------------------------------------------------

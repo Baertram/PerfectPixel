@@ -10,12 +10,12 @@ PP.worldMapScene = function()
 	table.insert(PP.optionsData,
 	{
 		type				= "header",
-		name				= "World Map",
+		name				= GetString(PP_LAM_SCENE_WORLDMAP),
 	})
 	table.insert(PP.optionsData,
 	{
 		type				= "checkbox",
-		name				= "Activate",
+		name				= GetString(PP_LAM_ACTIVATE),
 		getFunc				= function() return SV.toggle end,
 		setFunc				= function(value) SV.toggle = value end,
 		default				= DEF.toggle,
@@ -24,7 +24,7 @@ PP.worldMapScene = function()
 	table.insert(PP.optionsData,
 	{
 		type				= "checkbox",
-		name				= "Large Map",
+		name				= GetString(PP_LAM_SCENE_WORLDMAP_LARGE),
 		getFunc				= function() return SV.large end,
 		setFunc				= function(value) SV.large = value end,
 		default				= DEF.large,

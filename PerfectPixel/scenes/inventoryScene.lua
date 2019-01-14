@@ -8,12 +8,12 @@ PP.inventoryScene = function()
 	---------------------------------------------
 	table.insert(PP.optionsData,
 	{	type				= "header",
-		name				= "Inventory Scene",
+		name				= GetString(PP_LAM_SCENE_INV),
 	})
 	table.insert(PP.optionsData,
 	{	type				= "checkbox",
-		name				= "No Spin",
-		tooltip				= "Disable if you experience problems with the preview menu.",
+		name				= GetString(PP_LAM_SCENE_INV_NO_SPIN),
+		tooltip				= GetString(PP_LAM_SCENE_INV_NO_SPIN_TT),
 		getFunc				= function() return SV.NoSpin end,
 		setFunc				= function(value) SV.NoSpin = value end,
 		default				= DEF.NoSpin,

@@ -9,11 +9,11 @@ PP.reticle = function()
 	---------------------------------------------
 	table.insert(PP.optionsData,
 	{	type				= "header",
-		name				= "Reticle",
+		name				= GetString(PP_LAM_RETICLE),
 	})
 	table.insert(PP.optionsData,
 	{	type				= "checkbox",
-		name				= "Activate",
+		name				= GetString(PP_LAM_ACTIVATE),
 		getFunc				= function() return SV.toggle end,
 		setFunc				= function(value) SV.toggle = value end,
 		default				= DEF.toggle,
@@ -21,7 +21,7 @@ PP.reticle = function()
 	})
 	table.insert(PP.optionsData,
 	{	type				= "checkbox",
-		name				= "Hide Stealth Text",
+		name				= GetString(PP_LAM_RETICLE_HIDE_STEALTH),
 		getFunc				= function() return SV.StealthText_toggle end,
 		setFunc				= function(value) SV.StealthText_toggle = value end,
 		default				= DEF.StealthText_toggle,

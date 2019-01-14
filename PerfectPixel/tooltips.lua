@@ -8,11 +8,11 @@ PP.tooltips = function()
 --Tooltips-----------------------------------------------------------------------------------------
 	table.insert(PP.optionsData,
 	{	type				= "header",
-		name				= "Tooltips",
+		name				= GetString(PP_LAM_TOOLTIPS),
 	})
 	table.insert(PP.optionsData,
 	{	type				= "checkbox",
-		name				= "Activate",
+		name				= GetString(PP_LAM_ACTIVATE),
 		getFunc				= function() return SV.toggle end,
 		setFunc				= function(value) SV.toggle = value end,
 		default				= DEF.toggle,

@@ -3,29 +3,31 @@ PP.journalSceneGroup = function()
 	local SV_VER		= 0.1
 	local DEF = {
 		largeQuestList	= true,
-		questListBG		= true,
+		questListBG		= false,
 	}
 	local SV = ZO_SavedVars:NewAccountWide(PP.ADDON_NAME, SV_VER, "JournalScene", DEF, GetWorldName())
 	---------------------------------------------
 	table.insert(PP.optionsData,
-	{	type				= "header",
+	{	type				= "submenu",
 		name				= GetString(PP_LAM_SCENE_JOURNAL),
-	})
-	table.insert(PP.optionsData,
-	{	type				= "checkbox",
-		name				= GetString(PP_LAM_SCENE_JOURNAL_QUEST_LARGE_LIST),
-		getFunc				= function() return SV.largeQuestList end,
-		setFunc				= function(value) SV.largeQuestList = value end,
-		default				= DEF.largeQuestList,
-		requiresReload		= true,
-	})
-	table.insert(PP.optionsData,
-	{	type				= "checkbox",
-		 name				= GetString(PP_LAM_SCENE_JOURNAL_QUEST_BG),
-		getFunc				= function() return SV.questListBG end,
-		setFunc				= function(value) SV.questListBG = value end,
-		default				= DEF.questListBG,
-		requiresReload		= true,
+    controls    = {
+      table.insert(PP.optionsData,
+      {	type				= "checkbox",
+        name				= GetString(PP_LAM_SCENE_JOURNAL_QUEST_LARGE_LIST),
+        getFunc				= function() return SV.largeQuestList end,
+        setFunc				= function(value) SV.largeQuestList = value end,
+        default				= DEF.largeQuestList,
+        requiresReload		= true,
+      })
+      table.insert(PP.optionsData,
+      {	type				= "checkbox",
+         name				= GetString(PP_LAM_SCENE_JOURNAL_QUEST_BG),
+        getFunc				= function() return SV.questListBG end,
+        setFunc				= function(value) SV.questListBG = value end,
+        default				= DEF.questListBG,
+        requiresReload		= true,
+      })
+    },
 	})
 --===============================================================================================--
 --questJournal--ZO_QuestJournal--------------------------------------------------------------------

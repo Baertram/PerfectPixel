@@ -15,7 +15,7 @@ PP.TabList = {
 	ZO_StoreWindowList,
 	ZO_BuyBackList,
 	ZO_RepairWindowList,
-	--Smithing, Woodworking, Ñlothier
+	--Smithing, Woodworking, Ã‘lothier
 	ZO_SmithingTopLevelRefinementPanelInventoryBackpack,
 	ZO_SmithingTopLevelDeconstructionPanelInventoryBackpack,
 	ZO_SmithingTopLevelImprovementPanelInventoryBackpack,
@@ -26,6 +26,8 @@ PP.TabList = {
 }
 
 PP.FadeSceneFragment = {
+	ADDONS_FRAGMENT,
+
 	ZO_KEYBOARD_UPCOMING_LEVEL_UP_REWARDS_FRAGMENT,
 	SKILLS_FRAGMENT,
 	SKILLS_ADVISOR_FRAGMENT,

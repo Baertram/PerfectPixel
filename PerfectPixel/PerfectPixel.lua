@@ -354,6 +354,8 @@ local function OnAddonLoaded(eventType, addonName)
 		PP.notificationsScene()
 		PP.helpSceneGroup()
 		--
+		PP.gameMenuInGameScene()
+		--
 		EVENT_MANAGER:RegisterForEvent(PP.ADDON_NAME, EVENT_PLAYER_ACTIVATED, PP.searchBox)
 		EVENT_MANAGER:UnregisterForEvent(PP.ADDON_NAME, EVENT_ADD_ON_LOADED)
 		--

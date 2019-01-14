@@ -2,7 +2,8 @@
 ## Author: @KL1SK, Votan
 ## Description: |cf44336Attention!!!|r For correct display, the screen resolution must be at least 1920x1080. UI scaling should be disabled.
 ## APIVersion: 100025 100026
-## Version: 0.9.946
+## AddOnVersion 09947
+## Version: 0.9.947
 ## DependsOn: LibStub LibAddonMenu-2.0
 ## OptionalDependsOn: AdvancedFilters AwesomeGuildStore CraftStoreFixedAndImproved VotansMiniMap InventoryGridView HarvensImprovedSkillsWindow MasterRecipeList MailLooter
 ## SavedVariables: PerfectPixel
@@ -46,5 +47,7 @@ scenes\allianceWarSceneGroup.lua
 scenes\mailSceneGroup.lua
 scenes\notificationsScene.lua
 scenes\helpSceneGroup.lua
+
+scenes\gameMenuInGameScene.lua
 
 ##Bindings.xml

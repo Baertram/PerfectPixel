@@ -155,7 +155,7 @@ PP.mailSceneGroup = function()
 --MailLooter--mailLooter--compatibility------------------------------------------------------------
 	if not MailLooter then return end
 
-	MAIL_LOOTER_SCENE:AddFragment(PLAYER_PROGRESS_BAR_FRAGMENT)
+	-- MAIL_LOOTER_SCENE:AddFragment(PLAYER_PROGRESS_BAR_FRAGMENT)
 	MAIL_LOOTER_SCENE:RemoveFragment(TITLE_FRAGMENT)
 	MAIL_LOOTER_SCENE:RemoveFragment(MAIL_TITLE_FRAGMENT)
 	MAIL_LOOTER_SCENE:RemoveFragment(FRAME_PLAYER_FRAGMENT)

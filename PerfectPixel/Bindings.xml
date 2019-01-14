@@ -1,0 +1,12 @@
+<Bindings>
+	<Layer name="SI_KEYBINDINGS_LAYER_GENERAL">
+		<Category name="PP">
+			<Action name="PP_QUICKSLOT_1">
+				<Down>
+					d("my_key")
+					OnSlotDownAndUp(3)
+				</Down>
+			</Action>
+		</Category>
+	</Layer>
+</Bindings>

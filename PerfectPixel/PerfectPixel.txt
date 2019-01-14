@@ -1,0 +1,50 @@
+﻿## Title: PerfectPixel
+## Author: @KL1SK, Votan
+## Description: |cf44336Attention!!!|r For correct display, the screen resolution must be at least 1920x1080. UI scaling should be disabled.
+## APIVersion: 100025 100026
+## Version: 0.9.946
+## DependsOn: LibStub LibAddonMenu-2.0
+## OptionalDependsOn: AdvancedFilters AwesomeGuildStore CraftStoreFixedAndImproved VotansMiniMap InventoryGridView HarvensImprovedSkillsWindow MasterRecipeList MailLooter
+## SavedVariables: PerfectPixel
+
+lang/en.lua
+lang/$(language).lua
+
+functions.lua
+table.lua
+PerfectPixel.lua
+
+searchBox.lua
+tooltips.lua
+compass.lua
+reticle.lua
+tabs.lua
+
+scenes\inventoryScene.lua
+scenes\bankScene.lua
+scenes\houseBankScene.lua
+scenes\guildBankScene.lua
+scenes\storeScene.lua
+
+scenes\tradingHouseScene.lua
+
+scenes\lootScene.lua
+
+scenes\provisionerScene.lua
+scenes\enchantingScene.lua
+scenes\smithingScene.lua
+
+scenes\statsScene.lua
+scenes\skillsScene.lua
+scenes\journalSceneGroup.lua
+scenes\collectionsSceneGroup.lua
+scenes\worldMapScene.lua
+scenes\groupMenuKeyboardScene.lua
+scenes\friendsListGroup.lua
+scenes\guildSceneGroup.lua
+scenes\allianceWarSceneGroup.lua
+scenes\mailSceneGroup.lua
+scenes\notificationsScene.lua
+scenes\helpSceneGroup.lua
+
+##Bindings.xml

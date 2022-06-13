@@ -1,0 +1,62 @@
+## APIVersion: 101034 101035
+## Version: 0.11.26
+## Title: PerfectPixel
+## Author: @KL1SK, helped by Baertram
+## Description: PerfectPixle changes a lot UI elements |cf44336Attention!!!|r For correct display, the screen resolution must be at least 1920x1080. UI scaling should be disabled.
+## SavedVariables: PerfectPixel
+
+## DependsOn: LibAddonMenu-2.0>=34
+## OptionalDependsOn: LibVotansAddonList>=10900
+## OptionalDependsOn: AdvancedFilters>=1621 AwesomeGuildStore>=2767 HarvensImprovedSkillsWindow
+## OptionalDependsOn: pChat>=10000208 SpentSkillPoints VotansMiniMap
+
+lang/en.lua
+lang/$(language).lua
+
+constants.lua
+
+functions.lua
+table.lua
+PerfectPixel.lua
+
+searchBox.lua
+tooltips.lua
+reticle.lua
+tabs.lua
+dialogsMenu.lua
+
+scenes\inventoryScene.lua
+
+scenes\tradingHouseScene.lua
+
+scenes\lootScene.lua
+
+scenes\restyleStationKeyboardSceneGroup.lua
+
+scenes\craftStationScenes.lua
+
+scenes\statsScene.lua
+scenes\skillsScene.lua
+scenes\journalSceneGroup.lua
+scenes\collectionsSceneGroup.lua
+scenes\worldMapScene.lua
+scenes\groupMenuKeyboardScene.lua
+scenes\friendsListGroup.lua
+scenes\guildSceneGroup.lua
+scenes\allianceWarSceneGroup.lua
+scenes\mailSceneGroup.lua
+scenes\notificationsScene.lua
+scenes\helpSceneGroup.lua
+
+scenes\gameMenuInGameScene.lua
+
+bindings.xml
+
+compatibility.lua
+
+modules\compass.lua
+modules\scrolling.lua
+modules\playerProgressBar.lua
+modules\chatWindow.lua
+modules\performanceMeter.lua
+modules\keybindStrip.lua

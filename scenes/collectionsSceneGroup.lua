@@ -20,6 +20,7 @@ PP.collectionsSceneGroup = function()
 		{ZO_OUTFIT_STYLES_BOOK_SCENE,	ZO_OUTFIT_STYLES_BOOK_KEYBOARD,		},
 		{nil,							ZO_OUTFIT_STYLES_PANEL_KEYBOARD,	},
 		{ITEM_SETS_BOOK_SCENE,			ITEM_SET_COLLECTIONS_BOOK_KEYBOARD,	},
+		{TRIBUTE_PATRON_BOOK_SCENE,		TRIBUTE_PATRON_BOOK_KEYBOARD		},
 	}
 
 	for i=1, #scenes do
@@ -193,5 +194,57 @@ PP.collectionsSceneGroup = function()
 		existingSetupCallback(control, data)
 		local progressBar = control:GetNamedChild("Progress")
 		PP.Bar(progressBar, --[[height]] 14, --[[fontSize]] 15)
+	end
+
+
+--Tribute Patron card game - collections
+--ZO_TributePatronBook_Keyboard_TopLevelInfoContainerGridListContainerListContents
+	local TPB		= TRIBUTE_PATRON_BOOK_KEYBOARD
+	local tpbTLC	= TPB.control --ZO_TributePatronBook_Keyboard_TopLevel
+	local tpbFilters = GetControl(tpbTLC, "Filters")
+	local tpbSearchLabel = GetControl(tpbFilters, "SearchLabel")
+	local tpbList	= TPB.gridList.list --ZO_TributePatronBook_Keyboard_TopLevelInfoContainerGridListContainerList
+	local tpbCategories = TPB.categories --ZO_TributePatronBook_Keyboard_TopLevelCategories
+	local tpbCategoryContents = GetControl(tpbList, "Contents")
+
+	tpbSearchLabel:SetHeight(0)
+	tpbSearchLabel:ClearAnchors()
+	tpbSearchLabel:SetHidden(true)
+	PP.Anchor(tpbFilters,		--[[#1]] TOPLEFT, tpbTLC, TOPLEFT,	1, -23, --[[#2]] true, TOPRIGHT, tpbTLC, TOPRIGHT, 1, -23)
+
+	PP.Anchor(tpbCategoryContents,		--[[#1]] TOPLEFT, tpbCategories, TOPRIGHT,	10, 0, --[[#2]] true, BOTTOMRIGHT, tpbTLC, BOTTOMRIGHT, 0, 0)
+	--PP.Anchor(tpbList,	--[[#1]] TOPLEFT, tpbCategories, BOTTOMLEFT,	0, 10, --[[#2]] true, BOTTOMRIGHT, tpbCategoryContents, BOTTOMRIGHT, 0, 0)
+
+	--------------------------
+	local dataType_1 = ZO_ScrollList_GetDataTypeTable(tpbList, 1)
+	local existingSetupCallback = dataType_1.setupCallback
+	dataType_1["controlHeight"] = 68
+	dataType_1["controlWidth"] = 68
+	dataType_1["spacingX"] = 6
+	dataType_1["spacingY"] = 6
+	dataType_1.setupCallback = function(control, data)
+		existingSetupCallback(control, data)
+		EmptyCellHidden(control, data)
+
+		control:SetDimensions(dataType_1["controlWidth"], dataType_1["controlHeight"])
+
+		local backdrop = control:GetNamedChild("OverlayBorder")
+		if backdrop ~= nil then
+			backdrop:SetCenterColor(10/255, 10/255, 10/255, .7)
+			backdrop:SetCenterTexture(nil, 4, 0)
+			backdrop:SetEdgeColor(40/255, 40/255, 40/255, .9)
+			backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
+			backdrop:SetInsets(1, 1, -1, -1)
+			backdrop:SetDrawLayer(DL_BACKGROUND)
+			backdrop:SetDrawLevel(0)
+			backdrop:SetDrawTier(DT_LOW)
+		end
+	end
+	local dataType_2 = ZO_ScrollList_GetDataTypeTable(tpbList, 2)
+	local existingSetupCallback = dataType_2.setupCallback
+	dataType_2.setupCallback = function(control, data)
+		existingSetupCallback(control, data)
+		--local progressBar = control:GetNamedChild("Progress")
+		--PP.Bar(progressBar, --[[height]] 14, --[[fontSize]] 15)
 	end
 end

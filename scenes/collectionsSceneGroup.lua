@@ -214,9 +214,9 @@ PP.collectionsSceneGroup = function()
 	PP.Anchor(tpbFilters,		--[[#1]] TOPLEFT, tpbTLC, TOPLEFT,	1, -23, --[[#2]] true, TOPRIGHT, tpbTLC, TOPRIGHT, 1, -23)
 
 	PP.Anchor(tpbCategoryContents,		--[[#1]] TOPLEFT, tpbCategories, TOPRIGHT,	10, 0, --[[#2]] true, BOTTOMRIGHT, tpbTLC, BOTTOMRIGHT, 0, 0)
-	--PP.Anchor(tpbList,	--[[#1]] TOPLEFT, tpbCategories, BOTTOMLEFT,	0, 10, --[[#2]] true, BOTTOMRIGHT, tpbCategoryContents, BOTTOMRIGHT, 0, 0)
-	PP.ScrollBar(tpbGridList, --[[sb_c]] 180, 180, 180, .8, --[[bd_c]] 20, 20, 20, .6, false)
-	ZO_Scroll_SetMaxFadeDistance(tpbCategories, 10)
+	PP.Anchor(tpbList,	--[[#1]] TOPLEFT, tpbCategoryContents, BOTTOMLEFT,	0, 10, --[[#2]] true, BOTTOMRIGHT, tpbCategoryContents, BOTTOMRIGHT, 0, 0)
+	PP.ScrollBar(tpbList, --[[sb_c]] 180, 180, 180, .8, --[[bd_c]] 20, 20, 20, .6, false)
+	ZO_Scroll_SetMaxFadeDistance(tpbList, 10)
 
 	--------------------------
 	local dataType_1 = ZO_ScrollList_GetDataTypeTable(tpbList, 1)

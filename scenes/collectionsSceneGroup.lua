@@ -203,7 +203,8 @@ PP.collectionsSceneGroup = function()
 	local tpbTLC	= TPB.control --ZO_TributePatronBook_Keyboard_TopLevel
 	local tpbFilters = GetControl(tpbTLC, "Filters")
 	local tpbSearchLabel = GetControl(tpbFilters, "SearchLabel")
-	local tpbList	= TPB.gridList.list --ZO_TributePatronBook_Keyboard_TopLevelInfoContainerGridListContainerList
+	local tpbGridList = TPB.gridList
+	local tpbList	= tpbGridList.list --ZO_TributePatronBook_Keyboard_TopLevelInfoContainerGridListContainerList
 	local tpbCategories = TPB.categories --ZO_TributePatronBook_Keyboard_TopLevelCategories
 	local tpbCategoryContents = GetControl(tpbList, "Contents")
 
@@ -214,6 +215,8 @@ PP.collectionsSceneGroup = function()
 
 	PP.Anchor(tpbCategoryContents,		--[[#1]] TOPLEFT, tpbCategories, TOPRIGHT,	10, 0, --[[#2]] true, BOTTOMRIGHT, tpbTLC, BOTTOMRIGHT, 0, 0)
 	--PP.Anchor(tpbList,	--[[#1]] TOPLEFT, tpbCategories, BOTTOMLEFT,	0, 10, --[[#2]] true, BOTTOMRIGHT, tpbCategoryContents, BOTTOMRIGHT, 0, 0)
+	PP.ScrollBar(tpbGridList, --[[sb_c]] 180, 180, 180, .8, --[[bd_c]] 20, 20, 20, .6, false)
+	ZO_Scroll_SetMaxFadeDistance(tpbCategories, 10)
 
 	--------------------------
 	local dataType_1 = ZO_ScrollList_GetDataTypeTable(tpbList, 1)

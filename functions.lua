@@ -211,9 +211,9 @@ PP.ScrollBar = function(control, --[[sb_c]] sb_r, sb_g, sb_b, sb_a, --[[bg_c]] b
 	local sb = control.scrollbar or control.Scrollbar
 	if not sb then return end
 
-	local up = control.upButton or control.scrollUpButton or control.ScrollUp or sb:GetNamedChild("ScrollUp")
-	local down = control.downButton or control.scrollDownButton or control.ScrollDown or sb:GetNamedChild("ScrollDown")
-	local endBtn = control.endButton or control.scrollEndButton or control.ScrollEnd or sb:GetNamedChild("ScrollEnd")
+	local up = control.upButton or control.scrollUpButton or control.ScrollUp or sb:GetNamedChild("ScrollUp") or sb:GetNamedChild("Up")
+	local down = control.downButton or control.scrollDownButton or control.ScrollDown or sb:GetNamedChild("ScrollDown") or sb:GetNamedChild("Down")
+	local endBtn = control.endButton or control.scrollEndButton or control.ScrollEnd or sb:GetNamedChild("ScrollEnd") or sb:GetNamedChild("End")
 
 	local thumb			= sb:GetThumbTextureControl()
 	local contents		= control.contents

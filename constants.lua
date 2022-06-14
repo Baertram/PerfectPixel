@@ -10,20 +10,8 @@ PP.ADDON_VERSION 	= "0.11.27"
 --[[ Known bugs
 
 --2022-06-14
---#1 House purchase tabs are miss-aligned:
-with Pixel Perfect
-Unfurnished
-https://postimg.cc/4H5wtcgY
-Furnished
-https://postimg.cc/wRXfxPMY
-
-without Pixel Perfect
-Unfurnished
-https://postimg.cc/JsPngz1j
-Furnished
-https://postimg.cc/jDPzpNDB
-
 --#2 Using siege weapon in cyrodiil shows back linea t the bottom (keybind strip?) which stays after leaving siege, until map is opened
+-->it's the Keybind strip -> confirmed
 
 --#3 Dropdowns of AdvancedFilters and other Group finder etc. do not show like PP dropdowns
 

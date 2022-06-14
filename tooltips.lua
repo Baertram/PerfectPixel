@@ -103,11 +103,18 @@ PP.tooltips = function()
 	--▲--▲--▲--
 
 	local tab = {
-		ItemTooltip, ComparativeTooltip1, ComparativeTooltip2, PopupTooltip, InformationTooltip, AbilityTooltip, SkillTooltip,	GameTooltip, AchievementTooltip, ZO_AchievementTooltip,
+		ItemTooltip, ComparativeTooltip1, ComparativeTooltip2, PopupTooltip, InformationTooltip, AbilityTooltip, SkillTooltip, GameTooltip,
+		AchievementTooltip, ZO_AchievementTooltip,
 		ZO_MapLocationTooltip, ZO_MapQuestDetailsTooltip, ZO_ZoneStoryActivityCompletionTooltip, ZO_ZoneStoryActivityCompletionListTooltip,
 		ZO_SmithingTopLevelCreationPanelResultTooltip, ZO_ProvisionerTopLevelTooltip, ZO_AlchemyTopLevelTooltip, ZO_RetraitStation_KeyboardTopLevelRetraitPanelResultTooltip,
-		HarvensSkillTooltipMorph1, HarvensSkillTooltipMorph2,
+
 	}
+	--Compatibilty - Other AddOns
+	if HarvensSkillTooltipMorph1 then
+		table.insert(tab, HarvensSkillTooltipMorph1)
+		table.insert(tab, HarvensSkillTooltipMorph2)
+	end
+
 
 	--Alpha of the tooltip = 100 - Transparency of settings * 0.1 for the alpha value 0 to 1
 	local alpha

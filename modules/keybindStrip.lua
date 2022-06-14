@@ -13,7 +13,7 @@ function PP.keybindStripModule.keybindStripUpdateKeybindStripBG(firstLoad, fragm
 	if SV.toggle then
 		local isInGamepadMode = IsInGamepadPreferredMode()
 		--Do not change hidden state of keybind bar if looting items
-		if (isInGamepadMode == true and GAMEPAD_LOOT_PICKUP_FRAGMENT:IsShowing()) or  LOOT_WINDOW_FRAGMENT:IsShowing() then
+		if (isInGamepadMode == true and GAMEPAD_LOOT_PICKUP_FRAGMENT:IsShowing()) or LOOT_WINDOW_FRAGMENT:IsShowing() then
 			return
 		end
 

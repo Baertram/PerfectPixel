@@ -195,22 +195,29 @@ PP.CreateBackdrop = function(control)
 	return control.backdrop
 end
 
-PP.ScrollBar = function(control, --[[sb_c]] sb_r, sb_g, sb_b, sb_a, --[[bg_c]] bg_r, bg_g, bg_b, bg_a)
+PP.ScrollBar = function(control, --[[sb_c]] sb_r, sb_g, sb_b, sb_a, --[[bg_c]] bg_r, bg_g, bg_b, bg_a, oldParam, controlIsScrollbar)
+	--Todo: What was oldParam used for?
+	controlIsScrollbar = controlIsScrollbar or false
 
 	local tex = PP.t.w8x8
 	if not control then return end
 	local isChat = (control == ZO_ChatWindow) or false
 
+	local sb
 	local isControlContainer = false
-	if not control.scrollbar then
-		if control.container and control.container.scrollbar then
-			control = control.container
-			isControlContainer = true
-		else
-			control = control:GetParent()
+	if controlIsScrollbar then
+		sb = control
+	else
+		if not control.scrollbar then
+			if control.container and control.container.scrollbar then
+				control = control.container
+				isControlContainer = true
+			else
+				control = control:GetParent()
+			end
 		end
+		sb = control.scrollbar or control.Scrollbar
 	end
-	local sb = control.scrollbar or control.Scrollbar
 	if not sb then return end
 
 	local up = control.upButton or control.scrollUpButton or control.ScrollUp or sb:GetNamedChild("ScrollUp") or sb:GetNamedChild("Up")

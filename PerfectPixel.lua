@@ -1,9 +1,4 @@
 if not PP then PP = {} end
-PP.SV = {}
-PP.ADDON_NAME		= "PerfectPixel"
-PP.ADDON_AUTHOR		= "@KL1SK, helped by Baertram"
-PP.ADDON_WEBSITE	= "https://www.esoui.com/downloads/info2103-PerfectPixel.html"
-PP.ADDON_VERSION 	= "0.11.26"
 
 -- media
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,5 +1,39 @@
 if not PP then PP = {} end
 
+--Addon data
+PP.SV = {}
+PP.ADDON_NAME		= "PerfectPixel"
+PP.ADDON_AUTHOR		= "@KL1SK, helped by Baertram"
+PP.ADDON_WEBSITE	= "https://www.esoui.com/downloads/info2103-PerfectPixel.html"
+PP.ADDON_VERSION 	= "0.11.27"
+
+--[[ Known bugs
+
+--2022-06-14
+--#1 House purchase tabs are miss-aligned:
+with Pixel Perfect
+Unfurnished
+https://postimg.cc/4H5wtcgY
+Furnished
+https://postimg.cc/wRXfxPMY
+
+without Pixel Perfect
+Unfurnished
+https://postimg.cc/JsPngz1j
+Furnished
+https://postimg.cc/jDPzpNDB
+
+--#2 Using siege weapon in cyrodiil shows back linea t the bottom (keybind strip?) which stays after leaving siege, until map is opened
+
+--#3 Dropdowns of AdvancedFilters and other Group finder etc. do not show like PP dropdowns
+
+--#4 Progress bars at the achievements do not look like PP style
+
+--#5 Guild bank/guild store selection popup is not in PP style
+
+]]
+
+
 --[[colors
 def2 = ( 197, 194, 158 )
 def = ( 173, 166, 132 )

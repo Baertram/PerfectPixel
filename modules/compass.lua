@@ -168,6 +168,7 @@ PP.compass = function()
 	COMPASS.container:SetCardinalDirection(GetString(SI_COMPASS_EAST_ABBREVIATION),		font, CARDINAL_DIRECTION_EAST)
 	COMPASS.container:SetCardinalDirection(GetString(SI_COMPASS_WEST_ABBREVIATION),		font, CARDINAL_DIRECTION_WEST)
 	COMPASS.container:SetCardinalDirection(GetString(SI_COMPASS_SOUTH_ABBREVIATION),	font, CARDINAL_DIRECTION_SOUTH)
+
 --ZO_BossBar---------------------------------------------------------------------------------------
 	ZO_BossBarBracketLeft:SetHidden(true)
 	ZO_BossBarBracketRight:SetHidden(true)

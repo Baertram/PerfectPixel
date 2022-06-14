@@ -17,6 +17,7 @@ PP.dialogsMenu = function()
 		end
 		for i = 1, MAX_NUM_DIALOGS do
 			local dialog = GetControl("ZO_Dialog" .. i)
+			local isGamepad = false
 			ZO_Dialogs_InitializeDialog(dialog, isGamepad)
 			tinsert(dialogControls, dialog)
 		end

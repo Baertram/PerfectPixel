@@ -28,4 +28,7 @@ PP.contextMenus = function()
 		control.nameLabel:SetColor(control.nameLabel.highlightColor:UnpackRGBA())
 		return true
 	end)
+
+
+	--> See compatibility.lua for "LibCustomMenu" submenu changes!
 end

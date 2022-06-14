@@ -29,18 +29,6 @@ PP.compatibility = function()
 				lcmSMHighlight:SetInsets(0, 0, 0, 0)
 				-- lcmSMHighlight:SetInheritAlpha(false)
 			end
-
-			ZO_PreHook("ZO_Menu_SelectItem", function(control)
-				if not lcmSM or lcmSM:IsHidden() then return end
-
-				control:SetWidth(lcmSM:GetWidth() - 16)
-				lcmSMHighlight:ClearAnchors()
-				lcmSMHighlight:SetAnchor(TOPLEFT, control, TOPLEFT, -6, 0)
-				lcmSMHighlight:SetAnchor(BOTTOMRIGHT, control, BOTTOMRIGHT, 2, 0)
-				lcmSMHighlight:SetHidden(false)
-				control.nameLabel:SetColor(control.nameLabel.highlightColor:UnpackRGBA())
-				return true
-			end)
 		end
 
 		--==CraftBagExtended==--
@@ -148,6 +136,23 @@ PP.compatibility = function()
 			PP:SetLockedFn(ZO_CompassFrameLeft, 'SetHidden')
 			PP:SetLockedFn(ZO_CompassFrameRight, 'SetHidden')
 			PP:SetLockedFn(ZO_CompassFrameCenter, 'SetHidden')
+		end
+		--===============================================================================================--
+
+
+		--==InventoryInsightFromAshes==--
+		if IIFA_GUI ~= nil then
+			PP:CreateBackground(IIFA_GUI,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+			IIFA_GUI_BG:SetHidden(true)
+			--IIFA_GUI_BG
+			--IIFA_GUI_Header
+			--IIFA_GUI_ListHolder
+			--IIFA_GUI_Search
+			--IIFA_GUI_ListHolder_Slider
+
+			PP.ScrollBar(IIFA_GUI_ListHolder_Slider, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false, true)
+			ZO_Scroll_SetMaxFadeDistance(IIFA_GUI_ListHolder, 10)
+
 		end
 		--===============================================================================================--
 

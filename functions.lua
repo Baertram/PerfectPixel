@@ -7,7 +7,7 @@ PP.backgrounds = {}
 
 -- functions
 
-function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1, --[[#2]] point2, relTo2, relPoint2, x2, y2, minLayer)
+function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1, --[[#2]] point2, relTo2, relPoint2, x2, y2, minLayer, drawLevel)
 	local bg
 	if not parent.PP_BG then
 		bg = CreateControl("$(parent)_PP_BG", parent, CT_BACKDROP)
@@ -28,18 +28,19 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 	bg:SetIntegralWrapping(PP.SV.skin_edge_integral_wrapping)
 
 	--"Pop" the BG texture to normal control level once and then move it back to the background
+	drawLevel = drawLevel or 1
 	if minLayer then
 		parent:SetDrawLayer(DL_CONTROLS)
-		parent:SetDrawLevel(1)
+		parent:SetDrawLevel(2)
 		parent:SetDrawTier(DT_MEDIUM)
 
 		parent:SetDrawLayer(DL_BACKGROUND)
-		parent:SetDrawLevel(0)
+		parent:SetDrawLevel(drawLevel)
 		parent:SetDrawTier(DT_LOW)
 	else
 		--2022-06-13, Baertram: Fix High Isle DrawTier/Layer/Level changes -> Just background control
 		parent:SetDrawLayer(DL_BACKGROUND)
-		parent:SetDrawLevel(0)
+		parent:SetDrawLevel(drawLevel)
 		parent:SetDrawTier(DT_LOW)
 	end
 
@@ -47,11 +48,15 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 end
 
 function PP:HideBackgroundForScene(scene, pp_bg)
+--d("[PP]HideBackgroundForScene: " ..tostring(scene.name) .. ", bg: " .. tostring(pp_bg:GetName()))
 	scene:RegisterCallback("StateChange", function(_, newState)
 		if newState == SCENE_FRAGMENT_SHOWING then
 			pp_bg:SetHidden(true)
 		elseif newState == SCENE_FRAGMENT_HIDDEN then
 			pp_bg:SetHidden(false)
+			pp_bg:SetDrawTier(DT_LOW)
+			pp_bg:SetDrawLayer(DL_BACKGROUND)
+			pp_bg:SetDrawLevel(0)
 		end
 	end)
 end

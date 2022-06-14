@@ -20,10 +20,6 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 	bg:SetAnchor(point1 or TOPLEFT,		relTo1 or parent,	relPoint1 or TOPLEFT,		x1 or 0, y1 or 0)
 	bg:SetAnchor(point2 or BOTTOMRIGHT,	relTo2 or parent,	relPoint2 or BOTTOMRIGHT,	x2 or 0, y2 or 0)
 
-	bg:SetDrawLayer(DL_BACKGROUND)
-	bg:SetDrawLevel(0)
-	bg:SetDrawTier(DT_LOW)
-
 	bg:SetCenterTexture(PP.SV.skin_backdrop, PP.SV.skin_backdrop_tile_size, PP.SV.skin_backdrop_tile and 1 or 0)
 	bg:SetCenterColor(unpack(PP.SV.skin_backdrop_col))
 	bg:SetInsets(PP.SV.skin_backdrop_insets, PP.SV.skin_backdrop_insets, -PP.SV.skin_backdrop_insets, -PP.SV.skin_backdrop_insets)
@@ -31,6 +27,7 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 	bg:SetEdgeColor(unpack(PP.SV.skin_edge_col))
 	bg:SetIntegralWrapping(PP.SV.skin_edge_integral_wrapping)
 
+	--"Pop" the BG texture to normal control level once and then move it back to the background
 	if minLayer then
 		parent:SetDrawLayer(DL_CONTROLS)
 		parent:SetDrawLevel(1)
@@ -40,7 +37,7 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 		parent:SetDrawLevel(0)
 		parent:SetDrawTier(DT_LOW)
 	else
-		--2022-06-13, Baertram: Fix High Isle DrawTier/Layer/Level changes
+		--2022-06-13, Baertram: Fix High Isle DrawTier/Layer/Level changes -> Just background control
 		parent:SetDrawLayer(DL_BACKGROUND)
 		parent:SetDrawLevel(0)
 		parent:SetDrawTier(DT_LOW)
@@ -311,6 +308,10 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize)
 			glowBG:SetEdgeTexture(nil, 1, 1, 1, 0)
 			glowBG:SetEdgeColor(173/255, 166/255, 132/255, 1)
 			PP.Anchor(glowBG, --[[#1]] TOPLEFT, bar, TOPLEFT, -3, -3, --[[#2]] true, BOTTOMRIGHT, bar, BOTTOMRIGHT, 3, 3)
+
+			glowBG:SetDrawTier(DT_LOW)
+			glowBG:SetDrawLayer(DL_BACKGROUND)
+			glowBG:SetDrawLevel(0)
 		end
 	end
 
@@ -319,7 +320,15 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize)
 	end
 
 	bg:SetHidden(true)
-	overlay:SetHidden(true)
+	if overlay then
+		overlay:SetHidden(true)
+
+		--ZO_ArrowStatusBarOverlay -> /esoui/libraries/zo_templates/statusbartemplates.xml
+		local overlayRight = overlay:GetNamedChild("Right")
+		if overlayRight then
+			overlayRight:SetTextureCoords(0, 0, 0, 0)
+		end
+	end
 	
 	-- bar:SetInheritAlpha(false)
 	-- bar:SetInheritScale(false)
@@ -332,7 +341,11 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize)
 	gloss:SetLeadingEdge(nil)
 	gloss:EnableLeadingEdge(false)
 	gloss:SetColor(0/255, 0/255, 0/255, .1)
-	
+
+	bar:SetDrawTier(DT_MEDIUM)
+	bar:SetDrawLayer(DL_CONTROLS)
+	bar:SetDrawLevel(0)
+
 --
 	if not control:GetNamedChild("Backdrop") then
 		local barBG = CreateControl("$(parent)Backdrop", control, CT_BACKDROP)
@@ -343,8 +356,24 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize)
 		barBG:SetEdgeTexture(nil, 1, 1, 1, 0)
 		barBG:SetEdgeColor(60/255, 60/255, 60/255, .9)
 		barBG:SetInsets(-1, -1, 1, 1)
+
+		barBG:SetDrawTier(DT_LOW)
+		barBG:SetDrawLayer(DL_BACKGROUND)
+		barBG:SetDrawLevel(0)
 	end
 end
+local PP_bar = PP.Bar
+
+PP.Bars = function(progressBarsOverviewContainer --[[parentControl]])
+	--Change all child control Progressbars at progressBarsOverviewContainer
+	for i=1, progressBarsOverviewContainer:GetNumChildren(), 1 do
+		local progressBar = progressBarsOverviewContainer:GetChild(i):GetNamedChild("Progress")
+		if progressBar ~= nil then
+			PP_bar(progressBar, --[[height]] 14, --[[fontSize]] 15)
+		end
+	end
+end
+
 
 --[[
 /script

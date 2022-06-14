@@ -6,7 +6,7 @@
 ## SavedVariables: PerfectPixel
 
 ## DependsOn: LibAddonMenu-2.0>=34
-## OptionalDependsOn: LibVotansAddonList>=10900
+## OptionalDependsOn: LibVotansAddonList>=10900 LibCustomMenu>=713
 ## OptionalDependsOn: AdvancedFilters>=1621 AwesomeGuildStore>=2767 HarvensImprovedSkillsWindow
 ## OptionalDependsOn: pChat>=10000208 SpentSkillPoints VotansMiniMap
 

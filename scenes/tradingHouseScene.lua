@@ -7,7 +7,8 @@ PP.tradingHouseScene = function()
 	TRADING_HOUSE_SCENE:AddFragment(FRAME_TARGET_BLUR_STANDARD_RIGHT_PANEL_FRAGMENT)
 	PP:ForceRemoveFragment(TRADING_HOUSE_SCENE, TREE_UNDERLAY_FRAGMENT)
 
-	PP:CreateBackground(ZO_TradingHouse,		--[[#1]] nil, nil, nil, -20, 0, --[[#2]] nil, nil, nil, 0, 6, true)
+	--PP:CreateBackground(ZO_TradingHouse,		--[[#1]] nil, nil, nil, -20, 0, --[[#2]] nil, nil, nil, 0, 6, true)
+	PP:CreateBackground(ZO_TradingHouse,		--[[#1]] nil, nil, nil, -20, 0, --[[#2]] nil, nil, nil, 0, 6)
 	PP:HideBackgroundForScene(TRADING_HOUSE_SCENE, ZO_PlayerInventory.PP_BG)
 	PP:HideBackgroundForScene(TRADING_HOUSE_SCENE, ZO_CraftBag.PP_BG)
 

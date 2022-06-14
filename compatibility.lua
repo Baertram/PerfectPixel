@@ -2,6 +2,49 @@ PP.compatibility = function()
 	local PP = PP
 
 	local function Compatibility()
+		--==LibCustomMenu==--
+		if LibCustomMenu then
+			local lcmSM = LibCustomMenuSubmenu
+			local lcmSMBG             = GetControl(lcmSM, "BG")
+			local lcmSMBGMungeOverlay = GetControl(lcmSMBG, "MungeOverlay")
+			local lcmSMHighlight   = GetControl(lcmSM, "Highlight")
+
+			ZO_PreHookHandler(LibCustomMenuSubmenu, 'OnShow', function()
+				lcmSMBG:SetCenterTexture(nil, 4, 0)
+				lcmSMBG:SetCenterColor(10/255, 10/255, 10/255, .96)
+				lcmSMBG:SetEdgeTexture(nil, 1, 1, 1, 0)
+				lcmSMBG:SetEdgeColor(60/255, 60/255, 60/255, 1)
+				lcmSMBG:SetInsets(-1, -1, 1, 1)
+				if lcmSMBGMungeOverlay then lcmSMBGMungeOverlay:SetHidden(true) end
+			end)
+
+			PP.Anchor(lcmSMBG, --[[#1]] TOPLEFT, nil, TOPLEFT, -2, 4, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, -2, -4)
+			-- lcmSMBG:SetInheritAlpha(false)
+
+			if lcmSMHighlight then
+				lcmSMHighlight:SetCenterTexture(nil, 4, 0)
+				lcmSMHighlight:SetCenterColor(96/255*.3, 125/255*.3, 139/255*.3, 1)
+				lcmSMHighlight:SetEdgeTexture(nil, 1, 1, 1, 0)
+				lcmSMHighlight:SetEdgeColor(96/255*.5, 125/255*.5, 139/255*.5, 0)
+				lcmSMHighlight:SetInsets(0, 0, 0, 0)
+				-- lcmSMHighlight:SetInheritAlpha(false)
+			end
+
+			ZO_PreHook("ZO_Menu_SelectItem", function(control)
+				if not lcmSM or lcmSM:IsHidden() then return end
+
+				control:SetWidth(lcmSM:GetWidth() - 16)
+				lcmSMHighlight:ClearAnchors()
+				lcmSMHighlight:SetAnchor(TOPLEFT, control, TOPLEFT, -6, 0)
+				lcmSMHighlight:SetAnchor(BOTTOMRIGHT, control, BOTTOMRIGHT, 2, 0)
+				lcmSMHighlight:SetHidden(false)
+				control.nameLabel:SetColor(control.nameLabel.highlightColor:UnpackRGBA())
+				return true
+			end)
+		end
+
+
+
 		--==CraftBagExtended==--
 			if CraftBagExtended then
 				CraftBagExtendedVendorMenu:SetParent(ZO_StoreWindowMenu)

@@ -12,6 +12,10 @@ PP.collectionsSceneGroup = function()
 		end
 	end
 
+	local function itemSetCollectionsProgressBars()
+		PP.Bars(ZO_ItemSetsBook_Keyboard_TopLevelSummaryContentScrollChild)
+	end
+
 	local fragments	= {RIGHT_BG_FRAGMENT, TREE_UNDERLAY_FRAGMENT, TITLE_FRAGMENT, COLLECTIONS_TITLE_FRAGMENT, MEDIUM_LEFT_PANEL_BG_FRAGMENT}
 	local scenes	= {
 		{COLLECTIONS_BOOK_SCENE,		COLLECTIONS_BOOK,					},
@@ -19,13 +23,16 @@ PP.collectionsSceneGroup = function()
 		{HOUSING_BOOK_SCENE,			HOUSING_BOOK_KEYBOARD,				},
 		{ZO_OUTFIT_STYLES_BOOK_SCENE,	ZO_OUTFIT_STYLES_BOOK_KEYBOARD,		},
 		{nil,							ZO_OUTFIT_STYLES_PANEL_KEYBOARD,	},
-		{ITEM_SETS_BOOK_SCENE,			ITEM_SET_COLLECTIONS_BOOK_KEYBOARD,	},
+		{ITEM_SETS_BOOK_SCENE,			ITEM_SET_COLLECTIONS_BOOK_KEYBOARD,	itemSetCollectionsProgressBars},
 		{TRIBUTE_PATRON_BOOK_SCENE,		TRIBUTE_PATRON_BOOK_KEYBOARD		},
 	}
+
+	local scenesShown = {}
 
 	for i=1, #scenes do
 		local scene			= scenes[i][1]
 		local gVar			= scenes[i][2]
+		local sceneShowCallback = scenes[i][3]
 		local tlw			= gVar.control
 		local list			= gVar.gridListPanelList	and gVar.gridListPanelList.list
 		local search		= gVar.contentSearchEditBox	and gVar.contentSearchEditBox:GetParent()
@@ -42,6 +49,15 @@ PP.collectionsSceneGroup = function()
 
 			PP:CreateBackground(tlw, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10, true)
 			PP.Anchor(tlw, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 120, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -70)
+
+			if sceneShowCallback then
+				scene:RegisterCallback("StateChange", function(oldState, newState)
+					if newState == SCENE_SHOWN and not scenesShown[scene] then
+						sceneShowCallback()
+						scenesShown[scene] = true
+					end
+				end)
+			end
 		end
 
 		if categories then

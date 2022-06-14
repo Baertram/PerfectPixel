@@ -106,6 +106,7 @@ PP.tooltips = function()
 		control.nameLabel:SetColor(control.nameLabel.highlightColor:UnpackRGBA())
 		return true
 	end)
+
 	-----------------------------------------------------------------------------------------------
 	--RedirectTextures---------------------------------------------------------------------------------
 	-- RedirectTexture("EsoUI/Art/Miscellaneous/horizontaldivider.dds",	"PerfectPixel/textures/RedirectTextures/EsoUI/Art/Miscellaneous/horizontaldivider.dds")

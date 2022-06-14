@@ -205,17 +205,17 @@ PP.collectionsSceneGroup = function()
 	local tpbSearchLabel = GetControl(tpbFilters, "SearchLabel")
 	local tpbGridList = TPB.gridList
 	local tpbList	= tpbGridList.list --ZO_TributePatronBook_Keyboard_TopLevelInfoContainerGridListContainerList
+	local tpbListContents = GetControl(tpbList, "Contents")
 	local tpbCategories = TPB.categories --ZO_TributePatronBook_Keyboard_TopLevelCategories
-	local tpbCategoryContents = GetControl(tpbList, "Contents")
 
 	tpbSearchLabel:SetHeight(0)
 	tpbSearchLabel:ClearAnchors()
 	tpbSearchLabel:SetHidden(true)
-	PP.Anchor(tpbFilters,		--[[#1]] TOPLEFT, tpbTLC, TOPLEFT,	1, -23, --[[#2]] true, TOPRIGHT, tpbTLC, TOPRIGHT, 1, -23)
+	PP.Anchor(tpbFilters,		--[[#1]] TOPLEFT, tpbTLC, TOPLEFT,	1, -23, 		--[[#2]] true, TOPRIGHT, tpbTLC, TOPRIGHT, 1, -23)
 
-	PP.Anchor(tpbCategoryContents,		--[[#1]] TOPLEFT, tpbCategories, TOPRIGHT,	10, 0, --[[#2]] true, BOTTOMRIGHT, tpbTLC, BOTTOMRIGHT, 0, 0)
-	PP.Anchor(tpbList,	--[[#1]] TOPLEFT, tpbCategoryContents, BOTTOMLEFT,	0, 10, --[[#2]] true, BOTTOMRIGHT, tpbCategoryContents, BOTTOMRIGHT, 0, 0)
-	PP.ScrollBar(tpbList, --[[sb_c]] 180, 180, 180, .8, --[[bd_c]] 20, 20, 20, .6, false)
+	PP.Anchor(tpbList,			--[[#1]] TOPLEFT, tpbCategories, TOPRIGHT, 10, 0, 	--[[#2]] true, BOTTOMRIGHT, tpbTLC, BOTTOMRIGHT, -10, 0)
+	PP.Anchor(tpbListContents,	--[[#1]] TOPLEFT, tpbList, TOPLEFT,	0, 0, 			--[[#2]] true, BOTTOMRIGHT, tpbList, BOTTOMRIGHT, 0, 0)
+	PP.ScrollBar(tpbList, 		--[[sb_c]] 180, 180, 180, .8, --[[bd_c]] 20, 20, 20, .6, false)
 	ZO_Scroll_SetMaxFadeDistance(tpbList, 10)
 
 	--------------------------

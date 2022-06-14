@@ -223,8 +223,8 @@ PP.ScrollBar = function(control, --[[sb_c]] sb_r, sb_g, sb_b, sb_a, --[[bg_c]] b
 	local down = control.downButton or control.scrollDownButton or control.ScrollDown or sb:GetNamedChild("ScrollDown") or sb:GetNamedChild("Down")
 	local endBtn = control.endButton or control.scrollEndButton or control.ScrollEnd or sb:GetNamedChild("ScrollEnd") or sb:GetNamedChild("End")
 
-	local thumb 	= sb:GetThumbTextureControl()
-	local contents	= control.contents
+	local thumb = sb:GetThumbTextureControl()
+	local contents = control.contents
 
 	--[[
 	local parent		= (isControlContainer == true and control.control) or control:GetParent():GetParent()
@@ -256,8 +256,13 @@ PP.ScrollBar = function(control, --[[sb_c]] sb_r, sb_g, sb_b, sb_a, --[[bg_c]] b
 	sb:SetColor(50/255, 50/255, 50/255, 1)
 	-- sb:SetColor( sb_r/255, sb_g/255, sb_b/255, sb_a)
 	sb:ClearAnchors()
-	sb:SetAnchor(TOPLEFT, nil, TOPRIGHT, sbOffsetX, sbOffsetY)
-	sb:SetAnchor(BOTTOMLEFT, nil, BOTTOMRIGHT, -10, sbOffsetY2)
+	if sbOffsetX == 0 then
+		sb:SetAnchor(TOPLEFT, nil, TOPRIGHT, 0, sbOffsetY)
+		sb:SetAnchor(BOTTOMLEFT, nil, BOTTOMRIGHT, -10, sbOffsetY2)
+	else
+		sb:SetAnchor(TOPLEFT, nil, TOPRIGHT, sbOffsetX, sbOffsetY)
+		sb:SetAnchor(BOTTOMLEFT, nil, BOTTOMRIGHT, sbOffsetX -10, sbOffsetY2)
+	end
 	sb:SetAlpha(.6)
 	sb:SetHitInsets(-4, 0, 5, 0)
 	sb:SetWidth(4)

@@ -150,7 +150,7 @@ PP.compatibility = function()
 			--IIFA_GUI_Search
 			--IIFA_GUI_ListHolder_Slider
 
-			PP.ScrollBar(IIFA_GUI_ListHolder, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false, "_Slider", 100)
+			PP.ScrollBar(IIFA_GUI_ListHolder, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false, "_Slider", 30)
 			ZO_Scroll_SetMaxFadeDistance(IIFA_GUI_ListHolder, 10)
 
 		end

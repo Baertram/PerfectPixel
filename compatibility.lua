@@ -43,8 +43,6 @@ PP.compatibility = function()
 			end)
 		end
 
-
-
 		--==CraftBagExtended==--
 			if CraftBagExtended then
 				CraftBagExtendedVendorMenu:SetParent(ZO_StoreWindowMenu)

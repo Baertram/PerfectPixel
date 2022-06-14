@@ -591,6 +591,7 @@ local function OnAddonLoaded(eventType, addonName)
 		Core()
 		--
 		PP.tooltips()
+		PP.contextMenus()
 		PP.compass()
 		PP.reticle()
 		PP.tabs()

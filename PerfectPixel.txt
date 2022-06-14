@@ -21,6 +21,7 @@ PerfectPixel.lua
 
 searchBox.lua
 tooltips.lua
+contextMenu.lua
 reticle.lua
 tabs.lua
 dialogsMenu.lua

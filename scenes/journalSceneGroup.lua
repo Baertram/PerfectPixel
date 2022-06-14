@@ -20,21 +20,29 @@ PP.journalSceneGroup = function()
 		},
 	})
 --===============================================================================================--
+	local function achievementsProgressBars()
+d("Achievements scene shown")
+		PP.Bars(ACHIEVEMENTS.summaryProgressBarsScrollChild, false)
+	end
+
+
 	local scenes = {
 		{ scene = QUEST_JOURNAL_SCENE,							gVar = QUEST_JOURNAL_KEYBOARD,		},
-		{ scene = ANTIQUITY_JOURNAL_KEYBOARD_SCENE,				gVar = ANTIQUITY_JOURNAL_KEYBOARD,	}, --ZO_AntiquityJournal_Keyboard_TopLevelContentsCategoryFilter
+		{ scene = ANTIQUITY_JOURNAL_KEYBOARD_SCENE,				gVar = ANTIQUITY_JOURNAL_KEYBOARD,	},
 		{ scene = SCENE_MANAGER:GetScene('cadwellsAlmanac'),	gVar = CADWELLS_ALMANAC,			},
 		{ scene = LORE_LIBRARY_SCENE,							gVar = LORE_LIBRARY,				},
-		{ scene = SCENE_MANAGER:GetScene('achievements'),		gVar = ACHIEVEMENTS,				},
+		{ scene = SCENE_MANAGER:GetScene('achievements'),		gVar = ACHIEVEMENTS,				sceneShowCallback=achievementsProgressBars},
 		{ scene = LEADERBOARDS_SCENE,							gVar = LEADERBOARDS,				},
 	}
 	local fragments	= { FRAME_PLAYER_FRAGMENT, RIGHT_BG_FRAGMENT, TREE_UNDERLAY_FRAGMENT, TITLE_FRAGMENT, JOURNAL_TITLE_FRAGMENT, }
+	local scenesShown = {}
 
 	for i=1, #scenes do
-		local scene			= scenes[i].scene
-		local gVar			= scenes[i].gVar
-		local filter 		= gVar.filter
-		local progressBar   = gVar.categoryProgress
+		local scene			= 		scenes[i].scene
+		local gVar			= 		scenes[i].gVar
+		local filter 		= 		gVar.filter or gVar.categoryFilter
+		local progressBar   = 		gVar.categoryProgress
+		local sceneShowCallback = 	scenes[i].sceneShowCallback
 
 		for i=1, #fragments do
 			scene:RemoveFragment(fragments[i])
@@ -58,6 +66,15 @@ PP.journalSceneGroup = function()
 			filter:SetDrawTier(DT_MEDIUM)
 			filter:SetDrawLayer(DL_TEXT)
 			filter:SetDrawLevel(1)
+		end
+
+		if sceneShowCallback ~= nil then
+			scene:RegisterCallback("StateChange", function(oldState, newState)
+				if newState == SCENE_SHOWN and not scenesShown[scene] then
+					sceneShowCallback()
+					scenesShown[scene] = true
+				end
+			end)
 		end
 	end
 

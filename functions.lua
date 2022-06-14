@@ -385,12 +385,16 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 end
 local PP_bar = PP.Bar
 
-PP.Bars = function(progressBarsOverviewContainer --[[parentControl]])
+PP.Bars = function(progressBarsOverviewContainer --[[parentControl]], isProgressBarPassedIn)
+	isProgressBarPassedIn = isProgressBarPassedIn or false
 	--Change all child control Progressbars at progressBarsOverviewContainer
 	for i=1, progressBarsOverviewContainer:GetNumChildren(), 1 do
-		local progressBar = progressBarsOverviewContainer:GetChild(i):GetNamedChild("Progress")
-		if progressBar ~= nil then
-			PP_bar(progressBar, --[[height]] 14, --[[fontSize]] 15)
+		local childCtrl = progressBarsOverviewContainer:GetChild(i)
+		if childCtrl ~= nil then
+			local progressBar = childCtrl:GetNamedChild("Progress")
+			if progressBar ~= nil then
+				PP_bar((isProgressBarPassedIn == true and progressBar) or childCtrl, --[[height]] 14, --[[fontSize]] 15)
+			end
 		end
 	end
 end

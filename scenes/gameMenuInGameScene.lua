@@ -55,14 +55,7 @@ PP.gameMenuInGameScene = function()
 		local function SceneStateChange(oldState, newState)
 			if newState == SCENE_SHOWING then
 				--Make the addon UI movable again if AddonSelector addon is enabled
-				if AddonSelector ~= nil then
-					if not reAnchored then
-						--reAnchorAddonsUINow()
-						--ZO_AddOns:ClearAnchors()
-					end
-					ZO_AddOns:SetMouseEnabled(true)
-					ZO_AddOns:SetMovable(true)
-				else
+				if AddonSelector == nil then
 					reAnchorAddonsUINow()
 				end
 			elseif newState == SCENE_SHOWN then

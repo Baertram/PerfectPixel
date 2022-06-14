@@ -55,7 +55,10 @@ PP.craftStationScenes = function()
 	PP.Anchor(ZO_SmithingTopLevelModeMenu, --[[#1]] BOTTOM, ZO_SmithingTopLevelRefinementPanel, TOP, -40, 0)
 
 	-- PP.Anchor(ZO_SmithingTopLevelDeconstructionPanelInventorySortBy, --[[#1]] nil, nil, nil, -8, nil)
-	
+
+	PP.Anchor(ZO_SmithingTopLevelImprovementPanelBoosterContainerHeader, --[[#1]] TOPLEFT, ZO_SmithingTopLevelImprovementPanelBoosterContainer, TOPLEFT, 0, 20)
+
+
 --===============================================================================================--
 --==KEYBOARD_RETRAIT_ROOT_SCENE==-- --==SCENE_MANAGER:GetScene('retrait_keyboard_root')==--ZO_RETRAIT_KEYBOARD
 	local retrait_station	= ZO_RETRAIT_STATION_KEYBOARD

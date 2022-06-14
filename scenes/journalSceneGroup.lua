@@ -165,10 +165,15 @@ d("Achievements scene shown")
 --Antiquities--ZO_Cadwell--------------------------------------------------------------------
 --cadwellsAlmanac--ZO_Cadwell--------------------------------------------------------------------
 --loreLibrary--ZO_LoreLibrary----------------------------------------------------------------------
-	PP.ScrollBar(ZO_LoreLibraryNavigationContainer, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+	PP.ScrollBar(LORE_LIBRARY.navigationTree.scrollControl, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false) --ZO_LoreLibraryNavigationContainer
+	PP.ScrollBar(LORE_LIBRARY.list.list, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+
 
 --achievements--ZO_Achievements--------------------------------------------------------------------
 	PP.ScrollBar(ZO_AchievementsContentsCategories, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+	PP.ScrollBar(ACHIEVEMENTS.contentList, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+	PP.ScrollBar(GetControl(ACHIEVEMENTS.summaryInset, "ProgressBars"), --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+
 
 --leaderboards--ZO_Leaderboards--------------------------------------------------------------------
 	PP.ScrollBar(ZO_LeaderboardsList, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)

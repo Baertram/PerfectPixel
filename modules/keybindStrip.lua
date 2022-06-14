@@ -103,4 +103,15 @@ PP.keybindStripModule.Load = function(firstLoad)
 		end)
 	end
 
+	--Fix keybind strip background not hiding at some scenes
+	local scenesForCallback = { SIEGE_BAR_SCENE }
+	for _, sceneToAddCallback in ipairs(scenesForCallback) do
+		sceneToAddCallback:RegisterCallback("StateChange", function(oldState, newState)
+			if newState == SCENE_HIDING then
+				keybindStripUpdateKeybindStripBG(true, sceneToAddCallback)
+			end
+		end)
+	end
+
+
 end

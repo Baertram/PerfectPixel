@@ -22,8 +22,8 @@ PP.collectionsSceneGroup = function()
 		{DLC_BOOK_SCENE,				DLC_BOOK_KEYBOARD,					},
 		{HOUSING_BOOK_SCENE,			HOUSING_BOOK_KEYBOARD,				},
 		{ZO_OUTFIT_STYLES_BOOK_SCENE,	ZO_OUTFIT_STYLES_BOOK_KEYBOARD,		},
-		{nil,							ZO_OUTFIT_STYLES_PANEL_KEYBOARD,	},
-		{ITEM_SETS_BOOK_SCENE,			ITEM_SET_COLLECTIONS_BOOK_KEYBOARD,	itemSetCollectionsProgressBars},
+		{nil,							ZO_OUTFIT_STYLES_PANEL_KEYBOARD,	}, --ZO_OutfitStylesPanelTopLevel_KeyboardTypeFilter
+		{ITEM_SETS_BOOK_SCENE,			ITEM_SET_COLLECTIONS_BOOK_KEYBOARD,	itemSetCollectionsProgressBars}, --ZO_ItemSetsBook_Keyboard_TopLevelFiltersApparelFilterTypes
 		{TRIBUTE_PATRON_BOOK_SCENE,		TRIBUTE_PATRON_BOOK_KEYBOARD		},
 	}
 
@@ -38,6 +38,7 @@ PP.collectionsSceneGroup = function()
 		local search		= gVar.contentSearchEditBox	and gVar.contentSearchEditBox:GetParent()
 		local categories	= gVar.categories
 		local progressBar	= gVar.progressBar or gVar.categoryProgress
+		local filter 		= gVar.categoryFilterComboBox or gVar.typeFilterControl or gVar.apparelFilterTypesControl
 		
 		if scene then
 			for i=1, #fragments do
@@ -75,6 +76,19 @@ PP.collectionsSceneGroup = function()
 		end
 		if progressBar then
 			PP.Bar(progressBar, --[[h]] 14, --[[f]] 15)
+		end
+		if filter then
+			--Change the drawTier of the filter dropdown boxes so they get overlayed by the background backdrop
+			filter:SetDrawTier(DT_MEDIUM)
+			filter:SetDrawLayer(DL_TEXT)
+			filter:SetDrawLevel(1)
+
+			if gVar.weaponFilterTypesControl then
+				filter = gVar.weaponFilterTypesControl
+				filter:SetDrawTier(DT_MEDIUM)
+				filter:SetDrawLayer(DL_TEXT)
+				filter:SetDrawLevel(1)
+			end
 		end
 	end
 

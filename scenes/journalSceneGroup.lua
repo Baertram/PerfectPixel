@@ -22,7 +22,7 @@ PP.journalSceneGroup = function()
 --===============================================================================================--
 	local scenes = {
 		{ scene = QUEST_JOURNAL_SCENE,							gVar = QUEST_JOURNAL_KEYBOARD,		},
-		{ scene = ANTIQUITY_JOURNAL_KEYBOARD_SCENE,				gVar = ANTIQUITY_JOURNAL_KEYBOARD,	},
+		{ scene = ANTIQUITY_JOURNAL_KEYBOARD_SCENE,				gVar = ANTIQUITY_JOURNAL_KEYBOARD,	}, --ZO_AntiquityJournal_Keyboard_TopLevelContentsCategoryFilter
 		{ scene = SCENE_MANAGER:GetScene('cadwellsAlmanac'),	gVar = CADWELLS_ALMANAC,			},
 		{ scene = LORE_LIBRARY_SCENE,							gVar = LORE_LIBRARY,				},
 		{ scene = SCENE_MANAGER:GetScene('achievements'),		gVar = ACHIEVEMENTS,				},
@@ -33,7 +33,9 @@ PP.journalSceneGroup = function()
 	for i=1, #scenes do
 		local scene			= scenes[i].scene
 		local gVar			= scenes[i].gVar
-		
+		local filter 		= gVar.filter
+		local progressBar   = gVar.categoryProgress
+
 		for i=1, #fragments do
 			scene:RemoveFragment(fragments[i])
 		end
@@ -47,6 +49,16 @@ PP.journalSceneGroup = function()
 		-- PP.Anchor(list, --[[#1]] nil, nil, nil, 0, 3, --[[#2]] true, nil, nil, nil, 0, 0)
 		-- PP.ScrollBar(list,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
 		-- ZO_ScrollList_Commit(list)
+
+		if progressBar then
+			PP.Bar(progressBar, --[[h]] 14, --[[f]] 15, 255, nil)
+		end
+		if filter then
+			--Change the drawTier of the filter dropdown boxes so they get overlayed by the background backdrop
+			filter:SetDrawTier(DT_MEDIUM)
+			filter:SetDrawLayer(DL_TEXT)
+			filter:SetDrawLevel(1)
+		end
 	end
 
 --questJournal--ZO_QuestJournal--------------------------------------------------------------------
@@ -136,6 +148,11 @@ PP.journalSceneGroup = function()
 --Antiquities--ZO_Cadwell--------------------------------------------------------------------
 --cadwellsAlmanac--ZO_Cadwell--------------------------------------------------------------------
 --loreLibrary--ZO_LoreLibrary----------------------------------------------------------------------
+	PP.ScrollBar(ZO_LoreLibraryNavigationContainer, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+
 --achievements--ZO_Achievements--------------------------------------------------------------------
+	PP.ScrollBar(ZO_AchievementsContentsCategories, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+
 --leaderboards--ZO_Leaderboards--------------------------------------------------------------------
+	PP.ScrollBar(ZO_LeaderboardsList, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
 end

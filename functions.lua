@@ -195,18 +195,17 @@ PP.CreateBackdrop = function(control)
 	return control.backdrop
 end
 
-PP.ScrollBar = function(control, --[[sb_c]] sb_r, sb_g, sb_b, sb_a, --[[bg_c]] bg_r, bg_g, bg_b, bg_a, oldParam, controlIsScrollbar)
+PP.ScrollBar = function(control, --[[sb_c]] sb_r, sb_g, sb_b, sb_a, --[[bg_c]] bg_r, bg_g, bg_b, bg_a, oldParam, scrollbarChildName, scrollbarOffsetX)
 	--Todo: What was oldParam used for?
-	controlIsScrollbar = controlIsScrollbar or false
-
+	scrollbarOffsetX = scrollbarOffsetX or 0
 	local tex = PP.t.w8x8
 	if not control then return end
 	local isChat = (control == ZO_ChatWindow) or false
 
 	local sb
 	local isControlContainer = false
-	if controlIsScrollbar then
-		sb = control
+	if scrollbarChildName ~= nil then
+		sb = GetControl(control, scrollbarChildName)
 	else
 		if not control.scrollbar then
 			if control.container and control.container.scrollbar then
@@ -224,8 +223,9 @@ PP.ScrollBar = function(control, --[[sb_c]] sb_r, sb_g, sb_b, sb_a, --[[bg_c]] b
 	local down = control.downButton or control.scrollDownButton or control.ScrollDown or sb:GetNamedChild("ScrollDown") or sb:GetNamedChild("Down")
 	local endBtn = control.endButton or control.scrollEndButton or control.ScrollEnd or sb:GetNamedChild("ScrollEnd") or sb:GetNamedChild("End")
 
-	local thumb			= sb:GetThumbTextureControl()
-	local contents		= control.contents
+	local thumb 	= sb:GetThumbTextureControl()
+	local contents	= control.contents
+
 	--[[
 	local parent		= (isControlContainer == true and control.control) or control:GetParent():GetParent()
 	if parent == GuiRoot then
@@ -233,7 +233,7 @@ PP.ScrollBar = function(control, --[[sb_c]] sb_r, sb_g, sb_b, sb_a, --[[bg_c]] b
 	end
 	]]
 
-	local sbOffsetX = 0
+	local sbOffsetX = scrollbarOffsetX
 	local sbOffsetY = 0
 	local sbOffsetY2 = 0
 	if not isChat then
@@ -297,7 +297,7 @@ PP.ScrollBar = function(control, --[[sb_c]] sb_r, sb_g, sb_b, sb_a, --[[bg_c]] b
 
 end
 
-PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize)
+PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColor, glowEdgeColor)
 	local bar		= control
 	local barText	= control:GetNamedChild("Progress")
 	local bg		= control:GetNamedChild("BG")
@@ -318,7 +318,12 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize)
 			glowBG:SetCenterTexture(nil, 8, 0)
 			glowBG:SetCenterColor(0/255, 0/255, 0/255, 0)
 			glowBG:SetEdgeTexture(nil, 1, 1, 1, 0)
-			glowBG:SetEdgeColor(173/255, 166/255, 132/255, 1)
+			if glowEdgeColor then
+				glowBG:SetEdgeColor(glowEdgeColor/255, glowEdgeColor/255, glowEdgeColor/255, 1)
+			else
+				glowBG:SetEdgeColor(173/255, 166/255, 132/255, 1)
+			end
+
 			PP.Anchor(glowBG, --[[#1]] TOPLEFT, bar, TOPLEFT, -3, -3, --[[#2]] true, BOTTOMRIGHT, bar, BOTTOMRIGHT, 3, 3)
 
 			glowBG:SetDrawTier(DT_LOW)
@@ -366,7 +371,11 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize)
 		barBG:SetCenterTexture(nil, 8, 0)
 		barBG:SetCenterColor(10/255, 10/255, 10/255, .8)
 		barBG:SetEdgeTexture(nil, 1, 1, 1, 0)
-		barBG:SetEdgeColor(60/255, 60/255, 60/255, .9)
+		if bgEdgeColor then
+			barBG:SetEdgeColor(bgEdgeColor/bgEdgeColor, bgEdgeColor/255, bgEdgeColor/255, .9)
+		else
+			barBG:SetEdgeColor(60/255, 60/255, 60/255, .9)
+		end
 		barBG:SetInsets(-1, -1, 1, 1)
 
 		barBG:SetDrawTier(DT_LOW)

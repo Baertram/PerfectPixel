@@ -27,8 +27,6 @@ https://postimg.cc/jDPzpNDB
 
 --#3 Dropdowns of AdvancedFilters and other Group finder etc. do not show like PP dropdowns
 
---#4 Progress bars at the achievements do not look like PP style
-
 --#5 Guild bank/guild store selection popup is not in PP style
 
 ]]

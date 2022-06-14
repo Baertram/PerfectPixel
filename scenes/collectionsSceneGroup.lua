@@ -71,8 +71,8 @@ PP.collectionsSceneGroup = function()
 			PP.Anchor(search, --[[#1]] TOPLEFT, tlw, TOPLEFT, 10, 10)
 		end
 		if list then
-			ZO_Scroll_SetMaxFadeDistance(list, 10)
 			PP.ScrollBar(list, --[[sb_c]] 180, 180, 180, .8, --[[bd_c]] 20, 20, 20, .6, false)
+			ZO_Scroll_SetMaxFadeDistance(list, 10)
 		end
 		if progressBar then
 			PP.Bar(progressBar, --[[h]] 14, --[[f]] 15)
@@ -133,6 +133,11 @@ PP.collectionsSceneGroup = function()
 			PP.Font(title, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
 		end
 	end
+
+
+--HOUSING_BOOK_SCENE, HOUSING_BOOK_KEYBOARD
+	PP.ScrollBar(HOUSING_BOOK_KEYBOARD.navigationList, --[[sb_c]] 180, 180, 180, .8, --[[bd_c]] 20, 20, 20, .6, false)	--ZO_HousingBook_KeyboardNavigationList
+
 
 --ZO_OUTFIT_STYLES_BOOK_SCENE, ZO_OUTFIT_STYLES_BOOK_KEYBOARD, ZO_OUTFIT_STYLES_PANEL_KEYBOARD
 

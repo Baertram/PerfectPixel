@@ -162,8 +162,10 @@ d("Achievements scene shown")
 		QUEST_JOURNAL_KEYBOARD.listDirty = true
 	end
 
---Antiquities--ZO_Cadwell--------------------------------------------------------------------
---cadwellsAlmanac--ZO_Cadwell--------------------------------------------------------------------
+--Antiquities--------------------------------------------------------------------
+	PP.ScrollBar(ANTIQUITY_JOURNAL_KEYBOARD.contentList, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false) --ZO_AntiquityJournal_Keyboard_TopLevelContentsContentList
+
+
 --loreLibrary--ZO_LoreLibrary----------------------------------------------------------------------
 	PP.ScrollBar(LORE_LIBRARY.navigationTree.scrollControl, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false) --ZO_LoreLibraryNavigationContainer
 	PP.ScrollBar(LORE_LIBRARY.list.list, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)

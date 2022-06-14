@@ -7,7 +7,7 @@ local marketKeybindStripFragment = 		MARKET_KEYBIND_STRIP_FRAGMENT
 
 
 function PP.keybindStripModule.keybindStripUpdateKeybindStripBG(firstLoad, fragmentVar)
-PP._lastKeybindFragment = fragmentVar
+--PP._lastKeybindFragment = fragmentVar
 	firstLoad = firstLoad or false
 	local SV = PP.keybindStripModule.SV
 	if SV.toggle then

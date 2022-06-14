@@ -213,41 +213,37 @@ PP.collectionsSceneGroup = function()
 	tpbSearchLabel:SetHidden(true)
 	PP.Anchor(tpbFilters,		--[[#1]] TOPLEFT, tpbTLC, TOPLEFT,	1, -23, 		--[[#2]] true, TOPRIGHT, tpbTLC, TOPRIGHT, 1, -23)
 
-	PP.Anchor(tpbList,			--[[#1]] TOPLEFT, tpbCategories, TOPRIGHT, 10, 0, 	--[[#2]] true, BOTTOMRIGHT, tpbTLC, BOTTOMRIGHT, -10, 0)
+	PP.Anchor(tpbList,			--[[#1]] TOPLEFT, tpbCategories, TOPRIGHT, 0, 0, 	--[[#2]] true, BOTTOMRIGHT, tpbTLC, BOTTOMRIGHT, 0, 0)
 	PP.Anchor(tpbListContents,	--[[#1]] TOPLEFT, tpbList, TOPLEFT,	0, 0, 			--[[#2]] true, BOTTOMRIGHT, tpbList, BOTTOMRIGHT, 0, 0)
 	PP.ScrollBar(tpbList, 		--[[sb_c]] 180, 180, 180, .8, --[[bd_c]] 20, 20, 20, .6, false)
 	ZO_Scroll_SetMaxFadeDistance(tpbList, 10)
 
 	--------------------------
-	local dataType_1 = ZO_ScrollList_GetDataTypeTable(tpbList, 1)
-	local existingSetupCallback = dataType_1.setupCallback
-	dataType_1["controlHeight"] = 68
-	dataType_1["controlWidth"] = 68
-	dataType_1["spacingX"] = 6
-	dataType_1["spacingY"] = 6
-	dataType_1.setupCallback = function(control, data)
-		existingSetupCallback(control, data)
-		EmptyCellHidden(control, data)
+	for gridScrollListDataType, dataTypeData in ipairs(tpbList.dataTypes) do
+		if dataTypeData.selectable ~= nil and dataTypeData.selectable == true then
+			local dataType_loop = ZO_ScrollList_GetDataTypeTable(tpbList, gridScrollListDataType)
+			local existingSetupCallback_loop = dataType_loop.setupCallback
+			dataType_loop.setupCallback = function(control, data)
+				existingSetupCallback_loop(control, data)
 
-		control:SetDimensions(dataType_1["controlWidth"], dataType_1["controlHeight"])
+				local backdrop = control:GetNamedChild("OverlayBorder")
+				if backdrop ~= nil then
+					backdrop:SetCenterColor(10/255, 10/255, 10/255, .7)
+					backdrop:SetCenterTexture(nil, 4, 0)
+					backdrop:SetEdgeColor(40/255, 40/255, 40/255, .9)
+					backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
+					backdrop:SetInsets(1, 1, -1, -1)
+					backdrop:SetDrawLayer(DL_BACKGROUND)
+					backdrop:SetDrawLevel(0)
+					backdrop:SetDrawTier(DT_LOW)
+				end
 
-		local backdrop = control:GetNamedChild("OverlayBorder")
-		if backdrop ~= nil then
-			backdrop:SetCenterColor(10/255, 10/255, 10/255, .7)
-			backdrop:SetCenterTexture(nil, 4, 0)
-			backdrop:SetEdgeColor(40/255, 40/255, 40/255, .9)
-			backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
-			backdrop:SetInsets(1, 1, -1, -1)
-			backdrop:SetDrawLayer(DL_BACKGROUND)
-			backdrop:SetDrawLevel(0)
-			backdrop:SetDrawTier(DT_LOW)
+				local highlight = control:GetNamedChild("Highlight")
+				if highlight then
+					highlight:SetTextureCoords(.29, .575, .002, .3)
+					PP.Anchor(highlight, --[[#1]] TOPLEFT, control, TOPLEFT, 1, 1, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	-1, -1)
+				end
+			end
 		end
-	end
-	local dataType_2 = ZO_ScrollList_GetDataTypeTable(tpbList, 2)
-	local existingSetupCallback = dataType_2.setupCallback
-	dataType_2.setupCallback = function(control, data)
-		existingSetupCallback(control, data)
-		--local progressBar = control:GetNamedChild("Progress")
-		--PP.Bar(progressBar, --[[height]] 14, --[[fontSize]] 15)
 	end
 end

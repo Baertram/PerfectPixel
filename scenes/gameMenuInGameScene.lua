@@ -33,17 +33,17 @@ PP.gameMenuInGameScene = function()
 		ZO_AddOnsBGLeft:SetHidden(true)
 		ZO_AddOnsDivider:SetHidden(true)
 
-		--PP.ScrollBar(ZO_AddOnsList,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+		PP.ScrollBar(ZO_AddOnsList,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
 
-		--PP.Anchor(ZO_AddOnsTitle,					--[[#1]] TOPLEFT, nil, TOPLEFT, 10, 5)
-		--PP.Anchor(ZO_AddOnsList,					--[[#1]] TOPLEFT, ZO_AddOnsTitle, BOTTOMLEFT, 0, 5,		--[[#2]] true, BOTTOMRIGHT, ZO_AddOns, BOTTOMRIGHT, 0, -10)
-		--PP.Anchor(ZO_AddOnsCharacterSelectDropdown,	--[[#1]] LEFT, ZO_AddOnsTitle, RIGHT, 50, 1)
+		PP.Anchor(ZO_AddOnsTitle,					--[[#1]] TOPLEFT, nil, TOPLEFT, 10, 5)
+		PP.Anchor(ZO_AddOnsList,					--[[#1]] TOPLEFT, ZO_AddOnsTitle, BOTTOMLEFT, 0, 5,		--[[#2]] true, BOTTOMRIGHT, ZO_AddOns, BOTTOMRIGHT, 0, -10)
+		PP.Anchor(ZO_AddOnsCharacterSelectDropdown,	--[[#1]] LEFT, ZO_AddOnsTitle, RIGHT, 50, 1)
 
 		PP.Font(ZO_AddOnsMultiButtonKeyLabel,		--[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
 		PP.Font(ZO_AddOnsMultiButtonNameLabel,		--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
 		PP.Font(ZO_AddOnsTitle,						--[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
 
-		--ZO_Scroll_SetMaxFadeDistance(ZO_AddOnsList, 10)
+		ZO_Scroll_SetMaxFadeDistance(ZO_AddOnsList, 10)
 
 		local reAnchored = false
 		local function reAnchorAddonsUINow()
@@ -55,15 +55,13 @@ PP.gameMenuInGameScene = function()
 		local function SceneStateChange(oldState, newState)
 			if newState == SCENE_SHOWING then
 				--Make the addon UI movable again if AddonSelector addon is enabled
-				if AddonSelector then
+				if AddonSelector ~= nil then
+					if not reAnchored then
+						--reAnchorAddonsUINow()
+						--ZO_AddOns:ClearAnchors()
+					end
 					ZO_AddOns:SetMouseEnabled(true)
 					ZO_AddOns:SetMovable(true)
-
-					--Only resize, not reanchor!
-					if not reAnchored then
-						reAnchorAddonsUINow()
-						ZO_AddOns:ClearAnchors()
-					end
 				else
 					reAnchorAddonsUINow()
 				end

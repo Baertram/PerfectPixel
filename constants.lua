@@ -5,14 +5,11 @@ PP.SV = {}
 PP.ADDON_NAME		= "PerfectPixel"
 PP.ADDON_AUTHOR		= "@KL1SK, helped by Baertram"
 PP.ADDON_WEBSITE	= "https://www.esoui.com/downloads/info2103-PerfectPixel.html"
-PP.ADDON_VERSION 	= "0.11.27"
+PP.ADDON_VERSION 	= "0.11.28"
 
 --[[ Known bugs
 
 --2022-06-14
---#2 Using siege weapon in cyrodiil shows back linea t the bottom (keybind strip?) which stays after leaving siege, until map is opened
--->it's the Keybind strip -> confirmed
-
 --#3 Dropdowns of AdvancedFilters and other Group finder etc. do not show like PP dropdowns
 
 --#5 Guild bank/guild store selection popup is not in PP style

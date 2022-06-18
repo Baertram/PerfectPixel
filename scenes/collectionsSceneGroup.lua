@@ -13,7 +13,7 @@ PP.collectionsSceneGroup = function()
 	end
 
 	local function itemSetCollectionsProgressBars()
-		PP.Bars(ITEM_SET_COLLECTIONS_BOOK_KEYBOARD.summaryScrollChil, true)
+		PP.Bars(ITEM_SET_COLLECTIONS_BOOK_KEYBOARD.summaryScrollChild, true)
 	end
 
 	local fragments	= {RIGHT_BG_FRAGMENT, TREE_UNDERLAY_FRAGMENT, TITLE_FRAGMENT, COLLECTIONS_TITLE_FRAGMENT, MEDIUM_LEFT_PANEL_BG_FRAGMENT}

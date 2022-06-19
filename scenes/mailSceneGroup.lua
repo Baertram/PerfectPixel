@@ -19,6 +19,8 @@ PP.mailSceneGroup = function()
 	PP.ScrollBar(navigationContainer,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
 	ZO_Scroll_SetMaxFadeDistance(navigationContainer, SV.list_fade_distance)
 
+	ZO_MailInboxUnread:SetDrawTier(DT_MEDIUM)
+
 ------------------------------------------------------------------------------------------
     local function HighlightControl(control, animateInstantly)
 		control.backdrop:SetEdgeColor(SV.list_skin_edge_sel_col[1], SV.list_skin_edge_sel_col[2], SV.list_skin_edge_sel_col[3], SV.list_skin_edge_sel_col[4])

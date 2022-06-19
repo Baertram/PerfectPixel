@@ -156,6 +156,70 @@ PP.compatibility = function()
 		end
 		--===============================================================================================--
 
+		--==WizardsWardrobe==-- by Troodon80 (2022-06-19 5:27pm, PerfectPixel comments at www.esoui.com -> Post #161481)
+		if WizardsWardrobe ~= nil then
+			PP:CreateBackground(WizardsWardrobeWindow,			--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+			PP:CreateBackground(WizardsWardrobeCodeDialog,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+			PP:CreateBackground(WizardsWardrobeTransferDialog,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+			PP:CreateBackground(WizardsWardrobeArrangeDialog,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+			PP:CreateBackground(WizardsWardrobePrebuff,			--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+			PP:CreateBackground(WizardsWardrobePreviewPreview,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+
+			PP.ScrollBar(WizardsWardrobeArrangeDialogListScrollBar,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+			ZO_Scroll_SetMaxFadeDistance(WizardsWardrobeArrangeDialogList, 10)
+			PP.ScrollBar(WizardsWardrobeWindowSetupListScrollBar,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+			ZO_Scroll_SetMaxFadeDistance(WizardsWardrobeWindowSetupList, 10)
+
+			WizardsWardrobeCodeDialogBG:SetHidden(true)
+			WizardsWardrobeWindowBG:SetHidden(true)
+			WizardsWardrobePrebuffBG:SetHidden(true)
+			WizardsWardrobeTransferDialogBG:SetHidden(true)
+			WizardsWardrobeArrangeDialogBG:SetHidden(true)
+			WizardsWardrobePreviewPreviewBG:SetHidden(true)
+
+			-- Blotchy grunge texture; I've set to hidden here because it doesn't mesh well with the clean look I have for Perfect Pixel - feel free to remove these three lines if you want to keep it:
+			WizardsWardrobeTransferBGMungeOverlay:SetHidden(true)
+			WizardsWardrobeArrangeBGMungeOverlay:SetHidden(true)
+			WizardsWardrobeCodeBGMungeOverlay:SetHidden(true)
+
+			-- Fix for objects appearing under the background layer
+			WizardsWardrobeWindowSelection:SetDrawTier(DT_MEDIUM)
+			WizardsWardrobeWindowSelection:SetDrawLayer(DL_CONTROLS)
+			WizardsWardrobeWindowTitleIcon:SetDrawTier(DT_MEDIUM)
+			WizardsWardrobeWindowTitleIcon:SetDrawLayer(DL_CONTROLS)
+			WizardsWardrobeWindowTopDivider:SetDrawTier(DT_MEDIUM)
+			WizardsWardrobeWindowTopDivider:SetDrawLayer(DL_CONTROLS)
+			WizardsWardrobeWindowBottomDivider:SetDrawTier(DT_MEDIUM)
+			WizardsWardrobeWindowBottomDivider:SetDrawLayer(DL_CONTROLS)
+
+			WizardsWardrobePrebuff:SetDrawTier(DT_MEDIUM)
+			WizardsWardrobePrebuff:SetDrawLayer(DL_CONTROLS)
+			WizardsWardrobePrebuffBox1:SetDrawTier(DT_MEDIUM)
+			WizardsWardrobePrebuffBox1:SetDrawLayer(DL_CONTROLS)
+			WizardsWardrobePrebuffBox2:SetDrawTier(DT_MEDIUM)
+			WizardsWardrobePrebuffBox2:SetDrawLayer(DL_CONTROLS)
+			WizardsWardrobePrebuffBox3:SetDrawTier(DT_MEDIUM)
+			WizardsWardrobePrebuffBox3:SetDrawLayer(DL_CONTROLS)
+			WizardsWardrobePrebuffBox4:SetDrawTier(DT_MEDIUM)
+			WizardsWardrobePrebuffBox4:SetDrawLayer(DL_CONTROLS)
+			WizardsWardrobePrebuffBox5:SetDrawTier(DT_MEDIUM)
+			WizardsWardrobePrebuffBox5:SetDrawLayer(DL_CONTROLS)
+
+			WizardsWardrobePreview:SetDrawTier(DT_MEDIUM)
+			WizardsWardrobePreview:SetDrawLayer(DL_CONTROLS)
+			WizardsWardrobePreviewGear:SetDrawTier(DT_MEDIUM)
+			WizardsWardrobePreviewGear:SetDrawLayer(DL_CONTROLS)
+			WizardsWardrobePreviewSkills:SetDrawTier(DT_MEDIUM)
+			WizardsWardrobePreviewSkills:SetDrawLayer(DL_CONTROLS)
+			WizardsWardrobePreviewFood:SetDrawTier(DT_MEDIUM)
+			WizardsWardrobePreviewFood:SetDrawLayer(DL_CONTROLS)
+			WizardsWardrobePreviewCP:SetDrawTier(DT_MEDIUM)
+			WizardsWardrobePreviewCP:SetDrawLayer(DL_CONTROLS)
+			WizardsWardrobePreviewIcon:SetDrawTier(DT_MEDIUM)
+			WizardsWardrobePreviewIcon:SetDrawLayer(DL_CONTROLS)
+		end
+		--===============================================================================================--
+
 		--UnregisterForEvent--
 		EVENT_MANAGER:UnregisterForEvent(PP.ADDON_NAME .. "Compatibility", EVENT_PLAYER_ACTIVATED)
 	end

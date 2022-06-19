@@ -38,6 +38,9 @@ PP.guildSceneGroup = function()
 	PP.ScrollBar(ZO_GuildHomeInfoDescriptionPane,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
 	ZO_Scroll_SetMaxFadeDistance(ZO_GuildHomeInfoDescriptionPane, 10)
 
+	ZO_GuildHomeKeep:SetDrawTier(DT_MEDIUM)
+	ZO_GuildHomeTrader:SetDrawTier(DT_MEDIUM)
+
 --guildRoster--ZO_GuildRoster--------------------------------------------------------------------
 	PP.Anchor(ZO_GuildRosterList, --[[#1]] TOPLEFT, ZO_GuildRosterHeaders, BOTTOMLEFT, 0, 3, --[[#2]] true, BOTTOMRIGHT, ZO_GuildRoster, BOTTOMRIGHT,	0, 0)
 	PP.Anchor(ZO_GuildRosterHeaders, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, 67, --[[#2]] true, TOPRIGHT, nil, TOPRIGHT,	0, 67)

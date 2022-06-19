@@ -1,13 +1,13 @@
 ## APIVersion: 101034 101035
-## Version: 0.11.28
+## Version: 0.11.29
 ## Title: PerfectPixel
-## Author: @KL1SK, helped by Baertram
+## Author: @KL1SK, Baertram
 ## Description: PerfectPixle changes a lot UI elements |cf44336Attention!!!|r For correct display, the screen resolution must be at least 1920x1080. UI scaling should be disabled.
 ## SavedVariables: PerfectPixel
 
 ## DependsOn: LibAddonMenu-2.0>=34
-## OptionalDependsOn: LibVotansAddonList>=10900 LibCustomMenu>=713
-## OptionalDependsOn: AdvancedFilters>=1621 AwesomeGuildStore>=2767 HarvensImprovedSkillsWindow
+## OptionalDependsOn: LibVotansAddonList>=10900 LibCustomMenu>=715
+## OptionalDependsOn: AdvancedFilters>=1623 AwesomeGuildStore>=3071 HarvensImprovedSkillsWindow
 ## OptionalDependsOn: pChat>=10000208 SpentSkillPoints VotansMiniMap
 
 lang/en.lua

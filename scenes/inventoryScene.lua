@@ -270,7 +270,7 @@ PP.inventoryScene = function()
 		iconSide		= RIGHT,
 	}
 	local function ColorCost(control, data, scrollList)
-		priceControl = control:GetNamedChild("SellPrice")
+		local priceControl = control:GetNamedChild("SellPrice")
 		ZO_CurrencyControl_SetCurrencyData(priceControl, CURT_MONEY, data.stackLaunderPrice, CURRENCY_DONT_SHOW_ALL, (GetCurrencyAmount(CURT_MONEY, CURRENCY_LOCATION_CHARACTER) < data.stackLaunderPrice))
 		ZO_CurrencyControl_SetCurrency(priceControl, fence_currency)
 	end
@@ -288,7 +288,8 @@ PP.inventoryScene = function()
 	tradeScene:RemoveFragment(RIGHT_BG_FRAGMENT)
 	tradeScene:AddFragment(FRAME_TARGET_BLUR_STANDARD_RIGHT_PANEL_FRAGMENT)
 
-	PP:CreateBackground(ZO_Trade,		--[[#1]] nil, nil, nil, -10, 0, --[[#2]] nil, nil, nil, 0, 6, true)
+	--PP:CreateBackground(ZO_MailSend, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 6, true, 0)
+	PP:CreateBackground(ZO_Trade,		--[[#1]] nil, nil, nil, -10, 0, --[[#2]] nil, nil, nil, 0, 6, true, 0)
 	PP:HideBackgroundForScene(tradeScene, ZO_PlayerInventory.PP_BG)
 
 	PP.Anchor(ZO_Trade, --[[#1]] TOPRIGHT,	GuiRoot, TOPRIGHT, 0, 100, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -80)

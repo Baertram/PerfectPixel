@@ -21,7 +21,6 @@ PP.journalSceneGroup = function()
 	})
 --===============================================================================================--
 	local function achievementsProgressBars()
-d("Achievements scene shown")
 		PP.Bars(ACHIEVEMENTS.summaryProgressBarsScrollChild, false)
 	end
 
@@ -175,6 +174,17 @@ d("Achievements scene shown")
 	PP.ScrollBar(ZO_AchievementsContentsCategories, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
 	PP.ScrollBar(ACHIEVEMENTS.contentList, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
 	PP.ScrollBar(GetControl(ACHIEVEMENTS.summaryInset, "ProgressBars"), --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+
+	--achievement "most recent" icons
+	local recentAchievementIconTemplate = "ZO_IconAchievement"
+	for i=1, 6, 1 do
+		local recentAchievementIcon = GetControl(recentAchievementIconTemplate .. tostring(i))
+		if recentAchievementIcon ~= nil then
+			recentAchievementIcon:SetDrawTier(DT_MEDIUM)
+			recentAchievementIcon:SetDrawLayer(DL_CONTROLS)
+			recentAchievementIcon:SetDrawLevel(1)
+		end
+	end
 
 
 --leaderboards--ZO_Leaderboards--------------------------------------------------------------------

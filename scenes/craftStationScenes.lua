@@ -59,6 +59,25 @@ PP.craftStationScenes = function()
 	PP.Anchor(ZO_SmithingTopLevelImprovementPanelBoosterContainerHeader, --[[#1]] TOPLEFT, ZO_SmithingTopLevelImprovementPanelBoosterContainer, TOPLEFT, 0, 20)
 
 
+	--Smithing research slots backgrounds
+	local maxSmithingResearchTraits = 9 --currently 9 at 2022-06-23
+	local smithingResearchSlotTemplate = "ZO_SmithingResearchSlot%d"
+	local smithingResearchpanelCtrl = SMITHING.researchPanel.control
+	ZO_PostHookHandler(smithingResearchpanelCtrl, "OnEffectivelyShown", function()
+		zo_callLater(function()
+			for i=1, maxSmithingResearchTraits, 1 do
+				local child = smithingResearchpanelCtrl:GetNamedChild(string.format(smithingResearchSlotTemplate, i))
+				if child then
+					local bg = child:GetNamedChild("Bg")
+					if bg then
+						bg:SetAlpha(0)
+					end
+				end
+			end
+		end, 25)
+	end)
+
+
 --===============================================================================================--
 --==KEYBOARD_RETRAIT_ROOT_SCENE==-- --==SCENE_MANAGER:GetScene('retrait_keyboard_root')==--ZO_RETRAIT_KEYBOARD
 	local retrait_station	= ZO_RETRAIT_STATION_KEYBOARD

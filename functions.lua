@@ -70,7 +70,7 @@ function PP:ForceRemoveFragment(scene, targetFragment)
 			existingFn(self, fragment, ...)
 		end
 	end
-	scene:RemoveFragment(fragment)
+	scene:RemoveFragment(targetFragment)
 end
 
 function PP:SetLockedFn(objectTable, existingFnName)

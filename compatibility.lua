@@ -220,6 +220,11 @@ PP.compatibility = function()
 		end
 		--===============================================================================================--
 
+
+		--==ArkadiusTradeTools==--
+		-->See file /scenes/tradingHouseScene, function UpdateSetupCallback() for the "Sell" panel at guild trader (Trading House sell)
+		--===============================================================================================--
+
 		--UnregisterForEvent--
 		EVENT_MANAGER:UnregisterForEvent(PP.ADDON_NAME .. "Compatibility", EVENT_PLAYER_ACTIVATED)
 	end

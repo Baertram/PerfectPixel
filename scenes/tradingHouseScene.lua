@@ -13,16 +13,72 @@ PP.tradingHouseScene = function()
 
 --==ZO_TradingHouse==============================================================================--
 
+	local arkadiusTradeToolsGuildSellEnabled = false
+
 	local rowHeight, controlHeight = 44, 42
 	local function UpdateSetupCallback()
 		local list = TRADING_HOUSE.searchResultsList
 		list.uniformControlHeight = rowHeight
 		ZO_Scroll_SetMaxFadeDistance(list, PP.SV.list_skin.list_fade_distance)
-		
+
 		-- for i=1, 3 do
 			-- if ZO_ScrollList_GetDataTypeTable(list, i) then
 		local dataType = ZO_ScrollList_GetDataTypeTable(list, 1)
 		dataType.height = rowHeight
+
+		--Is Arkadius Trade Tools Sell -> Guild Sell enhancements enabled?
+		arkadiusTradeToolsGuildSellEnabled = (ArkadiusTradeTools ~= nil and ArkadiusTradeTools.Modules.Sales.TradingHouse:IsEnabled(ArkadiusTradeTools.Modules.Sales)) or false
+		local function fixArkadiusTradeTools(rowControl)
+			--compatibility Arkadius Trade Tools "Sales"
+			if arkadiusTradeToolsGuildSellEnabled then
+				local pricePerUnit	= rowControl:GetNamedChild("SellPricePerUnit")
+				local sellPrice		= rowControl:GetNamedChild("SellPrice")
+
+				--New controls were added by ATT:
+				--ProfitMargin (anchored to the TimeRemaining)
+				local profitMargin			= rowControl:GetNamedChild("ProfitMargin")
+				--AveragePricePerUnit (anchored to SellPricePerUnit)
+				local averagePricePerUnit	= rowControl:GetNamedChild("AveragePricePerUnit")
+				--AveragePrice (anchored to SellPrice)
+				local averagePrice			= rowControl:GetNamedChild("AveragePrice")
+
+				--Change fonts, anchors and offsets
+				if profitMargin then
+					PP.Font(profitMargin, 			--[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] .8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+					profitMargin:SetDrawTier(DT_LOW)
+					profitMargin:SetDrawLayer(DL_CONTROLS)
+					profitMargin:SetDrawLevel(1)
+				end
+				sellPrice:SetHeight(21)
+				PP.Anchor(pricePerUnit, --[[#1]] RIGHT, sellPrice, LEFT, -10, 0)
+
+				if averagePricePerUnit then
+					PP.Font(averagePricePerUnit,	--[[Font]] PP.f.u67, 14, "shadow", --[[Alpha]] .8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+					PP.Anchor(averagePricePerUnit, --[[#1]] TOPRIGHT, pricePerUnit, BOTTOMRIGHT, -2, -2)
+					averagePricePerUnit:SetDrawTier(DT_LOW)
+					averagePricePerUnit:SetDrawLayer(DL_CONTROLS)
+					averagePricePerUnit:SetDrawLevel(1)
+					averagePricePerUnit:SetVerticalAlignment(TEXT_ALIGN_BOTTOM)
+
+					if not AwesomeGuildStore then
+						averagePricePerUnit:SetText("@" .. averagePricePerUnit:GetText():gsub("|t.-:.-:", "|t12:12:"))
+					else
+						averagePricePerUnit:SetText(averagePricePerUnit:GetText():gsub("|t.-:.-:", "|t12:12:"))
+					end
+				end
+				if averagePrice then
+					PP.Font(averagePrice, 			--[[Font]] PP.f.u67, 14, "shadow", --[[Alpha]] .8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+					PP.Anchor(averagePrice, --[[#1]] TOPRIGHT, sellPrice, BOTTOMRIGHT, -2, -2)
+					averagePrice:SetDrawTier(DT_LOW)
+					averagePrice:SetDrawLayer(DL_CONTROLS)
+					averagePrice:SetDrawLevel(1)
+					averagePrice:SetVerticalAlignment(TEXT_ALIGN_BOTTOM)
+
+					averagePrice:SetText(averagePrice:GetText():gsub("|t.-:.-:", "|t12:12:"))
+				end
+			end
+		end
+
 
 		local function onUpdateFn(rowControl,  result)
 			local pricePerUnit	= rowControl:GetNamedChild("SellPricePerUnit")
@@ -47,6 +103,8 @@ PP.tradingHouseScene = function()
 			else
 				pricePerUnit:SetText(pricePerUnit:GetText():gsub("|t.-:.-:", "|t13:13:"))
 			end
+
+			fixArkadiusTradeTools(rowControl)
 		end
 		-- else
 		local function onCreateFn(rowControl,  result)
@@ -85,7 +143,11 @@ PP.tradingHouseScene = function()
 			PP.Font(sellPrice, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
 			sellPrice:SetVerticalAlignment(TEXT_ALIGN_BOTTOM)
 			if result.stackCount == 1 then
-				sellPrice:SetHeight(30)
+				if not arkadiusTradeToolsGuildSellEnabled then
+					sellPrice:SetHeight(30)
+				else
+					sellPrice:SetHeight(21)
+				end
 				pricePerUnit:SetHidden(true)
 			else
 				sellPrice:SetHeight(21)
@@ -125,7 +187,9 @@ PP.tradingHouseScene = function()
 			backdrop:SetInsets(PP.SV.list_skin.list_skin_backdrop_insets, PP.SV.list_skin.list_skin_backdrop_insets, -PP.SV.list_skin.list_skin_backdrop_insets, -PP.SV.list_skin.list_skin_backdrop_insets)
 			backdrop:SetIntegralWrapping(PP.SV.list_skin.list_skin_edge_integral_wrapping)
 
-		--compobility others addons
+			fixArkadiusTradeTools(rowControl)
+
+			--compability others addons
 			PP:SetLockedFn(sellPrice, 'SetFont')
 			PP:SetLockedFn(sellPrice, 'SetAnchor')
 			PP:SetLockedFn(sellPrice, 'ClearAnchors')
@@ -168,28 +232,44 @@ PP.tradingHouseScene = function()
 		local separator = sortBy:GetNamedChild("PriceSeparator")
 		separator:SetText("/")
 
-		sortBy:GetNamedChild("PriceName"):SetParent(sortBy)
-		PP.Anchor(sortBy:GetNamedChild("PriceName"),			--[[#1]] RIGHT, sortBy, RIGHT, -26, 0)
-		sortBy:GetNamedChild("Price"):SetParent(sortBy:GetNamedChild("PriceName"))
-		PP.Anchor(sortBy:GetNamedChild("Price"),				--[[#1]] TOPLEFT, sortBy:GetNamedChild("PriceName"), TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, sortBy:GetNamedChild("PriceName"), BOTTOMRIGHT, 0, 0)
+		local priceSortHeader = sortBy:GetNamedChild("PriceName")
+		priceSortHeader:SetParent(sortBy)
+		PP.Anchor(priceSortHeader,			--[[#1]] RIGHT, sortBy, RIGHT, -26, 0)
+		sortBy:GetNamedChild("Price"):SetParent(priceSortHeader)
+		PP.Anchor(sortBy:GetNamedChild("Price"),				--[[#1]] TOPLEFT, priceSortHeader, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, priceSortHeader, BOTTOMRIGHT, 0, 0)
 
 		separator:SetParent(sortBy)
-		PP.Anchor(separator,									--[[#1]] RIGHT, sortBy:GetNamedChild("PriceName"), LEFT, -6, 0)
+		PP.Anchor(separator,									--[[#1]] RIGHT, priceSortHeader, LEFT, -6, 0)
 
-		sortBy:GetNamedChild("PricePerUnitName"):SetParent(sortBy)
-		PP.Anchor(sortBy:GetNamedChild("PricePerUnitName"),		--[[#1]] RIGHT, separator, LEFT, -18, 0)
-		sortBy:GetNamedChild("PricePerUnit"):SetParent(sortBy:GetNamedChild("PricePerUnitName"))
-		PP.Anchor(sortBy:GetNamedChild("PricePerUnit"),			--[[#1]] TOPLEFT, sortBy:GetNamedChild("PricePerUnitName"), TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, sortBy:GetNamedChild("PricePerUnitName"), BOTTOMRIGHT, 0, 0)
+		local pricePerUnitSortHeader = sortBy:GetNamedChild("PricePerUnitName")
+		pricePerUnitSortHeader:SetParent(sortBy)
+		PP.Anchor(pricePerUnitSortHeader,		--[[#1]] RIGHT, separator, LEFT, -18, 0)
+		sortBy:GetNamedChild("PricePerUnit"):SetParent(pricePerUnitSortHeader)
+		PP.Anchor(sortBy:GetNamedChild("PricePerUnit"),			--[[#1]] TOPLEFT, pricePerUnitSortHeader, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, pricePerUnitSortHeader, BOTTOMRIGHT, 0, 0)
 
-		sortBy:GetNamedChild("TimeRemainingName"):SetParent(sortBy)
-		PP.Anchor(sortBy:GetNamedChild("TimeRemainingName"),	--[[#1]] RIGHT, sortBy:GetNamedChild("PricePerUnitName"), LEFT, -20, 0)
-		sortBy:GetNamedChild("TimeRemaining"):SetParent(sortBy:GetNamedChild("TimeRemainingName"))
-		PP.Anchor(sortBy:GetNamedChild("TimeRemaining"),		--[[#1]] TOPLEFT, sortBy:GetNamedChild("TimeRemainingName"), TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, sortBy:GetNamedChild("TimeRemainingName"), BOTTOMRIGHT, 0, 0)
+		--Is ArkadiusTradeTools with the guild sell tab changes enabled?
+		if arkadiusTradeToolsGuildSellEnabled then
+			--Move the sort header for "price per unit" a bit to the left so that the average price per unit and average price fit below
+			PP.Anchor(pricePerUnitSortHeader,		--[[#1]] RIGHT, separator, LEFT, -75, 0)
+			separator:SetHidden(true)
+		else
+			separator:SetHidden(true)
+		end
 
-		sortBy:GetNamedChild("NameName"):SetParent(sortBy)
-		PP.Anchor(sortBy:GetNamedChild("NameName"),	--[[#1]] LEFT, sortBy, LEFT, 60, 0)
-		sortBy:GetNamedChild("Name"):SetParent(sortBy:GetNamedChild("NameName"))
-		PP.Anchor(sortBy:GetNamedChild("Name"),		--[[#1]] TOPLEFT, sortBy:GetNamedChild("NameName"), TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, sortBy:GetNamedChild("NameName"), BOTTOMRIGHT, 0, 0)
+		local nameSortHeaderOffsetX = 60
+		local timeRemainingNameSortBy = sortBy:GetNamedChild("TimeRemainingName")
+		timeRemainingNameSortBy:SetParent(sortBy)
+		--PP.Anchor(timeRemainingNameSortBy,	--[[#1]] RIGHT, sortBy:GetNamedChild("PricePerUnitName"), LEFT, -20, 0)
+		--Fixed offset for the time sort header = left of "name" sortheader + ZO_TRADING_HOUSE_SEARCH_RESULT_ITEM_NAME_WIDTH
+		PP.Anchor(timeRemainingNameSortBy,	--[[#1]] LEFT, sortBy, LEFT, nameSortHeaderOffsetX + ZO_TRADING_HOUSE_SEARCH_RESULT_ITEM_NAME_WIDTH, 0)
+		sortBy:GetNamedChild("TimeRemaining"):SetParent(timeRemainingNameSortBy)
+		PP.Anchor(sortBy:GetNamedChild("TimeRemaining"),		--[[#1]] TOPLEFT, timeRemainingNameSortBy, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, timeRemainingNameSortBy, BOTTOMRIGHT, 0, 0)
+
+		local nameSortHeader = sortBy:GetNamedChild("NameName")
+		nameSortHeader:SetParent(sortBy)
+		PP.Anchor(nameSortHeader,	--[[#1]] LEFT, sortBy, LEFT, nameSortHeaderOffsetX, 0)
+		sortBy:GetNamedChild("Name"):SetParent(nameSortHeader)
+		PP.Anchor(sortBy:GetNamedChild("Name"),		--[[#1]] TOPLEFT, nameSortHeader, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, nameSortHeader, BOTTOMRIGHT, 0, 0)
 
 		local tabSortBy = {"NameName", "TimeRemainingName", "PriceName", "PricePerUnitName", "PriceSeparator"}
 		for _, v in ipairs(tabSortBy) do

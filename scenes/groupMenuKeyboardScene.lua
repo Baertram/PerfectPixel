@@ -40,7 +40,20 @@ PP.groupMenuKeyboardScene = function()
 			local timedActivitiesKeyboard = TIMED_ACTIVITIES_KEYBOARD
 			local timedActivitiesScrollChild = timedActivitiesKeyboard.activitiesScrollChild
 			if timedActivitiesScrollChild then
-				PP.Bars(timedActivitiesScrollChild, true, nil, nil, nil, nil, false, 0, 2)
+				PP.Bars(timedActivitiesScrollChild, true, 18, 16, nil, nil, true)
+				--Move the progessBar a bit to the right to show the left edge
+				for i=1, timedActivitiesScrollChild:GetNumChildren(), 1 do
+					local childCtrl = timedActivitiesScrollChild:GetChild(i)
+					if childCtrl ~= nil then
+						local name = childCtrl:GetNamedChild("Name")
+						local progressBar = childCtrl:GetNamedChild("ProgressBar")
+						local rewardContainer = childCtrl:GetNamedChild("RewardContainer")
+						if name ~= nil and rewardContainer ~= nil and progressBar ~= nil then
+							--Do not use PP.Anchor, else it will call ClearAnchors() and break the right (2nd) anchor
+							progressBar:SetAnchor(TOPLEFT, name, BOTTOMLEFT, 2, 5)
+						end
+					end
+				end
 			end
 			sceneFragmentsShown[TIMED_ACTIVITIES_FRAGMENT] = true
 		end

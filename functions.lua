@@ -303,7 +303,7 @@ PP.ScrollBar = function(control, --[[sb_c]] sb_r, sb_g, sb_b, sb_a, --[[bg_c]] b
 
 end
 
-PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColor, glowEdgeColor, reAnchorText, backdropOffsetX, backdropOffsetY)
+PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColor, glowEdgeColor, reAnchorText)
 	local bar		= control
 	local barText	= control:GetNamedChild("Progress")
 	local bg		= control:GetNamedChild("BG")
@@ -379,7 +379,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 		local barBG = CreateControl("$(parent)Backdrop", control, CT_BACKDROP)
 
 		--PP.Anchor(barBG, --[[#1]] TOPLEFT, control, TOPLEFT, -2, -2, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	2, 2)
-		PP.Anchor(barBG, --[[#1]] TOPLEFT, control, TOPLEFT, backdropOffsetX or -2, backdropOffsetY or -2, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	2, 2)
+		PP.Anchor(barBG, --[[#1]] TOPLEFT, control, TOPLEFT, -2, -2, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	2, 2)
 		barBG:SetCenterTexture(nil, 8, 0)
 		barBG:SetCenterColor(10/255, 10/255, 10/255, .8)
 		barBG:SetEdgeTexture(nil, 1, 1, 1, 0)
@@ -397,7 +397,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 end
 local PP_bar = PP.Bar
 
-PP.Bars = function(progressBarsOverviewContainer --[[parentControl]], isProgressBarPassedIn, height, fontSize, bgEdgeColor, glowEdgeColor, reAnchorText, backdropOffsetX, backdropOffsetY)
+PP.Bars = function(progressBarsOverviewContainer --[[parentControl]], isProgressBarPassedIn, height, fontSize, bgEdgeColor, glowEdgeColor, reAnchorText)
 	isProgressBarPassedIn = isProgressBarPassedIn or false
 	--Change all child control Progressbars at progressBarsOverviewContainer
 	for i=1, progressBarsOverviewContainer:GetNumChildren(), 1 do
@@ -410,9 +410,7 @@ PP.Bars = function(progressBarsOverviewContainer --[[parentControl]], isProgress
 						--[[fontSize]] fontSize or 15,
 						bgEdgeColor,
 						glowEdgeColor,
-						reAnchorText,
-						backdropOffsetX,
-						backdropOffsetY
+						reAnchorText
 				)
 			end
 		end

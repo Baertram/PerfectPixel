@@ -614,14 +614,20 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 	return control
 end
 
+function PP.fixDrawZ(control, toHighLevel)
+	toHighLevel = toHighLevel or false
+	control:SetDrawTier((toHighLevel == true and DT_HIGH) or DT_MEDIUM)
+	control:SetDrawLayer(DL_CONTROLS)
+	control:SetDrawLevel(1)
+end
+local fixDrawZ = PP.fixDrawZ
+
+
 function PP:fixZAxis()
 	local zAxisControlsToFix = PP.zAxisFixes
 	for _, ctrl in ipairs(zAxisControlsToFix) do
 		if ctrl ~= nil then
-			ctrl:SetDrawTier(DT_MEDIUM)
-			ctrl:SetDrawLayer(DL_CONTROLS)
-			ctrl:SetDrawLevel(1)
-			--todo Some controls like TheirTradeWindowSlotN need to be set DT_HIGH -> Why?
+			fixDrawZ(ctrl, false)
 		end
 	end
 
@@ -631,9 +637,7 @@ function PP:fixZAxis()
 			for i=1, parentCtrl:GetNumChildren(), 1 do
 				local childCtrl = parentCtrl:GetChild(i)
 				if childCtrl ~= nil and childCtrl.SetDrawTier then
-					childCtrl:SetDrawTier(DT_MEDIUM)
-					childCtrl:SetDrawLayer(DL_CONTROLS)
-					childCtrl:SetDrawLevel(1)
+					fixDrawZ(childCtrl, false)
 				end
 			end
 		end

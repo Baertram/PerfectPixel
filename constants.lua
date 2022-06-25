@@ -5,7 +5,7 @@ PP.SV = {}
 PP.ADDON_NAME		= "PerfectPixel"
 PP.ADDON_AUTHOR		= "@KL1SK, Baertram"
 PP.ADDON_WEBSITE	= "https://www.esoui.com/downloads/info2103-PerfectPixel.html"
-PP.ADDON_VERSION 	= "0.11.31"
+PP.ADDON_VERSION 	= "0.11.32"
 
 --[[ Known bugs
 
@@ -108,7 +108,7 @@ PP.zAxisFixes = {
 	ZO_RepairWindowFilterDivider,
 	ZO_RepairWindowSearchDivider,
 	ZO_RepairWindowSearchFilters,
-	ZO_SmithingTopLevelRefinementPanelInventory,
+	ZO_SmithingTopLevelRefinementPanelInventoryFilterDivider,
 	ZO_SmithingTopLevelCreationPanelTabsDivider,
 	ZO_SmithingTopLevelCreationPanelPatternListDivider,
 	ZO_SmithingTopLevelCreationPanelMaterialListDivider,
@@ -174,6 +174,9 @@ PP.zAxisFixes = {
 	TheirTradeWindowSlot5,
 	ZO_TradeTheirControlsMoney,
 	ZO_WritAdvisor_Keyboard_TopLevelHeaderContainer,
+	ZO_MailInboxMessageAttachmentsDivider,
+	ZO_EnchantingTopLevelInventoryFilterDivider,
+	ZO_EnchantingTopLevelInventoryButtonDivider,
 }
 
 PP.zAxisChildFixes = {

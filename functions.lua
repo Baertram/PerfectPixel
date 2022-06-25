@@ -303,7 +303,7 @@ PP.ScrollBar = function(control, --[[sb_c]] sb_r, sb_g, sb_b, sb_a, --[[bg_c]] b
 
 end
 
-PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColor, glowEdgeColor, reAnchorText)
+PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColor, glowEdgeColor, reAnchorText, backdropOffsetX, backdropOffsetY)
 	local bar		= control
 	local barText	= control:GetNamedChild("Progress")
 	local bg		= control:GetNamedChild("BG")
@@ -313,7 +313,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 	local glowC		= control:GetNamedChild("GlowContainerCenter")
 	local glowL		= control:GetNamedChild("GlowContainerLeft")
 	local glowR		= control:GetNamedChild("GlowContainerRight")
-	
+
 	if glow then
 		glowC:SetHidden(true)
 		glowL:SetHidden(true)
@@ -378,7 +378,8 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 	if not control:GetNamedChild("Backdrop") then
 		local barBG = CreateControl("$(parent)Backdrop", control, CT_BACKDROP)
 
-		PP.Anchor(barBG, --[[#1]] TOPLEFT, control, TOPLEFT, -2, -2, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	2, 2)
+		--PP.Anchor(barBG, --[[#1]] TOPLEFT, control, TOPLEFT, -2, -2, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	2, 2)
+		PP.Anchor(barBG, --[[#1]] TOPLEFT, control, TOPLEFT, backdropOffsetX or -2, backdropOffsetY or -2, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	2, 2)
 		barBG:SetCenterTexture(nil, 8, 0)
 		barBG:SetCenterColor(10/255, 10/255, 10/255, .8)
 		barBG:SetEdgeTexture(nil, 1, 1, 1, 0)
@@ -396,20 +397,22 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 end
 local PP_bar = PP.Bar
 
-PP.Bars = function(progressBarsOverviewContainer --[[parentControl]], isProgressBarPassedIn, height, fontSize, bgEdgeColor, glowEdgeColor, reAnchorText)
+PP.Bars = function(progressBarsOverviewContainer --[[parentControl]], isProgressBarPassedIn, height, fontSize, bgEdgeColor, glowEdgeColor, reAnchorText, backdropOffsetX, backdropOffsetY)
 	isProgressBarPassedIn = isProgressBarPassedIn or false
 	--Change all child control Progressbars at progressBarsOverviewContainer
 	for i=1, progressBarsOverviewContainer:GetNumChildren(), 1 do
 		local childCtrl = progressBarsOverviewContainer:GetChild(i)
 		if childCtrl ~= nil then
-			local progressBar = childCtrl:GetNamedChild("Progress")
+			local progressBar = childCtrl:GetNamedChild("Progress") or childCtrl:GetNamedChild("ProgressBar")
 			if progressBar ~= nil then
 				PP_bar((isProgressBarPassedIn == true and progressBar) or childCtrl,
 						--[[height]] height or 14,
 						--[[fontSize]] fontSize or 15,
 						bgEdgeColor,
 						glowEdgeColor,
-						reAnchorText
+						reAnchorText,
+						backdropOffsetX,
+						backdropOffsetY
 				)
 			end
 		end
@@ -614,11 +617,10 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 	return control
 end
 
-function PP.fixDrawZ(control, toHighLevel)
-	toHighLevel = toHighLevel or false
-	control:SetDrawTier((toHighLevel == true and DT_HIGH) or DT_MEDIUM)
-	control:SetDrawLayer(DL_CONTROLS)
-	control:SetDrawLevel(1)
+function PP.fixDrawZ(control, tier, layer, level)
+	control:SetDrawTier(tier or DT_MEDIUM)
+	control:SetDrawLayer(layer or DL_CONTROLS)
+	control:SetDrawLevel(level or 1)
 end
 local fixDrawZ = PP.fixDrawZ
 

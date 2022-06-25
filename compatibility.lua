@@ -68,7 +68,7 @@ PP.compatibility = function()
 			PP.Font(AddonSelectorSelectAddonsButtonNameLabel,	--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
 
 			--AddonSelector
-			PP.fixDrawZ(AddonSelector, false)
+			PP.fixDrawZ(AddonSelector)
 		end
 		--===============================================================================================--
 
@@ -112,7 +112,7 @@ PP.compatibility = function()
 				ZO_Scroll_SetMaxFadeDistance(AwesomeGuildStoreFilterArea, 10)
 
 				--AwesomeGuildStoreSearchCategorySelector
-				PP.fixDrawZ(AwesomeGuildStoreSearchCategorySelector, false)
+				PP.fixDrawZ(AwesomeGuildStoreSearchCategorySelector)
 
 
 				EVENT_MANAGER:UnregisterForEvent(PP.ADDON_NAME .. 'AwesomeGuildStore' .. 'tradingHouseScene', EVENT_OPEN_TRADING_HOUSE, func)
@@ -199,8 +199,8 @@ PP.compatibility = function()
 			PP.ScrollBar(IIFA_GUI_ListHolder, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false, "_Slider", 30)
 			ZO_Scroll_SetMaxFadeDistance(IIFA_GUI_ListHolder, 10)
 
-			PP.fixDrawZ(IIFA_GUI_Header, false)
-			PP.fixDrawZ(IIFA_GUI_Search, false)
+			PP.fixDrawZ(IIFA_GUI_Header)
+			PP.fixDrawZ(IIFA_GUI_SearchBackdrop, DT_LOW, DL_TEXT, 1)
 		end
 		--===============================================================================================--
 

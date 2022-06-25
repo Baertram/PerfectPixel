@@ -1,4 +1,5 @@
 PP.groupMenuKeyboardScene = function()
+	local sceneFragmentsShown = {}
 
 	KEYBOARD_GROUP_MENU_SCENE:RemoveFragment(FRAME_PLAYER_FRAGMENT)
 	KEYBOARD_GROUP_MENU_SCENE:RemoveFragment(RIGHT_BG_FRAGMENT)
@@ -31,4 +32,17 @@ PP.groupMenuKeyboardScene = function()
 	PP.ScrollBar(ZO_DungeonFinder_KeyboardListSection,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
 
 	ZO_Scroll_SetMaxFadeDistance(ZO_DungeonFinder_KeyboardListSection, 10)
+
+
+	--Endeavours - TIMED_ACTIVITIES_KEYBOARD
+	TIMED_ACTIVITIES_FRAGMENT:RegisterCallback("StateChange", function(oldState, newState)
+		if newState == SCENE_FRAGMENT_SHOWN and not sceneFragmentsShown[TIMED_ACTIVITIES_FRAGMENT] then
+			local timedActivitiesKeyboard = TIMED_ACTIVITIES_KEYBOARD
+			local timedActivitiesScrollChild = timedActivitiesKeyboard.activitiesScrollChild
+			if timedActivitiesScrollChild then
+				PP.Bars(timedActivitiesScrollChild, true, nil, nil, nil, nil, false, 0, 2)
+			end
+			sceneFragmentsShown[TIMED_ACTIVITIES_FRAGMENT] = true
+		end
+	end)
 end

@@ -1,5 +1,5 @@
 ## APIVersion: 101034 101035
-## Version: 0.11.32
+## Version: 0.11.33
 ## Title: PerfectPixel
 ## Author: @KL1SK, Baertram
 ## Description: PerfectPixle changes a lot UI elements |cf44336Attention!!!|r For correct display, the screen resolution must be at least 1920x1080. UI scaling should be disabled.

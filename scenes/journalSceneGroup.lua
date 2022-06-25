@@ -21,7 +21,7 @@ PP.journalSceneGroup = function()
 	})
 --===============================================================================================--
 	local function achievementsProgressBars()
-		PP.Bars(ACHIEVEMENTS.summaryProgressBarsScrollChild, false)
+		PP.Bars(ACHIEVEMENTS.summaryProgressBarsScrollChild, false, nil, nil, nil, nil, true)
 	end
 
 

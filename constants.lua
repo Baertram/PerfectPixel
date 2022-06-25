@@ -176,3 +176,7 @@ PP.zAxisFixes = {
 	ZO_WritAdvisor_Keyboard_TopLevelHeaderContainer,
 }
 
+PP.zAxisChildFixes = {
+	ZO_CampaignBrowserHeaders,
+}
+

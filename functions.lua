@@ -146,6 +146,7 @@ PP.Anchor = function(control, --[[#1]] set1_p, set1_rTo, set1_rp, set1_x, set1_y
 		control:SetAnchor(set2_p or get2_p, set2_rTo or get2_rTo, set2_rp or get2_rp, set2_x or get2_x, set2_y or get2_y)
 	end
 end
+local PP_Anchor = PP.Anchor
 
 --outline, thick-outline, soft-shadow-thin, soft-shadow-thick, shadow 
 PP.Font = function(control, --[[Font]] font, size, outline, --[[Alpha]] a, --[[Color]] c_r, c_g, c_b, c_a, --[[StyleColor]] sc_r, sc_g, sc_b, sc_a)
@@ -302,7 +303,7 @@ PP.ScrollBar = function(control, --[[sb_c]] sb_r, sb_g, sb_b, sb_a, --[[bg_c]] b
 
 end
 
-PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColor, glowEdgeColor)
+PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColor, glowEdgeColor, reAnchorText)
 	local bar		= control
 	local barText	= control:GetNamedChild("Progress")
 	local bg		= control:GetNamedChild("BG")
@@ -339,6 +340,11 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 
 	if barText then
 		PP.Font(barText, --[[Font]] PP.f.u67, fSize, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+
+		reAnchorText = reAnchorText or false
+		if reAnchorText == true then
+			PP_Anchor(barText, --[[#1]] CENTER, nil, CENTER, 0, 0, --[[#2]] false)
+		end
 	end
 
 	bg:SetHidden(true)
@@ -390,7 +396,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 end
 local PP_bar = PP.Bar
 
-PP.Bars = function(progressBarsOverviewContainer --[[parentControl]], isProgressBarPassedIn)
+PP.Bars = function(progressBarsOverviewContainer --[[parentControl]], isProgressBarPassedIn, height, fontSize, bgEdgeColor, glowEdgeColor, reAnchorText)
 	isProgressBarPassedIn = isProgressBarPassedIn or false
 	--Change all child control Progressbars at progressBarsOverviewContainer
 	for i=1, progressBarsOverviewContainer:GetNumChildren(), 1 do
@@ -398,7 +404,13 @@ PP.Bars = function(progressBarsOverviewContainer --[[parentControl]], isProgress
 		if childCtrl ~= nil then
 			local progressBar = childCtrl:GetNamedChild("Progress")
 			if progressBar ~= nil then
-				PP_bar((isProgressBarPassedIn == true and progressBar) or childCtrl, --[[height]] 14, --[[fontSize]] 15)
+				PP_bar((isProgressBarPassedIn == true and progressBar) or childCtrl,
+						--[[height]] height or 14,
+						--[[fontSize]] fontSize or 15,
+						bgEdgeColor,
+						glowEdgeColor,
+						reAnchorText
+				)
 			end
 		end
 	end
@@ -606,10 +618,25 @@ function PP:fixZAxis()
 	local zAxisControlsToFix = PP.zAxisFixes
 	for _, ctrl in ipairs(zAxisControlsToFix) do
 		if ctrl ~= nil then
-			ctrl:SetDrawTier(DT_LOW)
+			ctrl:SetDrawTier(DT_MEDIUM)
 			ctrl:SetDrawLayer(DL_CONTROLS)
 			ctrl:SetDrawLevel(1)
 			--todo Some controls like TheirTradeWindowSlotN need to be set DT_HIGH -> Why?
 		end
 	end
+
+	local zAxisChildFixes = PP.zAxisChildFixes
+	for _, parentCtrl in ipairs(zAxisChildFixes) do
+		if parentCtrl ~= nil and parentCtrl.GetNumChildren then
+			for i=1, parentCtrl:GetNumChildren(), 1 do
+				local childCtrl = parentCtrl:GetChild(i)
+				if childCtrl ~= nil and childCtrl.SetDrawTier then
+					childCtrl:SetDrawTier(DT_MEDIUM)
+					childCtrl:SetDrawLayer(DL_CONTROLS)
+					childCtrl:SetDrawLevel(1)
+				end
+			end
+		end
+	end
+
 end

@@ -117,6 +117,46 @@ PP.compatibility = function()
 		--==MasterMerchant==--
 		if MasterMerchant then
 			PP.Anchor(ZO_TradingHouseBrowseItemsLeftPane, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, -50)
+
+			--By Troodon80, 2022-06-25, PerfectPixel comments at www.esoui.com
+            PP:CreateBackground(MasterMerchantWindow,			--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+            MasterMerchantWindowBG:SetHidden(true)
+            PP.ScrollBar(MasterMerchantWindowListScrollBar,		--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+            MasterMerchantWindowMenuHeader:SetDrawTier(DT_MEDIUM)
+            MasterMerchantWindowMenuDivider:SetDrawTier(DT_MEDIUM)
+
+            PP:CreateBackground(MasterMerchantReportsWindow,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+            MasterMerchantReportsWindowBG:SetHidden(true)
+            PP.ScrollBar(MasterMerchantReportsWindowListScrollBar,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+            MasterMerchantReportsWindowMenuHeader:SetDrawTier(DT_MEDIUM)
+            MasterMerchantReportsWindowMenuDivider:SetDrawTier(DT_MEDIUM)
+
+            PP:CreateBackground(MasterMerchantListingWindow,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+            MasterMerchantListingWindowBG:SetHidden(true)
+            PP.ScrollBar(MasterMerchantListingWindowListScrollBar,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+            MasterMerchantListingWindowMenuHeader:SetDrawTier(DT_MEDIUM)
+            MasterMerchantListingWindowMenuDivider:SetDrawTier(DT_MEDIUM)
+
+            PP:CreateBackground(MasterMerchantGuildWindow,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+            MasterMerchantGuildWindowBG:SetHidden(true)
+            PP.ScrollBar(MasterMerchantGuildWindowListScrollBar,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+            MasterMerchantGuildWindowMenuHeader:SetDrawTier(DT_MEDIUM)
+            MasterMerchantGuildWindowMenuDivider:SetDrawTier(DT_MEDIUM)
+
+            PP:CreateBackground(MasterMerchantPurchaseWindow,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+            MasterMerchantPurchaseWindowBG:SetHidden(true)
+            PP.ScrollBar(MasterMerchantPurchaseWindowListScrollBar,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+            MasterMerchantPurchaseWindowMenuHeader:SetDrawTier(DT_MEDIUM)
+            MasterMerchantPurchaseWindowMenuDivider:SetDrawTier(DT_MEDIUM)
+            -- Smaller Master Merchant dialog windows
+            -- Stats
+            PP:CreateBackground(MasterMerchantStatsWindow,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+            MasterMerchantStatsWindowBG:SetHidden(true)
+            MasterMerchantStatsGuildChooser:SetDrawTier(DT_MEDIUM)
+            MasterMerchantStatsWindowSlider:SetDrawTier(DT_MEDIUM)
+            -- Feedback/donations
+            PP:CreateBackground(MasterMerchantFeedback,			--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+            MasterMerchantFeedbackBG:SetHidden(true)
 		end
 		--===============================================================================================--
 
@@ -138,7 +178,6 @@ PP.compatibility = function()
 			PP:SetLockedFn(ZO_CompassFrameCenter, 'SetHidden')
 		end
 		--===============================================================================================--
-
 
 		--==InventoryInsightFromAshes==--
 		if IIFA_GUI ~= nil then

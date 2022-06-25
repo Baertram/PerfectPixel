@@ -625,6 +625,8 @@ local function OnAddonLoaded(eventType, addonName)
 		PP.keybindStripModule.Load(true)
 
 		PP.compatibility()
+
+		PP:fixZAxis()
 		--
 		EVENT_MANAGER:RegisterForEvent(PP.ADDON_NAME .. "searchBox", EVENT_PLAYER_ACTIVATED,
 				function()

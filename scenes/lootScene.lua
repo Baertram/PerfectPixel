@@ -104,8 +104,8 @@ PP.lootScene = function()
 	PP.Font(button2.nameLabel,	--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
 -------------------------------------------------
 	local function RefreshControlMode_1(control, typeId)
-		control:SetHeight(PP.SV.list_skin.list_control_height)
-		control:GetNamedChild("Bg"):SetTexture(PP.t.clear)
+		control:SetHeight(PP.savedVars.ListStyle.list_control_height)
+		control:GetNamedChild("Bg"):SetTexture("PerfectPixel/tex/tex_clear.dds")
 
 		if (typeId == 1) then
 			control:GetNamedChild("Highlight"):SetHidden(true)
@@ -114,12 +114,12 @@ PP.lootScene = function()
 			control.multiIcon:SetHidden(true)
 
 			local backdrop = PP.CreateBackdrop(control)
-			backdrop:SetCenterColor(unpack(PP.SV.list_skin.list_skin_backdrop_col))
-			backdrop:SetCenterTexture(PP.SV.list_skin.list_skin_backdrop, PP.SV.list_skin.list_skin_backdrop_tile_size, PP.SV.list_skin.list_skin_backdrop_tile and 1 or 0)
-			backdrop:SetEdgeColor(unpack(PP.SV.list_skin.list_skin_edge_col))
-			backdrop:SetEdgeTexture(PP.SV.list_skin.list_skin_edge, PP.SV.list_skin.list_skin_edge_file_width, PP.SV.list_skin.list_skin_edge_file_height, PP.SV.list_skin.list_skin_edge_thickness, 0)
-			backdrop:SetInsets(PP.SV.list_skin.list_skin_backdrop_insets, PP.SV.list_skin.list_skin_backdrop_insets, -PP.SV.list_skin.list_skin_backdrop_insets, -PP.SV.list_skin.list_skin_backdrop_insets)
-			backdrop:SetIntegralWrapping(PP.SV.list_skin.list_skin_edge_integral_wrapping)
+			backdrop:SetCenterColor(unpack(PP.savedVars.ListStyle.list_skin_backdrop_col))
+			backdrop:SetCenterTexture(PP.savedVars.ListStyle.list_skin_backdrop, PP.savedVars.ListStyle.list_skin_backdrop_tile_size, PP.savedVars.ListStyle.list_skin_backdrop_tile and 1 or 0)
+			backdrop:SetEdgeColor(unpack(PP.savedVars.ListStyle.list_skin_edge_col))
+			backdrop:SetEdgeTexture(PP.savedVars.ListStyle.list_skin_edge, PP.savedVars.ListStyle.list_skin_edge_file_width, PP.savedVars.ListStyle.list_skin_edge_file_height, PP.savedVars.ListStyle.list_skin_edge_thickness, 0)
+			backdrop:SetInsets(PP.savedVars.ListStyle.list_skin_backdrop_insets, PP.savedVars.ListStyle.list_skin_backdrop_insets, -PP.savedVars.ListStyle.list_skin_backdrop_insets, -PP.savedVars.ListStyle.list_skin_backdrop_insets)
+			backdrop:SetIntegralWrapping(PP.savedVars.ListStyle.list_skin_edge_integral_wrapping)
 
 			control.status = CreateControl("$(parent)Status", control, CT_TEXTURE)
 			local status = control.status
@@ -177,11 +177,11 @@ PP.lootScene = function()
 		end
 	end
 
-	ZO_Scroll_SetMaxFadeDistance(lootList, PP.SV.list_skin.list_fade_distance)
+	ZO_Scroll_SetMaxFadeDistance(lootList, PP.savedVars.ListStyle.list_fade_distance)
 
 	lootList.refreshControlMode_1			= RefreshControlMode_1
 	lootList.refreshControlMode_1_dynamic	= RefreshControlMode_1_Dynamic
-	lootList.uniformControlHeight			= PP.SV.list_skin.list_uniform_control_height
+	lootList.uniformControlHeight			= PP.savedVars.ListStyle.list_uniform_control_height
 
 	for typeId in pairs(lootList.dataTypes) do
 		if typeId == 1 or typeId == 2 then
@@ -189,7 +189,7 @@ PP.lootScene = function()
 			local pool = dataType.pool
 
 			if dataType.height then
-				dataType.height = PP.SV.list_skin.list_control_height
+				dataType.height = PP.savedVars.ListStyle.list_control_height
 			end
 
 			PP.Hook_m_Factory(dataType, function(control)

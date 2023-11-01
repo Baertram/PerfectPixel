@@ -1,117 +1,80 @@
-PP.keybindStripModule = {}
+local PP		= PP
+local namespace	= 'KeybindStrip'
 
-local keybindStripFragment = 			KEYBIND_STRIP_FADE_FRAGMENT
-local keybindStripFragment_Gamepad = 	KEYBIND_STRIP_GAMEPAD_FRAGMENT
-local championKeybindStripFragment = 	CHAMPION_KEYBIND_STRIP_FADE_FRAGMENT
-local marketKeybindStripFragment = 		MARKET_KEYBIND_STRIP_FRAGMENT
-
-
-function PP.keybindStripModule.keybindStripUpdateKeybindStripBG(firstLoad, fragmentVar)
---PP._lastKeybindFragment = fragmentVar
-	firstLoad = firstLoad or false
-	local SV = PP.keybindStripModule.SV
-	if SV.toggle then
-		local isInGamepadMode = IsInGamepadPreferredMode()
-		--Do not change hidden state of keybind bar if looting items
-		if (isInGamepadMode == true and GAMEPAD_LOOT_PICKUP_FRAGMENT:IsShowing()) or LOOT_WINDOW_FRAGMENT:IsShowing() then
-			return
-		end
-
-		-- ZO_KeybindStrip
-		local keybindStripHeight = SV.keybindBGHeight
-		ZO_KeybindStripControl:SetHeight(keybindStripHeight)
-		if isInGamepadMode then
-			ZO_KeybindStripGamepadBackground:SetHeight(keybindStripHeight)
-			if firstLoad == true then
-				ZO_KeybindStripGamepadBackground:SetHidden(true)
-			else
-				ZO_KeybindStripGamepadBackground:SetHidden(SV.keybindTransparency)
-			end
-		else
-			ZO_KeybindStripMungeBackground:SetHeight(keybindStripHeight)
-			if firstLoad == true then
-				ZO_KeybindStripMungeBackground:SetHidden(true)
-			else
-				ZO_KeybindStripMungeBackground:SetHidden(SV.keybindTransparency)
-			end
-
-		end
-		ZO_KeybindStripMungeBackgroundTexture:SetHidden(true)
-	end
-end
-local keybindStripUpdateKeybindStripBG = PP.keybindStripModule.keybindStripUpdateKeybindStripBG
-
-
-PP.keybindStripModule.Load = function(firstLoad)
+PP.keybindStrip = function()
 --===============================================================================================--
-	local SV_VER		= 0.1
-	local DEF = {
-		toggle	= true,
-		keybindTransparency = false,
-		keybindBGHeight = 31,
-		keybindOffsetY = 0,
-	}
-	PP.keybindStripModule.SV = ZO_SavedVars:NewAccountWide(PP.ADDON_NAME, SV_VER, "KeybindStrip", DEF, GetWorldName())
-	local SV = PP.keybindStripModule.SV
+	local sv, def = PP:AddNewSavedVars(0.3, namespace, {
+		toggle							= true,
+		keybindStrip_height				= 31,
+		individual_color_settings		= false,
+
+		skin_backdrop					= "PerfectPixel/tex/tex_white.dds",
+		skin_backdrop_col				= {10/255, 12/255, 14/255, 200/255},
+		skin_backdrop_insets			= 6,
+		skin_backdrop_tile				= false,
+		skin_backdrop_tile_size			= 8,
+		skin_edge						= "PerfectPixel/tex/edge_outer_shadow_128x16.dds",
+		skin_edge_col					= {0/255, 0/255, 0/255, 240/255},
+		skin_edge_file_width			= 128,
+		skin_edge_file_height			= 16,
+		skin_edge_thickness				= 16,
+		skin_edge_integral_wrapping		= false,
+	})
 	---------------------------------------------
 	table.insert(PP.optionsData,
-	{	type				= "submenu",
-		name				= GetString(PP_LAM_KEYBINDSTRIP),
-		controls = {
-			{	type				= "checkbox",
-				name				= GetString(PP_LAM_ACTIVATE),
-				getFunc				= function() return SV.toggle end,
-				setFunc				= function(value) SV.toggle = value
-					ZO_KeybindStripControl:SetHidden(true)
-				end,
-				default				= DEF.toggle,
-				requiresReload		= true,
+	{	type		= "submenu",
+		name		= GetString(PP_LAM_KEYBINDSTRIP),
+		controls	= PP.PackTables(
+			{
+				{	type			= "checkbox",
+					name			= GetString(PP_LAM_ACTIVATE),
+					getFunc			= function() return sv.toggle end,
+					setFunc			= function(value) sv.toggle = value end,
+					default			= def.toggle,
+					requiresReload	= true,
+				},
+				{	type 			= "slider", name = 'Height',
+					max				= 75, min = 5,
+					getFunc			= function() return sv.keybindStrip_height end,
+					setFunc			= function(value) sv.keybindStrip_height = value ZO_KeybindStripControl:SetHeight(value) ZO_KeybindStripMungeBackground:SetHeight(value) end,
+					default			= def.keybindStrip_height,
+					width			= "half",
+					disabled		= function() return not sv.toggle end,
+				},
+				{	type				= "checkbox",
+					name				= "Individual background settings",
+					getFunc				= function() return sv.individual_color_settings end,
+					setFunc				= function(value) sv.individual_color_settings = value end,
+					default				= def.individual_color_settings,
+					disabled			= function() return not sv.toggle end,
+					requiresReload		= true,
+				},
 			},
-			{	type				= "checkbox",
-				name				= GetString(PP_LAM_TRANSPARENCY),
-				getFunc				= function() return SV.keybindTransparency end,
-				setFunc				= function(value) SV.keybindTransparency = value
-					ZO_KeybindStripControl:SetHidden(true)
-				end,
-				default				= DEF.toggle,
-			 	disabled			= function() return not SV.toggle end,
-			},
-			{	type 				= "slider", name = 'Height',
-				max					= 75, min = 5,
-				getFunc				= function() return SV.keybindBGHeight end,
-				setFunc				= function(value) SV.keybindBGHeight = value
-					ZO_KeybindStripControl:SetHidden(true)
-				end,
-				default				= DEF.keybindBGHeight,
-				width				= "half",
-				disabled			= function() return not SV.toggle end,
-			},
-		},
+			PP:AddBackdropSettings(namespace),
+			PP:AddEdgeSettings(namespace)
+		),
 	})
 --===============================================================================================--
+	if not sv.toggle then return end
 
-	PP:CreateBackground(ZO_KeybindStripMungeBackground, --[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 6, 6)
-	keybindStripUpdateKeybindStripBG(firstLoad, nil)
+	PP:CreateBackground(ZO_KeybindStripMungeBackground, --[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 6, 6, sv.individual_color_settings and namespace or nil)
 
-	local fragmentsForCallback = { keybindStripFragment, championKeybindStripFragment, marketKeybindStripFragment,
-								   keybindStripFragment_Gamepad }
-	for _, fragmentToAddCallback in ipairs(fragmentsForCallback) do
-		fragmentToAddCallback:RegisterCallback("StateChange", function(oldState, newState)
-			if newState == SCENE_FRAGMENT_SHOWN then
-				keybindStripUpdateKeybindStripBG(false, fragmentToAddCallback)
-			end
-		end)
+	ZO_KeybindStripControl:SetHeight(sv.keybindStrip_height)
+	ZO_KeybindStripMungeBackground:SetHeight(sv.keybindStrip_height)
+
+	ZO_KeybindStripMungeBackgroundTexture:SetHidden(true)
+
+--ZO_KeybindStripStyle---------------------------
+	local t = {KEYBIND_STRIP_STANDARD_STYLE, KEYBIND_STRIP_CHAMPION_KEYBOARD_STYLE}
+	for _, keybindStrip in ipairs(t) do
+		keybindStrip.nameFont				= PP.f.u67 .. "|18|outline"
+		keybindStrip.keyFont				= PP.f.u57 .. "|16"
+		keybindStrip.resizeToFitPadding		= 20
+		keybindStrip.leftAnchorOffset		= 10
+		keybindStrip.centerAnchorOffset		= 0
+		keybindStrip.rightAnchorOffset		= -10
 	end
 
-	--Fix keybind strip background not hiding at some scenes -> Explicitly hide at SCENE_HIDING state
-	local scenesForCallback = { SIEGE_BAR_SCENE }
-	for _, sceneToAddCallback in ipairs(scenesForCallback) do
-		sceneToAddCallback:RegisterCallback("StateChange", function(oldState, newState)
-			if newState == SCENE_HIDING then
-				keybindStripUpdateKeybindStripBG(true, sceneToAddCallback)
-			end
-		end)
-	end
-
-
+	RedirectTexture("EsoUI/Art/Miscellaneous/interactKeyFrame_edge.dds", "PerfectPixel/tex/RedirectTextures/EsoUI/Art/Miscellaneous/interactKeyFrame_edge.dds")
+	RedirectTexture("EsoUI/Art/Miscellaneous/interactkeyframe_center.dds", "PerfectPixel/tex/RedirectTextures/EsoUI/Art/Miscellaneous/interactkeyframe_center.dds")
 end

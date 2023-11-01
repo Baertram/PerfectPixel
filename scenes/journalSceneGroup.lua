@@ -23,25 +23,22 @@ PP.journalSceneGroup = function()
 	local function achievementsProgressBars()
 		PP.Bars(ACHIEVEMENTS.summaryProgressBarsScrollChild, false, nil, nil, nil, nil, true)
 	end
-
-
 	local scenes = {
 		{ scene = QUEST_JOURNAL_SCENE,							gVar = QUEST_JOURNAL_KEYBOARD,		},
 		{ scene = ANTIQUITY_JOURNAL_KEYBOARD_SCENE,				gVar = ANTIQUITY_JOURNAL_KEYBOARD,	},
 		{ scene = SCENE_MANAGER:GetScene('cadwellsAlmanac'),	gVar = CADWELLS_ALMANAC,			},
 		{ scene = LORE_LIBRARY_SCENE,							gVar = LORE_LIBRARY,				},
-		{ scene = SCENE_MANAGER:GetScene('achievements'),		gVar = ACHIEVEMENTS,				sceneShowCallback=achievementsProgressBars},
+		{ scene = SCENE_MANAGER:GetScene('achievements'),		gVar = ACHIEVEMENTS,				--[[sceneShowCallback = achievementsProgressBars]]},
 		{ scene = LEADERBOARDS_SCENE,							gVar = LEADERBOARDS,				},
 	}
 	local fragments	= { FRAME_PLAYER_FRAGMENT, RIGHT_BG_FRAGMENT, TREE_UNDERLAY_FRAGMENT, TITLE_FRAGMENT, JOURNAL_TITLE_FRAGMENT, }
-	local scenesShown = {}
-
+	-- local scenesShown = {}
 	for i=1, #scenes do
-		local scene			= 		scenes[i].scene
-		local gVar			= 		scenes[i].gVar
-		local filter 		= 		gVar.filter or gVar.categoryFilter
-		local progressBar   = 		gVar.categoryProgress
-		local sceneShowCallback = 	scenes[i].sceneShowCallback
+		local scene			= scenes[i].scene
+		local gVar			= scenes[i].gVar
+		-- local filter 		= 		gVar.filter or gVar.categoryFilter
+		-- local progressBar   = 		gVar.categoryProgress
+		-- local sceneShowCallback = 	scenes[i].sceneShowCallback
 
 		for i=1, #fragments do
 			scene:RemoveFragment(fragments[i])
@@ -50,31 +47,30 @@ PP.journalSceneGroup = function()
 		local tlc	= gVar.control
 		-- local list	= gVar.list
 
-		PP:CreateBackground(tlc, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10, true)
+		PP:CreateBackground(tlc, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10)
 		PP.Anchor(tlc, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 120, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -70)
 
 		-- PP.Anchor(list, --[[#1]] nil, nil, nil, 0, 3, --[[#2]] true, nil, nil, nil, 0, 0)
 		-- PP.ScrollBar(list,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
 		-- ZO_ScrollList_Commit(list)
+ 		-- if progressBar then
+			-- PP.Bar(progressBar, --[[h]] 14, --[[f]] 15, 255, nil)
+		-- end
+		-- if filter then
+			-- Change the drawTier of the filter dropdown boxes so they get overlayed by the background backdrop
+			-- filter:SetDrawTier(DT_MEDIUM)
+			-- filter:SetDrawLayer(DL_TEXT)
+			-- filter:SetDrawLevel(1)
+		-- end
 
-		if progressBar then
-			PP.Bar(progressBar, --[[h]] 14, --[[f]] 15, 255, nil)
-		end
-		if filter then
-			--Change the drawTier of the filter dropdown boxes so they get overlayed by the background backdrop
-			filter:SetDrawTier(DT_MEDIUM)
-			filter:SetDrawLayer(DL_TEXT)
-			filter:SetDrawLevel(1)
-		end
-
-		if sceneShowCallback ~= nil then
-			scene:RegisterCallback("StateChange", function(oldState, newState)
-				if newState == SCENE_SHOWN and not scenesShown[scene] then
-					sceneShowCallback()
-					scenesShown[scene] = true
-				end
-			end)
-		end
+		-- if sceneShowCallback ~= nil then
+			-- scene:RegisterCallback("StateChange", function(oldState, newState)
+				-- if newState == SCENE_SHOWN and not scenesShown[scene] then
+					-- sceneShowCallback()
+					-- scenesShown[scene] = true
+				-- end
+			-- end)
+		-- end
 	end
 
 --questJournal--ZO_QuestJournal--------------------------------------------------------------------
@@ -115,7 +111,7 @@ PP.journalSceneGroup = function()
 			text:SetMouseEnabled(false)
 
 			if control:GetNamedChild("Backdrop") then return end
-			PP.ListBackdrop(control, -12, 0, 0, 0, --[[tex]] PP.t.gR, 16, 0, --[[bd]] 197*.3, 194*.3, 158*.3, 1, --[[edge]] 0, 0, 0, 0)
+			PP.ListBackdrop(control, -12, 0, 0, 0, --[[tex]] "PerfectPixel/tex/GradientRight.dds", 16, 0, --[[bd]] 197*.3, 194*.3, 158*.3, 1, --[[edge]] 0, 0, 0, 0)
 		end
 
 		--TreeEntrySetup(node, control, data, open)
@@ -161,6 +157,8 @@ PP.journalSceneGroup = function()
 		QUEST_JOURNAL_KEYBOARD.listDirty = true
 	end
 
+--Antiquities--ZO_Cadwell--------------------------------------------------------------------
+--cadwellsAlmanac--ZO_Cadwell--------------------------------------------------------------------
 --Antiquities--------------------------------------------------------------------
 	PP.ScrollBar(ANTIQUITY_JOURNAL_KEYBOARD.contentList, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false) --ZO_AntiquityJournal_Keyboard_TopLevelContentsContentList
 
@@ -176,15 +174,15 @@ PP.journalSceneGroup = function()
 	PP.ScrollBar(GetControl(ACHIEVEMENTS.summaryInset, "ProgressBars"), --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
 
 	--achievement "most recent" icons
-	local recentAchievementIconTemplate = "ZO_IconAchievement"
-	for i=1, 6, 1 do
-		local recentAchievementIcon = GetControl(recentAchievementIconTemplate .. tostring(i))
-		if recentAchievementIcon ~= nil then
-			recentAchievementIcon:SetDrawTier(DT_MEDIUM)
-			recentAchievementIcon:SetDrawLayer(DL_CONTROLS)
-			recentAchievementIcon:SetDrawLevel(1)
-		end
-	end
+	-- local recentAchievementIconTemplate = "ZO_IconAchievement"
+	-- for i=1, 6, 1 do
+		-- local recentAchievementIcon = GetControl(recentAchievementIconTemplate .. tostring(i))
+		-- if recentAchievementIcon ~= nil then
+			-- recentAchievementIcon:SetDrawTier(DT_MEDIUM)
+			-- recentAchievementIcon:SetDrawLayer(DL_CONTROLS)
+			-- recentAchievementIcon:SetDrawLevel(1)
+		-- end
+	-- end
 
 
 --leaderboards--ZO_Leaderboards--------------------------------------------------------------------

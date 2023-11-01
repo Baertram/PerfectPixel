@@ -1,6 +1,6 @@
 PP.mailSceneGroup = function()
 
-	local SV = PP.SV.list_skin
+	local SV = PP.savedVars.ListStyle
 
 --MAIL_INBOX--MAIL_INBOX_SCENE----------------------------------------------------------------------
 	local navigationTree		= MAIL_INBOX.navigationTree --ZO_Tree
@@ -18,8 +18,6 @@ PP.mailSceneGroup = function()
 	PP.Anchor(navigationContainer,	--[[#1]] TOPLEFT,	ZO_MailInbox,	TOPLEFT,	0, 90,	--[[#2]] true, BOTTOMLEFT,		ZO_MailInbox,	BOTTOMLEFT,	0, 0)
 	PP.ScrollBar(navigationContainer,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
 	ZO_Scroll_SetMaxFadeDistance(navigationContainer, SV.list_fade_distance)
-
-	ZO_MailInboxUnread:SetDrawTier(DT_MEDIUM)
 
 ------------------------------------------------------------------------------------------
     local function HighlightControl(control, animateInstantly)
@@ -61,7 +59,7 @@ PP.mailSceneGroup = function()
 
 	-- local function RefreshControlMode_1(control, typeId)
 		-- control:SetHeight(SV.list_control_height)
-		-- control:GetNamedChild("BG"):SetTexture(PP.t.clear)
+		-- control:GetNamedChild("BG"):SetTexture("PerfectPixel/tex/tex_clear.dds")
 
 		-- if typeId == 1 then
 			-- local backdrop = PP.CreateBackdrop(control)
@@ -75,7 +73,7 @@ PP.mailSceneGroup = function()
 			-- local icon = control:GetNamedChild("Icon")
 			-- PP.Anchor(icon, --[[#1]] LEFT, control, LEFT, 5, 0)
 			-- icon:SetDimensions(26, 26)
-			-- icon:SetDrawLayer(DL_CONTROLS)
+			-- icon:SetDrawLayer(1)
 
 			-- local subject = control:GetNamedChild("Subject")
 			-- PP.Font(subject, --[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
@@ -133,7 +131,7 @@ PP.mailSceneGroup = function()
 	MAIL_SEND_SCENE:RemoveFragment(TITLE_FRAGMENT)
 	MAIL_SEND_SCENE:RemoveFragment(MAIL_TITLE_FRAGMENT)
 
-	PP:CreateBackground(ZO_MailSend, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 6, true, 0)
+	PP:CreateBackground(ZO_MailSend, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 6)
 	PP:HideBackgroundForScene(MAIL_SEND_SCENE, ZO_PlayerInventory.PP_BG)
 
 	PP.Anchor(ZO_MailSend, --[[#1]] TOPRIGHT,	GuiRoot, TOPRIGHT, 0, 120, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -90)

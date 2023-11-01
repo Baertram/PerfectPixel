@@ -1,28 +1,26 @@
-local quickSlotData = PP.quickslotData
-local quickSlotControl = quickSlotData.quickSlotControl
+local PP		= PP
+local namespace	= 'InventoryScene'
 
 PP.inventoryScene = function()
 	--===============================================================================================--
-	local SV_VER			= 0.1
-	local DEF = {
-		NoSpin				= true,
-	}
-	local SV = ZO_SavedVars:NewAccountWide(PP.ADDON_NAME, SV_VER, "InventoryScene", DEF, GetWorldName())
+	local sv, def = PP:AddNewSavedVars(0.2, namespace, {
+		NoSpin = true,
+	})
 	---------------------------------------------
 	table.insert(PP.optionsData,
-			{	type				= "submenu",
-				 name				= GetString(PP_LAM_SCENE_INV),
-				 controls = {
-					 {	type				= "checkbox",
-						  name				= GetString(PP_LAM_SCENE_INV_NO_SPIN),
-						  tooltip				= GetString(PP_LAM_SCENE_INV_NO_SPIN_TT),
-						  getFunc				= function() return SV.NoSpin end,
-						  setFunc				= function(value) SV.NoSpin = value end,
-						  default				= DEF.NoSpin,
-						  requiresReload		= true,
-					 },
-				 },
-			})
+	{	type		= "submenu",
+		name		= GetString(PP_LAM_SCENE_INV),
+		controls	= {
+			{	type			= "checkbox",
+				name			= GetString(PP_LAM_SCENE_INV_NO_SPIN),
+				-- tooltip			= GetString(PP_LAM_SCENE_INV_NO_SPIN_TT),
+				getFunc			= function() return sv.NoSpin end,
+				setFunc			= function(value) sv.NoSpin = value end,
+				default			= def.NoSpin,
+				requiresReload	= true,
+			 },
+		 },
+	})
 	--===============================================================================================--
 	local TopOffsetY			= 110
 	local BottomOffsetY			= -90
@@ -106,14 +104,14 @@ PP.inventoryScene = function()
 		-- filterDivider:SetAnchor(TOP, inventoryControl, TOP, 0, 0)
 	end
 
-	local invList = {ZO_PlayerInventory, ZO_CraftBag, quickSlotControl, ZO_PlayerBank, ZO_HouseBank, ZO_GuildBank, ZO_StoreWindow, ZO_BuyBack, ZO_RepairWindow} -- ZO_InventoryWallet
+	local invList = {ZO_PlayerInventory, ZO_CraftBag, QUICKSLOT_KEYBOARD.control, ZO_PlayerBank, ZO_HouseBank, ZO_GuildBank, ZO_StoreWindow, ZO_BuyBack, ZO_RepairWindow} -- ZO_InventoryWallet
 	for _, v in ipairs(invList) do
 		ZO_InventoryManager:ApplySharedBagLayout(v, BACKPACK_DEFAULT_LAYOUT_FRAGMENT.layoutData)
 	end
 	function ZO_InventoryManager:ApplySharedBagLayout(...) end
 
 -- CHARACTER_WINDOW_STATS_FRAGMENT
-	PP:CreateBackground(ZO_Character,		--[[#1]] nil, nil, nil, 0, 16, --[[#2]] nil, ZO_CharacterWindowStats, nil, -2, 32, true)
+	PP:CreateBackground(ZO_Character,		--[[#1]] nil, nil, nil, 0, 16, --[[#2]] nil, ZO_CharacterWindowStats, nil, -2, 32)
 	ZO_CharacterWindowStats:SetWidth(30)
 	ZO_PreHookHandler(ZO_CharacterWindowStats, 'OnEffectivelyShown', function(self, hidden) self:SetWidth(303) end)
 	ZO_PreHookHandler(ZO_CharacterWindowStats, 'OnEffectivelyHidden', function(self, hidden) self:SetWidth(30) end)
@@ -122,32 +120,50 @@ PP.inventoryScene = function()
 	local inventoryScene = SCENE_MANAGER:GetScene('inventory')
 	inventoryScene:RemoveFragment(RIGHT_PANEL_BG_FRAGMENT)
 	inventoryScene:RemoveFragment(WIDE_LEFT_PANEL_BG_FRAGMENT)
-
-	if SV.NoSpin then
-		inventoryScene:RemoveFragment(FRAME_PLAYER_FRAGMENT)
-
+---------------------------------------------------------------------------------------------------------------------
+	if sv.NoSpin then
 		TREASURE_MAP_INVENTORY_SCENE:RemoveFragment(FRAME_TARGET_CENTERED_FRAGMENT)
 		TREASURE_MAP_INVENTORY_SCENE:RemoveFragment(FRAME_PLAYER_FRAGMENT)
 
-		-- Fix dyeStampConfirmationKeyboard------
-		local orgIsCharacterPreviewingAvailable = IsCharacterPreviewingAvailable
-		function IsCharacterPreviewingAvailable()
-			if SCENE_MANAGER:IsShowing("inventory") then
-				return true
-			else
-				return orgIsCharacterPreviewingAvailable()
-			end
-		end
-	end
+		inventoryScene:RemoveFragment(FRAME_PLAYER_FRAGMENT)
 
+		local itemPreview						= SYSTEMS:GetObject("itemPreview")
+		local ex_PreviewInventoryItem			= itemPreview.PreviewInventoryItem
+		local ex_IsCharacterPreviewingAvailable = IsCharacterPreviewingAvailable
+
+		local function callback_EndCurrentPreview()
+			itemPreview:UnregisterCallback("EndCurrentPreview", callback_EndCurrentPreview)
+			inventoryScene:RemoveFragment(FRAME_PLAYER_FRAGMENT)
+		end
+
+		local function new_PreviewInventoryItem(...)
+			inventoryScene:AddFragment(FRAME_PLAYER_FRAGMENT)
+			itemPreview:RegisterCallback("EndCurrentPreview", callback_EndCurrentPreview)
+			return ex_PreviewInventoryItem(...)
+		end
+
+		local function new_IsCharacterPreviewingAvailable(...)
+			return true
+		end
+
+		inventoryScene:RegisterCallback("StateChange", function(oldState, newState)
+			if newState == SCENE_SHOWING then
+				IsCharacterPreviewingAvailable		= new_IsCharacterPreviewingAvailable
+				itemPreview.PreviewInventoryItem	= new_PreviewInventoryItem
+			elseif newState == SCENE_HIDDEN then
+				IsCharacterPreviewingAvailable		= ex_IsCharacterPreviewingAvailable
+				itemPreview.PreviewInventoryItem	= ex_PreviewInventoryItem
+			end
+		end)
+	end
+---------------------------------------------------------------------------------------------------------------------
 	PP:CreateBackground(ZO_PlayerInventory,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 	PP:CreateBackground(ZO_QuestItems,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 	PP:CreateBackground(ZO_CraftBag,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 	PP:CreateBackground(ZO_InventoryWallet,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+	PP:CreateBackground(QUICKSLOT_KEYBOARD.control,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 
-	local quickSlotData = PP.quickslotData
-	PP:CreateBackground(quickSlotData.quickSlotControl,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
-	local inventoryLists = {ZO_PlayerInventoryList, ZO_QuestItemsList, ZO_CraftBagList, ZO_InventoryWalletList, quickSlotData.quickslotListControl}
+	local inventoryLists = {ZO_PlayerInventoryList, ZO_QuestItemsList, ZO_CraftBagList, ZO_InventoryWalletList, QUICKSLOT_KEYBOARD.list}
 	for _, v in ipairs(inventoryLists) do
 		PP.ScrollBar(v,	--[[sb_c]] 180, 180, 180, .7, --[[bg_c]] 20, 20, 20, .7, true)
 	end
@@ -166,8 +182,8 @@ PP.inventoryScene = function()
 	PP.Anchor(ZO_QuestItemsFilterDivider,		--[[#1]] TOP, ZO_QuestItems, TOP, 0, 30)
 	-- ZO_QuestItemsFilterDivider:SetHidden(true)
 
-	PP.Anchor(quickSlotControl,	--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, BottomOffsetY)
-	PP.Anchor(quickSlotData.quickSlotFilterDividerControl,	--[[#1]] TOP, quickSlotControl, TOP, 0, 60)
+	PP.Anchor(QUICKSLOT_KEYBOARD.control,		--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, BottomOffsetY)
+	PP.Anchor(ZO_QuickSlot_Keyboard_TopLevelFilterDivider,		--[[#1]] TOP, QUICKSLOT_KEYBOARD.control, TOP, 0, 60)
 
 --SCENE_MANAGER:GetScene() 'bank', 'houseBank', 'guildBank',
 	local banksTable = {
@@ -203,34 +219,13 @@ PP.inventoryScene = function()
 	PP:CreateBackground(ZO_BuyBack,			--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 	PP:CreateBackground(ZO_RepairWindow,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 
-	do
-		local function RefreshControlMode_1_Dynamic(control, data, typeId)
-			local sp = control:GetNamedChild("SellPrice")
-			sp:SetFont(PP.f.u67 .. "|15|outline")
-			sp:SetHidden(false)
-		end
+	for _, v in ipairs(storeTable) do
+		local list			= v:GetNamedChild("List")
+		local filterDivider	= v:GetNamedChild("FilterDivider")
 
-		for _, v in ipairs(storeTable) do
-			local list = v:GetNamedChild("List")
-			PP.ScrollBar(list,	--[[sb_c]] 180, 180, 180, .7, --[[bg_c]] 20, 20, 20, .7, true)
-			local filterDivider = v:GetNamedChild("FilterDivider")
-			PP.Anchor(v,							--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, BottomOffsetY)
-			PP.Anchor(filterDivider,				--[[#1]] TOP, ZO_StoreWindow, TOP, 0, 60)
-
-			list.refreshControlMode_1_dynamic	= RefreshControlMode_1_Dynamic
-
-			for typeId in pairs(list.dataTypes) do
-				if typeId == 1 or typeId == 2 or typeId == 3 then
-					local dataType = ZO_ScrollList_GetDataTypeTable(list, typeId)
-
-					PP.Hook_SetupCallback(dataType, function(control, data)
-						if list.mode ~= 3 then
-							list.refreshControlMode_1_dynamic(control, data, typeId)
-						end
-					end)
-				end
-			end
-		end
+		PP.Anchor(v,				--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, BottomOffsetY)
+		PP.Anchor(filterDivider,	--[[#1]] TOP, ZO_StoreWindow, TOP, 0, 60)
+		PP.ScrollBar(list,			--[[sb_c]] 180, 180, 180, .7, --[[bg_c]] 20, 20, 20, .7, true)
 	end
 
 	PP.Anchor(ZO_StoreWindowMenu,	--[[#1]] BOTTOM, ZO_StoreWindow, TOP, -40, 0)
@@ -281,6 +276,34 @@ PP.inventoryScene = function()
 		end
 	end)
 
+	--FENCE_KEYBOARD -> SI_FENCE_HAGGLING_SKILL_BONUS_LABEL
+	--Set the fence haggling bonus text to a short <number>% only
+	ZO_PreHook(FENCE_KEYBOARD, "UpdateHagglingLabel", function(selfVar, skillLevel)
+		if skillLevel > 0 then
+			ZO_PlayerInventoryInfoBarAltMoney:SetText(zo_strformat("|cEECA2A<<1>>|r%", skillLevel))
+			ZO_PlayerInventoryInfoBarAltMoney:SetHidden(false)
+		else
+			ZO_PlayerInventoryInfoBarAltMoney:SetHidden(true)
+		end
+		return true --prevent original function call
+	end)
+	--FENCE_KEYBOARD -> SI_FENCE_SELL_LIMIT
+	--Change the fenced/laundered items text to a short <coin texture/launder texture> <number>/<numberTotal>
+	local stillPossibleText = "|cffffff<<1>> / <<2>>|r"
+	local alreadyMaxText = "|cff0000<<1>> / <<2>>|r"
+	local launderOrSellTextures = {
+		[true] = 	zo_iconFormat("EsoUI/Art/Vendor/vendor_tabIcon_fence_up.dds", 32, 32),  --launder
+		[false] = 	zo_iconFormat("EsoUI/Art/Vendor/vendor_tabIcon_sell_up.dds", 36, 36), --sell
+	}
+	ZO_PreHook(FENCE_KEYBOARD, "UpdateTransactionLabel", function(selfVar, totalTransactions, usedTransactions, transactionsRemainingString, transactionsFullString)
+		local textureStr = launderOrSellTextures[selfVar:IsLaundering()] or ""
+		if textureStr ~= "" then textureStr = " " .. textureStr end
+		local transactionString = (usedTransactions >= totalTransactions) and alreadyMaxText or stillPossibleText
+		ZO_PlayerInventoryInfoBarAltFreeSlots:SetText(textureStr .. zo_strformat(transactionString, usedTransactions, totalTransactions))
+		return true --prevent original function call
+	end)
+
+
 --SCENE_MANAGER:GetScene("trade") TRADE_WINDOW SCENE_MANAGER:Show("trade")
 	local tradeScene = SCENE_MANAGER:GetScene("trade")
 	tradeScene:RemoveFragment(TITLE_FRAGMENT)
@@ -288,21 +311,19 @@ PP.inventoryScene = function()
 	tradeScene:RemoveFragment(RIGHT_BG_FRAGMENT)
 	tradeScene:AddFragment(FRAME_TARGET_BLUR_STANDARD_RIGHT_PANEL_FRAGMENT)
 
-	--PP:CreateBackground(ZO_MailSend, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 6, true, 0)
-	PP:CreateBackground(ZO_Trade,		--[[#1]] nil, nil, nil, -10, 0, --[[#2]] nil, nil, nil, 0, 6, true, 0)
+	PP:CreateBackground(ZO_Trade,		--[[#1]] nil, nil, nil, -10, 0, --[[#2]] nil, nil, nil, 0, 6)
 	PP:HideBackgroundForScene(tradeScene, ZO_PlayerInventory.PP_BG)
 
 	PP.Anchor(ZO_Trade, --[[#1]] TOPRIGHT,	GuiRoot, TOPRIGHT, 0, 100, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -80)
-
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 	ZO_PreHook("ZO_InventorySlot_SetHighlightHidden", function(listPart, hidden, instant)
 		if listPart and listPart.backdrop then
 			if hidden then
-				listPart.backdrop:SetCenterColor(unpack(PP.SV.list_skin.list_skin_backdrop_col))
+				listPart.backdrop:SetCenterColor(unpack(PP.savedVars.ListStyle.list_skin_backdrop_col))
 			else
-				listPart.backdrop:SetCenterColor(unpack(PP.SV.list_skin.list_skin_backdrop_hl_col))
+				listPart.backdrop:SetCenterColor(unpack(PP.savedVars.ListStyle.list_skin_backdrop_hl_col))
 			end
 			return true
 		end

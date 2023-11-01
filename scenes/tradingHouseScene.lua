@@ -1,133 +1,31 @@
+local PP = PP
+
 PP.tradingHouseScene = function()
-	local PP = PP
-	local TopOffsetY			= 110
-	local BottomOffsetY			= -90
+	local TopOffsetY	= 110
+	local BottomOffsetY	= -90
 
 	TRADING_HOUSE_SCENE:RemoveFragment(RIGHT_BG_FRAGMENT)
 	TRADING_HOUSE_SCENE:AddFragment(FRAME_TARGET_BLUR_STANDARD_RIGHT_PANEL_FRAGMENT)
 	PP:ForceRemoveFragment(TRADING_HOUSE_SCENE, TREE_UNDERLAY_FRAGMENT)
 
-	PP:CreateBackground(ZO_TradingHouse,		--[[#1]] nil, nil, nil, -20, 0, --[[#2]] nil, nil, nil, 0, 6, true, 0)
+	PP:CreateBackground(ZO_TradingHouse,		--[[#1]] nil, nil, nil, -20, 0, --[[#2]] nil, nil, nil, 0, 6)
 	PP:HideBackgroundForScene(TRADING_HOUSE_SCENE, ZO_PlayerInventory.PP_BG)
 	PP:HideBackgroundForScene(TRADING_HOUSE_SCENE, ZO_CraftBag.PP_BG)
 
 --==ZO_TradingHouse==============================================================================--
 
-	local arkadiusTradeToolsGuildSellEnabled = false
-
 	local rowHeight, controlHeight = 44, 42
 	local function UpdateSetupCallback()
 		local list = TRADING_HOUSE.searchResultsList
 		list.uniformControlHeight = rowHeight
-		ZO_Scroll_SetMaxFadeDistance(list, PP.SV.list_skin.list_fade_distance)
-
+		ZO_Scroll_SetMaxFadeDistance(list, PP.savedVars.ListStyle.list_fade_distance)
+		
 		-- for i=1, 3 do
 			-- if ZO_ScrollList_GetDataTypeTable(list, i) then
 		local dataType = ZO_ScrollList_GetDataTypeTable(list, 1)
 		dataType.height = rowHeight
 
-		--Is Arkadius Trade Tools Sell -> Guild Sell enhancements enabled?
-		arkadiusTradeToolsGuildSellEnabled = (ArkadiusTradeTools ~= nil and ArkadiusTradeTools.Modules.Sales.TradingHouse:IsEnabled(ArkadiusTradeTools.Modules.Sales)) or false
-		local function fixArkadiusTradeTools(rowControl)
-			--compatibility Arkadius Trade Tools "Sales"
-			if arkadiusTradeToolsGuildSellEnabled then
-				local name			= rowControl:GetNamedChild("Name")
-				local trait			= rowControl:GetNamedChild("TraitInfo")
-				local timeRemaining	= rowControl:GetNamedChild("TimeRemaining")
-				local pricePerUnit	= rowControl:GetNamedChild("SellPricePerUnit")
-				local sellPrice		= rowControl:GetNamedChild("SellPrice")
-
-				--New controls were added by ATT:
-				--ProfitMargin (anchored to the TimeRemaining)
-				local profitMargin			= rowControl:GetNamedChild("ProfitMargin")
-				--AveragePricePerUnit (anchored to SellPricePerUnit)
-				local averagePricePerUnit	= rowControl:GetNamedChild("AveragePricePerUnit")
-				--AveragePrice (anchored to SellPrice)
-				local averagePrice			= rowControl:GetNamedChild("AveragePrice")
-
-				if profitMargin then
-					PP.Font(profitMargin, 			--[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] .8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-				end
-				if averagePricePerUnit then
-					PP.Font(averagePricePerUnit,	--[[Font]] PP.f.u67, 14, "shadow", --[[Alpha]] .8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-				end
-				if averagePrice then
-					PP.Font(averagePrice, 			--[[Font]] PP.f.u67, 14, "shadow", --[[Alpha]] .8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-				end
-
-				if not AwesomeGuildStore then
-					PP.Anchor(name, --[[#1]] TOPLEFT, nil, TOPLEFT, 60, 2)
-					name:SetWidth(ZO_TRADING_HOUSE_SEARCH_RESULT_ITEM_NAME_WIDTH) --ZO_TRADING_HOUSE_SEARCH_RESULT_ITEM_NAME_WIDTH = 240
-					name:SetLineSpacing(0)
-					name:SetVerticalAlignment(0)
-					name:SetMaxLineCount(1)
-					name:SetWrapMode(1)
-
-					--Change fonts, anchors and offsets
-					PP.Anchor(trait, 			--[[#1]] LEFT, name, RIGHT, 6, 8)
-					PP.Anchor(timeRemaining, 	--[[#1]] LEFT, trait, RIGHT, 2, 0)
-
-					if profitMargin then
-						PP.Anchor(profitMargin, --[[#1]] LEFT, timeRemaining, RIGHT, 0, 0)
-						profitMargin:SetDrawTier(DT_LOW)
-						profitMargin:SetDrawLayer(DL_CONTROLS)
-						profitMargin:SetDrawLevel(1)
-						profitMargin:SetVerticalAlignment(TEXT_ALIGN_TOP)
-					end
-					sellPrice:SetHeight(21)
-					PP.Anchor(pricePerUnit, --[[#1]] RIGHT, sellPrice, LEFT, -10, 0)
-
-					if averagePricePerUnit then
-						PP.Anchor(averagePricePerUnit, --[[#1]] TOPRIGHT, pricePerUnit, BOTTOMRIGHT, -2, -2)
-						averagePricePerUnit:SetDrawTier(DT_LOW)
-						averagePricePerUnit:SetDrawLayer(DL_CONTROLS)
-						averagePricePerUnit:SetDrawLevel(1)
-						averagePricePerUnit:SetVerticalAlignment(TEXT_ALIGN_BOTTOM)
-
-						averagePricePerUnit:SetText("@" .. averagePricePerUnit:GetText():gsub("|t.-:.-:", "|t12:12:"))
-					end
-					if averagePrice then
-						PP.Anchor(averagePrice, --[[#1]] TOPRIGHT, sellPrice, BOTTOMRIGHT, -2, -2)
-						averagePrice:SetDrawTier(DT_LOW)
-						averagePrice:SetDrawLayer(DL_CONTROLS)
-						averagePrice:SetDrawLevel(1)
-						averagePrice:SetVerticalAlignment(TEXT_ALIGN_BOTTOM)
-
-						averagePrice:SetText(averagePrice:GetText():gsub("|t.-:.-:", "|t12:12:"))
-					end
-				end
-			end
-		end
-
-
-		local function onUpdateFn(rowControl,  result)
-			local pricePerUnit	= rowControl:GetNamedChild("SellPricePerUnit")
-			local sellPrice		= rowControl:GetNamedChild("SellPrice")
-			local sellerName	= rowControl:GetNamedChild("SellerName")
-
-			if result.stackCount == 1 then
-				-- PP.Anchor(sellPrice, --[[#1]] RIGHT, rowControl, RIGHT, -5, 0)
-				sellPrice:SetHeight(30)
-				pricePerUnit:SetHidden(true)
-			else
-				-- PP.Anchor(sellPrice, --[[#1]] TOPRIGHT, rowControl, TOPRIGHT, -5, 2)
-				sellPrice:SetHeight(21)
-				pricePerUnit:SetAlpha(.8)
-				pricePerUnit:SetHidden(false)
-			end
-
-			sellerName:SetText(result.sellerName)
-
-			if not AwesomeGuildStore then
-				pricePerUnit:SetText("@" .. pricePerUnit:GetText():gsub("|t.-:.-:", "|t13:13:"))
-			else
-				pricePerUnit:SetText(pricePerUnit:GetText():gsub("|t.-:.-:", "|t13:13:"))
-			end
-
-			fixArkadiusTradeTools(rowControl)
-		end
-		-- else
-		local function onCreateFn(rowControl,  result)
+		local function OnCreateFn(rowControl,  result)
 			rowControl:SetHeight(controlHeight)
 
 			local button			= rowControl:GetNamedChild("Button")
@@ -137,8 +35,8 @@ PP.tradingHouseScene = function()
 			local trait				= rowControl:GetNamedChild("TraitInfo")
 			local bg				= rowControl:GetNamedChild("Bg")
 			local hl				= rowControl:GetNamedChild("Highlight")
-			local pricePerUnit		= rowControl:GetNamedChild("SellPricePerUnit")
 			local sellPrice			= rowControl:GetNamedChild("SellPrice")
+			local pricePerUnit		= rowControl:GetNamedChild("SellPricePerUnit")
 			local sellerName		= rowControl:GetNamedChild("SellerName")
 
 			--"TraitInfo"-------------
@@ -153,7 +51,7 @@ PP.tradingHouseScene = function()
 			--"Name"-------------
 			PP.Font(name, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
 			PP.Anchor(name, --[[#1]] TOPLEFT, nil, TOPLEFT, 60, 2)
-			name:SetWidth((not arkadiusTradeToolsGuildSellEnabled and 250) or ZO_TRADING_HOUSE_SEARCH_RESULT_ITEM_NAME_WIDTH) --ZO_TRADING_HOUSE_SEARCH_RESULT_ITEM_NAME_WIDTH = 240
+			name:SetWidth(250)
 			name:SetLineSpacing(0)
 			name:SetVerticalAlignment(0)
 			name:SetMaxLineCount(1)
@@ -162,37 +60,20 @@ PP.tradingHouseScene = function()
 			PP.Anchor(sellPrice, --[[#1]] TOPRIGHT, rowControl, TOPRIGHT, -5, 2)
 			PP.Font(sellPrice, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
 			sellPrice:SetVerticalAlignment(TEXT_ALIGN_BOTTOM)
-			if result.stackCount == 1 then
-				if not arkadiusTradeToolsGuildSellEnabled then
-					sellPrice:SetHeight(30)
-				else
-					sellPrice:SetHeight(21)
-				end
-				pricePerUnit:SetHidden(true)
-			else
-				sellPrice:SetHeight(21)
-				pricePerUnit:SetHidden(false)
-			end
 			--SellPricePerUnit--------------------
 			PP.Font(pricePerUnit, --[[Font]] PP.f.u67, 14, "shadow", --[[Alpha]] .8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
 			PP.Anchor(pricePerUnit, --[[#1]] TOPRIGHT, sellPrice, BOTTOMRIGHT, -2, -2)
-			if not AwesomeGuildStore then
-				pricePerUnit:SetText("@" .. pricePerUnit:GetText():gsub("|t.-:.-:", "|t13:13:"))
-			else
-				pricePerUnit:SetText(pricePerUnit:GetText():gsub("|t.-:.-:", "|t13:13:"))
-			end
 			--TimeRemaining--------------------
 			PP.Font(timeRemaining, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] .9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-			PP.Anchor(timeRemaining, --[[#1]] LEFT, trait, RIGHT, 2, 0)
+			PP.Anchor(timeRemaining, --[[#1]] LEFT, trait, RIGHT, 10, 0)
 			--"Bg"-------------
-			-- bg:SetTexture(PP.t.clear)
+			-- bg:SetTexture("PerfectPixel/tex/tex_clear.dds")
 			bg:SetHidden(true)
 			--"Highlight"-------------
 			hl:SetHidden(true)
 			--New Controls--*
-			--"SellerName"--------------------
-			sellerName = sellerName or CreateControl("$(parent)SellerName", rowControl, CT_LABEL)
-			sellerName:SetText(result.sellerName)
+			--"Seller"--------------------
+			sellerName = sellerName or CreateControl("$(parent)Seller", rowControl, CT_LABEL)
 			sellerName:SetAnchor(TOPLEFT, name, BOTTOMLEFT, 0, -4)
 			sellerName:SetWidth(130)
 			sellerName:SetMaxLineCount(1)
@@ -200,26 +81,41 @@ PP.tradingHouseScene = function()
 			PP.Font(sellerName, --[[Font]] PP.f.u57, 15, "outline", --[[Alpha]] .4, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
 			--"Backdrop"-------------
 			local backdrop = PP.CreateBackdrop(rowControl)
-			backdrop:SetCenterColor(unpack(PP.SV.list_skin.list_skin_backdrop_col))
-			backdrop:SetCenterTexture(PP.SV.list_skin.list_skin_backdrop, PP.SV.list_skin.list_skin_backdrop_tile_size, PP.SV.list_skin.list_skin_backdrop_tile and 1 or 0)
-			backdrop:SetEdgeColor(unpack(PP.SV.list_skin.list_skin_edge_col))
-			backdrop:SetEdgeTexture(PP.SV.list_skin.list_skin_edge, PP.SV.list_skin.list_skin_edge_file_width, PP.SV.list_skin.list_skin_edge_file_height, PP.SV.list_skin.list_skin_edge_thickness, 0)
-			backdrop:SetInsets(PP.SV.list_skin.list_skin_backdrop_insets, PP.SV.list_skin.list_skin_backdrop_insets, -PP.SV.list_skin.list_skin_backdrop_insets, -PP.SV.list_skin.list_skin_backdrop_insets)
-			backdrop:SetIntegralWrapping(PP.SV.list_skin.list_skin_edge_integral_wrapping)
+			backdrop:SetCenterColor(unpack(PP.savedVars.ListStyle.list_skin_backdrop_col))
+			backdrop:SetCenterTexture(PP.savedVars.ListStyle.list_skin_backdrop, PP.savedVars.ListStyle.list_skin_backdrop_tile_size, PP.savedVars.ListStyle.list_skin_backdrop_tile and 1 or 0)
+			backdrop:SetEdgeColor(unpack(PP.savedVars.ListStyle.list_skin_edge_col))
+			backdrop:SetEdgeTexture(PP.savedVars.ListStyle.list_skin_edge, PP.savedVars.ListStyle.list_skin_edge_file_width, PP.savedVars.ListStyle.list_skin_edge_file_height, PP.savedVars.ListStyle.list_skin_edge_thickness, 0)
+			backdrop:SetInsets(PP.savedVars.ListStyle.list_skin_backdrop_insets, PP.savedVars.ListStyle.list_skin_backdrop_insets, -PP.savedVars.ListStyle.list_skin_backdrop_insets, -PP.savedVars.ListStyle.list_skin_backdrop_insets)
+			backdrop:SetIntegralWrapping(PP.savedVars.ListStyle.list_skin_edge_integral_wrapping)
 
-			fixArkadiusTradeTools(rowControl)
-
-			--compability others addons
-			PP:SetLockedFn(sellPrice, 'SetFont')
-			PP:SetLockedFn(sellPrice, 'SetAnchor')
-			PP:SetLockedFn(sellPrice, 'ClearAnchors')
-			PP:SetLockedFn(pricePerUnit, 'SetFont')
-			PP:SetLockedFn(pricePerUnit, 'SetAnchor')
-			PP:SetLockedFn(pricePerUnit, 'ClearAnchors')
+			PP:SetLockFn(sellPrice,		'SetFont')
+			PP:SetLockFn(pricePerUnit,	'SetFont')
 		end
 
-		PP:PostHooksSetupCallback(list, 1, 1, onCreateFn, onUpdateFn)
-		PP:PostHooksSetupCallback(list, 2, 1, onCreateFn, onUpdateFn)
+		local function OnUpdateFn(rowControl,  result)
+			local pricePerUnit	= rowControl:GetNamedChild("SellPricePerUnit")
+			local sellPrice		= rowControl:GetNamedChild("SellPrice")
+			local sellerName	= rowControl:GetNamedChild("Seller")
+
+			if result.stackCount == 1 then
+				-- PP.Anchor(sellPrice, --[[#1]] RIGHT, rowControl, RIGHT, -5, 0)
+				sellPrice:SetHeight(30)
+				pricePerUnit:SetHidden(true)
+			else
+				-- PP.Anchor(sellPrice, --[[#1]] TOPRIGHT, rowControl, TOPRIGHT, -5, 2)
+				sellPrice:SetHeight(21)
+				pricePerUnit:SetAlpha(.8)
+				pricePerUnit:SetHidden(false)
+				pricePerUnit:SetText("@" .. pricePerUnit:GetText())
+			end
+
+			sellerName:SetText(result.sellerName)
+		end
+
+		PP.PostHooksSetupCallback(list, 1, 1, OnCreateFn, OnUpdateFn)
+		PP.PostHooksSetupCallback(list, 2, 1, OnCreateFn, OnUpdateFn)
+		PP.PostHooksSetupCallback(list, 1, 3, OnCreateFn, OnUpdateFn)
+		PP.PostHooksSetupCallback(list, 2, 3, OnCreateFn, OnUpdateFn)
 	end
 
 	PP.Anchor(ZO_TradingHouse,							--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, BottomOffsetY)
@@ -238,7 +134,7 @@ PP.tradingHouseScene = function()
 	PP.Anchor(ZO_TradingHouseItemNameSearch,			--[[#1]] TOPLEFT, ZO_TradingHouse, TOPLEFT, 0, 14)
 	ZO_TradingHouseItemNameSearch:SetDimensionConstraints(250, 26, 250, 26)
 	PP.Anchor(ZO_TradingHouseItemNameSearchBox,			--[[#1]] TOPLEFT, nil, TOPLEFT, 3, 1, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, -3, 0)
-	ZO_TradingHouseItemNameSearchBoxText:SetVerticalAlignment(1)
+	-- ZO_TradingHouseItemNameSearchBoxText:SetVerticalAlignment(1)
 	ZO_TradingHouseItemNameSearchLabel:SetAlpha(0)
 
 	-- PP.Anchor(ZO_TradingHouseBrowseItemsRightPaneSearchSortBy, --[[#1]] BOTTOMLEFT, ZO_TradingHouseBrowseItemsRightPaneSearchResults, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, ZO_TradingHouseBrowseItemsRightPaneSearchResults, TOPRIGHT, 0, 0)
@@ -252,45 +148,28 @@ PP.tradingHouseScene = function()
 		local separator = sortBy:GetNamedChild("PriceSeparator")
 		separator:SetText("/")
 
-		local priceSortHeader = sortBy:GetNamedChild("PriceName")
-		priceSortHeader:SetParent(sortBy)
-		PP.Anchor(priceSortHeader,			--[[#1]] RIGHT, sortBy, RIGHT, -26, 0)
-		sortBy:GetNamedChild("Price"):SetParent(priceSortHeader)
-		PP.Anchor(sortBy:GetNamedChild("Price"),				--[[#1]] TOPLEFT, priceSortHeader, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, priceSortHeader, BOTTOMRIGHT, 0, 0)
+		sortBy:GetNamedChild("PriceName"):SetParent(sortBy)
+		PP.Anchor(sortBy:GetNamedChild("PriceName"),			--[[#1]] RIGHT, sortBy, RIGHT, -26, 0)
+		sortBy:GetNamedChild("Price"):SetParent(sortBy:GetNamedChild("PriceName"))
+		PP.Anchor(sortBy:GetNamedChild("Price"),				--[[#1]] TOPLEFT, sortBy:GetNamedChild("PriceName"), TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, sortBy:GetNamedChild("PriceName"), BOTTOMRIGHT, 0, 0)
 
 		separator:SetParent(sortBy)
-		PP.Anchor(separator,									--[[#1]] RIGHT, priceSortHeader, LEFT, -6, 0)
+		PP.Anchor(separator,									--[[#1]] RIGHT, sortBy:GetNamedChild("PriceName"), LEFT, -6, 0)
 
-		local pricePerUnitSortHeader = sortBy:GetNamedChild("PricePerUnitName")
-		pricePerUnitSortHeader:SetParent(sortBy)
-		PP.Anchor(pricePerUnitSortHeader,		--[[#1]] RIGHT, separator, LEFT, -18, 0)
-		sortBy:GetNamedChild("PricePerUnit"):SetParent(pricePerUnitSortHeader)
-		PP.Anchor(sortBy:GetNamedChild("PricePerUnit"),			--[[#1]] TOPLEFT, pricePerUnitSortHeader, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, pricePerUnitSortHeader, BOTTOMRIGHT, 0, 0)
+		sortBy:GetNamedChild("PricePerUnitName"):SetParent(sortBy)
+		PP.Anchor(sortBy:GetNamedChild("PricePerUnitName"),		--[[#1]] RIGHT, separator, LEFT, -18, 0)
+		sortBy:GetNamedChild("PricePerUnit"):SetParent(sortBy:GetNamedChild("PricePerUnitName"))
+		PP.Anchor(sortBy:GetNamedChild("PricePerUnit"),			--[[#1]] TOPLEFT, sortBy:GetNamedChild("PricePerUnitName"), TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, sortBy:GetNamedChild("PricePerUnitName"), BOTTOMRIGHT, 0, 0)
 
-		--Is ArkadiusTradeTools with the guild sell tab changes enabled?
-		if arkadiusTradeToolsGuildSellEnabled and not AwesomeGuildStore then
-			--Move the sort header for "price per unit" a bit to the left so that the average price per unit and average price fit below
-			PP.Anchor(pricePerUnitSortHeader,		--[[#1]] RIGHT, separator, LEFT, -75, 0)
-			separator:SetHidden(true)
-		else
-			separator:SetHidden(false)
-		end
+		sortBy:GetNamedChild("TimeRemainingName"):SetParent(sortBy)
+		PP.Anchor(sortBy:GetNamedChild("TimeRemainingName"),	--[[#1]] RIGHT, sortBy:GetNamedChild("PricePerUnitName"), LEFT, -20, 0)
+		sortBy:GetNamedChild("TimeRemaining"):SetParent(sortBy:GetNamedChild("TimeRemainingName"))
+		PP.Anchor(sortBy:GetNamedChild("TimeRemaining"),		--[[#1]] TOPLEFT, sortBy:GetNamedChild("TimeRemainingName"), TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, sortBy:GetNamedChild("TimeRemainingName"), BOTTOMRIGHT, 0, 0)
 
-		local nameSortHeaderOffsetX = 60
-		local traiSortHeaderOffsetX = 24 + 6
-		local timeRemainingNameSortBy = sortBy:GetNamedChild("TimeRemainingName")
-		timeRemainingNameSortBy:SetParent(sortBy)
-		--PP.Anchor(timeRemainingNameSortBy,	--[[#1]] RIGHT, sortBy:GetNamedChild("PricePerUnitName"), LEFT, -20, 0)
-		--Fixed offset for the time sort header = left of "name" sortheader + ZO_TRADING_HOUSE_SEARCH_RESULT_ITEM_NAME_WIDTH
-		PP.Anchor(timeRemainingNameSortBy,	--[[#1]] LEFT, sortBy, LEFT, nameSortHeaderOffsetX + traiSortHeaderOffsetX + ((not arkadiusTradeToolsGuildSellEnabled and 250) or ZO_TRADING_HOUSE_SEARCH_RESULT_ITEM_NAME_WIDTH), 0)
-		sortBy:GetNamedChild("TimeRemaining"):SetParent(timeRemainingNameSortBy)
-		PP.Anchor(sortBy:GetNamedChild("TimeRemaining"),		--[[#1]] TOPLEFT, timeRemainingNameSortBy, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, timeRemainingNameSortBy, BOTTOMRIGHT, 0, 0)
-
-		local nameSortHeader = sortBy:GetNamedChild("NameName")
-		nameSortHeader:SetParent(sortBy)
-		PP.Anchor(nameSortHeader,	--[[#1]] LEFT, sortBy, LEFT, nameSortHeaderOffsetX, 0)
-		sortBy:GetNamedChild("Name"):SetParent(nameSortHeader)
-		PP.Anchor(sortBy:GetNamedChild("Name"),		--[[#1]] TOPLEFT, nameSortHeader, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, nameSortHeader, BOTTOMRIGHT, 0, 0)
+		sortBy:GetNamedChild("NameName"):SetParent(sortBy)
+		PP.Anchor(sortBy:GetNamedChild("NameName"),	--[[#1]] LEFT, sortBy, LEFT, 60, 0)
+		sortBy:GetNamedChild("Name"):SetParent(sortBy:GetNamedChild("NameName"))
+		PP.Anchor(sortBy:GetNamedChild("Name"),		--[[#1]] TOPLEFT, sortBy:GetNamedChild("NameName"), TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, sortBy:GetNamedChild("NameName"), BOTTOMRIGHT, 0, 0)
 
 		local tabSortBy = {"NameName", "TimeRemainingName", "PriceName", "PricePerUnitName", "PriceSeparator"}
 		for _, v in ipairs(tabSortBy) do
@@ -343,7 +222,7 @@ PP.tradingHouseScene = function()
 	local listHistory = ZO_TradingHouseSearchHistoryTopLevel_KeyboardList
 	listHistory.highlightTemplate = nil
 	listHistory.uniformControlHeight = historyRowHeight
-	ZO_Scroll_SetMaxFadeDistance(listHistory, PP.SV.list_skin.list_fade_distance)
+	ZO_Scroll_SetMaxFadeDistance(listHistory, PP.savedVars.ListStyle.list_fade_distance)
 	local dataTypeHistory = ZO_ScrollList_GetDataTypeTable(listHistory, 1)
 	local orig_SetupCallbackHistory = dataTypeHistory.setupCallback -- SetupHistoryRow(rowControl, rowData)
 	dataTypeHistory.height = historyRowHeight
@@ -369,26 +248,27 @@ PP.tradingHouseScene = function()
 		end
 		--"Backdrop"-------------
 		local backdrop = PP.CreateBackdrop(rowControl)
-		backdrop:SetCenterColor(unpack(PP.SV.list_skin.list_skin_backdrop_col))
-		backdrop:SetCenterTexture(PP.SV.list_skin.list_skin_backdrop, PP.SV.list_skin.list_skin_backdrop_tile_size, PP.SV.list_skin.list_skin_backdrop_tile and 1 or 0)
-		backdrop:SetEdgeColor(unpack(PP.SV.list_skin.list_skin_edge_col))
-		backdrop:SetEdgeTexture(PP.SV.list_skin.list_skin_edge, PP.SV.list_skin.list_skin_edge_file_width, PP.SV.list_skin.list_skin_edge_file_height, PP.SV.list_skin.list_skin_edge_thickness, 0)
-		backdrop:SetInsets(PP.SV.list_skin.list_skin_backdrop_insets, PP.SV.list_skin.list_skin_backdrop_insets, -PP.SV.list_skin.list_skin_backdrop_insets, -PP.SV.list_skin.list_skin_backdrop_insets)
-		backdrop:SetIntegralWrapping(PP.SV.list_skin.list_skin_edge_integral_wrapping)
+		backdrop:SetCenterColor(unpack(PP.savedVars.ListStyle.list_skin_backdrop_col))
+		backdrop:SetCenterTexture(PP.savedVars.ListStyle.list_skin_backdrop, PP.savedVars.ListStyle.list_skin_backdrop_tile_size, PP.savedVars.ListStyle.list_skin_backdrop_tile and 1 or 0)
+		backdrop:SetEdgeColor(unpack(PP.savedVars.ListStyle.list_skin_edge_col))
+		backdrop:SetEdgeTexture(PP.savedVars.ListStyle.list_skin_edge, PP.savedVars.ListStyle.list_skin_edge_file_width, PP.savedVars.ListStyle.list_skin_edge_file_height, PP.savedVars.ListStyle.list_skin_edge_thickness, 0)
+		backdrop:SetInsets(PP.savedVars.ListStyle.list_skin_backdrop_insets, PP.savedVars.ListStyle.list_skin_backdrop_insets, -PP.savedVars.ListStyle.list_skin_backdrop_insets, -PP.savedVars.ListStyle.list_skin_backdrop_insets)
+		backdrop:SetIntegralWrapping(PP.savedVars.ListStyle.list_skin_edge_integral_wrapping)
 	end
 
 	ZO_PreHook("ZO_TradingHouseSearchHistoryRow_Keyboard_OnMouseEnter", function(rowControl)
-		rowControl.backdrop:SetCenterColor(unpack(PP.SV.list_skin.list_skin_backdrop_hl_col))
+		rowControl.backdrop:SetCenterColor(unpack(PP.savedVars.ListStyle.list_skin_backdrop_hl_col))
 	end)
 	ZO_PreHook("ZO_TradingHouseSearchHistoryRow_Keyboard_OnMouseExit", function(rowControl)
-		rowControl.backdrop:SetCenterColor(unpack(PP.SV.list_skin.list_skin_backdrop_col))
+		rowControl.backdrop:SetCenterColor(unpack(PP.savedVars.ListStyle.list_skin_backdrop_col))
 	end)
 --===============================================================================================--
-	local function LoadFunc()
-		LeftPaneUpdate()
-		UpdateSetupCallback()
-		UpdateSortBy()
-		EVENT_MANAGER:UnregisterForEvent(PP.ADDON_NAME .. "tradingHouseScene", EVENT_OPEN_TRADING_HOUSE, LoadFunc)
-	end
-	EVENT_MANAGER:RegisterForEvent(PP.ADDON_NAME .. "tradingHouseScene", EVENT_OPEN_TRADING_HOUSE, LoadFunc)
+	PP.LoadFunc_TRADING_HOUSE = { UpdateSetupCallback, LeftPaneUpdate, UpdateSortBy, }
+
+	EVENT_MANAGER:RegisterForEvent(PP.ADDON_NAME .. "tradingHouseScene", EVENT_OPEN_TRADING_HOUSE, function()
+		for _, fn in pairs(PP.LoadFunc_TRADING_HOUSE) do
+			fn()
+		end
+		EVENT_MANAGER:UnregisterForEvent(PP.ADDON_NAME .. "tradingHouseScene", EVENT_OPEN_TRADING_HOUSE)
+	end)
 end

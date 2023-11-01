@@ -22,7 +22,7 @@ PP.guildSceneGroup = function()
 
 		local tlc = gVar.control or gVar
 
-		PP:CreateBackground(tlc, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10, true)
+		PP:CreateBackground(tlc, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10)
 		PP.Anchor(tlc, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 120, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -70)
 	end
 
@@ -37,9 +37,6 @@ PP.guildSceneGroup = function()
 	ZO_GuildHomeInfoDescription:SetDimensions(650, 200)
 	PP.ScrollBar(ZO_GuildHomeInfoDescriptionPane,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
 	ZO_Scroll_SetMaxFadeDistance(ZO_GuildHomeInfoDescriptionPane, 10)
-
-	ZO_GuildHomeKeep:SetDrawTier(DT_MEDIUM)
-	ZO_GuildHomeTrader:SetDrawTier(DT_MEDIUM)
 
 --guildRoster--ZO_GuildRoster--------------------------------------------------------------------
 	PP.Anchor(ZO_GuildRosterList, --[[#1]] TOPLEFT, ZO_GuildRosterHeaders, BOTTOMLEFT, 0, 3, --[[#2]] true, BOTTOMRIGHT, ZO_GuildRoster, BOTTOMRIGHT,	0, 0)

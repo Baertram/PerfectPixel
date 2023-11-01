@@ -75,7 +75,6 @@ local stringsEn = {
 }
 
 --Provide the English strings as addon global values
-PP = PP or {}
 PP.stringsEn = stringsEn
 
 --Create the strings so they are available via function GetString(stringId) ingame

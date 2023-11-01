@@ -12,7 +12,7 @@ PP.statsScene = function()
 	PP.Anchor(ZO_StatsPanelPane, --[[#1]] TOPLEFT, ZO_StatsPanelTitleSection, BOTTOMLEFT, 0, 0,	--[[#2]] true, BOTTOMRIGHT, ZO_StatsPanel, BOTTOMRIGHT, 0, -3)
 
 	PP.ScrollBar(ZO_StatsPanelPane, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
-	ZO_Scroll_SetMaxFadeDistance(ZO_StatsPanelPane, PP.SV.list_skin.list_fade_distance)
+	ZO_Scroll_SetMaxFadeDistance(ZO_StatsPanelPane, PP.savedVars.ListStyle.list_fade_distance)
 
 --ZO_ADVANCED_STATS_WINDOW
 	for i = 1, #ADVANCED_STATS_FRAGMENT_GROUP do
@@ -36,7 +36,7 @@ PP.statsScene = function()
 
 	PP.Anchor(asList,			--[[#1]] nil, nil, nil, nil, nil,	--[[#2]] true, nil, nil, nil, -20, nil)
 	PP.ScrollBar(asList,		--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
-	ZO_Scroll_SetMaxFadeDistance(asList, PP.SV.list_skin.list_fade_distance)
+	ZO_Scroll_SetMaxFadeDistance(asList, PP.savedVars.ListStyle.list_fade_distance)
 	ZO_ScrollList_Commit(asList)
 
 
@@ -47,7 +47,7 @@ PP.statsScene = function()
 
 	ZO_ClaimLevelUpRewardsScreen_KeyboardBG:SetHidden(true)
 	ZO_ClaimLevelUpRewardsScreen_KeyboardTitleDivider:SetHidden(true)
-	ZO_Scroll_SetMaxFadeDistance(ZO_ClaimLevelUpRewardsScreen_KeyboardList, PP.SV.list_skin.list_fade_distance)
+	ZO_Scroll_SetMaxFadeDistance(ZO_ClaimLevelUpRewardsScreen_KeyboardList, PP.savedVars.ListStyle.list_fade_distance)
 
 	PP.ScrollBar(ZO_ClaimLevelUpRewardsScreen_KeyboardList, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
 
@@ -58,7 +58,7 @@ PP.statsScene = function()
 
 	ZO_UpcomingLevelUpRewards_KeyboardBG:SetHidden(true)
 	ZO_UpcomingLevelUpRewards_KeyboardTitleDivider:SetHidden(true)
-	ZO_Scroll_SetMaxFadeDistance(ZO_UpcomingLevelUpRewards_KeyboardScrollContainer, PP.SV.list_skin.list_fade_distance)
+	ZO_Scroll_SetMaxFadeDistance(ZO_UpcomingLevelUpRewards_KeyboardScrollContainer, PP.savedVars.ListStyle.list_fade_distance)
 
 	PP.ScrollBar(ZO_UpcomingLevelUpRewards_KeyboardScrollContainer, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
 

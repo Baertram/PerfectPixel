@@ -1,22 +1,17 @@
 PP.compass = function()
---===============================================================================================--
-	local SV_VER		= 0.1
-	local DEF = {
+	local SV, DEF = PP:AddNewSavedVars(0.2, 'Compass', {
 		toggle			= true,
 		col				= {0/255, 0/255, 0/255, .6},
 		col_e			= {0/255, 0/255, 0/255, 1},
-	--Quest area
+		--Quest area
 		qa_col			= {96/255, 125/255, 139/255, .5},
 		qa_col_e		= {96/255, 125/255, 139/255, 0},
-	--Combat indicator
+		--Combat indicator
 		ci_toggle		= true,
 		ci_col			= {222/255, 36/255, 33/255, .7},
-	--Boss bar
+		--Boss bar
 		hideBossBar		= false,
-	}
-	local SV = ZO_SavedVars:NewAccountWide(PP.ADDON_NAME, SV_VER, "Compass", DEF, GetWorldName())
-	PP.toggles = PP.toggles or {}
-	PP.toggles["compass"] = SV.toggle
+	})
 	---------------------------------------------
 	table.insert(PP.optionsData,
 	{	type				= "submenu",
@@ -110,14 +105,12 @@ PP.compass = function()
 	ZO_CompassFrameRight:SetHidden(true)
 	ZO_CompassFrameCenter:SetHidden(true)
 
-	CreateControl("$(parent)Backdrop", compassFrame, CT_BACKDROP)
+	local CF_B = CreateControl("$(parent)Backdrop", compassFrame, CT_BACKDROP)
 
-	local CF_B = compassFrame:GetNamedChild("Backdrop")
-
-	PP.Anchor(CF_B, --[[#1]] TOPLEFT, compassFrame, TOPLEFT, -10, 8, --[[#2]] true, BOTTOMRIGHT, compassFrame, BOTTOMRIGHT,	10, -7)
-	CF_B:SetCenterTexture(nil, 8, 0)
-	CF_B:SetEdgeTexture(nil, 1, 1, 1, 0)
-	CF_B:SetInsets(-1, -1, 1, 1)
+	PP.Anchor(CF_B, --[[#1]] TOPLEFT, compassFrame, TOPLEFT, -5, 3, --[[#2]] true, BOTTOMRIGHT, compassFrame, BOTTOMRIGHT,	5, -3)
+	CF_B:SetCenterTexture("PerfectPixel/tex/tex_white.dds", 8, 0)
+	CF_B:SetEdgeTexture("PerfectPixel/tex/edge_outer_shadow_128x16.dds", 128, 16, 16, 0)
+	CF_B:SetInsets(5, 5, -5, -5)
 	CF_B:SetCenterColor(SV.col[1], SV.col[2], SV.col[3], SV.col[4])
 	CF_B:SetEdgeColor(SV.col_e[1], SV.col_e[2], SV.col_e[3], SV.col_e[4])
 
@@ -136,13 +129,7 @@ PP.compass = function()
 
 --Quest area---------------------------------------------------------------------------------------
 	ZO_PreHook(Compass, "SetAreaTexturePlatformTextures", function(self, areaTexture, pinType)
-		local pinType = pinType or areaTexture.pinType
-		local pinTypeAssisted = ZO_MapPin.ASSISTED_PIN_TYPES[pinType]
-		if pinTypeAssisted then
-			areaTexture.pinType = pinType
-		else
-			areaTexture.pinType = pinType
-		end
+		areaTexture.pinType = pinType or areaTexture.pinType
 
 		if not areaTexture.backdrop then
 			areaTexture.center:SetHidden(true)
@@ -151,16 +138,16 @@ PP.compass = function()
 
 			areaTexture.backdrop = CreateControl("$(parent)Backdrop", areaTexture, CT_BACKDROP)
 			local qa_b = areaTexture.backdrop
-			PP.Anchor(qa_b, --[[#1]] TOPLEFT, compassFrame, TOPLEFT, -10, 8, --[[#2]] true, BOTTOMRIGHT, compassFrame, BOTTOMRIGHT,	10, -7)
-			qa_b:SetCenterTexture(nil, 8, 0)
-			qa_b:SetEdgeTexture(nil, 1, 1, 1, 0)
-			qa_b:SetInsets(1, 1, -1, -1)
+			PP.Anchor(qa_b, --[[#1]] TOPLEFT, compassFrame, TOPLEFT, -5, 3, --[[#2]] true, BOTTOMRIGHT, compassFrame, BOTTOMRIGHT,	5, -3)
+			qa_b:SetCenterTexture("PerfectPixel/tex/tex_white.dds", 8, 0)
+			qa_b:SetEdgeTexture("PerfectPixel/tex/edge_outer_shadow_128x16.dds", 128, 16, 16, 0)
+			qa_b:SetInsets(5, 5, -5, -5)
 			qa_b:SetCenterColor(SV.qa_col[1], SV.qa_col[2], SV.qa_col[3], SV.qa_col[4])
 			qa_b:SetEdgeColor(SV.qa_col_e[1], SV.qa_col_e[2], SV.qa_col_e[3], SV.qa_col_e[4])
-		else
-			areaTexture.backdrop:SetCenterColor(SV.qa_col[1], SV.qa_col[2], SV.qa_col[3], SV.qa_col[4])
-			areaTexture.backdrop:SetEdgeColor(SV.qa_col_e[1], SV.qa_col_e[2], SV.qa_col_e[3], SV.qa_col_e[4])
 		end
+
+		areaTexture.backdrop:SetCenterColor(SV.qa_col[1], SV.qa_col[2], SV.qa_col[3], SV.qa_col[4])
+		areaTexture.backdrop:SetEdgeColor(SV.qa_col_e[1], SV.qa_col_e[2], SV.qa_col_e[3], SV.qa_col_e[4])
 	end)
 --CARDINAL_DIRECTION---------------------------------------------------------------------------------------
 	local font = PP.f.u67 .. "|17|outline"
@@ -168,7 +155,6 @@ PP.compass = function()
 	COMPASS.container:SetCardinalDirection(GetString(SI_COMPASS_EAST_ABBREVIATION),		font, CARDINAL_DIRECTION_EAST)
 	COMPASS.container:SetCardinalDirection(GetString(SI_COMPASS_WEST_ABBREVIATION),		font, CARDINAL_DIRECTION_WEST)
 	COMPASS.container:SetCardinalDirection(GetString(SI_COMPASS_SOUTH_ABBREVIATION),	font, CARDINAL_DIRECTION_SOUTH)
-
 --ZO_BossBar---------------------------------------------------------------------------------------
 	ZO_BossBarBracketLeft:SetHidden(true)
 	ZO_BossBarBracketRight:SetHidden(true)

@@ -134,7 +134,7 @@ PP.skillsScene = function()
 			end
 
 			if control:GetNamedChild("Backdrop") then return end
-			PP.ListBackdrop(control, 15, 0, 0, 0, --[[tex]] PP.t.gR, 16, 0, --[[bd]] 173*.3, 166*.3, 132*.3, 1, --[[edge]] 0, 0, 0, 0)
+			PP.ListBackdrop(control, 15, 0, 0, 0, --[[tex]] "PerfectPixel/tex/GradientRight.dds", 16, 0, --[[bd]] 173*.3, 166*.3, 132*.3, 1, --[[edge]] 0, 0, 0, 0)
 		end
 
 		--TreeEntrySetup(node, control, skillLineData, open)

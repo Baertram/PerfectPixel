@@ -35,23 +35,20 @@ PP.worldMapScene = function()
 	WORLD_MAP_SCENE:RemoveFragment(MEDIUM_LEFT_PANEL_BG_FRAGMENT)
 	PP:ForceRemoveFragment(WORLD_MAP_SCENE, MEDIUM_LEFT_PANEL_BG_FRAGMENT)
 
-	PP:CreateBackground(ZO_WorldMap,							--[[#1]] nil, nil, nil, -2, -2,		--[[#2]] nil, nil, nil, 2, 2)
-	ZO_WorldMap.PP_BG:SetHidden(true)
+	PP:CreateBackground(ZO_WorldMap,							--[[#1]] nil, nil, nil, 0, 0,		--[[#2]] nil, nil, nil, 0, 0)
 	PP:CreateBackground(ZO_WorldMapInfo,						--[[#1]] nil, nil, nil, -16, 51,	--[[#2]] nil, nil, nil, 0, 9)
 	PP:CreateBackground(ZO_WorldMapZoneStoryTopLevel_Keyboard,	--[[#1]] nil, nil, nil, 0, -4,		--[[#2]] nil, nil, nil, 0, 48)
 
+	PP:SetLockFn(ZO_WorldMap.PP_BG, 'SetHidden')
+
 	WORLD_MAP_SCENE:RegisterCallback("StateChange", function(oldState, newState)
-		if newState == SCENE_SHOWING then
-			ZO_WorldMap.PP_BG:SetHidden(false)
+		if newState == SCENE_SHOWN then
 			ZO_WorldMapMapFrame:SetHidden(true)
-		elseif newState == SCENE_FRAGMENT_HIDING then
-			ZO_WorldMap.PP_BG:SetHidden(true)
-			-- ZO_WorldMapMapFrame:SetHidden(false)
-			-- ZO_WorldMapContainerRaggedEdge:SetHidden(false)
+			PP:CallingBlockedFn(ZO_WorldMap.PP_BG, 'SetHidden', false)
+		elseif newState == SCENE_HIDDEN then
+			PP:CallingBlockedFn(ZO_WorldMap.PP_BG, 'SetHidden', true)
 		end
 	end)
-
-	ZO_WorldMapContainerRaggedEdge:SetHidden(true)
 
 	ZO_WorldMapZoomKeybindKeyLabel:SetFont(PP.f.u57 .. "|16")
 	ZO_WorldMapZoomKeybindNameLabel:SetFont(PP.f.u67 .. "|18|outline")

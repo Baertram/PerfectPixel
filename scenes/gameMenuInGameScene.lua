@@ -28,7 +28,7 @@ PP.gameMenuInGameScene = function()
 
 --ADD-ONS------------------------------------------------------------------------------------------
 	if SV.addons_toggle then
-		PP:CreateBackground(ZO_AddOns, --[[#1]] nil, nil, nil, 2, -4, --[[#2]] nil, nil, nil, 4, -2, true)
+		PP:CreateBackground(ZO_AddOns, --[[#1]] nil, nil, nil, 2, -4, --[[#2]] nil, nil, nil, 4, -2)
 
 		ZO_AddOnsBGLeft:SetHidden(true)
 		ZO_AddOnsDivider:SetHidden(true)
@@ -39,12 +39,14 @@ PP.gameMenuInGameScene = function()
 		PP.Anchor(ZO_AddOnsList,					--[[#1]] TOPLEFT, ZO_AddOnsTitle, BOTTOMLEFT, 0, 5,		--[[#2]] true, BOTTOMRIGHT, ZO_AddOns, BOTTOMRIGHT, 0, -10)
 		PP.Anchor(ZO_AddOnsCharacterSelectDropdown,	--[[#1]] LEFT, ZO_AddOnsTitle, RIGHT, 50, 1)
 
-		PP.Font(ZO_AddOnsMultiButtonKeyLabel,		--[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-		PP.Font(ZO_AddOnsMultiButtonNameLabel,		--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+		PP.Font(ZO_AddOnsPrimaryButtonKeyLabel,		--[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+		PP.Font(ZO_AddOnsPrimaryButtonNameLabel,	--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+		PP.Font(ZO_AddOnsSecondaryButtonKeyLabel,	--[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+		PP.Font(ZO_AddOnsSecondaryButtonNameLabel,	--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
 		PP.Font(ZO_AddOnsTitle,						--[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
 
 		ZO_Scroll_SetMaxFadeDistance(ZO_AddOnsList, 10)
-
+--[[?]]
 		local reAnchored = false
 		local function reAnchorAddonsUINow()
 			PP.Anchor(ZO_AddOns, --[[#1]] TOPLEFT, GuiRoot, TOPLEFT, 250, 50, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMLEFT, 1200, -70)
@@ -70,6 +72,7 @@ PP.gameMenuInGameScene = function()
 		ZO_PreHookHandler(ZO_AddOns, 'OnEffectivelyHidden', function()
 			SetFullscreenEffect(FULLSCREEN_EFFECT_NONE)
 		end)
+--[[?]]
 	end
 --CONTROLS-----------------------------------------------------------------------------------------
 	-- ZO_KeybindingsLeft:SetHidden(true)

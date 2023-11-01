@@ -12,9 +12,9 @@ PP.collectionsSceneGroup = function()
 		end
 	end
 
-	local function itemSetCollectionsProgressBars()
-		PP.Bars(ITEM_SET_COLLECTIONS_BOOK_KEYBOARD.summaryScrollChild, true, nil, nil, nil, nil, false)
-	end
+--[[?]]	local function itemSetCollectionsProgressBars()
+--[[?]]		PP.Bars(ITEM_SET_COLLECTIONS_BOOK_KEYBOARD.summaryScrollChild, true, nil, nil, nil, nil, false)
+--[[?]]	end
 
 	local fragments	= {RIGHT_BG_FRAGMENT, TREE_UNDERLAY_FRAGMENT, TITLE_FRAGMENT, COLLECTIONS_TITLE_FRAGMENT, MEDIUM_LEFT_PANEL_BG_FRAGMENT}
 	local scenes	= {
@@ -22,23 +22,21 @@ PP.collectionsSceneGroup = function()
 		{DLC_BOOK_SCENE,				DLC_BOOK_KEYBOARD,					},
 		{HOUSING_BOOK_SCENE,			HOUSING_BOOK_KEYBOARD,				},
 		{ZO_OUTFIT_STYLES_BOOK_SCENE,	ZO_OUTFIT_STYLES_BOOK_KEYBOARD,		},
-		{nil,							ZO_OUTFIT_STYLES_PANEL_KEYBOARD,	}, --ZO_OutfitStylesPanelTopLevel_KeyboardTypeFilter
-		{ITEM_SETS_BOOK_SCENE,			ITEM_SET_COLLECTIONS_BOOK_KEYBOARD,	itemSetCollectionsProgressBars}, --ZO_ItemSetsBook_Keyboard_TopLevelFiltersApparelFilterTypes
+		{nil,							ZO_OUTFIT_STYLES_PANEL_KEYBOARD,	},
+--[[?]]		{ITEM_SETS_BOOK_SCENE,			ITEM_SET_COLLECTIONS_BOOK_KEYBOARD--[[,	itemSetCollectionsProgressBars]]}, --ZO_ItemSetsBook_Keyboard_TopLevelFiltersApparelFilterTypes
 		{TRIBUTE_PATRON_BOOK_SCENE,		TRIBUTE_PATRON_BOOK_KEYBOARD		},
 	}
 
-	local scenesShown = {}
-
+--[[?]]	local scenesShown = {}
 	for i=1, #scenes do
 		local scene			= scenes[i][1]
 		local gVar			= scenes[i][2]
-		local sceneShowCallback = scenes[i][3]
+--[[?]]		local sceneShowCallback = scenes[i][3]
 		local tlw			= gVar.control
 		local list			= gVar.gridListPanelList	and gVar.gridListPanelList.list
 		local search		= gVar.contentSearchEditBox	and gVar.contentSearchEditBox:GetParent()
 		local categories	= gVar.categories
 		local progressBar	= gVar.progressBar or gVar.categoryProgress
-		local filter 		= gVar.categoryFilterComboBox or gVar.typeFilterControl or gVar.apparelFilterTypesControl
 		
 		if scene then
 			for i=1, #fragments do
@@ -48,17 +46,16 @@ PP.collectionsSceneGroup = function()
 				end
 			end
 
-			PP:CreateBackground(tlw, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10, true)
+			PP:CreateBackground(tlw, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10)
 			PP.Anchor(tlw, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 120, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -70)
-
-			if sceneShowCallback then
-				scene:RegisterCallback("StateChange", function(oldState, newState)
-					if newState == SCENE_SHOWN and not scenesShown[scene] then
-						sceneShowCallback()
-						scenesShown[scene] = true
-					end
-				end)
-			end
+--[[?]]			if sceneShowCallback then
+--[[?]]				scene:RegisterCallback("StateChange", function(oldState, newState)
+--[[?]]					if newState == SCENE_SHOWN and not scenesShown[scene] then
+--[[?]]						sceneShowCallback()
+--[[?]]						scenesShown[scene] = true
+--[[?]]					end
+--[[?]]				end)
+--[[?]]			end
 		end
 
 		if categories then
@@ -71,24 +68,11 @@ PP.collectionsSceneGroup = function()
 			PP.Anchor(search, --[[#1]] TOPLEFT, tlw, TOPLEFT, 10, 10)
 		end
 		if list then
-			PP.ScrollBar(list, --[[sb_c]] 180, 180, 180, .8, --[[bd_c]] 20, 20, 20, .6, false)
 			ZO_Scroll_SetMaxFadeDistance(list, 10)
+			PP.ScrollBar(list, --[[sb_c]] 180, 180, 180, .8, --[[bd_c]] 20, 20, 20, .6, false)
 		end
 		if progressBar then
 			PP.Bar(progressBar, --[[h]] 14, --[[f]] 15)
-		end
-		if filter then
-			--Change the drawTier of the filter dropdown boxes so they get overlayed by the background backdrop
-			filter:SetDrawTier(DT_MEDIUM)
-			filter:SetDrawLayer(DL_TEXT)
-			filter:SetDrawLevel(1)
-
-			if gVar.weaponFilterTypesControl then
-				filter = gVar.weaponFilterTypesControl
-				filter:SetDrawTier(DT_MEDIUM)
-				filter:SetDrawLayer(DL_TEXT)
-				filter:SetDrawLevel(1)
-			end
 		end
 	end
 
@@ -100,7 +84,7 @@ PP.collectionsSceneGroup = function()
 		end
 	end
 
-	PP.Anchor(ZO_CollectionsBook_TopLevelList, --[[#1]] TOPLEFT, ZO_CollectionsBook_TopLevelCategories, TOPRIGHT, 0, -10, --[[#2]] true, BOTTOMRIGHT, ZO_CollectionsBook_TopLevel, BOTTOMRIGHT,	0, 0)
+	PP.Anchor(ZO_CollectionsBook_TopLevelList, --[[#1]] TOPLEFT, ZO_CollectionsBook_TopLevelCategories, TOPRIGHT, 0, 16, --[[#2]] true, BOTTOMRIGHT, ZO_CollectionsBook_TopLevel, BOTTOMRIGHT,	0, 0)
 
 	local dataType = ZO_ScrollList_GetDataTypeTable(ZO_CollectionsBook_TopLevelListContainerList, 1)
 	local existingSetupCallback = dataType.setupCallback
@@ -120,8 +104,8 @@ PP.collectionsSceneGroup = function()
 			backdrop:SetEdgeColor(40/255, 40/255, 40/255, .9)
 			backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
 			backdrop:SetInsets(1, 1, -1, -1)
-			backdrop:SetDrawLayer(DL_BACKGROUND)
-			backdrop:SetDrawTier(DT_LOW)
+			backdrop:SetDrawLayer(0)
+			backdrop:SetDrawTier(0)
 		end
 		if control:GetNamedChild("Highlight") then
 			local highlight = control:GetNamedChild("Highlight")
@@ -134,9 +118,8 @@ PP.collectionsSceneGroup = function()
 		end
 	end
 
-
---HOUSING_BOOK_SCENE, HOUSING_BOOK_KEYBOARD
-	PP.ScrollBar(HOUSING_BOOK_KEYBOARD.navigationList, --[[sb_c]] 180, 180, 180, .8, --[[bd_c]] 20, 20, 20, .6, false)	--ZO_HousingBook_KeyboardNavigationList
+--[[?]]--HOUSING_BOOK_SCENE, HOUSING_BOOK_KEYBOARD
+--[[?]]	PP.ScrollBar(HOUSING_BOOK_KEYBOARD.navigationList, --[[sb_c]] 180, 180, 180, .8, --[[bd_c]] 20, 20, 20, .6, false)	--ZO_HousingBook_KeyboardNavigationList
 
 
 --ZO_OUTFIT_STYLES_BOOK_SCENE, ZO_OUTFIT_STYLES_BOOK_KEYBOARD, ZO_OUTFIT_STYLES_PANEL_KEYBOARD
@@ -219,9 +202,9 @@ PP.collectionsSceneGroup = function()
 		backdrop:SetEdgeColor(40/255, 40/255, 40/255, .9)
 		backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
 		backdrop:SetInsets(1, 1, -1, -1)
-		backdrop:SetDrawLayer(DL_BACKGROUND)
+		backdrop:SetDrawLayer(0)
 		backdrop:SetDrawLevel(0)
-		backdrop:SetDrawTier(DT_LOW)
+		backdrop:SetDrawTier(0)
 	end
 	local dataType_2 = ZO_ScrollList_GetDataTypeTable(iscbList, 2)
 	local existingSetupCallback = dataType_2.setupCallback
@@ -231,7 +214,7 @@ PP.collectionsSceneGroup = function()
 		PP.Bar(progressBar, --[[height]] 14, --[[fontSize]] 15)
 	end
 
-
+--[[?]]--[[?]]--[[?]]--[[?]]--[[?]]
 --Tribute Patron card game - collections
 --ZO_TributePatronBook_Keyboard_TopLevelInfoContainerGridListContainerListContents
 	local TPB		= TRIBUTE_PATRON_BOOK_KEYBOARD
@@ -281,4 +264,5 @@ PP.collectionsSceneGroup = function()
 			end
 		end
 	end
+
 end

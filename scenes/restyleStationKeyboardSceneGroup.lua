@@ -10,7 +10,7 @@ PP.restyleStationKeyboardSceneGroup = function()
 	restyleStationScene:RemoveFragment(RESTYLE_TITLE_FRAGMENT)
 	restyleStationScene:AddFragment(FRAME_TARGET_BLUR_STANDARD_RIGHT_PANEL_MEDIUM_LEFT_PANEL_FRAGMENT)
 
-	PP:CreateBackground(ZO_RestyleStationTopLevel_Keyboard, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10, true)
+	PP:CreateBackground(ZO_RestyleStationTopLevel_Keyboard, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10)
 	PP:CreateBackground(ZO_RestyleSheetWindowTopLevel_Keyboard, --[[#1]] nil, nil, nil, -20, -30, --[[#2]] nil, nil, nil, 10, -32)
 
 	PP.Anchor(ZO_RestyleStationTopLevel_Keyboard,			--[[#1]] TOPRIGHT, nil, TOPRIGHT, 0, 120,	--[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT,	0, -70)

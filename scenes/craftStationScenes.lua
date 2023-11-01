@@ -1,3 +1,6 @@
+local PP		= PP
+local namespace	= 'CraftStations'
+
 PP.craftStationScenes = function()
 	local SV_VER				= 0.1
 	local DEF = {
@@ -11,7 +14,7 @@ PP.craftStationScenes = function()
 --===============================================================================================--
 --==ZO_WritAdvisor==--
 	local waTLC = ZO_WritAdvisor_Keyboard_TopLevel
-	PP:CreateBackground(waTLC,		--[[#1]] nil, nil, nil, 0, -24, --[[#2]] nil, nil, nil, 0, 17, true)
+	PP:CreateBackground(waTLC,		--[[#1]] nil, nil, nil, 0, -24, --[[#2]] nil, nil, nil, 0, 17)
 	PP.Anchor(waTLC:GetNamedChild("HeaderContainerDivider"), --[[#1]] TOPLEFT, waTLC, TOPLEFT, 0, 20, --[[#2]] true, TOPRIGHT, waTLC, TOPRIGHT, -30, 20)
 
 	for i = 1, #WRIT_ADVISOR_KEYBOARD_FRAGMENT_GROUP do
@@ -29,23 +32,26 @@ PP.craftStationScenes = function()
 	PP:ForceRemoveFragment(SMITHING_SCENE, THIN_LEFT_PANEL_BG_FRAGMENT)
 	PP:ForceRemoveFragment(SMITHING_SCENE, MEDIUM_LEFT_PANEL_BG_FRAGMENT)
 
-	PP:CreateBackground(ZO_SmithingTopLevelRefinementPanel,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6, true)
-	PP:CreateBackground(ZO_SmithingTopLevelDeconstructionPanel,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6, true)
-	PP:CreateBackground(ZO_SmithingTopLevelImprovementPanel,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6, true)
-	PP:CreateBackground(ZO_SmithingTopLevelCreationPanel,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6, true)
-	PP:CreateBackground(ZO_SmithingTopLevelResearchPanel,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6, true)
+	PP:CreateBackground(ZO_SmithingTopLevelRefinementPanel,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+	PP:CreateBackground(ZO_SmithingTopLevelDeconstructionPanel,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+	PP:CreateBackground(ZO_SmithingTopLevelImprovementPanel,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+	PP:CreateBackground(ZO_SmithingTopLevelCreationPanel,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+	PP:CreateBackground(ZO_SmithingTopLevelResearchPanel,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 
 	for _, v in ipairs(smithingTab) do
-		PP.ScrollBar(v:GetNamedChild("InventoryBackpack"),	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
-		PP.Anchor(v:GetNamedChild("Inventory"), --[[#1]] TOPLEFT, v, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, v, BOTTOMRIGHT, 0, 0)
+		local inventoryBackpackCtrl = v:GetNamedChild("InventoryBackpack")
+		if inventoryBackpackCtrl ~= nil then
+			PP.ScrollBar(inventoryBackpackCtrl,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+		end
 		PP.Anchor(v, --[[#1]] TOPRIGHT, ZO_SmithingTopLevel, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, ZO_SmithingTopLevel, BOTTOMRIGHT, 0, BottomOffsetY)
-		PP.Anchor(v:GetNamedChild("InventoryFilterDivider"),	--[[#1]] TOP, v:GetNamedChild("Inventory"), TOP, 0, 60)
+		local inventoryCtrl = v:GetNamedChild("Inventory")
+		if inventoryCtrl ~= nil then
+			PP.Anchor(inventoryCtrl, --[[#1]] TOPLEFT, v, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, v, BOTTOMRIGHT, 0, 0)
+			PP.Anchor(v:GetNamedChild("InventoryFilterDivider"),	--[[#1]] TOP, inventoryCtrl, TOP, 0, 60)
+		end
 	end
 	PP.Anchor(ZO_SmithingTopLevelImprovementPanelInventory, --[[#1]] TOPLEFT, ZO_SmithingTopLevelImprovementPanel, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, ZO_SmithingTopLevelImprovementPanel, BOTTOMRIGHT, 0, -145)
 	ZO_SmithingTopLevelImprovementPanelBoosterContainerDivider:SetHidden(true)
-
-	PP.Anchor(ZO_SmithingTopLevelCreationPanel, --[[#1]] TOPRIGHT, ZO_SmithingTopLevel, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, ZO_SmithingTopLevel, BOTTOMRIGHT, 0, BottomOffsetY)
-	PP.Anchor(ZO_SmithingTopLevelCreationPanelTabsDivider,	--[[#1]] TOP, ZO_SmithingTopLevelCreationPanel, TOP, 0, 60)
 
 	PP.Anchor(ZO_SmithingTopLevelResearchPanel, --[[#1]] TOPRIGHT, ZO_SmithingTopLevel, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, ZO_SmithingTopLevel, BOTTOMRIGHT, 0, BottomOffsetY)
 	PP.Anchor(ZO_SmithingTopLevelResearchPanelResearchLineList,	--[[#1]] TOP, ZO_SmithingTopLevelResearchPanel, TOP, 0, 104)
@@ -55,11 +61,47 @@ PP.craftStationScenes = function()
 	PP.Anchor(ZO_SmithingTopLevelModeMenu, --[[#1]] BOTTOM, ZO_SmithingTopLevelRefinementPanel, TOP, -40, 0)
 
 	-- PP.Anchor(ZO_SmithingTopLevelDeconstructionPanelInventorySortBy, --[[#1]] nil, nil, nil, -8, nil)
-
 	PP.Anchor(ZO_SmithingTopLevelImprovementPanelBoosterContainerHeader, --[[#1]] TOPLEFT, ZO_SmithingTopLevelImprovementPanelBoosterContainer, TOPLEFT, 0, 20)
 
+	--Creation panel
+	PP.Anchor(ZO_SmithingTopLevelCreationPanel, --[[#1]] TOPRIGHT, ZO_SmithingTopLevel, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, ZO_SmithingTopLevel, BOTTOMRIGHT, 0, BottomOffsetY)
+	--If Master crafter tables are available
+	if ZO_SmithingTopLevelSetContainer ~= nil then
+		--The new crafting stations reset the ModeMenu on each tab change...
+		PP.Anchor(ZO_SmithingTopLevelModeMenu, --[[#1]] BOTTOM, ZO_SmithingTopLevelRefinementPanel, TOPRIGHT, -40, 0)
+		function SMITHING.RefreshModeMenuAnchors()
+			--Override. Will be called at each SMITHING.SetMode and would reanchor the ZO_SmithingTopLevelModeMenu again.
+		end
+		function SMITHING:GetBackgroundFragmentGroupForMode(mode)
+			--Override. Will be called at each SMITHING.SetMode and would return background fragments we do not want to show
+			--RIGHT_BG_FRAGMENT, TREE_UNDERLAY_FRAGMENT
+			--RIGHT_PANEL_BG_FRAGMENT
+			--ZO_SharedRightBackgroundLeft:SetHidden(true) / ZO_SharedTreeUnderlay:SetHidden(true)
+			--ZO_SharedRightPanelBackgroundLeft:SetHidden(true)
+			return
+		end
 
-	--Smithing research slots backgrounds
+		PP.Anchor(ZO_SmithingTopLevelCreationPanelTabsDivider,	--[[#1]] TOP, ZO_SmithingTopLevelCreationPanel, TOP, 0, 60)
+
+		PP:CreateBackground(ZO_SmithingTopLevelSetContainer,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] BOTTOMRIGHT, ZO_SmithingTopLevelCreationPanel, BOTTOMLEFT, -6, 6)
+		PP.ScrollBar(ZO_SmithingTopLevelSetContainerCategories,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+
+		--todo: fix tooltip at set's scroll container too!
+		--function ZO_ConsolidatedSmithingSetNavigationEntry_OnMouseEnter
+		-->InitializeTooltip(ItemTooltip, control, RIGHT, -25, 0)
+		-->ItemTooltip:SetGenericItemSet
+		--Set collections book tooltips use the same function and that works flawlessly, but crafted sets here do not add a bottom line and no space at the end.
+		--Maybe because these tooltips only show the normal text and no icon etc. ?
+		--> PP's tooltip layouts['ItemTooltip'] got y1 = -30 and this makes it look like that!
+		--> If we change that to 0 it looks okay here at the crafting tables, but it looks bad for the normal/other ItemTooltip tooltips then...
+		--> The layout only applies once, so we need to consider chngng it on each tooltip, or find a -15 medium value that fits all?
+
+	else
+		PP.Anchor(ZO_SmithingTopLevelCreationPanelTabsDivider,	--[[#1]] TOP, ZO_SmithingTopLevelCreationPanel, TOP, 0, 60)
+	end
+
+
+--?	--Smithing research slots backgrounds
 	local maxSmithingResearchTraits = 9 --currently 9 at 2022-06-23
 	local smithingResearchSlotTemplate = "ZO_SmithingResearchSlot%d"
 	local smithingResearchpanelCtrl = SMITHING.researchPanel.control
@@ -77,9 +119,8 @@ PP.craftStationScenes = function()
 		end, 25)
 	end)
 
-
 --===============================================================================================--
---==KEYBOARD_RETRAIT_ROOT_SCENE==-- --==SCENE_MANAGER:GetScene('retrait_keyboard_root')==--ZO_RETRAIT_KEYBOARD
+--==KEYBOARD_RETRAIT_ROOT_SCENE==-- --==SCENE_MANAGER:GetScene('retrait_keyboard_root')==--ZO_RETRAIT_KEYBOARD.traitContainer
 	local retrait_station	= ZO_RETRAIT_STATION_KEYBOARD
 	local retrait_panel		= ZO_RETRAIT_KEYBOARD
 	local traitContainer	= retrait_panel.traitContainer
@@ -92,7 +133,7 @@ PP.craftStationScenes = function()
 	PP:ForceRemoveFragment(KEYBOARD_RETRAIT_ROOT_SCENE, RIGHT_BG_FRAGMENT)
 	PP:ForceRemoveFragment(KEYBOARD_RETRAIT_ROOT_SCENE, TREE_UNDERLAY_FRAGMENT)
 	
-	PP:CreateBackground(retrait_panel.control,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6, true)
+	PP:CreateBackground(retrait_panel.control,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 
 	PP.ScrollBar(ZO_RetraitStation_KeyboardTopLevelRetraitPanelInventoryBackpack,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
 
@@ -106,11 +147,13 @@ PP.craftStationScenes = function()
 	PP.Anchor(ZO_RetraitStation_KeyboardTopLevelRetraitPanelInventoryFilterDivider,	--[[#1]] TOP, ZO_RetraitStation_KeyboardTopLevelRetraitPanelInventory, TOP, 0, 60)
 
 	--ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainer
+	PP:CreateBackground(traitContainer:GetNamedChild("BG"),	--[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, -2, -2)
+
 	traitList.highlightTemplate = nil
 	traitList.selectionTemplate = nil
 
-	PP.Anchor(traitList, --[[#1]] TOPLEFT, traitContainer, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, traitContainer, BOTTOMRIGHT, 0, 0)
-	PP.Anchor(ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerBG, --[[#1]] TOPLEFT, traitList, TOPLEFT, -6, -6, --[[#2]] true, BOTTOMRIGHT, traitList, BOTTOMRIGHT, 0, 6)
+	PP.Anchor(traitList, --[[#1]] TOPLEFT, traitContainer, TOPLEFT, -6, -6, --[[#2]] true, BOTTOMRIGHT, traitContainer, BOTTOMRIGHT, 0, 6)
+	-- PP.Anchor(ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerBG, --[[#1]] TOPLEFT, traitList, TOPLEFT, -6, -6, --[[#2]] true, BOTTOMRIGHT, traitList, BOTTOMRIGHT, 0, 6)
 	PP.Anchor(ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerSelectTraitLabel, --[[#1]] BOTTOM, traitContainer, TOP, 0, -6)
 
 	PP.ScrollBar(traitList,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
@@ -120,19 +163,19 @@ PP.craftStationScenes = function()
 	ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerDivider:SetHidden(true)
 	ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerBGMungeOverlay:SetHidden(true)
 
-	local bg = ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerBG
-	bg:SetCenterTexture(PP.SV.skin_backdrop, PP.SV.skin_backdrop_tile_size, PP.SV.skin_backdrop_tile and 1 or 0)
-	bg:SetCenterColor(unpack(PP.SV.skin_backdrop_col))
-	bg:SetEdgeTexture(PP.SV.skin_edge, PP.SV.skin_edge_file_width, PP.SV.skin_edge_file_height, PP.SV.skin_edge_thickness, 0)
-	bg:SetEdgeColor(unpack(PP.SV.skin_edge_col))
-	bg:SetInsets(PP.SV.skin_backdrop_insets, PP.SV.skin_backdrop_insets, -PP.SV.skin_backdrop_insets, -PP.SV.skin_backdrop_insets)
-	bg:SetIntegralWrapping(PP.SV.skin_edge_integral_wrapping)
+	-- local bg = ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerBG
+	-- bg:SetCenterTexture(PP.SV.skin_backdrop, PP.SV.skin_backdrop_tile_size, PP.SV.skin_backdrop_tile and 1 or 0)
+	-- bg:SetCenterColor(unpack(PP.SV.skin_backdrop_col))
+	-- bg:SetEdgeTexture(PP.SV.skin_edge, PP.SV.skin_edge_file_width, PP.SV.skin_edge_file_height, PP.SV.skin_edge_thickness, 0)
+	-- bg:SetEdgeColor(unpack(PP.SV.skin_edge_col))
+	-- bg:SetInsets(PP.SV.skin_backdrop_insets, PP.SV.skin_backdrop_insets, -PP.SV.skin_backdrop_insets, -PP.SV.skin_backdrop_insets)
+	-- bg:SetIntegralWrapping(PP.SV.skin_edge_integral_wrapping)
 
 	ZO_PreHook("ZO_RetraitStation_Retrait_Keyboard_OnTraitRowMouseEnter", function(control)
-		control.backdrop:SetCenterColor(unpack(PP.SV.list_skin.list_skin_backdrop_hl_col))
+		control.backdrop:SetCenterColor(unpack(PP.savedVars.ListStyle.list_skin_backdrop_hl_col))
 	end)
 	ZO_PreHook("ZO_RetraitStation_Retrait_Keyboard_OnTraitRowMouseExit", function(control)
-		control.backdrop:SetCenterColor(unpack(PP.SV.list_skin.list_skin_backdrop_col))
+		control.backdrop:SetCenterColor(unpack(PP.savedVars.ListStyle.list_skin_backdrop_col))
 	end)
 
 	ZO_PreHook("ZO_RetraitStation_Retrait_Keyboard_OnTraitRowMouseUp", function(control, button, upInside)
@@ -141,11 +184,11 @@ PP.craftStationScenes = function()
 				local lastSelected = traitList.traitSelectedControl
 
 				if lastSelected == control then return end
-				control.backdrop:SetEdgeColor(unpack(PP.SV.list_skin.list_skin_edge_sel_col))
+				control.backdrop:SetEdgeColor(unpack(PP.savedVars.ListStyle.list_skin_edge_sel_col))
 				traitList.traitSelectedControl = control
 
 				if not lastSelected then return end
-				lastSelected.backdrop:SetEdgeColor(unpack(PP.SV.list_skin.list_skin_edge_col))
+				lastSelected.backdrop:SetEdgeColor(unpack(PP.savedVars.ListStyle.list_skin_edge_col))
 			end
 		end
 	end)
@@ -153,7 +196,7 @@ PP.craftStationScenes = function()
 	local orig_RefreshTraitList = ZO_RetraitStation_Retrait_Keyboard.RefreshTraitList
 	function ZO_RetraitStation_Retrait_Keyboard.RefreshTraitList(...)
 		if traitList.traitSelectedControl then
-			traitList.traitSelectedControl.backdrop:SetEdgeColor(unpack(PP.SV.list_skin.list_skin_edge_col))
+			traitList.traitSelectedControl.backdrop:SetEdgeColor(unpack(PP.savedVars.ListStyle.list_skin_edge_col))
 			traitList.traitSelectedControl = nil
 		end
 
@@ -166,8 +209,6 @@ PP.craftStationScenes = function()
 --===============================================================================================--
 --Baertram 2022-04-17
 --==UNIVERSAL_DECONSTRUCTION_KEYBOARD_SCENE==-- --==SCENE_MANAGER:GetScene('universalDeconstructionSceneKeyboard')==--
-	--UNIVERSAL_DECONSTRUCTION_KEYBOARD_FRAGMENT
-	--ZO_UniversalDeconstructionTopLevel_Keyboard
 	local universalDeconScene = UNIVERSAL_DECONSTRUCTION_KEYBOARD_SCENE
 	local universalDeconTab = {ZO_UniversalDeconstructionTopLevel_KeyboardPanel}
 
@@ -176,8 +217,8 @@ PP.craftStationScenes = function()
 
 	PP:ForceRemoveFragment(universalDeconScene, THIN_LEFT_PANEL_BG_FRAGMENT)
 	PP:ForceRemoveFragment(universalDeconScene, MEDIUM_LEFT_PANEL_BG_FRAGMENT)
-
-	PP:CreateBackground(ZO_UniversalDeconstructionTopLevel_KeyboardPanel,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6, true)
+	
+	PP:CreateBackground(ZO_UniversalDeconstructionTopLevel_KeyboardPanel,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 
 	for _, v in ipairs(universalDeconTab) do
 		PP.ScrollBar(v:GetNamedChild("InventoryBackpack"),	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
@@ -187,15 +228,12 @@ PP.craftStationScenes = function()
 	end
 	ZO_UniversalDeconstructionTopLevel_KeyboardModeMenuBar:SetHidden(true)
 
-	--TODO
-	--Dropdown box ZO_UniversalDeconstructionTopLevel_KeyboardPanelInventoryCraftingTypes
-
 --===============================================================================================--
 --==ENCHANTING_SCENE==-- --==SCENE_MANAGER:GetScene('enchanting')==--
 	ENCHANTING_SCENE:RemoveFragment(RIGHT_PANEL_BG_FRAGMENT)
 	ENCHANTING_SCENE:AddFragment(FRAME_TARGET_BLUR_STANDARD_RIGHT_PANEL_MEDIUM_LEFT_PANEL_FRAGMENT)
 
-	PP:CreateBackground(ZO_EnchantingTopLevelInventory,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6, true)
+	PP:CreateBackground(ZO_EnchantingTopLevelInventory,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 	PP.ScrollBar(ZO_EnchantingTopLevelInventoryBackpack,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
 	PP.Anchor(ZO_EnchantingTopLevelInventory,				--[[#1]] TOPRIGHT, ZO_EnchantingTopLevel, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, ZO_EnchantingTopLevel, BOTTOMRIGHT, 0, BottomOffsetY)
 	PP.Anchor(ZO_EnchantingTopLevelModeMenu,				--[[#1]] BOTTOM, ZO_EnchantingTopLevelInventory, TOP, -40, 0)
@@ -206,7 +244,7 @@ PP.craftStationScenes = function()
 	ALCHEMY_SCENE:RemoveFragment(RIGHT_PANEL_BG_FRAGMENT)
 	ALCHEMY_SCENE:AddFragment(FRAME_TARGET_BLUR_STANDARD_RIGHT_PANEL_MEDIUM_LEFT_PANEL_FRAGMENT)
 
-	PP:CreateBackground(ZO_AlchemyTopLevelInventory,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6, true)
+	PP:CreateBackground(ZO_AlchemyTopLevelInventory,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 	PP.ScrollBar(ZO_AlchemyTopLevelInventoryBackpack,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
 	PP.Anchor(ZO_AlchemyTopLevelInventory,				--[[#1]] TOPRIGHT, ZO_AlchemyTopLevel, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, ZO_AlchemyTopLevel, BOTTOMRIGHT, 0, BottomOffsetY)
 	PP.Anchor(ZO_AlchemyTopLevelModeMenu,				--[[#1]] BOTTOM, ZO_AlchemyTopLevelInventory, TOP, -40, 0)
@@ -216,7 +254,7 @@ PP.craftStationScenes = function()
 --==PROVISIONER_SCENE==-- --==SCENE_MANAGER:GetScene('provisioner')==--
 	PROVISIONER_SCENE:RemoveFragment(RIGHT_PANEL_BG_FRAGMENT)
 	PROVISIONER_SCENE:AddFragment(FRAME_TARGET_BLUR_CENTERED_FRAGMENT)
-	
+
 	local PROVISIONER				= PROVISIONER
 	local ingredientRowsContainer	= PROVISIONER.ingredientRowsContainer
 	local ingredientRows			= PROVISIONER.ingredientRows
@@ -228,7 +266,7 @@ PP.craftStationScenes = function()
 	local provisionerPanel = CreateControl("$(parent)Panel", ZO_ProvisionerTopLevel, CT_CONTROL)
 	provisionerPanel:SetWidth(565)
 	PP.Anchor(provisionerPanel,				--[[#1]] TOPRIGHT, ZO_ProvisionerTopLevel, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, ZO_ProvisionerTopLevel, BOTTOMRIGHT, 0, BottomOffsetY)
-	PP:CreateBackground(provisionerPanel,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6, true)
+	PP:CreateBackground(provisionerPanel,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 
 	PP.Anchor(ZO_ProvisionerTopLevelTabs, --[[#1]] TOPRIGHT, provisionerPanel, TOPRIGHT, -33, 14)
 	ZO_ProvisionerTopLevelTabs.m_object.m_buttonPadding = -5
@@ -240,17 +278,34 @@ PP.craftStationScenes = function()
 	ZO_ProvisionerTopLevelNavigationContainer:SetWidth(565)
 	PP.ScrollBar(ZO_ProvisionerTopLevelNavigationContainer,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
 	ZO_Scroll_SetMaxFadeDistance(ZO_ProvisionerTopLevelNavigationContainer, 10)
-	
-	ZO_ProvisionerTopLevelDetailsDivider:SetHidden(true)
 
-	PP.Anchor(ZO_ProvisionerTopLevelNavigationDivider,	--[[#1]] nil, nil, nil, 0, 40)
+	local function updateProvisionerUIHiddenState()
+		ZO_ProvisionerTopLevelDetailsDivider:SetHidden(true)
+		if ZO_ProvisionerTopLevelDetails ~= nil then
+			ZO_ProvisionerTopLevelDetails:SetHidden(true)
+		end
+	end
+	updateProvisionerUIHiddenState()
+
+	if ZO_ProvisionerTopLevelNavigationDivider ~= nil then
+		PP.Anchor(ZO_ProvisionerTopLevelNavigationDivider,	--[[#1]] nil, nil, nil, 0, 40)
+	end
 	PP.Anchor(ZO_ProvisionerTopLevelMenuBarDivider,	--[[#1]] TOP, provisionerPanel, TOP, 0, 60)
-
-	PP.Anchor(ZO_ProvisionerTopLevelHaveIngredients,		--[[#1]] nil, nil, nil, 30, 14)
+	if ZO_ProvisionerTopLevelHaveIngredients ~= nil then
+		PP.Anchor(ZO_ProvisionerTopLevelHaveIngredients,		--[[#1]] nil, nil, nil, 30, 14)
+	end
 --------------------------------------
+	SecurePostHook(PROVISIONER, "OnTabFilterChanged", function()
+		updateProvisionerUIHiddenState()
+	end)
+
+
 	-- function ZO_Provisioner:ConfigureFromSettings(settings)
 	ZO_PreHook(ZO_Provisioner, "ConfigureFromSettings", function(self, settings)
 		if self.settings ~= settings then
+			--Sort the buttons by their descriptor DESC so that it will be food, drinks, furniture, fish filet
+			table.sort(settings.tabs, function(a, b) return a.descriptor > b.descriptor end)
+
 			self.settings = settings
 
 			self.skillInfoHeader:SetHidden(not settings.showProvisionerSkillLevel)
@@ -356,7 +411,7 @@ PP.craftStationScenes = function()
 	end
 
 	function ingredientRowsPool:ReleaseIngredientRowsTo(listId)
-		list = self[listId]
+		local list = self[listId]
 		for i = 1, #list do
 			self:ReleaseObject(list[i])
 		end
@@ -384,7 +439,11 @@ PP.craftStationScenes = function()
 			row.name:SetText(zo_iconFormat(icon, 30, 30) .. "  " .. zo_strformat(SI_TOOLTIP_ITEM_NAME, name))
 			row.name:SetColor(GetInterfaceColor(INTERFACE_COLOR_TYPE_ITEM_QUALITY_COLORS, quality))
 			row.count:SetText(requiredQuantity .. " " .. zo_iconFormat("/esoui/art/treeicons/housing_indexicon_hearth_up.dds", 30, 30) .. string.rep(" " , 10 - string.len(ingredientCount) * 2) .. ingredientCount .. " " .. zo_iconFormat("EsoUI/Art/Tooltips/icon_craft_bag.dds", 26, 26))
-
+			if requiredQuantity > ingredientCount then
+				row.count:SetColor(222/255, 36/255, 33/255, 1)
+			else
+				row.count:SetColor(255/255, 255/255, 255/255, 1)
+			end
 			tooltip:AddControl(row)
 			row:SetAnchor(CENTER)
 		end

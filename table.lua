@@ -1,6 +1,4 @@
-if not PP then PP = {} end
-
-local quickSlotData = PP.quickslotData
+local PP = PP
 
 PP.TabList = {
 	--PlayerInventory
@@ -8,7 +6,7 @@ PP.TabList = {
 	ZO_QuestItemsList,
 	ZO_CraftBagList,
 	ZO_InventoryWalletList,
-	quickSlotData.quickslotListControl,
+	QUICKSLOT_KEYBOARD.list,
 	--HouseBank
 	ZO_HouseBankBackpack,
 	--Bank
@@ -18,7 +16,7 @@ PP.TabList = {
 	ZO_StoreWindowList,
 	ZO_BuyBackList,
 	ZO_RepairWindowList,
-	--Smithing, Woodworking, �lothier
+	--Smithing, Woodworking, Clothier
 	ZO_SmithingTopLevelRefinementPanelInventoryBackpack,
 	ZO_SmithingTopLevelDeconstructionPanelInventoryBackpack,
 	ZO_SmithingTopLevelImprovementPanelInventoryBackpack,
@@ -32,6 +30,7 @@ PP.TabList = {
 	--UniversalDeconstruction
 	ZO_UniversalDeconstructionTopLevel_KeyboardPanelInventoryBackpack,
 }
+
 PP.Tabs = {
 	ZO_QuestItemsTabs,
 	ZO_PlayerInventoryTabs,
@@ -40,7 +39,7 @@ PP.Tabs = {
 	ZO_GuildBankTabs,
 	ZO_CraftBagTabs,
 	ZO_InventoryWalletTabs,
-	quickSlotData.quickSlotTabsControl,
+	QUICKSLOT_KEYBOARD.tabs,
 	ZO_RepairWindowTabs,
 	ZO_BuyBackTabs,
 	ZO_TradingHouseSubcategoryTabs,
@@ -97,7 +96,7 @@ PP.InfoBar = {
 	ZO_GuildBankInfoBar,
 	ZO_CraftBagInfoBar,
 	ZO_InventoryWalletInfoBar,
-	quickSlotData.quickSlotInfoBarControl,
+	ZO_QuickSlot_Keyboard_TopLevelInfoBar,
 	ZO_RepairWindowInfoBar,
 	ZO_BuyBackInfoBar,
 	ZO_StoreWindowInfoBar,

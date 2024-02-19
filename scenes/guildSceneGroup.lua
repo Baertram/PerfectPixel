@@ -1,9 +1,12 @@
 PP.guildSceneGroup = function()
+	local guildHistKB = GUILD_HISTORY_KEYBOARD
+
+
 	local scenes = {
 		{ scene = GUILD_HOME_SCENE,					gVar = GUILD_HOME,							},
 		{ scene = GUILD_ROSTER_SCENE,				gVar = GUILD_ROSTER_KEYBOARD,				},
 		{ scene = GUILD_RANKS_SCENE,				gVar = GUILD_RANKS,							},
-		{ scene = GUILD_HISTORY_SCENE,				gVar = GUILD_HISTORY,						},
+		{ scene = GUILD_HISTORY_KEYBOARD_SCENE or GUILD_HISTORY_SCENE,		gVar = guildHistKB or GUILD_HISTORY,		}, -- Support for API101041
 		{ scene = GUILD_CREATE_SCENE,				gVar = ZO_GuildCreate,						}, --local = GUILD_CREATE ...
 		{ scene = GUILD_HERALDRY_SCENE,				gVar = GUILD_HERALDRY,						},
 		{ scene = KEYBOARD_GUILD_RECRUITMENT_SCENE,	gVar = GUILD_RECRUITMENT_KEYBOARD,			},
@@ -16,8 +19,8 @@ PP.guildSceneGroup = function()
 		local scene			= scenes[i].scene
 		local gVar			= scenes[i].gVar
 
-		for i=1, #fragments do
-			scene:RemoveFragment(fragments[i])
+		for j=1, #fragments do
+			scene:RemoveFragment(fragments[j])
 		end
 
 		local tlc = gVar.control or gVar
@@ -50,11 +53,22 @@ PP.guildSceneGroup = function()
 	PP.Anchor(ZO_GuildRanksListHeader, --[[#1]] TOPLEFT, ZO_GuildRanks, TOPLEFT,	10, 80)
 	
 --guildHistory--ZO_GuildHistory--------------------------------------------------------------------
-	PP.Anchor(ZO_GuildHistoryList, --[[#1]] TOPLEFT, ZO_GuildHistoryActivityLogHeader, BOTTOMLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, ZO_GuildHistory, BOTTOMRIGHT,	0, 0)
-	PP.Anchor(ZO_GuildHistoryCategoriesHeader, --[[#1]] TOPLEFT, ZO_GuildHistory, TOPLEFT,	10, 80)
-	PP.ScrollBar(ZO_GuildHistoryList,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
-	ZO_Scroll_SetMaxFadeDistance(ZO_GuildHistoryList, 10)
-	ZO_ScrollList_Commit(ZO_GuildHistoryList)
+	--With API 101041 GuildHistory got a deferred initialized scene, so it builds the controls first as it get's called the first time
+	--> ZO_GuildHistory_Keyboard:OnDeferredInitialize() -> Object  GUILD_HISTORY_KEYBOARD
+	if guildHistKB ~= nil and ZO_GuildHistory_Keyboard_TL ~= nil then
+		SecurePostHook(guildHistKB, "OnDeferredInitialize", function()
+			local list = ZO_GuildHistory_Keyboard_TLList
+			PP.Anchor(list, --[[#1]] TOPLEFT, ZO_GuildHistory_Keyboard_TLActivityLogHeader, BOTTOMLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, ZO_GuildHistory_Keyboard_TL, BOTTOMRIGHT,	0, 0)
+			PP.Anchor(ZO_GuildHistory_Keyboard_TLCategoriesHeader, --[[#1]] TOPLEFT, ZO_GuildHistory_Keyboard_TL, TOPLEFT,	10, 80)
+			PP.ScrollBar(list,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+			ZO_Scroll_SetMaxFadeDistance(list, 10)
+			ZO_ScrollList_Commit(list)
+		end)
+	else
+		PP.Anchor(ZO_GuildHistoryList, --[[#1]] TOPLEFT, ZO_GuildHistoryActivityLogHeader, BOTTOMLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, ZO_GuildHistory, BOTTOMRIGHT,	0, 0)
+		PP.Anchor(ZO_GuildHistoryCategoriesHeader, --[[#1]] TOPLEFT, ZO_GuildHistory, TOPLEFT,	10, 80)
+		PP.ScrollBar(ZO_GuildHistoryList,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+	end
 
 --guildRecruitmentKeyboard-------------------------------------------------------------------------
 	PP.Anchor(ZO_GuildRecruitment_Keyboard_TopLevelList, --[[#1]] TOPLEFT, ZO_GuildRecruitment_Keyboard_TopLevel, TOPLEFT,	0, 80)

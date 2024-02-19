@@ -7,7 +7,14 @@ PP.statsScene = function()
 	PP:ForceRemoveFragment(STATS_SCENE, STATS_BG_FRAGMENT)
 
 	PP:CreateBackground(ZO_StatsPanel,						--[[#1]] nil, ZO_AdvancedStatsPanel, nil, -15, -10,	--[[#2]] nil, nil, nil, 0, 10)
-	
+	local bg = ZO_StatsPanel.PP_BG
+	 STATS_SCENE:RegisterCallback("StateChange", function(oldState, newState)
+        if newState == SCENE_HIDDEN then
+            bg:SetHidden(true)
+        end
+    end)
+
+
 	PP.Anchor(ZO_StatsPanel, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 90,	--[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -70)
 	PP.Anchor(ZO_StatsPanelPane, --[[#1]] TOPLEFT, ZO_StatsPanelTitleSection, BOTTOMLEFT, 0, 0,	--[[#2]] true, BOTTOMRIGHT, ZO_StatsPanel, BOTTOMRIGHT, 0, -3)
 

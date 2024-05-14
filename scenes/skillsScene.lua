@@ -98,9 +98,9 @@ PP.skillsScene = function()
 		local treeEntry		= tree.templateInfo.SSP_NavigationEntry	or tree.templateInfo.ZO_SkillsNavigationEntry
 
 		--TreeHeaderSetup(node, control, skillTypeData, open)
-		local existingSetupCallback = treeHeader.setupFunction
+		local existingSetupCallback00 = treeHeader.setupFunction
 		treeHeader.setupFunction = function(node, control, skillTypeData, open)
-			existingSetupCallback(node, control, skillTypeData, open)
+			existingSetupCallback00(node, control, skillTypeData, open)
 			control:SetDimensionConstraints(300, 23, 300, 23)
 			control:SetMouseEnabled(false)
 			control.allowIconScaling = false
@@ -138,9 +138,9 @@ PP.skillsScene = function()
 		end
 
 		--TreeEntrySetup(node, control, skillLineData, open)
-		local existingSetupCallback = treeEntry.setupFunction
+		local existingSetupCallback01 = treeEntry.setupFunction
 		treeEntry.setupFunction = function(node, control, skillLineData, open)
-			existingSetupCallback(node, control, skillLineData, open)
+			existingSetupCallback01(node, control, skillLineData, open)
 			control:SetHeight(21)
 			control:SetVerticalAlignment(TEXT_ALIGN_CENTER)
 			PP.Font(control, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)

@@ -1,3 +1,6 @@
+local PP = PP
+local removeFragmentsFromScene = PP.removeFragmentsFromScene
+
 PP.allianceWarSceneGroup = function()
 	local scenes = {
 		{ scene = CAMPAIGN_OVERVIEW_SCENE,	gVar = CAMPAIGN_OVERVIEW,	},
@@ -5,13 +8,12 @@ PP.allianceWarSceneGroup = function()
 	}
 	local fragments	= { FRAME_PLAYER_FRAGMENT, RIGHT_BG_FRAGMENT, TREE_UNDERLAY_FRAGMENT, TITLE_FRAGMENT, ALLIANCE_WAR_TITLE_FRAGMENT, }
 
-	for i=1, #scenes do
-		local scene			= scenes[i].scene
-		local gVar			= scenes[i].gVar
-		
-		for i=1, #fragments do
-			scene:RemoveFragment(fragments[i])
-		end
+	for _, sceneInfo in ipairs(scenes) do
+		local scene = sceneInfo.scene
+		local gVar = sceneInfo.gVar
+
+		-- Remove fragments from the current scene
+		removeFragmentsFromScene(scene, fragments)
 
 		local tlc	= gVar.control
 		--local list	= gVar.list

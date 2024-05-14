@@ -359,7 +359,7 @@ PP.ScrollBar = function(control)
 
 end
 
-PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize)
+PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColor, glowEdgeColor, reAnchorText)
 	local bar		= control
 	local barText	= control:GetNamedChild("Progress")
 	local bg		= control:GetNamedChild("BG")

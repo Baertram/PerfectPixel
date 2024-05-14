@@ -1,27 +1,28 @@
+local PP = PP
+local removeFragmentsFromScene = PP.removeFragmentsFromScene
+
 PP.guildSceneGroup = function()
 	local guildHistKB = GUILD_HISTORY_KEYBOARD
 
 
 	local scenes = {
-		{ scene = GUILD_HOME_SCENE,					gVar = GUILD_HOME,							},
-		{ scene = GUILD_ROSTER_SCENE,				gVar = GUILD_ROSTER_KEYBOARD,				},
-		{ scene = GUILD_RANKS_SCENE,				gVar = GUILD_RANKS,							},
-		{ scene = GUILD_HISTORY_KEYBOARD_SCENE or GUILD_HISTORY_SCENE,		gVar = guildHistKB or GUILD_HISTORY,		}, -- Support for API101041
-		{ scene = GUILD_CREATE_SCENE,				gVar = ZO_GuildCreate,						}, --local = GUILD_CREATE ...
-		{ scene = GUILD_HERALDRY_SCENE,				gVar = GUILD_HERALDRY,						},
-		{ scene = KEYBOARD_GUILD_RECRUITMENT_SCENE,	gVar = GUILD_RECRUITMENT_KEYBOARD,			},
-		{ scene = KEYBOARD_GUILD_BROWSER_SCENE,		gVar = GUILD_BROWSER_KEYBOARD,				},
-		{ scene = KEYBOARD_LINK_GUILD_INFO_SCENE,	gVar = GUILD_BROWSER_GUILD_INFO_KEYBOARD,	},
+		{ scene = GUILD_HOME_SCENE,                 gVar = GUILD_HOME, },
+		{ scene = GUILD_ROSTER_SCENE,               gVar = GUILD_ROSTER_KEYBOARD, },
+		{ scene = GUILD_RANKS_SCENE,                gVar = GUILD_RANKS, },
+		{ scene = GUILD_HISTORY_KEYBOARD_SCENE,     gVar = guildHistKB, },
+		{ scene = GUILD_CREATE_SCENE,               gVar = ZO_GuildCreate, }, --local = GUILD_CREATE ...
+		{ scene = GUILD_HERALDRY_SCENE,             gVar = GUILD_HERALDRY, },
+		{ scene = KEYBOARD_GUILD_RECRUITMENT_SCENE, gVar = GUILD_RECRUITMENT_KEYBOARD, },
+		{ scene = KEYBOARD_GUILD_BROWSER_SCENE,     gVar = GUILD_BROWSER_KEYBOARD, },
+		{ scene = KEYBOARD_LINK_GUILD_INFO_SCENE,   gVar = GUILD_BROWSER_GUILD_INFO_KEYBOARD, },
 	}
 	local fragments	= { FRAME_PLAYER_FRAGMENT, RIGHT_BG_FRAGMENT, TREE_UNDERLAY_FRAGMENT, TITLE_FRAGMENT, GUILD_LINK_TITLE_FRAGMENT, }
 
-	for i=1, #scenes do
-		local scene			= scenes[i].scene
-		local gVar			= scenes[i].gVar
+	for _, sceneInfo in ipairs(scenes) do
+		local scene = sceneInfo.scene
+		local gVar = sceneInfo.gVar
 
-		for j=1, #fragments do
-			scene:RemoveFragment(fragments[j])
-		end
+		removeFragmentsFromScene(scene, fragments)
 
 		local tlc = gVar.control or gVar
 
@@ -51,7 +52,7 @@ PP.guildSceneGroup = function()
 
 --guildRanks--ZO_GuildRanks----------------------------------------------------------------------
 	PP.Anchor(ZO_GuildRanksListHeader, --[[#1]] TOPLEFT, ZO_GuildRanks, TOPLEFT,	10, 80)
-	
+
 --guildHistory--ZO_GuildHistory--------------------------------------------------------------------
 	--With API 101041 GuildHistory got a deferred initialized scene, so it builds the controls first as it get's called the first time
 	--> ZO_GuildHistory_Keyboard:OnDeferredInitialize() -> Object  GUILD_HISTORY_KEYBOARD -> Class ZO_GuildHistory_Keyboard

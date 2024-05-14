@@ -432,14 +432,14 @@ PP.craftStationScenes = function()
 			local name, icon, requiredQuantity, _, quality	= GetRecipeIngredientItemInfo(recipeListIndex, recipeIndex, ingredientIndex)
 			local ingredientCount							= GetCurrentRecipeIngredientCount(recipeListIndex, recipeIndex, ingredientIndex)
 			local numIterations								= self:GetMultiCraftNumIterations()
-			local requiredQuantity							= numIterations > 1 and requiredQuantity * numIterations or requiredQuantity
+			local _requiredQuantity							= numIterations > 1 and requiredQuantity * numIterations or requiredQuantity
 
 			ingredientRowsPool[listId][ingredientIndex] = key
 
 			row.name:SetText(zo_iconFormat(icon, 30, 30) .. "  " .. zo_strformat(SI_TOOLTIP_ITEM_NAME, name))
 			row.name:SetColor(GetInterfaceColor(INTERFACE_COLOR_TYPE_ITEM_QUALITY_COLORS, quality))
-			row.count:SetText(requiredQuantity .. " " .. zo_iconFormat("/esoui/art/treeicons/housing_indexicon_hearth_up.dds", 30, 30) .. string.rep(" " , 10 - string.len(ingredientCount) * 2) .. ingredientCount .. " " .. zo_iconFormat("EsoUI/Art/Tooltips/icon_craft_bag.dds", 26, 26))
-			if requiredQuantity > ingredientCount then
+			row.count:SetText(_requiredQuantity .. " " .. zo_iconFormat("/esoui/art/treeicons/housing_indexicon_hearth_up.dds", 30, 30) .. string.rep(" " , 10 - string.len(ingredientCount) * 2) .. ingredientCount .. " " .. zo_iconFormat("EsoUI/Art/Tooltips/icon_craft_bag.dds", 26, 26))
+			if _requiredQuantity > ingredientCount then
 				row.count:SetColor(222/255, 36/255, 33/255, 1)
 			else
 				row.count:SetColor(255/255, 255/255, 255/255, 1)

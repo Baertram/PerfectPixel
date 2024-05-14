@@ -1,3 +1,6 @@
+local PP = PP
+local removeFragmentsFromScene = PP.removeFragmentsFromScene
+
 PP.journalSceneGroup = function()
 --===============================================================================================--
 	local SV_VER		= 0.4
@@ -33,16 +36,14 @@ PP.journalSceneGroup = function()
 	}
 	local fragments	= { FRAME_PLAYER_FRAGMENT, RIGHT_BG_FRAGMENT, TREE_UNDERLAY_FRAGMENT, TITLE_FRAGMENT, JOURNAL_TITLE_FRAGMENT, }
 	-- local scenesShown = {}
-	for i=1, #scenes do
-		local scene			= scenes[i].scene
-		local gVar			= scenes[i].gVar
+	for _, sceneInfo in ipairs(scenes) do
+		local scene = sceneInfo.scene
+		local gVar = sceneInfo.gVar
 		-- local filter 		= 		gVar.filter or gVar.categoryFilter
 		-- local progressBar   = 		gVar.categoryProgress
 		-- local sceneShowCallback = 	scenes[i].sceneShowCallback
 
-		for i=1, #fragments do
-			scene:RemoveFragment(fragments[i])
-		end
+		removeFragmentsFromScene(scene, fragments)
 
 		local tlc	= gVar.control
 		-- local list	= gVar.list

@@ -121,7 +121,7 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 	local namespace		= namespace or 'WindowStyle'
 	local sv			= self:GetSavedVars(namespace)
 	local insets		= sv.skin_backdrop_insets
-	local parent		= parent 
+	local parent		= parent
 	local bg
 	local exBG
 
@@ -147,7 +147,7 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 	bg:SetEdgeTexture(sv.skin_edge, sv.skin_edge_file_width, sv.skin_edge_file_height, sv.skin_edge_thickness, 0)
 	bg:SetEdgeColor(unpack(sv.skin_edge_col))
 	bg:SetIntegralWrapping(sv.skin_edge_integral_wrapping)
-	
+
 	parent.PP_BG = bg
 
 	if not self.backgrounds[namespace] then
@@ -162,7 +162,7 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 		local bg		= self.PP_BG
 		local isValid	= PP.backgroundsHiddenForScene[bg]
 		local isHide	= isValid and isValid[SM:GetCurrentScene()]
-		
+
 		bg:SetHidden(isHide or bool)
 	end)
 	ZO_PreHookHandler(parent, 'OnEffectivelyHidden', function(self, bool)
@@ -176,11 +176,11 @@ function PP:UpdateBackgrounds(namespace)
 	local backgrounds	= self.backgrounds[namespace]
 	local insets		= sv.skin_backdrop_insets
 	local normInsets	= self.lastInsets - insets
-	
+
 	self.lastInsets	= insets
-	
+
 	if not backgrounds then return end
-	
+
 	for i = 1, #backgrounds do
 		local bg = backgrounds[i]
 
@@ -223,7 +223,7 @@ end
 function PP:SetLockFn(objectTable, fnName)
 	local exFn		= objectTable[fnName]
 	local marker	= '_' .. fnName
-	
+
 	if objectTable[marker] then return end
 
 	objectTable[marker]	= exFn
@@ -369,7 +369,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 	local glowC		= control:GetNamedChild("GlowContainerCenter")
 	local glowL		= control:GetNamedChild("GlowContainerLeft")
 	local glowR		= control:GetNamedChild("GlowContainerRight")
-	
+
 	if glow then
 		glowC:SetHidden(true)
 		glowL:SetHidden(true)
@@ -391,7 +391,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 
 	bg:SetHidden(true)
 	overlay:SetHidden(true)
-	
+
 	bar:SetHeight(height)
 	bar:SetTexture(nil)
 	bar:SetLeadingEdge(nil)
@@ -400,7 +400,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 	gloss:SetLeadingEdge(nil)
 	gloss:EnableLeadingEdge(false)
 	gloss:SetColor(0/255, 0/255, 0/255, .1)
-	
+
 --
 	if not control:GetNamedChild("Backdrop") then
 		local barBG = CreateControl("$(parent)Backdrop", control, CT_BACKDROP)
@@ -447,7 +447,7 @@ PP.ResetStyle = function()
 				end
 
 				if list.mode == 3 then return end
-				
+
 				for _, control in pairs(pool.m_Free) do
 					dataType.hooks[list.mode].OnCreate(control)
 				end
@@ -466,10 +466,10 @@ PP.ResetStyle = function()
 	end
 	PLAYER_INVENTORY:UpdateList(INVENTORY_BACKPACK)
 	ZO_ScrollList_Commit(ZO_PlayerInventoryList)
-	
+
 	ZO_Scroll_SetMaxFadeDistance(ZO_LootAlphaContainerList, PP.savedVars.ListStyle.list_fade_distance)
 	ZO_LootAlphaContainerList.uniformControlHeight = PP.savedVars.ListStyle.list_uniform_control_height
-	
+
 	ZO_Scroll_SetMaxFadeDistance(MAIL_INBOX.navigationTree.scrollControl, PP.savedVars.ListStyle.list_fade_distance)
 
 	if not TRADING_HOUSE.searchResultsList then return end
@@ -538,7 +538,7 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 		local checkBox			= self.checkBox
 		local checkStateType	= type(checkState)
 		local state				= false
-		
+
 		if checkStateType == "boolean" then
 			state = checkState and BSTATE_PRESSED or BSTATE_NORMAL
 		elseif checkStateType == "number" then
@@ -553,7 +553,7 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 			control:SetMouseEnabled(false)
 		end
 	end
-	
+
 	function control:SetToggleFunction(fn)
 		self.toggleFunction = fn
 	end
@@ -604,3 +604,12 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 
 	return control
 end
+
+-- Function to remove fragments from a scene
+local removeFragmentsFromScene = function(scene, fragments)
+	for _, fragment in ipairs(fragments) do
+	  scene:RemoveFragment(fragment)
+	end
+end
+
+PP.removeFragmentsFromScene = removeFragmentsFromScene

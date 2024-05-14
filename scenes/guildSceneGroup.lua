@@ -54,20 +54,17 @@ PP.guildSceneGroup = function()
 	
 --guildHistory--ZO_GuildHistory--------------------------------------------------------------------
 	--With API 101041 GuildHistory got a deferred initialized scene, so it builds the controls first as it get's called the first time
-	--> ZO_GuildHistory_Keyboard:OnDeferredInitialize() -> Object  GUILD_HISTORY_KEYBOARD
+	--> ZO_GuildHistory_Keyboard:OnDeferredInitialize() -> Object  GUILD_HISTORY_KEYBOARD -> Class ZO_GuildHistory_Keyboard
 	if guildHistKB ~= nil and ZO_GuildHistory_Keyboard_TL ~= nil then
-		SecurePostHook(guildHistKB, "OnDeferredInitialize", function()
+		--AS Libhistoire uses the same we need to add an optional dependency -> SecurePostHook(ZO_GuildHistory_Keyboard, "OnDeferredInitialize", function(history)
+		SecurePostHook(ZO_GuildHistory_Keyboard, "OnDeferredInitialize", function()
 			local list = ZO_GuildHistory_Keyboard_TLList
-			PP.Anchor(list, --[[#1]] TOPLEFT, ZO_GuildHistory_Keyboard_TLActivityLogHeader, BOTTOMLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, ZO_GuildHistory_Keyboard_TL, BOTTOMRIGHT,	0, 0)
-			PP.Anchor(ZO_GuildHistory_Keyboard_TLCategoriesHeader, --[[#1]] TOPLEFT, ZO_GuildHistory_Keyboard_TL, TOPLEFT,	10, 80)
-			PP.ScrollBar(list,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+			PP.Anchor(list,  TOPLEFT, ZO_GuildHistory_Keyboard_TLActivityLogHeader, BOTTOMLEFT, 0, 0, true, BOTTOMRIGHT, ZO_GuildHistory_Keyboard_TL, BOTTOMRIGHT,	0, 0)
+			PP.Anchor(ZO_GuildHistory_Keyboard_TLCategoriesHeader, TOPLEFT, ZO_GuildHistory_Keyboard_TL, TOPLEFT,	10, 80)
+			PP.ScrollBar(list,	180, 180, 180, .7, 20, 20, 20, .7, false)
 			ZO_Scroll_SetMaxFadeDistance(list, 10)
 			ZO_ScrollList_Commit(list)
 		end)
-	else
-		PP.Anchor(ZO_GuildHistoryList, --[[#1]] TOPLEFT, ZO_GuildHistoryActivityLogHeader, BOTTOMLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, ZO_GuildHistory, BOTTOMRIGHT,	0, 0)
-		PP.Anchor(ZO_GuildHistoryCategoriesHeader, --[[#1]] TOPLEFT, ZO_GuildHistory, TOPLEFT,	10, 80)
-		PP.ScrollBar(ZO_GuildHistoryList,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
 	end
 
 --guildRecruitmentKeyboard-------------------------------------------------------------------------
@@ -88,4 +85,13 @@ PP.guildSceneGroup = function()
 end
 
 
-
+--[[
+		SecurePostHook(guildHistKB, "OnDeferredInitialize", function()
+			local list = ZO_GuildHistory_Keyboard_TLList
+			PP.Anchor(list,  TOPLEFT, ZO_GuildHistory_Keyboard_TLActivityLogHeader, BOTTOMLEFT, 0, 0, true, BOTTOMRIGHT, ZO_GuildHistory_Keyboard_TL, BOTTOMRIGHT,	0, 0)
+			PP.Anchor(ZO_GuildHistory_Keyboard_TLCategoriesHeader, TOPLEFT, ZO_GuildHistory_Keyboard_TL, TOPLEFT,	10, 80)
+			PP.ScrollBar(list,	180, 180, 180, .7, 20, 20, 20, .7, false)
+			ZO_Scroll_SetMaxFadeDistance(list, 10)
+			ZO_ScrollList_Commit(list)
+		end)
+]]

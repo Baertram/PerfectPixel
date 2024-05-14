@@ -1,5 +1,5 @@
-## APIVersion: 101040 101041
-## Version: 0.12.14
+## APIVersion: 101041 101042
+## Version: 0.12.16
 ## Title: PerfectPixel
 ## Author: @KL1SK
 ## Description: PerfectPixle changes a lot UI elements.

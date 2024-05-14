@@ -422,6 +422,60 @@ local tinsert    = table.insert
 		end
 		--===============================================================================================--
 
+		--==LibHistoire==--
+		if LibHistoire then
+			local wasHistyHooked = false
+			SecurePostHook(ZO_GuildHistory_Keyboard, "OnDeferredInitialize", function()
+				if not wasHistyHooked then
+					local histyGuildHistoryTLC = LibHistoireGuildHistoryStatusWindow
+					local histyGuildHistoryTLCBG = histyGuildHistoryTLC:GetNamedChild("Bg")  --LibHistoireGuildHistoryStatusWindowBg
+					if histyGuildHistoryTLCBG ~= nil then
+						PP:CreateBackground(histyGuildHistoryTLCBG, --[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+					end
+
+					local histyGuildHistoryTLCToggleButton = histyGuildHistoryTLC:GetNamedChild("ToggleButton") --LibHistoireGuildHistoryStatusWindowToggleButton
+					if histyGuildHistoryTLCToggleButton ~= nil then
+						histyGuildHistoryTLCToggleButton:ClearAnchors()
+						histyGuildHistoryTLCToggleButton:SetAnchor(BOTTOMLEFT, ZO_GuildHistory_Keyboard_TL, BOTTOMLEFT, 10, 0)
+					end
+					wasHistyHooked = true
+				end
+			end)
+		end
+		--===============================================================================================--
+
+		--==FCO ChangeStuff==--
+		if FCOCS then
+			MAIL_SEND_SCENE:RegisterCallback("StateChange", function(oldState, newState)
+				if newState == SCENE_SHOWN then
+					local mailSettingsGearButton = ZO_MailSend_FCOChangeStuff_FCOCS_MailSettingsContextMenu
+					local mailReceiverTriangleButton = ZO_MailSendToLabel_FCOChangeStuff_FCOCS_MailRecipientsContextMenu
+					local mailSubjectTriangleButton = ZO_MailSendSubjectLabel_FCOChangeStuff_FCOCS_MailSubjectsContextMenu
+					local mailTextTriangleButton = ZO_MailSendBody_FCOChangeStuff_FCOCS_MailTextsContextMenu
+
+					if mailSettingsGearButton ~= nil then
+						mailSettingsGearButton:ClearAnchors()
+						mailSettingsGearButton:SetAnchor(TOPLEFT, ZO_MailSend, TOPLEFT, -10, -10)
+					end
+					if mailReceiverTriangleButton ~= nil then
+						mailReceiverTriangleButton:ClearAnchors()
+						mailReceiverTriangleButton:SetAnchor(LEFT, ZO_MailSendToLabel, RIGHT, 15, 0)
+					end
+					if mailSubjectTriangleButton ~= nil then
+						mailSubjectTriangleButton:ClearAnchors()
+						mailSubjectTriangleButton:SetAnchor(LEFT, ZO_MailSendSubjectLabel, RIGHT, 15, 0)
+					end
+					if mailTextTriangleButton ~= nil then
+						mailTextTriangleButton:ClearAnchors()
+						mailTextTriangleButton:SetAnchor(TOPLEFT, ZO_MailSendBody, TOPLEFT, -5, -19)
+					end
+				end
+			end)
+		end
+		--===============================================================================================--
+
+
+
 		--UnregisterForEvent--
 		EVENT_MANAGER:UnregisterForEvent(PP.ADDON_NAME .. "Compatibility", EVENT_PLAYER_ACTIVATED)
 	end

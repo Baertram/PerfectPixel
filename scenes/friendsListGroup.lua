@@ -1,3 +1,6 @@
+local PP = PP
+local removeFragmentsFromScene = PP.removeFragmentsFromScene
+
 PP.friendsListGroup = function()
 	local scenes = {
 		{ scene = FRIENDS_LIST_SCENE,	gVar = FRIENDS_LIST,	},
@@ -5,13 +8,11 @@ PP.friendsListGroup = function()
 	}
 	local fragments	= { FRAME_PLAYER_FRAGMENT, RIGHT_BG_FRAGMENT, TITLE_FRAGMENT, CONTACTS_TITLE_FRAGMENT, }
 
-	for i=1, #scenes do
-		local scene			= scenes[i].scene
-		local gVar			= scenes[i].gVar
-		
-		for i=1, #fragments do
-			scene:RemoveFragment(fragments[i])
-		end
+	for _, sceneInfo in ipairs(scenes) do
+		local scene = sceneInfo.scene
+		local gVar = sceneInfo.gVar
+
+		removeFragmentsFromScene(scene, fragments)
 
 		local tlc	= gVar.control
 		local list	= gVar.list

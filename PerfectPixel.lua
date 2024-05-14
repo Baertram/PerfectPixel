@@ -19,7 +19,7 @@ function PP.Core()
 	PP:AddNewSavedVars(0.2, 'ListStyle', {
 		list_skin_backdrop					= "PerfectPixel/tex/tex_white.dds",
 		list_skin_backdrop_col				= {10/255, 10/255, 10/255, 220/255},
-		list_skin_backdrop_hl_col			= {96/255*.3, 125/255*.3, 139/255*.3, 220/255},
+		list_skin_backdrop_hl_col			= {96/255*0.3, 125/255*0.3, 139/255*0.3, 220/255},
 		list_skin_backdrop_insets			= 0,
 		list_skin_backdrop_tile				= false,
 		list_skin_backdrop_tile_size		= 8,
@@ -46,14 +46,14 @@ function PP.Core()
 		--"SellPrice"--------------------
 		if control:GetNamedChild("SellPrice") then
 			local sp = control:GetNamedChild("SellPrice")
-			PP.Font(sp, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(sp, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			sp:SetHidden(false)
 			PP:SetLockFn(sp, 'SetFont')
 	end
 		--"ButtonStackCount"-------------
 		if control:GetNamedChild("ButtonStackCount") then
 			local stack = control:GetNamedChild("ButtonStackCount")
-			PP.Font(stack, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(stack, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			PP.Anchor(stack, --[[#1]] LEFT, control:GetNamedChild("ButtonIcon"), LEFT, 34, 8)
 		end
 		--"Button"-------------
@@ -80,7 +80,7 @@ function PP.Core()
 		--"Name"-------------
 		if control:GetNamedChild("Name") then
 			local name = control:GetNamedChild("Name")
-			PP.Font(name, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(name, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			PP.Anchor(name, --[[#1]] LEFT, control, LEFT, 110, -1)
 			name:SetLineSpacing(0)
 			name:SetVerticalAlignment(TEXT_ALIGN_CENTER)
@@ -185,8 +185,8 @@ function PP.Core()
 --CROWN_CRATE_KEYBOARD_SCENE
 	PP.Anchor(ZO_CrownCratesGemsCounter, --[[#1]] BOTTOMLEFT, GuiRoot, BOTTOMLEFT, 10, -2)
 	ZO_CrownCratesGemsCounterGemIcon:SetDimensions(22, 22)
-	PP.Font(ZO_CrownCratesGemsCounterGemsHeader, --[[Font]] PP.f.u67, 20, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-	PP.Font(ZO_CrownCratesGemsCounterGems, --[[Font]] PP.f.u67, 20, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+	PP.Font(ZO_CrownCratesGemsCounterGemsHeader, --[[Font]] PP.f.u67, 20, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+	PP.Font(ZO_CrownCratesGemsCounterGems, --[[Font]] PP.f.u67, 20, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 	
 --FadeAnimations---------------------------------------------------------------------------------------
 	-- treasureMapQuickSlot

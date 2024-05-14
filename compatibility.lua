@@ -12,7 +12,7 @@ local tinsert    = table.insert
 
 			ZO_PreHookHandler(LibCustomMenuSubmenu, "OnShow", function ()
 				lcmSMBG:SetCenterTexture(nil, 4, 0)
-				lcmSMBG:SetCenterColor(10 / 255, 10 / 255, 10 / 255, .96)
+				lcmSMBG:SetCenterColor(10 / 255, 10 / 255, 10 / 255, 0.96)
 				lcmSMBG:SetEdgeTexture(nil, 1, 1, 1, 0)
 				lcmSMBG:SetEdgeColor(60 / 255, 60 / 255, 60 / 255, 1)
 				lcmSMBG:SetInsets(-1, -1, 1, 1)
@@ -24,9 +24,9 @@ local tinsert    = table.insert
 
 			if lcmSMHighlight then
 				lcmSMHighlight:SetCenterTexture(nil, 4, 0)
-				lcmSMHighlight:SetCenterColor(96 / 255 * .3, 125 / 255 * .3, 139 / 255 * .3, 1)
+				lcmSMHighlight:SetCenterColor(96 / 255 * 0.3, 125 / 255 * 0.3, 139 / 255 * 0.3, 1)
 				lcmSMHighlight:SetEdgeTexture(nil, 1, 1, 1, 0)
-				lcmSMHighlight:SetEdgeColor(96 / 255 * .5, 125 / 255 * .5, 139 / 255 * .5, 0)
+				lcmSMHighlight:SetEdgeColor(96 / 255 * 0.5, 125 / 255 * 0.5, 139 / 255 * 0.5, 0)
 				lcmSMHighlight:SetInsets(0, 0, 0, 0)
 				-- lcmSMHighlight:SetInheritAlpha(false)
 			end
@@ -64,10 +64,10 @@ local tinsert    = table.insert
 				PP.Anchor(AddonSelectorAutoReloadUILabel, --[[#1]] TOPRIGHT, AddonSelectorSearchBox, BOTTOMRIGHT, 0, 6)
 				PP.Anchor(AddonSelectorAutoReloadUI, --[[#1]] RIGHT, AddonSelectorAutoReloadUILabel, LEFT, -6, 0)
 			end
-			PP.Font(AddonSelectorDeselectAddonsButtonKeyLabel, --[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-			PP.Font(AddonSelectorDeselectAddonsButtonNameLabel, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-			PP.Font(AddonSelectorSelectAddonsButtonKeyLabel, --[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-			PP.Font(AddonSelectorSelectAddonsButtonNameLabel, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(AddonSelectorDeselectAddonsButtonKeyLabel, --[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			PP.Font(AddonSelectorDeselectAddonsButtonNameLabel, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			PP.Font(AddonSelectorSelectAddonsButtonKeyLabel, --[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			PP.Font(AddonSelectorSelectAddonsButtonNameLabel, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 		end
 		--===============================================================================================--
 
@@ -388,7 +388,7 @@ local tinsert    = table.insert
 				if not rowControl.MM_Fix then
 					local buyingAdvice = rowControl:GetNamedChild("BuyingAdvice")
 					if buyingAdvice then
-						PP.Font(buyingAdvice, --[[Font]] PP.f.u67, 14, "shadow", --[[Alpha]] .8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+						PP.Font(buyingAdvice, --[[Font]] PP.f.u67, 14, "shadow", --[[Alpha]] 0.8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 						PP.Anchor(buyingAdvice, --[[#1]] LEFT, nil, RIGHT, 0, 0)
 						PP:SetLockFn(buyingAdvice, "SetFont")
 						PP:SetLockFn(buyingAdvice, "SetAnchor")

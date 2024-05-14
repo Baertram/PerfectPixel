@@ -328,7 +328,7 @@ PP.ScrollBar = function(control)
 	sb:ClearAnchors()
 	sb:SetAnchor(TOPLEFT, nil, TOPRIGHT, 0, 0)
 	sb:SetAnchor(BOTTOMLEFT, nil, BOTTOMRIGHT, -10, 0)
-	sb:SetAlpha(.6)
+	sb:SetAlpha(0.6)
 	sb:SetHitInsets(-4, 0, 5, 0)
 	sb:SetWidth(4)
 	sb.thumb = thumb
@@ -386,7 +386,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 	end
 
 	if barText then
-		PP.Font(barText, --[[Font]] PP.f.u67, fSize, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+		PP.Font(barText, --[[Font]] PP.f.u67, fSize, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 	end
 
 	bg:SetHidden(true)
@@ -399,7 +399,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 	gloss:SetTexture(nil)
 	gloss:SetLeadingEdge(nil)
 	gloss:EnableLeadingEdge(false)
-	gloss:SetColor(0/255, 0/255, 0/255, .1)
+	gloss:SetColor(0/255, 0/255, 0/255, 0.1)
 
 --
 	if not control:GetNamedChild("Backdrop") then
@@ -407,9 +407,9 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 
 		PP.Anchor(barBG, --[[#1]] TOPLEFT, control, TOPLEFT, -2, -2, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	2, 2)
 		barBG:SetCenterTexture(nil, 8, 0)
-		barBG:SetCenterColor(10/255, 10/255, 10/255, .8)
+		barBG:SetCenterColor(10/255, 10/255, 10/255, 0.8)
 		barBG:SetEdgeTexture(nil, 1, 1, 1, 0)
-		barBG:SetEdgeColor(60/255, 60/255, 60/255, .9)
+		barBG:SetEdgeColor(60/255, 60/255, 60/255, 0.9)
 		barBG:SetInsets(-1, -1, 1, 1)
 	end
 end
@@ -497,10 +497,10 @@ end
 
 --
 local stateColor = {
-	[BSTATE_NORMAL]				= {173/255,			166/255,		132/255,		1},	--BSTATE_NORMAL
-	[BSTATE_PRESSED]			= {220/255,			220/255,		220/255,		1},	--BSTATE_PRESSED
-	[BSTATE_DISABLED]			= {173/255 * .5,	166/255 * .5,	132/255 * .5,	1},	--BSTATE_DISABLED_PRESSED
-	[BSTATE_DISABLED_PRESSED]	= {220/255 * .5,	220/255 * .5,	220/255 * .5,	1},	--BSTATE_DISABLED
+	[BSTATE_NORMAL]           = { 173 / 255, 166 / 255, 132 / 255, 1 },        --BSTATE_NORMAL
+	[BSTATE_PRESSED]          = { 220 / 255, 220 / 255, 220 / 255, 1 },        --BSTATE_PRESSED
+	[BSTATE_DISABLED]         = { 173 / 255 * 0.5, 166 / 255 * 0.5, 132 / 255 * 0.5, 1 }, --BSTATE_DISABLED_PRESSED
+	[BSTATE_DISABLED_PRESSED] = { 220 / 255 * 0.5, 220 / 255 * 0.5, 220 / 255 * 0.5, 1 }, --BSTATE_DISABLED
 }
 
 function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1, texture, height, width, tooltipText, sv, fn)
@@ -530,7 +530,7 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 	local animation, timeline	= CreateSimpleAnimation(ANIMATION_SCALE, checkBox)
 	checkBox.timeline			= timeline
 	animation:SetStartScale(1)
-	animation:SetEndScale(.8)
+	animation:SetEndScale(0.8)
 	animation:SetDuration(100)
 	--anim--
 
@@ -559,7 +559,7 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 	end
 
 	control:SetHandler("OnMouseEnter", function(self)
-		self.over:SetAlpha(.2)
+		self.over:SetAlpha(0.2)
 
 		if not self.tooltipText then return end
 		InitializeTooltip(InformationTooltip, control, BOTTOM, 0, -10)

@@ -165,7 +165,7 @@ PP.inventoryScene = function()
 
 	local inventoryLists = {ZO_PlayerInventoryList, ZO_QuestItemsList, ZO_CraftBagList, ZO_InventoryWalletList, QUICKSLOT_KEYBOARD.list}
 	for _, v in ipairs(inventoryLists) do
-		PP.ScrollBar(v,	--[[sb_c]] 180, 180, 180, .7, --[[bg_c]] 20, 20, 20, .7, true)
+		PP.ScrollBar(v,	--[[sb_c]] 180, 180, 180, 0.7, --[[bg_c]] 20, 20, 20, 0.7, true)
 	end
 
 	PP.Anchor(ZO_PlayerInventoryMenu,			--[[#1]] BOTTOM, ZO_InventoryWallet, TOP, -40, 0)
@@ -201,7 +201,7 @@ PP.inventoryScene = function()
 		
 		PP:CreateBackground(tlc, --[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 
-		PP.ScrollBar(tlc:GetNamedChild("Backpack"), --[[sb_c]] 180, 180, 180, .7, --[[bg_c]] 20, 20, 20, .7, true)
+		PP.ScrollBar(tlc:GetNamedChild("Backpack"), --[[sb_c]] 180, 180, 180, 0.7, --[[bg_c]] 20, 20, 20, 0.7, true)
 
 		PP.Anchor(tlc,									--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, bankTopOffsetY, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, bankBottomOffsetY)
 		PP.Anchor(tlc:GetNamedChild("Menu"),			--[[#1]] BOTTOM, tlc, TOP, -40, 0)
@@ -225,7 +225,7 @@ PP.inventoryScene = function()
 
 		PP.Anchor(v,				--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, BottomOffsetY)
 		PP.Anchor(filterDivider,	--[[#1]] TOP, ZO_StoreWindow, TOP, 0, 60)
-		PP.ScrollBar(list,			--[[sb_c]] 180, 180, 180, .7, --[[bg_c]] 20, 20, 20, .7, true)
+		PP.ScrollBar(list,			--[[sb_c]] 180, 180, 180, 0.7, --[[bg_c]] 20, 20, 20, 0.7, true)
 	end
 
 	PP.Anchor(ZO_StoreWindowMenu,	--[[#1]] BOTTOM, ZO_StoreWindow, TOP, -40, 0)
@@ -248,7 +248,7 @@ PP.inventoryScene = function()
 	for _, bar in pairs(tabStablesBar) do
 		PP.Bar(bar:GetNamedChild("StatusBarBar"), --[[height]] 8, --[[fontSize]] 15)
 		bar:GetNamedChild("StatusBar"):SetHeight(16)
-		PP.Font(bar:GetNamedChild("Value"), --[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+		PP.Font(bar:GetNamedChild("Value"), --[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 	end
 
 --SCENE_MANAGER:GetScene("fence_keyboard")

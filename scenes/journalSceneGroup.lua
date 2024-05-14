@@ -75,10 +75,10 @@ PP.journalSceneGroup = function()
 	end
 
 --questJournal--ZO_QuestJournal--------------------------------------------------------------------
-	PP.ScrollBar(ZO_QuestJournalNavigationContainer, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+	PP.ScrollBar(ZO_QuestJournalNavigationContainer, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
 	PP.Anchor(ZO_QuestJournalQuestCount, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, -6)
 	PP.Anchor(ZO_QuestJournalNavigationContainerScroll, --[[#1]] TOPLEFT, nil, TOPLEFT, 5, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 0, 0)
-	PP.Font(ZO_QuestJournalQuestCount, --[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+	PP.Font(ZO_QuestJournalQuestCount, --[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 	ZO_Scroll_SetMaxFadeDistance(ZO_QuestJournalNavigationContainer, 10)
 
 	if SV.largeQuestList then
@@ -107,12 +107,12 @@ PP.journalSceneGroup = function()
 			text:SetText(name)
 			text:SetSelected(true)
 			text:SetVerticalAlignment(TEXT_ALIGN_CENTER)
-			PP.Font(text, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] 197, 194, 158, 1, --[[StyleColor]] 0, 0, 0, .8)
+			PP.Font(text, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] 197, 194, 158, 1, --[[StyleColor]] 0, 0, 0, 0.8)
 			PP.Anchor(text, --[[#1]] TOPLEFT, control, TOPLEFT, 10, 0, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT, 0, 0)
 			text:SetMouseEnabled(false)
 
 			if control:GetNamedChild("Backdrop") then return end
-			PP.ListBackdrop(control, -12, 0, 0, 0, --[[tex]] "PerfectPixel/tex/GradientRight.dds", 16, 0, --[[bd]] 197*.3, 194*.3, 158*.3, 1, --[[edge]] 0, 0, 0, 0)
+			PP.ListBackdrop(control, -12, 0, 0, 0, --[[tex]] "PerfectPixel/tex/GradientRight.dds", 16, 0, --[[bd]] 197*0.3, 194*0.3, 158*0.3, 1, --[[edge]] 0, 0, 0, 0)
 		end
 
 		--TreeEntrySetup(node, control, data, open)
@@ -120,7 +120,7 @@ PP.journalSceneGroup = function()
 		local existingSetupCallback = treeEntry.setupFunction
 		treeEntry.setupFunction = function(node, control, data, open)
 			existingSetupCallback(node, control, data, open)
-			PP.Font(control, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(control, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			control:SetDimensions(290, 21)
 			control:SetVerticalAlignment(TEXT_ALIGN_CENTER)
 			--icon--
@@ -161,18 +161,18 @@ PP.journalSceneGroup = function()
 --Antiquities--ZO_Cadwell--------------------------------------------------------------------
 --cadwellsAlmanac--ZO_Cadwell--------------------------------------------------------------------
 --Antiquities--------------------------------------------------------------------
-	PP.ScrollBar(ANTIQUITY_JOURNAL_KEYBOARD.contentList, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false) --ZO_AntiquityJournal_Keyboard_TopLevelContentsContentList
+	PP.ScrollBar(ANTIQUITY_JOURNAL_KEYBOARD.contentList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false) --ZO_AntiquityJournal_Keyboard_TopLevelContentsContentList
 
 
 --loreLibrary--ZO_LoreLibrary----------------------------------------------------------------------
-	PP.ScrollBar(LORE_LIBRARY.navigationTree.scrollControl, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false) --ZO_LoreLibraryNavigationContainer
-	PP.ScrollBar(LORE_LIBRARY.list.list, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+	PP.ScrollBar(LORE_LIBRARY.navigationTree.scrollControl, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false) --ZO_LoreLibraryNavigationContainer
+	PP.ScrollBar(LORE_LIBRARY.list.list, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
 
 
 --achievements--ZO_Achievements--------------------------------------------------------------------
-	PP.ScrollBar(ZO_AchievementsContentsCategories, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
-	PP.ScrollBar(ACHIEVEMENTS.contentList, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
-	PP.ScrollBar(GetControl(ACHIEVEMENTS.summaryInset, "ProgressBars"), --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+	PP.ScrollBar(ZO_AchievementsContentsCategories, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
+	PP.ScrollBar(ACHIEVEMENTS.contentList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
+	PP.ScrollBar(GetControl(ACHIEVEMENTS.summaryInset, "ProgressBars"), --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
 
 	--achievement "most recent" icons
 	-- local recentAchievementIconTemplate = "ZO_IconAchievement"
@@ -187,5 +187,5 @@ PP.journalSceneGroup = function()
 
 
 --leaderboards--ZO_Leaderboards--------------------------------------------------------------------
-	PP.ScrollBar(ZO_LeaderboardsList, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+	PP.ScrollBar(ZO_LeaderboardsList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
 end

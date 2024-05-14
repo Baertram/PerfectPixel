@@ -41,7 +41,7 @@ PP.craftStationScenes = function()
 	for _, v in ipairs(smithingTab) do
 		local inventoryBackpackCtrl = v:GetNamedChild("InventoryBackpack")
 		if inventoryBackpackCtrl ~= nil then
-			PP.ScrollBar(inventoryBackpackCtrl,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+			PP.ScrollBar(inventoryBackpackCtrl,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 		end
 		PP.Anchor(v, --[[#1]] TOPRIGHT, ZO_SmithingTopLevel, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, ZO_SmithingTopLevel, BOTTOMRIGHT, 0, BottomOffsetY)
 		local inventoryCtrl = v:GetNamedChild("Inventory")
@@ -84,7 +84,7 @@ PP.craftStationScenes = function()
 		PP.Anchor(ZO_SmithingTopLevelCreationPanelTabsDivider,	--[[#1]] TOP, ZO_SmithingTopLevelCreationPanel, TOP, 0, 60)
 
 		PP:CreateBackground(ZO_SmithingTopLevelSetContainer,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] BOTTOMRIGHT, ZO_SmithingTopLevelCreationPanel, BOTTOMLEFT, -6, 6)
-		PP.ScrollBar(ZO_SmithingTopLevelSetContainerCategories,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+		PP.ScrollBar(ZO_SmithingTopLevelSetContainerCategories,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 
 		--todo: fix tooltip at set's scroll container too!
 		--function ZO_ConsolidatedSmithingSetNavigationEntry_OnMouseEnter
@@ -135,7 +135,7 @@ PP.craftStationScenes = function()
 	
 	PP:CreateBackground(retrait_panel.control,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 
-	PP.ScrollBar(ZO_RetraitStation_KeyboardTopLevelRetraitPanelInventoryBackpack,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+	PP.ScrollBar(ZO_RetraitStation_KeyboardTopLevelRetraitPanelInventoryBackpack,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 
 	PP.Anchor(ZO_RetraitStation_KeyboardTopLevelRetraitPanel, --[[#1]] TOPRIGHT, ZO_RetraitStation_KeyboardTopLevel, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, ZO_RetraitStation_KeyboardTopLevel, BOTTOMRIGHT, 0, BottomOffsetY)
 	PP.Anchor(ZO_RetraitStation_KeyboardTopLevelRetraitPanelInventory, --[[#1]] TOPLEFT, ZO_RetraitStation_KeyboardTopLevelRetraitPanel, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, ZO_RetraitStation_KeyboardTopLevelRetraitPanel, BOTTOMRIGHT, 0, 0)
@@ -156,9 +156,9 @@ PP.craftStationScenes = function()
 	-- PP.Anchor(ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerBG, --[[#1]] TOPLEFT, traitList, TOPLEFT, -6, -6, --[[#2]] true, BOTTOMRIGHT, traitList, BOTTOMRIGHT, 0, 6)
 	PP.Anchor(ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerSelectTraitLabel, --[[#1]] BOTTOM, traitContainer, TOP, 0, -6)
 
-	PP.ScrollBar(traitList,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+	PP.ScrollBar(traitList,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 
-	PP.Font(ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerSelectTraitLabel, --[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] .9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+	PP.Font(ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerSelectTraitLabel, --[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 	
 	ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerDivider:SetHidden(true)
 	ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerBGMungeOverlay:SetHidden(true)
@@ -221,7 +221,7 @@ PP.craftStationScenes = function()
 	PP:CreateBackground(ZO_UniversalDeconstructionTopLevel_KeyboardPanel,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 
 	for _, v in ipairs(universalDeconTab) do
-		PP.ScrollBar(v:GetNamedChild("InventoryBackpack"),	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+		PP.ScrollBar(v:GetNamedChild("InventoryBackpack"),	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 		PP.Anchor(v:GetNamedChild("Inventory"), --[[#1]] TOPLEFT, v, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, v, BOTTOMRIGHT, 0, 0)
 		PP.Anchor(v, --[[#1]] TOPRIGHT, ZO_UniversalDeconstructionTopLevel_Keyboard, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, ZO_UniversalDeconstructionTopLevel_Keyboard, BOTTOMRIGHT, 0, BottomOffsetY)
 		PP.Anchor(v:GetNamedChild("InventoryFilterDivider"),	--[[#1]] TOP, v:GetNamedChild("Inventory"), TOP, 0, 60)
@@ -234,7 +234,7 @@ PP.craftStationScenes = function()
 	ENCHANTING_SCENE:AddFragment(FRAME_TARGET_BLUR_STANDARD_RIGHT_PANEL_MEDIUM_LEFT_PANEL_FRAGMENT)
 
 	PP:CreateBackground(ZO_EnchantingTopLevelInventory,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
-	PP.ScrollBar(ZO_EnchantingTopLevelInventoryBackpack,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+	PP.ScrollBar(ZO_EnchantingTopLevelInventoryBackpack,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 	PP.Anchor(ZO_EnchantingTopLevelInventory,				--[[#1]] TOPRIGHT, ZO_EnchantingTopLevel, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, ZO_EnchantingTopLevel, BOTTOMRIGHT, 0, BottomOffsetY)
 	PP.Anchor(ZO_EnchantingTopLevelModeMenu,				--[[#1]] BOTTOM, ZO_EnchantingTopLevelInventory, TOP, -40, 0)
 	PP.Anchor(ZO_EnchantingTopLevelInventoryFilterDivider,	--[[#1]] TOP, ZO_EnchantingTopLevelInventory, TOP, 0, 60)
@@ -245,7 +245,7 @@ PP.craftStationScenes = function()
 	ALCHEMY_SCENE:AddFragment(FRAME_TARGET_BLUR_STANDARD_RIGHT_PANEL_MEDIUM_LEFT_PANEL_FRAGMENT)
 
 	PP:CreateBackground(ZO_AlchemyTopLevelInventory,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
-	PP.ScrollBar(ZO_AlchemyTopLevelInventoryBackpack,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+	PP.ScrollBar(ZO_AlchemyTopLevelInventoryBackpack,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 	PP.Anchor(ZO_AlchemyTopLevelInventory,				--[[#1]] TOPRIGHT, ZO_AlchemyTopLevel, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, ZO_AlchemyTopLevel, BOTTOMRIGHT, 0, BottomOffsetY)
 	PP.Anchor(ZO_AlchemyTopLevelModeMenu,				--[[#1]] BOTTOM, ZO_AlchemyTopLevelInventory, TOP, -40, 0)
 	PP.Anchor(ZO_AlchemyTopLevelInventoryFilterDivider,	--[[#1]] TOP, ZO_AlchemyTopLevelInventory, TOP, 0, 60)
@@ -276,7 +276,7 @@ PP.craftStationScenes = function()
 
 	PP.Anchor(ZO_ProvisionerTopLevelNavigationContainer, --[[#1]] TOPRIGHT,	provisionerPanel, TOPRIGHT, 0, TopOffsetY,	--[[#2]] true, BOTTOMRIGHT, provisionerPanel, BOTTOMRIGHT, 0, 0)
 	ZO_ProvisionerTopLevelNavigationContainer:SetWidth(565)
-	PP.ScrollBar(ZO_ProvisionerTopLevelNavigationContainer,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+	PP.ScrollBar(ZO_ProvisionerTopLevelNavigationContainer,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 	ZO_Scroll_SetMaxFadeDistance(ZO_ProvisionerTopLevelNavigationContainer, 10)
 
 	local function updateProvisionerUIHiddenState()

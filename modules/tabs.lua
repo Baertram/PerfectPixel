@@ -54,7 +54,7 @@ PP.tabs = function()
 
 		local label = tabs:GetNamedChild("Active") or tabs:GetNamedChild("Label")
 		if label and label:GetType() == CT_LABEL then
-			PP.Font(label, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(label, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 		end
 	end
 --MenuBar------------------------------------
@@ -83,7 +83,7 @@ PP.tabs = function()
 			divider:SetHidden(true)
 		end
 		if label and label:GetType() == CT_LABEL then
-			PP.Font(label, --[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] .9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(label, --[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			label:SetHidden(SV.MenuBarLabel_toggle)
 		end
 	end
@@ -93,7 +93,7 @@ PP.tabs = function()
 	local function fn(label)
 		label:SetHeight(height)
 		label:SetVerticalAlignment(TEXT_ALIGN_CENTER)
-		PP.Font(label, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .6)
+		PP.Font(label, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.6)
 		PP:SetLockFn(label, 'SetFont')
 	end
 

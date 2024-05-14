@@ -60,7 +60,7 @@ PP.collectionsSceneGroup = function()
 
 		if categories then
 			PP.Anchor(categories, --[[#1]] TOPLEFT, tlw, TOPLEFT, 0, 50, --[[#2]] true, BOTTOMLEFT, tlw, BOTTOMLEFT, 0, 0)
-			PP.ScrollBar(categories, --[[sb_c]] 180, 180, 180, .8, --[[bd_c]] 20, 20, 20, .6, false)
+			PP.ScrollBar(categories, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
 			ZO_Scroll_SetMaxFadeDistance(categories, 10)
 		end
 		if search then
@@ -69,7 +69,7 @@ PP.collectionsSceneGroup = function()
 		end
 		if list then
 			ZO_Scroll_SetMaxFadeDistance(list, 10)
-			PP.ScrollBar(list, --[[sb_c]] 180, 180, 180, .8, --[[bd_c]] 20, 20, 20, .6, false)
+			PP.ScrollBar(list, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
 		end
 		if progressBar then
 			PP.Bar(progressBar, --[[h]] 14, --[[f]] 15)
@@ -99,9 +99,9 @@ PP.collectionsSceneGroup = function()
 		control:SetDimensions(dataType00["controlWidth"], dataType00["controlHeight"])
 		if control:GetNamedChild("OverlayBorder") then
 			local backdrop = control:GetNamedChild("OverlayBorder")
-			backdrop:SetCenterColor(10/255, 10/255, 10/255, .7)
+			backdrop:SetCenterColor(10/255, 10/255, 10/255, 0.7)
 			backdrop:SetCenterTexture(nil, 4, 0)
-			backdrop:SetEdgeColor(40/255, 40/255, 40/255, .9)
+			backdrop:SetEdgeColor(40/255, 40/255, 40/255, 0.9)
 			backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
 			backdrop:SetInsets(1, 1, -1, -1)
 			backdrop:SetDrawLayer(0)
@@ -109,17 +109,17 @@ PP.collectionsSceneGroup = function()
 		end
 		if control:GetNamedChild("Highlight") then
 			local highlight = control:GetNamedChild("Highlight")
-			highlight:SetTextureCoords(.29, .575, .002, .3)
+			highlight:SetTextureCoords(0.29, 0.575, 0.002, 0.3)
 			PP.Anchor(highlight, --[[#1]] TOPLEFT, control, TOPLEFT, 1, 1, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	-1, -1)
 		end
 		if control:GetNamedChild("Title") then
 			local title = control:GetNamedChild("Title")
-			PP.Font(title, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(title, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 		end
 	end
 
 --[[?]]--HOUSING_BOOK_SCENE, HOUSING_BOOK_KEYBOARD
---[[?]]	PP.ScrollBar(HOUSING_BOOK_KEYBOARD.navigationList, --[[sb_c]] 180, 180, 180, .8, --[[bd_c]] 20, 20, 20, .6, false)	--ZO_HousingBook_KeyboardNavigationList
+--[[?]]	PP.ScrollBar(HOUSING_BOOK_KEYBOARD.navigationList, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)	--ZO_HousingBook_KeyboardNavigationList
 
 
 --ZO_OUTFIT_STYLES_BOOK_SCENE, ZO_OUTFIT_STYLES_BOOK_KEYBOARD, ZO_OUTFIT_STYLES_PANEL_KEYBOARD
@@ -157,9 +157,9 @@ PP.collectionsSceneGroup = function()
 		control:SetDimensions(dataType01["controlWidth"], dataType01["controlHeight"])
 
 		local backdrop = control:GetNamedChild("Backdrop")
-		backdrop:SetCenterColor(10/255, 10/255, 10/255, .7)
+		backdrop:SetCenterColor(10/255, 10/255, 10/255, 0.7)
 		backdrop:SetCenterTexture(nil, 4, 0)
-		backdrop:SetEdgeColor(40/255, 40/255, 40/255, .9)
+		backdrop:SetEdgeColor(40/255, 40/255, 40/255, 0.9)
 		backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
 		backdrop:SetInsets(1, 1, -1, -1)
 		---------------------------------
@@ -197,9 +197,9 @@ PP.collectionsSceneGroup = function()
 		control:SetDimensions(dataType02["controlWidth"], dataType02["controlHeight"])
 
 		local backdrop = control:GetNamedChild("OverlayBorder")
-		backdrop:SetCenterColor(10/255, 10/255, 10/255, .7)
+		backdrop:SetCenterColor(10/255, 10/255, 10/255, 0.7)
 		backdrop:SetCenterTexture(nil, 4, 0)
-		backdrop:SetEdgeColor(40/255, 40/255, 40/255, .9)
+		backdrop:SetEdgeColor(40/255, 40/255, 40/255, 0.9)
 		backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
 		backdrop:SetInsets(1, 1, -1, -1)
 		backdrop:SetDrawLayer(0)
@@ -233,7 +233,7 @@ PP.collectionsSceneGroup = function()
 
 	PP.Anchor(tpbList,			--[[#1]] TOPLEFT, tpbCategories, TOPRIGHT, 0, 0, 	--[[#2]] true, BOTTOMRIGHT, tpbTLC, BOTTOMRIGHT, 0, 0)
 	PP.Anchor(tpbListContents,	--[[#1]] TOPLEFT, tpbList, TOPLEFT,	0, 0, 			--[[#2]] true, BOTTOMRIGHT, tpbList, BOTTOMRIGHT, 0, 0)
-	PP.ScrollBar(tpbList, 		--[[sb_c]] 180, 180, 180, .8, --[[bd_c]] 20, 20, 20, .6, false)
+	PP.ScrollBar(tpbList, 		--[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
 	ZO_Scroll_SetMaxFadeDistance(tpbList, 10)
 
 	--------------------------
@@ -246,9 +246,9 @@ PP.collectionsSceneGroup = function()
 
 				local backdrop = control:GetNamedChild("OverlayBorder")
 				if backdrop ~= nil then
-					backdrop:SetCenterColor(10/255, 10/255, 10/255, .7)
+					backdrop:SetCenterColor(10/255, 10/255, 10/255, 0.7)
 					backdrop:SetCenterTexture(nil, 4, 0)
-					backdrop:SetEdgeColor(40/255, 40/255, 40/255, .9)
+					backdrop:SetEdgeColor(40/255, 40/255, 40/255, 0.9)
 					backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
 					backdrop:SetInsets(1, 1, -1, -1)
 					backdrop:SetDrawLayer(DL_BACKGROUND)
@@ -258,7 +258,7 @@ PP.collectionsSceneGroup = function()
 
 				local highlight = control:GetNamedChild("Highlight")
 				if highlight then
-					highlight:SetTextureCoords(.29, .575, .002, .3)
+					highlight:SetTextureCoords(0.29, 0.575, 0.002, 0.3)
 					PP.Anchor(highlight, --[[#1]] TOPLEFT, control, TOPLEFT, 1, 1, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	-1, -1)
 				end
 			end

@@ -72,14 +72,14 @@ PP.lootScene = function()
 	local reticle		= RETICLE.interactContext
 
 	PP:CreateBackground(lootWindow, --[[#1]] nil, nil, nil, -6, 34, --[[#2]] nil, nil, nil, 0, -44)
-	PP.ScrollBar(lootList,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+	PP.ScrollBar(lootList,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 
 	bg:SetHidden(true)
 	divider:SetHidden(true)
 
 ----titleControl---------------------------------
 	titleControl:SetDimensionConstraints(0, 0, lootList:GetWidth() - 20, 0)
-	PP.Font(titleControl, --[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .8)
+	PP.Font(titleControl, --[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.8)
 	titleControl:SetVerticalAlignment(TEXT_ALIGN_BOTTOM)
 	titleControl:SetHorizontalAlignment(TEXT_ALIGN_CENTER)
 	PP.Anchor(titleControl, --[[#1]] BOTTOM, lootList, TOP, 0, -10)
@@ -94,14 +94,14 @@ PP.lootScene = function()
 	end
 -------------------------------------------------
 	PP.Anchor(ZO_LootStealthIcon, --[[#1]] TOP, lootWindow, TOP, 0, -30)
-	PP.Font(ZO_LootStealthIconStealthText, --[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] 1, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .8)
+	PP.Font(ZO_LootStealthIconStealthText, --[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] 1, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.8)
 
 	PP.Anchor(button1, --[[#1]] BOTTOMRIGHT, alphaControl, BOTTOMRIGHT, -10, -10)
 
-	PP.Font(button1.keyLabel,	--[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-	PP.Font(button1.nameLabel,	--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-	PP.Font(button2.keyLabel,	--[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-	PP.Font(button2.nameLabel,	--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+	PP.Font(button1.keyLabel,	--[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+	PP.Font(button1.nameLabel,	--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+	PP.Font(button2.keyLabel,	--[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+	PP.Font(button2.nameLabel,	--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 -------------------------------------------------
 	local function RefreshControlMode_1(control, typeId)
 		control:SetHeight(PP.savedVars.ListStyle.list_control_height)
@@ -127,13 +127,13 @@ PP.lootScene = function()
 
 			control.sellPrice = CreateControl("$(parent)SellPrice", control, CT_LABEL)
 			local sellPrice = control.sellPrice
-			PP.Font(sellPrice, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(sellPrice, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			PP.Anchor(sellPrice, --[[#1]] RIGHT, control, RIGHT, -5, -1)
 			sellPrice:SetDimensionConstraints(40, 0, 0, 0)
 			sellPrice:SetHorizontalAlignment(TEXT_ALIGN_RIGHT)
 
 			local stack = control:GetNamedChild("ButtonStackCount")
-			PP.Font(stack, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(stack, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			PP.Anchor(stack, --[[#1]] RIGHT, status, RIGHT, 42, 8)
 
 			local button = control:GetNamedChild("Button")
@@ -143,7 +143,7 @@ PP.lootScene = function()
 			control.icon = control:GetNamedChild("ButtonIcon")
 
 			local name = control:GetNamedChild("Name")
-			PP.Font(name, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(name, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			PP.Anchor(name, --[[#1]] LEFT, status, RIGHT, 50, -1, --[[#2]] true, RIGHT, sellPrice, LEFT, -10, 0)
 			name:SetLineSpacing(0)
 			name:SetVerticalAlignment(TEXT_ALIGN_CENTER)

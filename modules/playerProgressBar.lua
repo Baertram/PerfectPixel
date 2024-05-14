@@ -39,9 +39,9 @@ PP.playerProgressBar = function()
 
 			PP.Anchor(barBG, --[[#1]] TOPLEFT, bar, TOPLEFT, -2, -2, --[[#2]] true, BOTTOMRIGHT, bar, BOTTOMRIGHT,	2, 2)
 			barBG:SetCenterTexture(nil, 8, 0)
-			barBG:SetCenterColor(10/255, 10/255, 10/255, .8)
+			barBG:SetCenterColor(10/255, 10/255, 10/255, 0.8)
 			barBG:SetEdgeTexture(nil, 1, 1, 1, 0)
-			barBG:SetEdgeColor(60/255, 60/255, 60/255, .9)
+			barBG:SetEdgeColor(60/255, 60/255, 60/255, 0.9)
 			barBG:SetInsets(-1, -1, 1, 1)
 		end
 

@@ -51,7 +51,7 @@ PP.dialogsMenu = function()
 		
 		if bg:GetType() == CT_BACKDROP then
 			bg:SetCenterTexture("PerfectPixel/tex/tex_white.dds", 8, 0)
-			bg:SetCenterColor(10/255, 10/255, 10/255, .9)
+			bg:SetCenterColor(10/255, 10/255, 10/255, 0.9)
 			bg:SetEdgeTexture("PerfectPixel/tex/edge_outer_shadow_128x16.dds", 128, 16, 16, 0)
 			bg:SetEdgeColor(60/255, 60/255, 60/255, 1)
 			bg:SetInsets(5, 5, -5, -5)
@@ -71,7 +71,7 @@ PP.dialogsMenu = function()
 			button2NameLabel:SetFont(PP.f.u67 .. "|18|outline")
 		end
 		if title then
-			PP.Font(title,	--[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] .9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(title,	--[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 		end
 		if list then
 			list:SetWidth(dialogControl:GetWidth() - 30)

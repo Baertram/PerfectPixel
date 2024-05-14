@@ -1,9 +1,9 @@
 PP.collectionsSceneGroup = function()
 	--orig
 	function ZO_RestyleCommon_Keyboard.UpdateAnchors(control, hasSubTabs)
-		
+
 		local offset = control == ZO_DyeingTopLevel_Keyboard and 160 or 180
-		
+
 		control:ClearAnchors()
 		if hasSubTabs then
 			PP.Anchor(control, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, -2, offset, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, -8, -70)
@@ -31,16 +31,16 @@ PP.collectionsSceneGroup = function()
 	for i=1, #scenes do
 		local scene			= scenes[i][1]
 		local gVar			= scenes[i][2]
---[[?]]		local sceneShowCallback = scenes[i][3]
+--[[?]] local sceneShowCallback = scenes[i][3]
 		local tlw			= gVar.control
 		local list			= gVar.gridListPanelList	and gVar.gridListPanelList.list
 		local search		= gVar.contentSearchEditBox	and gVar.contentSearchEditBox:GetParent()
 		local categories	= gVar.categories
 		local progressBar	= gVar.progressBar or gVar.categoryProgress
-		
+
 		if scene then
-			for i=1, #fragments do
-				local fragment = fragments[i]
+			for j=1, #fragments do
+				local fragment = fragments[j]
 				if scene:HasFragment(fragment) then
 					scene:RemoveFragment(fragment)
 				end
@@ -86,17 +86,17 @@ PP.collectionsSceneGroup = function()
 
 	PP.Anchor(ZO_CollectionsBook_TopLevelList, --[[#1]] TOPLEFT, ZO_CollectionsBook_TopLevelCategories, TOPRIGHT, 0, 16, --[[#2]] true, BOTTOMRIGHT, ZO_CollectionsBook_TopLevel, BOTTOMRIGHT,	0, 0)
 
-	local dataType = ZO_ScrollList_GetDataTypeTable(ZO_CollectionsBook_TopLevelListContainerList, 1)
-	local existingSetupCallback = dataType.setupCallback
-	dataType["controlHeight"] = 120
-	dataType["controlWidth"] = 180
-	dataType["spacingX"] = 6
-	dataType["spacingY"] = 6
-	dataType.setupCallback = function(control, data)
-		existingSetupCallback(control, data)
+	local dataType00 = ZO_ScrollList_GetDataTypeTable(ZO_CollectionsBook_TopLevelListContainerList, 1)
+	local existingSetupCallback00 = dataType00.setupCallback
+	dataType00["controlHeight"] = 120
+	dataType00["controlWidth"] = 180
+	dataType00["spacingX"] = 6
+	dataType00["spacingY"] = 6
+	dataType00.setupCallback = function(control, data)
+		existingSetupCallback00(control, data)
 		EmptyCellHidden(control, data)
-		
-		control:SetDimensions(dataType["controlWidth"], dataType["controlHeight"])
+
+		control:SetDimensions(dataType00["controlWidth"], dataType00["controlHeight"])
 		if control:GetNamedChild("OverlayBorder") then
 			local backdrop = control:GetNamedChild("OverlayBorder")
 			backdrop:SetCenterColor(10/255, 10/255, 10/255, .7)
@@ -128,33 +128,33 @@ PP.collectionsSceneGroup = function()
 
 	PP.Anchor(ZO_OutfitStylesPanelTopLevel_Keyboard, --[[#1]] TOPRIGHT,	GuiRoot, TOPRIGHT, -2, 122, --[[#2]] true, BOTTOMRIGHT,	GuiRoot, BOTTOMRIGHT,	-8, -70)
 	PP.Anchor(ZO_OutfitStylesPanelTopLevel_KeyboardPaneContainer, --[[#1]] TOPLEFT, nil, TOPLEFT,	0, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT,	8, 0)
-	
+
 	PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardTitleDividerTexture,					--[[#1]] TOPLEFT, nil, TOPLEFT,	-140, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 90, 0)
 
 	PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardEquipmentSheetSecondaryWeaponSwap, --[[#1]] TOPRIGHT, ZO_RestyleSheetWindowTopLevel_KeyboardEquipmentSheetSecondary, BOTTOMRIGHT,	5, -5)
-	
+
 	PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardEquipmentSheetPrimaryDividerTexture,	--[[#1]] TOPLEFT, nil, TOPLEFT,	-140, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 90, 0)
 	ZO_RestyleSheetWindowTopLevel_KeyboardEquipmentSheetSecondaryDivider:SetHidden(true)
 
 	PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetSecondaryWeaponSwap, --[[#1]] TOPRIGHT, ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetSecondary, BOTTOMRIGHT,	5, -5)
-	
+
 	PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetPrimaryDividerTexture, --[[#1]] TOPLEFT, nil, TOPLEFT,	-140, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 90, 0)
 	ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetSecondaryDivider:SetHidden(true)
 
 	PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardCollectibleSheetPrimaryDividerTexture, --[[#1]] TOPLEFT, nil, TOPLEFT,	-140, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 90, 0)
 	ZO_RestyleSheetWindowTopLevel_KeyboardCollectibleSheetSecondaryDivider:SetHidden(true)
 
-	local dataType = ZO_ScrollList_GetDataTypeTable(ZO_OutfitStylesPanelTopLevel_KeyboardPaneContainerList, 1)
-	local existingSetupCallback = dataType.setupCallback
-	dataType["controlHeight"] = 68
-	dataType["controlWidth"] = 68
-	dataType["spacingX"] = 6
-	dataType["spacingY"] = 6
-	dataType.setupCallback = function(control, data)
-		existingSetupCallback(control, data)
+	local dataType01 = ZO_ScrollList_GetDataTypeTable(ZO_OutfitStylesPanelTopLevel_KeyboardPaneContainerList, 1)
+	local existingSetupCallback01 = dataType01.setupCallback
+	dataType01["controlHeight"] = 68
+	dataType01["controlWidth"] = 68
+	dataType01["spacingX"] = 6
+	dataType01["spacingY"] = 6
+	dataType01.setupCallback = function(control, data)
+		existingSetupCallback01(control, data)
 		EmptyCellHidden(control, data)
 
-		control:SetDimensions(dataType["controlWidth"], dataType["controlHeight"])
+		control:SetDimensions(dataType01["controlWidth"], dataType01["controlHeight"])
 
 		local backdrop = control:GetNamedChild("Backdrop")
 		backdrop:SetCenterColor(10/255, 10/255, 10/255, .7)
@@ -184,17 +184,17 @@ PP.collectionsSceneGroup = function()
 	PP.Anchor(ZO_ItemSetsBook_Keyboard_TopLevelCategoryContentList,	--[[#1]] TOPLEFT, ZO_ItemSetsBook_Keyboard_TopLevelCategoryContentCategoryProgress, BOTTOMLEFT,	0, 10, --[[#2]] true, BOTTOMRIGHT, ZO_ItemSetsBook_Keyboard_TopLevelCategoryContent, BOTTOMRIGHT, 0, 0)
 
 	--------------------------
-	local dataType_1 = ZO_ScrollList_GetDataTypeTable(iscbList, 1)
-	local existingSetupCallback = dataType_1.setupCallback
-	dataType_1["controlHeight"] = 68
-	dataType_1["controlWidth"] = 68
-	dataType_1["spacingX"] = 6
-	dataType_1["spacingY"] = 6
-	dataType_1.setupCallback = function(control, data)
-		existingSetupCallback(control, data)
+	local dataType02 = ZO_ScrollList_GetDataTypeTable(iscbList, 1)
+	local existingSetupCallback02 = dataType02.setupCallback
+	dataType02["controlHeight"] = 68
+	dataType02["controlWidth"] = 68
+	dataType02["spacingX"] = 6
+	dataType02["spacingY"] = 6
+	dataType02.setupCallback = function(control, data)
+		existingSetupCallback02(control, data)
 		EmptyCellHidden(control, data)
 
-		control:SetDimensions(dataType_1["controlWidth"], dataType_1["controlHeight"])
+		control:SetDimensions(dataType02["controlWidth"], dataType02["controlHeight"])
 
 		local backdrop = control:GetNamedChild("OverlayBorder")
 		backdrop:SetCenterColor(10/255, 10/255, 10/255, .7)

@@ -142,13 +142,28 @@ PP.tabs = function()
 	end
 
 --------------------------------NEW***
-	local t = {SI_INVENTORY_BACKPACK_REMAINING_SPACES, SI_INVENTORY_BACKPACK_COMPLETELY_FULL, }
-	for _, v in pairs(t) do
-		SafeAddString(v, select(1 , GetString(v):gsub(".*:", "|t24:24:/esoui/art/tooltips/icon_bag.dds|t")), 100)
-	end
+	local iconUpdates = {
+		{
+			icons = {
+				SI_INVENTORY_BACKPACK_REMAINING_SPACES,
+				SI_INVENTORY_BACKPACK_COMPLETELY_FULL,
+			};
+			iconPath = "/esoui/art/tooltips/icon_bag.dds";
+		},
+		{
+			icons = {
+				SI_INVENTORY_HOUSE_BANK_REMAINING_SPACES,
+				SI_INVENTORY_HOUSE_BANK_COMPLETELY_FULL,
+				SI_INVENTORY_BANK_REMAINING_SPACES,
+				SI_INVENTORY_BANK_COMPLETELY_FULL,
+			};
+			iconPath = "/esoui/art/tooltips/icon_bag.dds";
+		},
+	}
 
-	local t = {SI_INVENTORY_HOUSE_BANK_REMAINING_SPACES, SI_INVENTORY_HOUSE_BANK_COMPLETELY_FULL, SI_INVENTORY_BANK_REMAINING_SPACES, SI_INVENTORY_BANK_COMPLETELY_FULL, }
-	for _, v in pairs(t) do
-		SafeAddString(v, select(1 , GetString(v):gsub(".*:", "|t24:24:/esoui/art/tooltips/icon_bank.dds|t")), 100)
+	for _, update in ipairs(iconUpdates) do
+		for _, v in ipairs(update.icons) do
+			SafeAddString(v, select(1, GetString(v):gsub(".*:", "|t24:24:" .. update.iconPath .. "|t")), 100)
+		end
 	end
 end

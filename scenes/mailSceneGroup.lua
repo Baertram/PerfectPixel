@@ -15,18 +15,20 @@ PP.mailSceneGroup = function()
 
 	PP.Anchor(ZO_MailInbox,		--[[#1]] TOPRIGHT,	GuiRoot,		TOPRIGHT,	0, 120,	--[[#2]] true, BOTTOMRIGHT,		GuiRoot,		BOTTOMRIGHT,	0, -70)
 
-	PP.Anchor(navigationContainer,	--[[#1]] TOPLEFT,	ZO_MailInbox,	TOPLEFT,	0, 90,	--[[#2]] true, BOTTOMLEFT,		ZO_MailInbox,	BOTTOMLEFT,	0, 0)
+	PP.Anchor(ZO_MailInboxDeleteOnClaim, --[[#1]] BOTTOMLEFT,	ZO_MailInboxInventoryUsage,	TOPLEFT,	0, -4	--[[#2]])
+	PP.Anchor(ZO_MailInboxInventoryUsage, --[[#1]] BOTTOMLEFT,	ZO_MailInbox,	BOTTOMLEFT,	0, 4	--[[#2]])
+	PP.Anchor(navigationContainer,	--[[#1]] TOPLEFT,	ZO_MailInbox,	TOPLEFT,	0, 90,	--[[#2]] true, BOTTOMLEFT,		ZO_MailInboxDeleteOnClaim,	TOPLEFT,	0, 0)
 	PP.ScrollBar(navigationContainer,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
 	ZO_Scroll_SetMaxFadeDistance(navigationContainer, SV.list_fade_distance)
 
 ------------------------------------------------------------------------------------------
-    local function HighlightControl(control, animateInstantly)
-		control.backdrop:SetEdgeColor(SV.list_skin_edge_sel_col[1], SV.list_skin_edge_sel_col[2], SV.list_skin_edge_sel_col[3], SV.list_skin_edge_sel_col[4])
-    end
+    --local function HighlightControl(control, animateInstantly)
+--		control.backdrop:SetEdgeColor(SV.list_skin_edge_sel_col[1], SV.list_skin_edge_sel_col[2], SV.list_skin_edge_sel_col[3], SV.list_skin_edge_sel_col[4])
+--    end
 
-    local function UnhighlightControl(control, animateInstantly)
-		control.backdrop:SetEdgeColor(SV.list_skin_edge_col[1], SV.list_skin_edge_col[2], SV.list_skin_edge_col[3], SV.list_skin_edge_col[4])
-    end
+    --local function UnhighlightControl(control, animateInstantly)
+--		control.backdrop:SetEdgeColor(SV.list_skin_edge_col[1], SV.list_skin_edge_col[2], SV.list_skin_edge_col[3], SV.list_skin_edge_col[4])
+--    end
 
 	-- self, self.control, self.data, self.open, userRequested, self.tree:IsEnabled()
 

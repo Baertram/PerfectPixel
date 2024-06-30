@@ -1,12 +1,12 @@
 ## APIVersion: 101042 101043
-## Version: 0.12.17
+## Version: 0.12.19
 ## Title: PerfectPixel
 ## Author: @KL1SK
 ## Description: PerfectPixle changes a lot UI elements.
 ## SavedVariables: PerfectPixel
 
-## OptionalDependsOn: LibAddonMenu-2.0>=35 LibVotansAddonList>=10903 LibCustomMenu>=713
-## OptionalDependsOn: AdvancedFilters>=1634 SpentSkillPoints
+## OptionalDependsOn: LibAddonMenu-2.0>=37 LibVotansAddonList>=10903 LibCustomMenu>=722 LibScrollableMenu>=020201
+## OptionalDependsOn: AdvancedFilters>=1646 SpentSkillPoints
 
 Init.lua
 Media.lua

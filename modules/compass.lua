@@ -1,14 +1,14 @@
 PP.compass = function()
 	local SV, DEF = PP:AddNewSavedVars(0.2, 'Compass', {
 		toggle			= true,
-		col				= {0/255, 0/255, 0/255, .6},
+		col				= {0/255, 0/255, 0/255, 0.6},
 		col_e			= {0/255, 0/255, 0/255, 1},
 		--Quest area
-		qa_col			= {96/255, 125/255, 139/255, .5},
+		qa_col			= {96/255, 125/255, 139/255, 0.5},
 		qa_col_e		= {96/255, 125/255, 139/255, 0},
 		--Combat indicator
 		ci_toggle		= true,
-		ci_col			= {222/255, 36/255, 33/255, .7},
+		ci_col			= {222/255, 36/255, 33/255, 0.7},
 		--Boss bar
 		hideBossBar		= false,
 	})
@@ -160,7 +160,7 @@ PP.compass = function()
 	ZO_BossBarBracketRight:SetHidden(true)
 
 	PP.Anchor(ZO_BossBarHealth, --[[#1]] TOPLEFT, compassFrame, TOPLEFT, -8, 0, --[[#2]] true, BOTTOMRIGHT, compassFrame, BOTTOMRIGHT,	8, 0)
-	PP.Font(ZO_BossBarHealthText, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+	PP.Font(ZO_BossBarHealthText, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 
 	local barLeft =			ZO_BossBarHealth:GetNamedChild("BarLeft")
 	local barLeftGloss =	ZO_BossBarHealth:GetNamedChild("BarLeftGloss")
@@ -174,7 +174,7 @@ PP.compass = function()
 	barLeftGloss:SetTexture(nil)
 	barLeftGloss:SetLeadingEdge(nil)
 	barLeftGloss:EnableLeadingEdge(false)
-	barLeftGloss:SetColor(150/255, 150/255, 150/255, .2)
+	barLeftGloss:SetColor(150/255, 150/255, 150/255, 0.2)
 
 	barRight:SetHeight(20)
 	barRight:SetTexture(nil)
@@ -183,7 +183,7 @@ PP.compass = function()
 	barRightGloss:SetTexture(nil)
 	barRightGloss:SetLeadingEdge(nil)
 	barRightGloss:EnableLeadingEdge(false)
-	barRightGloss:SetColor(150/255, 150/255, 150/255, .2)
+	barRightGloss:SetColor(150/255, 150/255, 150/255, 0.2)
 
 	if SV.hideBossBar then
 		ZO_PreHook(COMPASS_FRAME, "SetBossBarActive", function(self, ...)

@@ -95,7 +95,7 @@ PP.chatWindow = function()
 	sb:SetBackgroundTopTexture(nil)
 	sb:SetBackgroundBottomTexture(nil)
 	sb:SetColor(50/255, 50/255, 50/255, 1)
-	sb:SetAlpha(.6)
+	sb:SetAlpha(0.6)
 	sb:SetHitInsets(-4, 0, 5, 0)
 	sb:SetWidth(4)
 	sb.thumb = thumb

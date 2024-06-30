@@ -18,7 +18,7 @@ PP.mailSceneGroup = function()
 	PP.Anchor(ZO_MailInboxDeleteOnClaim, --[[#1]] BOTTOMLEFT,	ZO_MailInboxInventoryUsage,	TOPLEFT,	0, -4	--[[#2]])
 	PP.Anchor(ZO_MailInboxInventoryUsage, --[[#1]] BOTTOMLEFT,	ZO_MailInbox,	BOTTOMLEFT,	0, 4	--[[#2]])
 	PP.Anchor(navigationContainer,	--[[#1]] TOPLEFT,	ZO_MailInbox,	TOPLEFT,	0, 90,	--[[#2]] true, BOTTOMLEFT,		ZO_MailInboxDeleteOnClaim,	TOPLEFT,	0, 0)
-	PP.ScrollBar(navigationContainer,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+	PP.ScrollBar(navigationContainer,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
 	ZO_Scroll_SetMaxFadeDistance(navigationContainer, SV.list_fade_distance)
 
 ------------------------------------------------------------------------------------------

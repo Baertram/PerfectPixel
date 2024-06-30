@@ -18,7 +18,7 @@ PP.statsScene = function()
 	PP.Anchor(ZO_StatsPanel, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 90,	--[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -70)
 	PP.Anchor(ZO_StatsPanelPane, --[[#1]] TOPLEFT, ZO_StatsPanelTitleSection, BOTTOMLEFT, 0, 0,	--[[#2]] true, BOTTOMRIGHT, ZO_StatsPanel, BOTTOMRIGHT, 0, -3)
 
-	PP.ScrollBar(ZO_StatsPanelPane, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+	PP.ScrollBar(ZO_StatsPanelPane, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 	ZO_Scroll_SetMaxFadeDistance(ZO_StatsPanelPane, PP.savedVars.ListStyle.list_fade_distance)
 
 --ZO_ADVANCED_STATS_WINDOW
@@ -38,11 +38,11 @@ PP.statsScene = function()
 
 	PP.Anchor(asPanel,			--[[#1]] TOPRIGHT, ZO_StatsPanel, TOPLEFT, 0, 0,	--[[#2]] true, BOTTOMRIGHT, ZO_StatsPanel, BOTTOMLEFT, 0, 0)
 
-	PP.Font(asClose.keyLabel,	--[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-	PP.Font(asClose.nameLabel,	--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+	PP.Font(asClose.keyLabel,	--[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+	PP.Font(asClose.nameLabel,	--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 
 	PP.Anchor(asList,			--[[#1]] nil, nil, nil, nil, nil,	--[[#2]] true, nil, nil, nil, -20, nil)
-	PP.ScrollBar(asList,		--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+	PP.ScrollBar(asList,		--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 	ZO_Scroll_SetMaxFadeDistance(asList, PP.savedVars.ListStyle.list_fade_distance)
 	ZO_ScrollList_Commit(asList)
 
@@ -56,7 +56,7 @@ PP.statsScene = function()
 	ZO_ClaimLevelUpRewardsScreen_KeyboardTitleDivider:SetHidden(true)
 	ZO_Scroll_SetMaxFadeDistance(ZO_ClaimLevelUpRewardsScreen_KeyboardList, PP.savedVars.ListStyle.list_fade_distance)
 
-	PP.ScrollBar(ZO_ClaimLevelUpRewardsScreen_KeyboardList, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+	PP.ScrollBar(ZO_ClaimLevelUpRewardsScreen_KeyboardList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 
 --ZO_KEYBOARD_UPCOMING_LEVEL_UP_REWARDS
 	PP:CreateBackground(ZO_UpcomingLevelUpRewards_Keyboard,	--[[#1]] nil, nil, nil, -1, 0,		--[[#2]] nil, nil, nil, -10, 10)
@@ -67,6 +67,6 @@ PP.statsScene = function()
 	ZO_UpcomingLevelUpRewards_KeyboardTitleDivider:SetHidden(true)
 	ZO_Scroll_SetMaxFadeDistance(ZO_UpcomingLevelUpRewards_KeyboardScrollContainer, PP.savedVars.ListStyle.list_fade_distance)
 
-	PP.ScrollBar(ZO_UpcomingLevelUpRewards_KeyboardScrollContainer, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+	PP.ScrollBar(ZO_UpcomingLevelUpRewards_KeyboardScrollContainer, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 
 end

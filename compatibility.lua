@@ -1,18 +1,18 @@
-PP.compatibility = function ()
-local PP         = PP
-local tinsert    = table.insert
+PP.compatibility = function()
+	local PP = PP
+	local tinsert = table.insert
 
 	local function Compatibility()
-		--==LibCustomMenu==--
+		-- ==LibCustomMenu==--
 		if LibCustomMenu then
-			local lcmSM               = LibCustomMenuSubmenu
-			local lcmSMBG             = GetControl(lcmSM, "BG")
+			local lcmSM = LibCustomMenuSubmenu
+			local lcmSMBG = GetControl(lcmSM, "BG")
 			local lcmSMBGMungeOverlay = GetControl(lcmSMBG, "MungeOverlay")
-			local lcmSMHighlight      = GetControl(lcmSM, "Highlight")
+			local lcmSMHighlight = GetControl(lcmSM, "Highlight")
 
-			ZO_PreHookHandler(LibCustomMenuSubmenu, "OnShow", function ()
+			ZO_PreHookHandler(LibCustomMenuSubmenu, "OnShow", function()
 				lcmSMBG:SetCenterTexture(nil, 4, 0)
-				lcmSMBG:SetCenterColor(10 / 255, 10 / 255, 10 / 255, .96)
+				lcmSMBG:SetCenterColor(10 / 255, 10 / 255, 10 / 255, 0.96)
 				lcmSMBG:SetEdgeTexture(nil, 1, 1, 1, 0)
 				lcmSMBG:SetEdgeColor(60 / 255, 60 / 255, 60 / 255, 1)
 				lcmSMBG:SetInsets(-1, -1, 1, 1)
@@ -24,16 +24,16 @@ local tinsert    = table.insert
 
 			if lcmSMHighlight then
 				lcmSMHighlight:SetCenterTexture(nil, 4, 0)
-				lcmSMHighlight:SetCenterColor(96 / 255 * .3, 125 / 255 * .3, 139 / 255 * .3, 1)
+				lcmSMHighlight:SetCenterColor(96 / 255 * 0.3, 125 / 255 * 0.3, 139 / 255 * 0.3, 1)
 				lcmSMHighlight:SetEdgeTexture(nil, 1, 1, 1, 0)
-				lcmSMHighlight:SetEdgeColor(96 / 255 * .5, 125 / 255 * .5, 139 / 255 * .5, 0)
+				lcmSMHighlight:SetEdgeColor(96 / 255 * 0.5, 125 / 255 * 0.5, 139 / 255 * 0.5, 0)
 				lcmSMHighlight:SetInsets(0, 0, 0, 0)
 				-- lcmSMHighlight:SetInheritAlpha(false)
 			end
 		end
-		--===============================================================================================--
+		-- ===============================================================================================--
 
-		--==CraftBagExtended==--
+		-- ==CraftBagExtended==--
 		if CraftBagExtended then
 			CraftBagExtendedVendorMenu:SetParent(ZO_StoreWindowMenu)
 			PP.Anchor(CraftBagExtendedVendorMenu, --[[#1]] TOPLEFT, ZO_StoreWindowMenu, TOPLEFT, 80, 0)
@@ -53,9 +53,9 @@ local tinsert    = table.insert
 			-- CraftBagExtendedTradeMenu:SetParent(parent)
 			-- PP.Anchor(CraftBagExtendedTradeMenu,		--[[#1]] TOPLEFT, parent,		TOPLEFT, 80, 0)
 		end
-		--===============================================================================================--
+		-- ===============================================================================================--
 
-		--==AddonSelector==--
+		-- ==AddonSelector==--
 		if AddonSelector then
 			PP.Anchor(ZO_AddOnsList, --[[#1]] TOPLEFT, AddonSelector, BOTTOMLEFT, 0, 5, --[[#2]] true, BOTTOMRIGHT, ZO_AddOns, BOTTOMRIGHT, 0, -10)
 			PP.Anchor(AddonSelectorBottomDivider, --[[#1]] BOTTOM, AddonSelector, BOTTOM, 40, 0)
@@ -64,44 +64,51 @@ local tinsert    = table.insert
 				PP.Anchor(AddonSelectorAutoReloadUILabel, --[[#1]] TOPRIGHT, AddonSelectorSearchBox, BOTTOMRIGHT, 0, 6)
 				PP.Anchor(AddonSelectorAutoReloadUI, --[[#1]] RIGHT, AddonSelectorAutoReloadUILabel, LEFT, -6, 0)
 			end
-			PP.Font(AddonSelectorDeselectAddonsButtonKeyLabel, --[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-			PP.Font(AddonSelectorDeselectAddonsButtonNameLabel, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-			PP.Font(AddonSelectorSelectAddonsButtonKeyLabel, --[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-			PP.Font(AddonSelectorSelectAddonsButtonNameLabel, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(AddonSelectorDeselectAddonsButtonKeyLabel, --[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			PP.Font(AddonSelectorDeselectAddonsButtonNameLabel, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			PP.Font(AddonSelectorSelectAddonsButtonKeyLabel, --[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			PP.Font(AddonSelectorSelectAddonsButtonNameLabel, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 		end
-		--===============================================================================================--
+		-- ===============================================================================================--
 
-		--==MailLooter==--
+		-- ==MailLooter==--
 		if MailLooter then
 			MAIL_LOOTER_SCENE:RemoveFragment(TITLE_FRAGMENT)
 			MAIL_LOOTER_SCENE:RemoveFragment(MAIL_TITLE_FRAGMENT)
 			MAIL_LOOTER_SCENE:RemoveFragment(FRAME_PLAYER_FRAGMENT)
 			PP.Anchor(MailLooterLootList, --[[#1]] TOP, MailLooterLootHeaders, BOTTOM, 0, 0, --[[#2]] true, BOTTOMRIGHT, ZO_MailInbox, BOTTOMRIGHT, 0, -100)
 		end
-		--===============================================================================================--
+		-- ===============================================================================================--
 
-		--==ESO Master Recipe List==--
+		-- ==ESO Master Recipe List==--
 		if ESOMRL then
 			local resultTooltip = PROVISIONER.resultTooltip
 			PP:SetLockFn(resultTooltip, "SetAnchor")
 			PP:SetLockFn(resultTooltip, "ClearAnchors")
 		end
-		--===============================================================================================--
+		-- ===============================================================================================--
 
-		--==Potion Maker==--
+		-- ==Potion Maker==--
 		if PotMaker then
 			PP.Anchor(ZO_AlchemyTopLevelContent, --[[#1]] TOPRIGHT, ZO_AlchemyTopLevel, TOPRIGHT, 0, 100, --[[#2]] true, BOTTOMRIGHT, ZO_AlchemyTopLevel, BOTTOMRIGHT, 0, -80)
 			ZO_AlchemyTopLevelContent:SetWidth(565)
 			PP:CreateBackground(ZO_AlchemyTopLevelPotionMaker, --[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 			PP:CreateBackground(ZO_AlchemyTopLevelPoisonMaker, --[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 		end
-		--===============================================================================================--
+		-- ===============================================================================================--
 
-		--==VotansMiniMap==--
+		-- ==KyzderpsDerps==--
+		if KyzderpsDerps then
+			PP:CreateBackground(SpawnTimerContainerBackdrop, --[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+		end
+
+		-- ===============================================================================================--
+
+		-- ==VotansMiniMap==--
 		if VOTANS_MINIMAP then
-			WORLD_MAP_SCENE:RegisterCallback("StateChange", function (oldState, newState)
+			WORLD_MAP_SCENE:RegisterCallback("StateChange", function(oldState, newState)
 				if newState == SCENE_SHOWN then
-					WORLD_MAP_FRAGMENT.duration = PP.fade_scene_duration
+					WORLD_MAP_FRAGMENT.duration = PP.savedVars.SceneManager.fade_scene_duration
 				end
 			end)
 
@@ -109,14 +116,36 @@ local tinsert    = table.insert
 				ZO_CompassFrameLeft:SetHidden(true)
 				ZO_CompassFrameRight:SetHidden(true)
 				ZO_CompassFrameCenter:SetHidden(true)
+				ZO_CompassFrameCenterTopMungeOverlay:SetHidden(true)
+				ZO_CompassFrameCenterBottomMungeOverlay:SetHidden(true)
 				PP:SetLockFn(ZO_CompassFrameLeft, "SetHidden")
 				PP:SetLockFn(ZO_CompassFrameRight, "SetHidden")
 				PP:SetLockFn(ZO_CompassFrameCenter, "SetHidden")
+				PP:SetLockFn(ZO_CompassFrameCenterTopMungeOverlay, "SetHidden")
+				PP:SetLockFn(ZO_CompassFrameCenterBottomMungeOverlay, "SetHidden")
 			end
 		end
-		--===============================================================================================--
 
-		--==InventoryInsightFromAshes==--
+		-- ===============================================================================================--
+
+		-- ==Azurah==--
+		if Azurah then
+			if PP.savedVars.Compass.toggle then
+				ZO_CompassFrameLeft:SetHidden(true)
+				ZO_CompassFrameRight:SetHidden(true)
+				ZO_CompassFrameCenter:SetHidden(true)
+				ZO_CompassFrameCenterTopMungeOverlay:SetHidden(true)
+				ZO_CompassFrameCenterBottomMungeOverlay:SetHidden(true)
+				PP:SetLockFn(ZO_CompassFrameLeft, "SetHidden")
+				PP:SetLockFn(ZO_CompassFrameRight, "SetHidden")
+				PP:SetLockFn(ZO_CompassFrameCenter, "SetHidden")
+				PP:SetLockFn(ZO_CompassFrameCenterTopMungeOverlay, "SetHidden")
+				PP:SetLockFn(ZO_CompassFrameCenterBottomMungeOverlay, "SetHidden")
+			end
+		end
+		-- ===============================================================================================--
+
+		-- ==InventoryInsightFromAshes==--
 		if IIFA_GUI then
 			PP:CreateBackground(IIFA_GUI_BG, --[[#1]] nil, nil, nil, 6, 6, --[[#2]] nil, nil, nil, -6, -6)
 			PP.ScrollBar(IIFA_GUI_ListHolder_Slider)
@@ -124,9 +153,9 @@ local tinsert    = table.insert
 			ZO_Scroll_SetMaxFadeDistance(IIFA_GUI_ListHolder, PP.savedVars.ListStyle.list_fade_distance)
 			IIFA_GUI_BGMungeOverlay:SetHidden(true)
 		end
-		--===============================================================================================--
+		-- ===============================================================================================--
 
-		--==WizardsWardrobe==--
+		-- ==WizardsWardrobe==--
 		if WizardsWardrobe then
 			PP.ScrollBar(WizardsWardrobeWindowSetupListScrollBar)
 			PP.ScrollBar(WizardsWardrobeArrangeDialogListScrollBar)
@@ -147,25 +176,50 @@ local tinsert    = table.insert
 			WizardsWardrobeTransferDialogBGMungeOverlay:SetHidden(true)
 			WizardsWardrobePreviewPreviewBGMungeOverlay:SetHidden(true)
 		end
-		--===============================================================================================--
+		-- ===============================================================================================--
 
-		--==WPamA==--
+		-- ==WPamA==--
 		if WPamA then
 			PP:CreateBackground(WPamA_WinBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
 			WPamA_WinBGMungeOverlay:SetHidden(true)
 		end
 
-		--===============================================================================================--
+		-- ===============================================================================================--
 
-		--==TimWitchesUI==--
+		-- ==TimWitchesUI==--
 		if tim99_WitchesFestival then
 			PP:CreateBackground(TimWitchesUIBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
 			TimWitchesUIBGMungeOverlay:SetHidden(true)
 		end
 
-		--===============================================================================================--
+		-- ===============================================================================================--
 
-		--==LibSets==--
+		-- ==DolgubonSetCrafterWindow==--
+		if DolgubonSetCrafter then
+			PP:CreateBackground(DolgubonSetCrafterWindowFavouritesScroll, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			PP:CreateBackground(DolgubonSetCrafterWindow, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			PP.ScrollBar(DolgubonSetCrafterWindowFavouritesScrollListScrollBar)
+			PP.Anchor(DolgubonSetCrafterWindowFavouritesScrollListScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
+			ZO_Scroll_SetMaxFadeDistance(DolgubonSetCrafterWindowFavouritesScrollListContents, PP.savedVars.ListStyle.list_fade_distance)
+			DolgubonSetCrafterWindowFavouritesScrollListScrollBarThumbMunge:SetHidden(true)
+			PP.ScrollBar(DolgubonSetCrafterWindowMaterialListListScrollBar)
+			PP.Anchor(DolgubonSetCrafterWindowMaterialListListScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
+			ZO_Scroll_SetMaxFadeDistance(DolgubonSetCrafterWindowMaterialListListContents, PP.savedVars.ListStyle.list_fade_distance)
+			DolgubonSetCrafterWindowMaterialListListScrollBarThumbMunge:SetHidden(true)
+			PP.ScrollBar(CraftingQueueScrollListScrollBar)
+			PP.Anchor(CraftingQueueScrollListScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
+			ZO_Scroll_SetMaxFadeDistance(CraftingQueueScrollListContents, PP.savedVars.ListStyle.list_fade_distance)
+			CraftingQueueScrollListScrollBarThumbMunge:SetHidden(true)
+			PP.ScrollBar(DolgubonSetCrafterWindowFurnitureListScrollBar)
+			PP.Anchor(DolgubonSetCrafterWindowFurnitureListScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
+			ZO_Scroll_SetMaxFadeDistance(DolgubonSetCrafterWindowFurnitureListContents, PP.savedVars.ListStyle.list_fade_distance)
+			DolgubonSetCrafterWindowFurnitureListScrollBarThumbMunge:SetHidden(true)
+			DolgubonSetCrafterWindowBackdrop:SetHidden(true)
+			DolgubonSetCrafterWindowDivider:SetHidden(true)
+			DolgubonSetCrafterWindowFavouritesBackdrop:SetHidden(true)
+		end
+		-- ===============================================================================================--
+		-- ==LibSets==--
 		if LibSets then
 			PP:CreateBackground(LibSets_SearchUI_TLC_KeyboardBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
 			PP.ScrollBar(LibSets_SearchUI_TLC_KeyboardContentListScrollBar)
@@ -173,17 +227,53 @@ local tinsert    = table.insert
 			ZO_Scroll_SetMaxFadeDistance(LibSets_SearchUI_TLC_KeyboardContentList, PP.savedVars.ListStyle.list_fade_distance)
 		end
 
-		--===============================================================================================--
+		-- ===============================================================================================--
 
-		--==PortToFriend==--
+		-- ==PortToFriend==--
 		if PortToFriend then
 			-- PP:CreateBackground(PortToFriend_Body_Backdrop, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
 			PortToFriend_Body_BackdropMungeOverlay:SetHidden(true)
 		end
 
-		--===============================================================================================--
+		-- ===============================================================================================--
+		-- ===============================================================================================--
 
-		--==displayleads==--
+		-- ==MailHistory==--
+		if MailHistory then
+			PP:CreateBackground(MailHistory_MainWindow_Backdrop, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			PP.ScrollBar(MailHistory_ScrollListScrollBar)
+			PP.Anchor(MailHistory_ScrollListScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
+			ZO_Scroll_SetMaxFadeDistance(MailHistory_ScrollListContents, PP.savedVars.ListStyle.list_fade_distance)
+			PP:CreateBackground(MailHistory_PopupWindow_Backdrop, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			MailHistory_MainWindow_BackdropMungeOverlay:SetHidden(true)
+		end
+
+		-- ===============================================================================================--
+
+		-- ==ITTsGhostwriter==--
+		if ITTsGhostwriter then
+			PP:CreateBackground(GW_NotePad, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			PP.ScrollBar(GW_NotePad_ComposeScrollContainerScrollBar)
+			PP.Anchor(GW_NotePad_ComposeScrollContainerScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
+			ZO_Scroll_SetMaxFadeDistance(GW_NotePad_ComposeScrollContainer, PP.savedVars.ListStyle.list_fade_distance)
+			PP:CreateBackground(GW_NotePad_BG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			ITTsGhostwriterWindowGlow:SetHidden(true)
+			GW_NotePad_BGMungeOverlay:SetHidden(true)
+		end
+
+		-- ===============================================================================================--
+
+		-- ==LuiExtended==--
+		if LUIE then
+			PP:CreateBackground(LUIE_Changelog_Background, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			PP.ScrollBar(LUIE_Changelog_ContainerScrollBar)
+			PP.Anchor(LUIE_Changelog_ContainerScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
+			ZO_Scroll_SetMaxFadeDistance(LUIE_Changelog_Container, PP.savedVars.ListStyle.list_fade_distance)
+			LUIE_Changelog_BackgroundMungeOverlay:SetHidden(true)
+		end
+
+		-- ===============================================================================================--
+		-- ==displayleads==--
 		if RDL then
 			PP:CreateBackground(RDLMainWindowBG, --[[#1]] nil, nil, nil, 6, 6, --[[#2]] nil, nil, nil, -6, -6)
 			PP.ScrollBar(RDLMainWindowListScrollBar)
@@ -191,16 +281,16 @@ local tinsert    = table.insert
 			ZO_Scroll_SetMaxFadeDistance(RDLMainWindowListContents, PP.savedVars.ListStyle.list_fade_distance)
 			RDLMainWindowBGMungeOverlay:SetHidden(true)
 		end
-		--===============================================================================================--
+		-- ===============================================================================================--
 
-		--==DebugLogViewer==--
+		-- ==DebugLogViewer==--
 		if DebugLogViewer then
 			PP:CreateBackground(DebugLogViewerMainWindowBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
 			DebugLogViewerMainWindowBGMungeOverlay:SetHidden(true)
 		end
-		--===============================================================================================--
+		-- ===============================================================================================--
 
-		--==WritWorthy==--
+		-- ==WritWorthy==--
 		if WritWorthy then
 			PP.ScrollBar(WritWorthyUIInventoryListListContents)
 			PP.ScrollBar(WritWorthyMatUIListContainerListContents)
@@ -216,7 +306,7 @@ local tinsert    = table.insert
 			WritWorthyUIInventoryListListScrollBarThumbMunge:SetHidden(true)
 			WritWorthyUIInventoryListListEmptyRowBG:SetHidden(true)
 		end
-		--==AwesomeGuildStore==--z
+		-- ==AwesomeGuildStore==--z
 		if AwesomeGuildStore then
 			local function AwesomeGuildStore_Compatibility()
 				PP.Anchor(AwesomeGuildStoreFooter, nil, nil, nil, nil, 50)
@@ -248,7 +338,7 @@ local tinsert    = table.insert
 			tinsert(PP.LoadFunc_TRADING_HOUSE, AwesomeGuildStore_Compatibility)
 		end
 
-		--===============================================================================================--
+		-- ===============================================================================================--
 
 		-- == ArkadiusTradeTools == --
 		if ArkadiusTradeTools then
@@ -258,13 +348,13 @@ local tinsert    = table.insert
 					ArkadiusTradeToolsWindowBackdrop,
 					ArkadiusTradeToolsExportsFrameFilterBarTimeBG,
 					ArkadiusTradeToolsExportsFrameToolBarGuildSelectorBG,
-				},
+				};
 				sb = {
 					ArkadiusTradeToolsExportsFrameListContents,
 					ArkadiusTradeToolsPurchasesFrameListContents,
 					ArkadiusTradeToolsSalesFrameListContents,
 					ArkadiusTradeToolsStatisticsFrameListContents,
-				},
+				};
 			}
 
 			for i, bg in ipairs(att_tab.bg) do
@@ -354,13 +444,13 @@ local tinsert    = table.insert
 
 			tinsert(PP.LoadFunc_TRADING_HOUSE, ArkadiusTradeTools_Compatibility)
 		end
-		--===============================================================================================--
+		-- ===============================================================================================--
 
-		--==MasterMerchant==--
+		-- ==MasterMerchant==--
 		if MasterMerchant then
 			local mm_tab = {
-				bg = { MasterMerchantWindowBG, MasterMerchantReportsWindowBG, MasterMerchantListingWindowBG, MasterMerchantGuildWindowBG, MasterMerchantPurchaseWindowBG, MasterMerchantStatsWindowBG, MasterMerchantFeedbackBG },
-				sb = { MasterMerchantWindowListScrollBar, MasterMerchantReportsWindowListScrollBar, MasterMerchantListingWindowListScrollBar, MasterMerchantGuildWindowListScrollBar, MasterMerchantPurchaseWindowListScrollBar },
+				bg = { MasterMerchantWindowBG, MasterMerchantReportsWindowBG, MasterMerchantListingWindowBG, MasterMerchantGuildWindowBG, MasterMerchantPurchaseWindowBG, MasterMerchantStatsWindowBG, MasterMerchantFeedbackBG };
+				sb = { MasterMerchantWindowListScrollBar, MasterMerchantReportsWindowListScrollBar, MasterMerchantListingWindowListScrollBar, MasterMerchantGuildWindowListScrollBar, MasterMerchantPurchaseWindowListScrollBar };
 			}
 			for i = 1, #mm_tab.bg do
 				PP:CreateBackground(mm_tab.bg[i], --[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
@@ -373,8 +463,8 @@ local tinsert    = table.insert
 
 			local function OnCreateFn(rowControl, result)
 				local timeRemaining = rowControl:GetNamedChild("TimeRemaining")
-				local sellPrice     = rowControl:GetNamedChild("SellPrice")
-				local pricePerUnit  = rowControl:GetNamedChild("SellPricePerUnit")
+				local sellPrice = rowControl:GetNamedChild("SellPrice")
+				local pricePerUnit = rowControl:GetNamedChild("SellPricePerUnit")
 
 				PP:SetLockFn(timeRemaining, "SetAnchor")
 				PP:SetLockFn(timeRemaining, "ClearAnchors")
@@ -388,7 +478,7 @@ local tinsert    = table.insert
 				if not rowControl.MM_Fix then
 					local buyingAdvice = rowControl:GetNamedChild("BuyingAdvice")
 					if buyingAdvice then
-						PP.Font(buyingAdvice, --[[Font]] PP.f.u67, 14, "shadow", --[[Alpha]] .8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+						PP.Font(buyingAdvice, --[[Font]] PP.f.u67, 14, "shadow", --[[Alpha]] 0.8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 						PP.Anchor(buyingAdvice, --[[#1]] LEFT, nil, RIGHT, 0, 0)
 						PP:SetLockFn(buyingAdvice, "SetFont")
 						PP:SetLockFn(buyingAdvice, "SetAnchor")
@@ -407,33 +497,52 @@ local tinsert    = table.insert
 			end
 			tinsert(PP.LoadFunc_TRADING_HOUSE, MasterMerchant_Compatibility)
 
-			ZO_PostHook(MasterMerchant, "AddBuyingAdvice", function (rowControl, result, ...)
+			ZO_PostHook(MasterMerchant, "AddBuyingAdvice", function(rowControl, result, ...)
 				OnUpdateFn(rowControl, result, ...)
 			end)
 		end
-		--===============================================================================================--
+		-- ===============================================================================================--
 
-		--==pChat==--
+		-- ==LibAddonMenu-2.0==--
+		if LibAddonMenu2 then
+			PP.ScrollBar(LAMAddonSettingsWindowAddonListScrollBar)
+			PP.Anchor(LAMAddonSettingsWindowAddonListScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
+			ZO_Scroll_SetMaxFadeDistance(LAMAddonSettingsWindowAddonListContents, PP.savedVars.ListStyle.list_fade_distance)
+		end
+
+		-- ===============================================================================================--
+
+		-- ==pChat==--
 		if pChat then
 			pChat.ChangeChatWindowDarkness = PP.Dummy
-			ZO_PostHook(pChat, "ApplyChatConfig", function (...)
+			ZO_PostHook(pChat, "ApplyChatConfig", function(...)
 				PP:UpdateBackgrounds("ChatWindow")
 			end)
 		end
-		--===============================================================================================--
 
-		--==LibHistoire==--
+		-- ===============================================================================================--
+
+		-- ==rChat==--
+		if rChat then
+			rChat.ChangeChatWindowDarkness = PP.Dummy
+			ZO_PostHook(rChat, "ApplyChatConfig", function(...)
+				PP:UpdateBackgrounds("ChatWindow")
+			end)
+		end
+		-- ===============================================================================================--
+
+		-- ==LibHistoire==--
 		if LibHistoire then
 			local wasHistyHooked = false
 			SecurePostHook(ZO_GuildHistory_Keyboard, "OnDeferredInitialize", function()
 				if not wasHistyHooked then
 					local histyGuildHistoryTLC = LibHistoireGuildHistoryStatusWindow
-					local histyGuildHistoryTLCBG = histyGuildHistoryTLC:GetNamedChild("Bg")  --LibHistoireGuildHistoryStatusWindowBg
+					local histyGuildHistoryTLCBG = histyGuildHistoryTLC:GetNamedChild("Bg") -- LibHistoireGuildHistoryStatusWindowBg
 					if histyGuildHistoryTLCBG ~= nil then
 						PP:CreateBackground(histyGuildHistoryTLCBG, --[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 					end
 
-					local histyGuildHistoryTLCToggleButton = histyGuildHistoryTLC:GetNamedChild("ToggleButton") --LibHistoireGuildHistoryStatusWindowToggleButton
+					local histyGuildHistoryTLCToggleButton = histyGuildHistoryTLC:GetNamedChild("ToggleButton") -- LibHistoireGuildHistoryStatusWindowToggleButton
 					if histyGuildHistoryTLCToggleButton ~= nil then
 						histyGuildHistoryTLCToggleButton:ClearAnchors()
 						histyGuildHistoryTLCToggleButton:SetAnchor(BOTTOMLEFT, ZO_GuildHistory_Keyboard_TL, BOTTOMLEFT, 10, 0)
@@ -442,9 +551,9 @@ local tinsert    = table.insert
 				end
 			end)
 		end
-		--===============================================================================================--
+		-- ===============================================================================================--
 
-		--==FCO ChangeStuff==--
+		-- ==FCO ChangeStuff==--
 		if FCOCS then
 			MAIL_SEND_SCENE:RegisterCallback("StateChange", function(oldState, newState)
 				if newState == SCENE_SHOWN then
@@ -472,11 +581,60 @@ local tinsert    = table.insert
 				end
 			end)
 		end
-		--===============================================================================================--
 
+		-- ===============================================================================================--
 
+		-- ==FarmingParty==--
+		if FarmingParty then
+			PP:CreateBackground(FarmingPartyWindowBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			PP:CreateBackground(FarmingPartyMembersWindowBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			PP.Font(FarmingPartyMembersWindowHeadersFarmerName, --[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			PP.Font(FarmingPartyMembersWindowHeadersBestItemNameName, --[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			PP.Font(FarmingPartyMembersWindowTitle, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			FarmingPartyWindowBGMungeOverlay:SetHidden(true)
+			FarmingPartyMembersWindowBGMungeOverlay:SetHidden(true)
+		end
+		-- ===============================================================================================--
 
-		--UnregisterForEvent--
+		-- ==Misc ZO things==--
+
+		-- ==ZO_ChatOptionsDialog==--
+		if ZO_ChatOptionsDialog then
+			PP:CreateBackground(ZO_ChatOptionsDialogBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			ZO_ChatOptionsDialogBGMungeOverlay:SetHidden(true)
+		end
+
+		-- ==ZO_UIErrors==--
+		if ZO_UIErrors then
+			PP:CreateBackground(ZO_UIErrors, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			ZO_UIErrorsBG:SetHidden(false)
+			ZO_UIErrorsBGMungeOverlay:SetHidden(true)
+		end
+
+		-- ==ZO_GameMenu==--
+		if ZO_GameMenu_InGame then
+			PP.ScrollBar(ZO_OptionsWindowSettingsScrollBar)
+			PP.Anchor(ZO_OptionsWindowSettingsScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
+			ZO_Scroll_SetMaxFadeDistance(ZO_OptionsWindowSettingsScrollBar, PP.savedVars.ListStyle.list_fade_distance)
+			PP.ScrollBar(ZO_GameMenu_InGameNavigationContainerScrollBar)
+			PP.Anchor(ZO_GameMenu_InGameNavigationContainerScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
+			ZO_Scroll_SetMaxFadeDistance(ZO_GameMenu_InGameNavigationContainer, PP.savedVars.ListStyle.list_fade_distance)
+			ZO_SharedThinLeftPanelBackgroundLeft:SetHidden(true)
+			ZO_SharedThinLeftPanelBackgroundRight:SetHidden(true)
+		end
+
+		-- ==ZO_ComboBoxDropdown_Singleton_Keyboard==--
+		if ZO_ComboBoxDropdown_Singleton_Keyboard then
+			PP:CreateBackground(ZO_ComboBoxDropdown_Singleton_KeyboardScroll, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			PP:CreateBackground(ZO_ComboBoxDropdown_Singleton_KeyboardBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			PP.ScrollBar(ZO_ComboBoxDropdown_Singleton_KeyboardScrollScrollBar, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
+			PP.Anchor(ZO_ComboBoxDropdown_Singleton_KeyboardScrollScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, -10, 0)
+			ZO_Scroll_SetMaxFadeDistance(ZO_ComboBoxDropdown_Singleton_KeyboardScrollContents, PP.savedVars.ListStyle.list_fade_distance)
+			ZO_ComboBoxDropdown_Singleton_KeyboardScrollScrollBarThumbMunge:SetHidden(true)
+			ZO_ComboBoxDropdown_Singleton_KeyboardBGMungeOverlay:SetHidden(true)
+		end
+		-- ===============================================================================================--
+		-- UnregisterForEvent--
 		EVENT_MANAGER:UnregisterForEvent(PP.ADDON_NAME .. "Compatibility", EVENT_PLAYER_ACTIVATED)
 	end
 

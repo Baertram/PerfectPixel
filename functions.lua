@@ -121,7 +121,7 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 	local namespace		= namespace or 'WindowStyle'
 	local sv			= self:GetSavedVars(namespace)
 	local insets		= sv.skin_backdrop_insets
-	local parent		= parent 
+	local parent		= parent
 	local bg
 	local exBG
 
@@ -147,7 +147,7 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 	bg:SetEdgeTexture(sv.skin_edge, sv.skin_edge_file_width, sv.skin_edge_file_height, sv.skin_edge_thickness, 0)
 	bg:SetEdgeColor(unpack(sv.skin_edge_col))
 	bg:SetIntegralWrapping(sv.skin_edge_integral_wrapping)
-	
+
 	parent.PP_BG = bg
 
 	if not self.backgrounds[namespace] then
@@ -162,7 +162,7 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 		local bg		= self.PP_BG
 		local isValid	= PP.backgroundsHiddenForScene[bg]
 		local isHide	= isValid and isValid[SM:GetCurrentScene()]
-		
+
 		bg:SetHidden(isHide or bool)
 	end)
 	ZO_PreHookHandler(parent, 'OnEffectivelyHidden', function(self, bool)
@@ -176,11 +176,11 @@ function PP:UpdateBackgrounds(namespace)
 	local backgrounds	= self.backgrounds[namespace]
 	local insets		= sv.skin_backdrop_insets
 	local normInsets	= self.lastInsets - insets
-	
+
 	self.lastInsets	= insets
-	
+
 	if not backgrounds then return end
-	
+
 	for i = 1, #backgrounds do
 		local bg = backgrounds[i]
 
@@ -223,7 +223,7 @@ end
 function PP:SetLockFn(objectTable, fnName)
 	local exFn		= objectTable[fnName]
 	local marker	= '_' .. fnName
-	
+
 	if objectTable[marker] then return end
 
 	objectTable[marker]	= exFn
@@ -328,7 +328,7 @@ PP.ScrollBar = function(control)
 	sb:ClearAnchors()
 	sb:SetAnchor(TOPLEFT, nil, TOPRIGHT, 0, 0)
 	sb:SetAnchor(BOTTOMLEFT, nil, BOTTOMRIGHT, -10, 0)
-	sb:SetAlpha(.6)
+	sb:SetAlpha(0.6)
 	sb:SetHitInsets(-4, 0, 5, 0)
 	sb:SetWidth(4)
 	sb.thumb = thumb
@@ -359,7 +359,7 @@ PP.ScrollBar = function(control)
 
 end
 
-PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize)
+PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColor, glowEdgeColor, reAnchorText)
 	local bar		= control
 	local barText	= control:GetNamedChild("Progress")
 	local bg		= control:GetNamedChild("BG")
@@ -369,7 +369,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize)
 	local glowC		= control:GetNamedChild("GlowContainerCenter")
 	local glowL		= control:GetNamedChild("GlowContainerLeft")
 	local glowR		= control:GetNamedChild("GlowContainerRight")
-	
+
 	if glow then
 		glowC:SetHidden(true)
 		glowL:SetHidden(true)
@@ -386,12 +386,12 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize)
 	end
 
 	if barText then
-		PP.Font(barText, --[[Font]] PP.f.u67, fSize, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+		PP.Font(barText, --[[Font]] PP.f.u67, fSize, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 	end
 
 	bg:SetHidden(true)
 	overlay:SetHidden(true)
-	
+
 	bar:SetHeight(height)
 	bar:SetTexture(nil)
 	bar:SetLeadingEdge(nil)
@@ -399,17 +399,17 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize)
 	gloss:SetTexture(nil)
 	gloss:SetLeadingEdge(nil)
 	gloss:EnableLeadingEdge(false)
-	gloss:SetColor(0/255, 0/255, 0/255, .1)
-	
+	gloss:SetColor(0/255, 0/255, 0/255, 0.1)
+
 --
 	if not control:GetNamedChild("Backdrop") then
 		local barBG = CreateControl("$(parent)Backdrop", control, CT_BACKDROP)
 
 		PP.Anchor(barBG, --[[#1]] TOPLEFT, control, TOPLEFT, -2, -2, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	2, 2)
 		barBG:SetCenterTexture(nil, 8, 0)
-		barBG:SetCenterColor(10/255, 10/255, 10/255, .8)
+		barBG:SetCenterColor(10/255, 10/255, 10/255, 0.8)
 		barBG:SetEdgeTexture(nil, 1, 1, 1, 0)
-		barBG:SetEdgeColor(60/255, 60/255, 60/255, .9)
+		barBG:SetEdgeColor(60/255, 60/255, 60/255, 0.9)
 		barBG:SetInsets(-1, -1, 1, 1)
 	end
 end
@@ -447,7 +447,7 @@ PP.ResetStyle = function()
 				end
 
 				if list.mode == 3 then return end
-				
+
 				for _, control in pairs(pool.m_Free) do
 					dataType.hooks[list.mode].OnCreate(control)
 				end
@@ -466,10 +466,10 @@ PP.ResetStyle = function()
 	end
 	PLAYER_INVENTORY:UpdateList(INVENTORY_BACKPACK)
 	ZO_ScrollList_Commit(ZO_PlayerInventoryList)
-	
+
 	ZO_Scroll_SetMaxFadeDistance(ZO_LootAlphaContainerList, PP.savedVars.ListStyle.list_fade_distance)
 	ZO_LootAlphaContainerList.uniformControlHeight = PP.savedVars.ListStyle.list_uniform_control_height
-	
+
 	ZO_Scroll_SetMaxFadeDistance(MAIL_INBOX.navigationTree.scrollControl, PP.savedVars.ListStyle.list_fade_distance)
 
 	if not TRADING_HOUSE.searchResultsList then return end
@@ -497,10 +497,10 @@ end
 
 --
 local stateColor = {
-	[BSTATE_NORMAL]				= {173/255,			166/255,		132/255,		1},	--BSTATE_NORMAL
-	[BSTATE_PRESSED]			= {220/255,			220/255,		220/255,		1},	--BSTATE_PRESSED
-	[BSTATE_DISABLED]			= {173/255 * .5,	166/255 * .5,	132/255 * .5,	1},	--BSTATE_DISABLED_PRESSED
-	[BSTATE_DISABLED_PRESSED]	= {220/255 * .5,	220/255 * .5,	220/255 * .5,	1},	--BSTATE_DISABLED
+	[BSTATE_NORMAL]           = { 173 / 255, 166 / 255, 132 / 255, 1 },        --BSTATE_NORMAL
+	[BSTATE_PRESSED]          = { 220 / 255, 220 / 255, 220 / 255, 1 },        --BSTATE_PRESSED
+	[BSTATE_DISABLED]         = { 173 / 255 * 0.5, 166 / 255 * 0.5, 132 / 255 * 0.5, 1 }, --BSTATE_DISABLED_PRESSED
+	[BSTATE_DISABLED_PRESSED] = { 220 / 255 * 0.5, 220 / 255 * 0.5, 220 / 255 * 0.5, 1 }, --BSTATE_DISABLED
 }
 
 function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1, texture, height, width, tooltipText, sv, fn)
@@ -530,7 +530,7 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 	local animation, timeline	= CreateSimpleAnimation(ANIMATION_SCALE, checkBox)
 	checkBox.timeline			= timeline
 	animation:SetStartScale(1)
-	animation:SetEndScale(.8)
+	animation:SetEndScale(0.8)
 	animation:SetDuration(100)
 	--anim--
 
@@ -538,7 +538,7 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 		local checkBox			= self.checkBox
 		local checkStateType	= type(checkState)
 		local state				= false
-		
+
 		if checkStateType == "boolean" then
 			state = checkState and BSTATE_PRESSED or BSTATE_NORMAL
 		elseif checkStateType == "number" then
@@ -553,13 +553,13 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 			control:SetMouseEnabled(false)
 		end
 	end
-	
+
 	function control:SetToggleFunction(fn)
 		self.toggleFunction = fn
 	end
 
 	control:SetHandler("OnMouseEnter", function(self)
-		self.over:SetAlpha(.2)
+		self.over:SetAlpha(0.2)
 
 		if not self.tooltipText then return end
 		InitializeTooltip(InformationTooltip, control, BOTTOM, 0, -10)
@@ -604,3 +604,12 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 
 	return control
 end
+
+-- Function to remove fragments from a scene
+local removeFragmentsFromScene = function(scene, fragments)
+	for _, fragment in ipairs(fragments) do
+	  scene:RemoveFragment(fragment)
+	end
+end
+
+PP.removeFragmentsFromScene = removeFragmentsFromScene

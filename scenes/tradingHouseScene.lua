@@ -46,10 +46,10 @@ PP.tradingHouseScene = function()
 			button:SetDimensions(36, 36)
 			PP.Anchor(button, --[[#1]] LEFT, nil, LEFT, 5, 0)
 			--"ButtonStackCount"-------------
-			PP.Font(stack, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(stack, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			PP.Anchor(stack, --[[#1]] BOTTOMRIGHT, nil, BOTTOMRIGHT, 8, 2)
 			--"Name"-------------
-			PP.Font(name, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(name, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			PP.Anchor(name, --[[#1]] TOPLEFT, nil, TOPLEFT, 60, 2)
 			name:SetWidth(250)
 			name:SetLineSpacing(0)
@@ -58,13 +58,13 @@ PP.tradingHouseScene = function()
 			name:SetWrapMode(1)
 			-- "SellPrice"--------------------
 			PP.Anchor(sellPrice, --[[#1]] TOPRIGHT, rowControl, TOPRIGHT, -5, 2)
-			PP.Font(sellPrice, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(sellPrice, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			sellPrice:SetVerticalAlignment(TEXT_ALIGN_BOTTOM)
 			--SellPricePerUnit--------------------
-			PP.Font(pricePerUnit, --[[Font]] PP.f.u67, 14, "shadow", --[[Alpha]] .8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(pricePerUnit, --[[Font]] PP.f.u67, 14, "shadow", --[[Alpha]] 0.8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			PP.Anchor(pricePerUnit, --[[#1]] TOPRIGHT, sellPrice, BOTTOMRIGHT, -2, -2)
 			--TimeRemaining--------------------
-			PP.Font(timeRemaining, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] .9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(timeRemaining, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			PP.Anchor(timeRemaining, --[[#1]] LEFT, trait, RIGHT, 10, 0)
 			--"Bg"-------------
 			-- bg:SetTexture("PerfectPixel/tex/tex_clear.dds")
@@ -78,7 +78,7 @@ PP.tradingHouseScene = function()
 			sellerName:SetWidth(130)
 			sellerName:SetMaxLineCount(1)
 			sellerName:SetWrapMode(1)
-			PP.Font(sellerName, --[[Font]] PP.f.u57, 15, "outline", --[[Alpha]] .4, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(sellerName, --[[Font]] PP.f.u57, 15, "outline", --[[Alpha]] 0.4, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			--"Backdrop"-------------
 			local backdrop = PP.CreateBackdrop(rowControl)
 			backdrop:SetCenterColor(unpack(PP.savedVars.ListStyle.list_skin_backdrop_col))
@@ -104,7 +104,7 @@ PP.tradingHouseScene = function()
 			else
 				-- PP.Anchor(sellPrice, --[[#1]] TOPRIGHT, rowControl, TOPRIGHT, -5, 2)
 				sellPrice:SetHeight(21)
-				pricePerUnit:SetAlpha(.8)
+				pricePerUnit:SetAlpha(0.8)
 				pricePerUnit:SetHidden(false)
 				pricePerUnit:SetText("@" .. pricePerUnit:GetText())
 			end
@@ -119,10 +119,10 @@ PP.tradingHouseScene = function()
 	end
 
 	PP.Anchor(ZO_TradingHouse,							--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, BottomOffsetY)
-	PP.Font(ZO_TradingHouseTitleLabel, --[[Font]] PP.f.u67, 30, "outline", --[[Alpha]] .9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .8)
+	PP.Font(ZO_TradingHouseTitleLabel, --[[Font]] PP.f.u67, 30, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.8)
 	ZO_TradingHouseTitleDivider:SetHidden(true)
 
-	PP.ScrollBar(ZO_TradingHouseBrowseItemsRightPaneSearchResults, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+	PP.ScrollBar(ZO_TradingHouseBrowseItemsRightPaneSearchResults, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 	PP.Anchor(ZO_TradingHouseBrowseItemsRightPaneSearchResults, --[[#1]] TOPLEFT, ZO_TradingHouseBrowseItemsRightPaneSearchSortBy, BOTTOMLEFT, 0, 0 , --[[#2]] true, BOTTOMRIGHT, ZO_TradingHouseBrowseItemsRightPane, BOTTOMRIGHT, 0, 0)
 
 	PP.Anchor(ZO_TradingHouseBrowseItemsRightPane,		--[[#1]] TOPLEFT, nil, TOPRIGHT, 30, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 0, 0)
@@ -174,14 +174,14 @@ PP.tradingHouseScene = function()
 		local tabSortBy = {"NameName", "TimeRemainingName", "PriceName", "PricePerUnitName", "PriceSeparator"}
 		for _, v in ipairs(tabSortBy) do
 			local text = sortBy:GetNamedChild(v)
-			PP.Font(text, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] 197, 194, 158, 1, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(text, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] 197, 194, 158, 1, --[[StyleColor]] 0, 0, 0, 0.5)
 			text:SetWidth(text:GetStringWidth())
 		end
 	end
 
 --==ZO_TradingHouseBrowseItemsLeftPane===========================================================--
 	PP.Anchor(ZO_TradingHouseBrowseItemsLeftPaneCategoryListContainer, --[[#1]] TOPLEFT, ZO_TradingHouseBrowseItemsLeftPaneGlobalFeatureArea, BOTTOMLEFT, -15, 10, --[[#2]] true, BOTTOMRIGHT, ZO_TradingHouseBrowseItemsLeftPane, BOTTOMRIGHT, 0, 0)
-	PP.ScrollBar(ZO_TradingHouseBrowseItemsLeftPaneCategoryListContainer, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+	PP.ScrollBar(ZO_TradingHouseBrowseItemsLeftPaneCategoryListContainer, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 
 	PP.Anchor(ZO_TradingHouseBrowseItemsLeftPaneGlobalFeatureArea, --[[#1]] TOPLEFT, ZO_TradingHouseBrowseItemsLeftPane, TOPLEFT, 0, 0, --[[#2]] true, TOPRIGHT, ZO_TradingHouseBrowseItemsLeftPane, TOPRIGHT, 0, 0)
 
@@ -200,7 +200,7 @@ PP.tradingHouseScene = function()
 	ZO_TradingHouseBrowseItemsLeftPaneGlobalFeatureAreaPriceRangeMinPrice:SetDimensionConstraints(105, 26, 105, 26)
 
 	local function LeftPaneUpdate()
-		PP.Font(ZO_TradingHouseBrowseItemsLeftPaneGlobalFeatureAreaQualitySelectedItemText, --[[Font]] PP.f.u67, 15, "", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+		PP.Font(ZO_TradingHouseBrowseItemsLeftPaneGlobalFeatureAreaQualitySelectedItemText, --[[Font]] PP.f.u67, 15, "", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 	end
 
 --==ZO_TradingHouseSearchHistoryTopLevel_Keyboard================================================--
@@ -208,14 +208,14 @@ PP.tradingHouseScene = function()
 
 	PP:CreateBackground(ZO_TradingHouseSearchHistoryTopLevel_Keyboard,		--[[#1]] nil, nil, nil, 0, 1, --[[#2]] nil, nil, nil, -4, -2)
 
-	PP.ScrollBar(ZO_TradingHouseSearchHistoryTopLevel_KeyboardList, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+	PP.ScrollBar(ZO_TradingHouseSearchHistoryTopLevel_KeyboardList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 	PP.Anchor(ZO_TradingHouseSearchHistoryTopLevel_KeyboardList, --[[#1]] TOPLEFT, ZO_TradingHouseSearchHistoryTopLevel_Keyboard, TOPLEFT, 8, 8, --[[#2]] true, BOTTOMRIGHT, ZO_TradingHouseSearchHistoryTopLevel_Keyboard, BOTTOMRIGHT, -4, -8)
 	
 	ZO_TradingHouseSearchHistoryTopLevel_Keyboard:SetWidth(350)
 	PP.Anchor(ZO_TradingHouseSearchHistoryTopLevel_Keyboard, --[[#1]] TOPLEFT, GuiRoot, TOPLEFT, 0, 100, --[[#2]] true, BOTTOMLEFT, GuiRoot, BOTTOMLEFT, 0, -300)
 
 	PP.Anchor(ZO_TradingHouseSearchHistoryTopLevel_KeyboardTitle, --[[#1]] BOTTOMLEFT, ZO_TradingHouseSearchHistoryTopLevel_Keyboard, TOPLEFT, 10, 0)
-	PP.Font(ZO_TradingHouseSearchHistoryTopLevel_KeyboardTitle, --[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] .9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .8)
+	PP.Font(ZO_TradingHouseSearchHistoryTopLevel_KeyboardTitle, --[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.8)
 	ZO_TradingHouseSearchHistoryTopLevel_KeyboardTitleDivider:SetHidden(true)
 
 	local historyRowHeight, historyControlHeight = 44, 42
@@ -239,7 +239,7 @@ PP.tradingHouseScene = function()
 				-- description:SetColor(r, g, b, .9)
 				-- description:SetDesaturation(.3)
 			-- end
-			PP.Font(description, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] .9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(description, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			PP.Anchor(description, --[[#1]] TOPLEFT, rowControl, TOPLEFT, 10, 0, --[[#2]] true, BOTTOMRIGHT, rowControl, BOTTOMRIGHT, -10, 0)
 			description:SetLineSpacing(0)
 			description:SetVerticalAlignment(TEXT_ALIGN_CENTER)

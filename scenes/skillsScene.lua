@@ -44,13 +44,13 @@ PP.skillsScene = function()
 	PP.Anchor(ZO_Skills, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 85,	--[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -104)
 
 	PP.Anchor(ZO_SkillsAvailablePoints, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, 0)
-	PP.Font(ZO_SkillsAvailablePoints, --[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-	PP.Font(ZO_SkillsSkyShards, --[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+	PP.Font(ZO_SkillsAvailablePoints, --[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+	PP.Font(ZO_SkillsSkyShards, --[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 --ZO_SkillsSkillInfo
 	PP.Anchor(ZO_SkillsSkillInfo, --[[#1]] TOP, ZO_Skills, TOP, 112, -5, --[[#2]] false, LEFT, ZO_SkillsSkillLinesContainer, RIGHT, 65, 0)
 	
-	PP.Font(ZO_SkillsSkillInfoName, --[[Font]] PP.f.u67, 20, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
-	PP.Font(ZO_SkillsSkillInfoRank, --[[Font]] PP.f.u67, 54, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+	PP.Font(ZO_SkillsSkillInfoName, --[[Font]] PP.f.u67, 20, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+	PP.Font(ZO_SkillsSkillInfoRank, --[[Font]] PP.f.u67, 54, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 	PP.Anchor(ZO_SkillsSkillInfoRank, --[[#1]] LEFT, nil, LEFT, -50, 0)
 	PP.Bar(ZO_SkillsSkillInfoXPBar, --[[height]] 14, --[[fontSize]] 15)
 	PP.Anchor(ZO_SkillsSkillInfoXPBar, --[[#1]] TOPLEFT, ZO_SkillsSkillInfoRank, BOTTOMRIGHT, 15, -30, --[[#2]] true, BOTTOMRIGHT, ZO_SkillsSkillList, TOPRIGHT, -20, -16)
@@ -59,7 +59,7 @@ PP.skillsScene = function()
 
 	local skillList = ZO_SkillsSkillList
 
-	PP.ScrollBar(skillList,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+	PP.ScrollBar(skillList,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
 	PP.Anchor(skillList, --[[#1]] TOPLEFT, ZO_SkillsSkillInfo, BOTTOMLEFT, -60, 2, --[[#2]] true, BOTTOMRIGHT, ZO_Skills, BOTTOMRIGHT, 0, -40)
 
 	-- skillList.useFadeGradient = nil
@@ -82,7 +82,7 @@ PP.skillsScene = function()
 
 	ZO_Scroll_SetMaxFadeDistance(skillLinesContainer, 10)
 	PP.Anchor(skillLinesContainer, --[[#1]] TOPLEFT, ZO_SkillsSkyShards, BOTTOMLEFT, 0, 5,	--[[#2]] true, BOTTOMLEFT, ZO_Skills, BOTTOMLEFT, 0, 34)
-	PP.ScrollBar(skillLinesContainer,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+	PP.ScrollBar(skillLinesContainer,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
 
 	if SV.unwrappedSkillsTree then
 		local tree = SKILLS_WINDOW.skillLinesTree
@@ -98,9 +98,9 @@ PP.skillsScene = function()
 		local treeEntry		= tree.templateInfo.SSP_NavigationEntry	or tree.templateInfo.ZO_SkillsNavigationEntry
 
 		--TreeHeaderSetup(node, control, skillTypeData, open)
-		local existingSetupCallback = treeHeader.setupFunction
+		local existingSetupCallback00 = treeHeader.setupFunction
 		treeHeader.setupFunction = function(node, control, skillTypeData, open)
-			existingSetupCallback(node, control, skillTypeData, open)
+			existingSetupCallback00(node, control, skillTypeData, open)
 			control:SetDimensionConstraints(300, 23, 300, 23)
 			control:SetMouseEnabled(false)
 			control.allowIconScaling = false
@@ -108,7 +108,7 @@ PP.skillsScene = function()
 			local icon = control:GetNamedChild("Icon")
 			local text = control:GetNamedChild("Text")
 			text:SetSelected(true)
-			PP.Font(text, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] 173, 166, 132, 1, --[[StyleColor]] 0, 0, 0, .8)
+			PP.Font(text, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] 173, 166, 132, 1, --[[StyleColor]] 0, 0, 0, 0.8)
 			PP.Anchor(text, --[[#1]] LEFT, icon, RIGHT, 5, 0)
 			text:SetVerticalAlignment(TEXT_ALIGN_CENTER)
 			text:SetDesaturation(-1)
@@ -129,31 +129,31 @@ PP.skillsScene = function()
 
 			--SpentSkillPoints  compatibility--
 			if control:GetNamedChild("PointText") then
-				PP.Font(control:GetNamedChild("PointText"), --[[Font]] PP.f.u67, 20, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+				PP.Font(control:GetNamedChild("PointText"), --[[Font]] PP.f.u67, 20, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 				PP.Anchor(control:GetNamedChild("PointText"), --[[#1]] nil, nil, nil, 220, 2)
 			end
 
 			if control:GetNamedChild("Backdrop") then return end
-			PP.ListBackdrop(control, 15, 0, 0, 0, --[[tex]] "PerfectPixel/tex/GradientRight.dds", 16, 0, --[[bd]] 173*.3, 166*.3, 132*.3, 1, --[[edge]] 0, 0, 0, 0)
+			PP.ListBackdrop(control, 15, 0, 0, 0, --[[tex]] "PerfectPixel/tex/GradientRight.dds", 16, 0, --[[bd]] 173*0.3, 166*0.3, 132*0.3, 1, --[[edge]] 0, 0, 0, 0)
 		end
 
 		--TreeEntrySetup(node, control, skillLineData, open)
-		local existingSetupCallback = treeEntry.setupFunction
+		local existingSetupCallback01 = treeEntry.setupFunction
 		treeEntry.setupFunction = function(node, control, skillLineData, open)
-			existingSetupCallback(node, control, skillLineData, open)
+			existingSetupCallback01(node, control, skillLineData, open)
 			control:SetHeight(21)
 			control:SetVerticalAlignment(TEXT_ALIGN_CENTER)
-			PP.Font(control, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+			PP.Font(control, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			--StatusIcon--
 			PP.Anchor(control:GetNamedChild("StatusIcon"), --[[#1]] nil, nil, nil, -2, 0)
 
 			--SpentSkillPoints  compatibility--
 			if control:GetNamedChild("LevelText") then
-				PP.Font(control:GetNamedChild("LevelText"), --[[Font]] PP.f.u67, 14, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+				PP.Font(control:GetNamedChild("LevelText"), --[[Font]] PP.f.u67, 14, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 				PP.Anchor(control:GetNamedChild("LevelText"), --[[#1]] nil, nil, nil, -74, 1)
 			end
 			if control:GetNamedChild("PointText") then
-				PP.Font(control:GetNamedChild("PointText"), --[[Font]] PP.f.u67, 14, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .5)
+				PP.Font(control:GetNamedChild("PointText"), --[[Font]] PP.f.u67, 14, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 				PP.Anchor(control:GetNamedChild("PointText"), --[[#1]] nil, nil, nil, 160, 1)
 			end
 
@@ -163,7 +163,7 @@ PP.skillsScene = function()
 --ZO_SkillsAdvisor_Keyboard_TopLevel	--ZO_SharedMediumLeftPanelBackground
 	PP:CreateBackground(ZO_SkillsAdvisor_Keyboard_TopLevel, --[[#1]] nil, nil, nil, 0, -30, --[[#2]] nil, nil, nil, 32, 12)
 	
-	PP.ScrollBar(ZO_SkillsAdvisor_Suggestions_Keyboard_TopLevelSkillSuggestionList, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+	PP.ScrollBar(ZO_SkillsAdvisor_Suggestions_Keyboard_TopLevelSkillSuggestionList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 	PP.Anchor(ZO_SkillsAdvisor_Suggestions_Keyboard_TopLevel, --[[#1]] TOPLEFT, ZO_SkillsAdvisor_Keyboard_TopLevelDivider, BOTTOMLEFT, 3, -5, --[[#2]] true, BOTTOMRIGHT, ZO_SkillsAdvisor_Keyboard_TopLevel, BOTTOMRIGHT, 30, 4)
 	
 	ZO_Scroll_SetMaxFadeDistance(ZO_SkillsAdvisor_Suggestions_Keyboard_TopLevelSkillSuggestionList, 10)
@@ -216,8 +216,8 @@ PP.skillsScene = function()
 			scribingLibraryScene:RemoveFragment(MEDIUM_LEFT_PANEL_BG_FRAGMENT)
 			PP:CreateBackground(MEDIUM_LEFT_PANEL_BG_FRAGMENT.control, --[[#1]] nil, nil, nil, -10, -5, --[[#2]] nil, nil, nil, 0, 44)
 
-			PP.ScrollBar(ZO_ScribingLibrary_Keyboard_TLLibraryCraftedAbilitiesGridListContainerList, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
-			PP.ScrollBar(ZO_ScribingLibrary_Keyboard_TLLibraryScripts, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+			PP.ScrollBar(ZO_ScribingLibrary_Keyboard_TLLibraryCraftedAbilitiesGridListContainerList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
+			PP.ScrollBar(ZO_ScribingLibrary_Keyboard_TLLibraryScripts, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 		end)
 	end
 end

@@ -1,16 +1,17 @@
+local PP = PP
+local removeFragmentsFromScene = PP.removeFragmentsFromScene
+
 PP.notificationsScene = function()
 	local scenes = {
 		{ scene = NOTIFICATIONS_SCENE,	gVar = ZO_Notifications, },
 	}
 	local fragments	= { FRAME_PLAYER_FRAGMENT, FRAME_TARGET_STANDARD_RIGHT_PANEL_FRAGMENT, RIGHT_BG_FRAGMENT, TITLE_FRAGMENT, NOTIFICATIONS_TITLE_FRAGMENT, }
 
-	for i=1, #scenes do
-		local scene			= scenes[i].scene
-		local gVar			= scenes[i].gVar
+	for _, sceneInfo in ipairs(scenes) do
+		local scene = sceneInfo.scene
+		local gVar = sceneInfo.gVar
 
-		for i=1, #fragments do
-			scene:RemoveFragment(fragments[i])
-		end
+		removeFragmentsFromScene(scene, fragments)
 
 		local tlc = gVar.control or gVar
 

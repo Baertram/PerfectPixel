@@ -61,7 +61,7 @@ PP.worldMapScene = function()
 	
 	local tab = {ZO_WorldMapQuestsPane, ZO_WorldMapKeyPane, ZO_WorldMapLocationsList, ZO_WorldMapHousesList, ZO_WorldMapFiltersPvEContainer}
 	for _, v in ipairs(tab) do
-		PP.ScrollBar(v,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+		PP.ScrollBar(v,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
 		ZO_Scroll_SetMaxFadeDistance(v, 10)
 	end
 
@@ -76,14 +76,14 @@ PP.worldMapScene = function()
 	PP.Anchor(ZO_WorldMapZoom, --[[#1]] BOTTOM, GuiRoot, BOTTOM, 0, -50)
 
 --ZO_WorldMapZoneStoryTopLevel_Keyboard------------------------------------------------------------
-	PP.ScrollBar(ZO_WorldMapZoneStoryTopLevel_KeyboardList,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+	PP.ScrollBar(ZO_WorldMapZoneStoryTopLevel_KeyboardList,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 	ZO_Scroll_SetMaxFadeDistance(ZO_WorldMapZoneStoryTopLevel_KeyboardList, 10)
 
 	PP.Anchor(ZO_WorldMapZoneStoryTopLevel_Keyboard,					--[[#1]] TOPLEFT, GuiRoot, TOPLEFT, 0, 200)
 	PP.Anchor(ZO_WorldMapZoneStoryTopLevel_KeyboardList,				--[[#1]] TOPLEFT, ZO_WorldMapZoneStoryTopLevel_Keyboard, TOPLEFT, 8, 0,	--[[#2]] true, BOTTOMRIGHT, ZO_WorldMapZoneStoryTopLevel_Keyboard, BOTTOMRIGHT, 0, 0)
 	PP.Anchor(ZO_WorldMapZoneStoryTopLevel_KeyboardZoneStoriesButton,	--[[#1]] TOP, ZO_WorldMapZoneStoryTopLevel_Keyboard, BOTTOM, 8, 10)
 	PP.Anchor(ZO_WorldMapZoneStoryTopLevel_KeyboardTitle,				--[[#1]] BOTTOM, ZO_WorldMapZoneStoryTopLevel_Keyboard, TOP, 8, -2)
-	PP.Font(ZO_WorldMapZoneStoryTopLevel_KeyboardTitle,					--[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] .9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, .8)
+	PP.Font(ZO_WorldMapZoneStoryTopLevel_KeyboardTitle,					--[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.8)
 	ZO_WorldMapZoneStoryTopLevel_KeyboardTitleDivider:SetHidden(true)
 
 	local dataType = ZO_ScrollList_GetDataTypeTable(ZO_WorldMapZoneStoryTopLevel_KeyboardList, 1) --SetupCompletionType(control, data)

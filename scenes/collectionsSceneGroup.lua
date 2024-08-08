@@ -153,6 +153,8 @@ PP.collectionsSceneGroup = function()
 		ZO_RestyleSheetWindowTopLevel_KeyboardCollectibleSheetSecondaryDivider:SetHidden(true)
 
 		ZO_RestyleSheetWindowTopLevel_KeyboardCompanionEquipmentSheetSecondaryDivider:SetHidden(true)
+		ZO_RestyleSheetWindowTopLevel_KeyboardCompanionOutfitStylesSheetSecondaryDivider:SetHidden(true)
+
 	end)
 
 	--PTS API101043 2024-08-07

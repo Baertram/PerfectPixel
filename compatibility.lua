@@ -229,7 +229,6 @@ PP.compatibility = function()
 			--Item set collections
 			ITEM_SETS_BOOK_SCENE:RegisterCallback("StateChange", function(oldState, newState)
 				if newState == SCENE_SHOWN then
-d("Item Set Collections Scene Shown")
 					if ZO_ItemSetsBook_Keyboard_TopLevelFiltersLibSetsMoreOptions ~= nil then
 						PP.Anchor(ZO_ItemSetsBook_Keyboard_TopLevelFiltersLibSetsMoreOptions, --[[#1]] RIGHT, ZO_ItemSetsBook_Keyboard_TopLevelFilters, RIGHT, -4, -8, --[[#2]] false, nil, nil, nil, nil, nil)
 					end

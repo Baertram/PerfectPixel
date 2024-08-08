@@ -27,12 +27,12 @@ PP.restyleStationKeyboardSceneGroup = function()
 	PP.ScrollBar(ZO_DyeingTopLevel_KeyboardPane, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
 	ZO_Scroll_SetMaxFadeDistance(ZO_DyeingTopLevel_KeyboardPane, 10)
 
-	if ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetCost ~= nil then
+	if ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetCostContainer ~= nil then
+		PP.Font(ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetCostContainerCostLabel, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.6)
+		PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetCostContainer, --[[#1]] BOTTOMLEFT, ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheet, BOTTOM, 10, -10)
+	elseif ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetCost ~= nil then
 		PP.Font(ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetCost, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.6)
 		PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetCost, --[[#1]] TOPLEFT, ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetSecondary, BOTTOMLEFT, -10, -5)
-	elseif ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetCostContainer ~= nil then
-		PP.Font(ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetCostContainerCostLabel, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.6)
-		PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetCostContainer, --[[#1]] TOPLEFT, ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetSecondary, BOTTOMLEFT, -10, -5)
 	end
 end
 

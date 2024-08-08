@@ -254,6 +254,16 @@ end
 --(6)--BOTTOMLEFT	(4)---BOTTOM	(12)--BOTTOMRIGHT
 -- isValid, point, relTo, relPoint, offsX, offsY, constraints = control:GetAnchor(anchorIndex)
 PP.Anchor = function(control, --[[#1]] set1_p, set1_rTo, set1_rp, set1_x, set1_y, --[[#2]] toggle, set2_p, set2_rTo, set2_rp, set2_x, set2_y)
+	if control == nil then
+		--d("[PP]Anchor - control is nil")
+		return
+	else
+		if control.ClearAnchors == nil or control.SetAnchor == nil then
+			--d("[PP]Anchor - control:SetAnchor is nil: " ..tostring(control:GetName()))
+			return
+		end
+	end
+
 	local --[[#1]] get1_isA, get1_p, get1_rTo, get1_rp, get1_x, get1_y = control:GetAnchor(0)
 	local --[[#2]] get2_isA, get2_p, get2_rTo, get2_rp, get2_x, get2_y = control:GetAnchor(1)
 	control:ClearAnchors()
@@ -263,18 +273,23 @@ PP.Anchor = function(control, --[[#1]] set1_p, set1_rTo, set1_rp, set1_x, set1_y
 	end
 end
 
---outline, thick-outline, soft-shadow-thin, soft-shadow-thick, shadow 
+--outline, thick-outline, soft-shadow-thin, soft-shadow-thick, shadow
 PP.Font = function(control, --[[Font]] font, size, outline, --[[Alpha]] a, --[[Color]] c_r, c_g, c_b, c_a, --[[StyleColor]] sc_r, sc_g, sc_b, sc_a)
-	if font then
+	if control == nil then
+		--d("[PP]Font - control is nil")
+		return
+	end
+
+	if font and control.SetFont then
 		control:SetFont(string.format("%s|%s|%s", font, size, outline))
 	end
 	if a then
 		control:SetAlpha(a)
 	end
-	if c_r and c_g and c_b and c_a then
+	if c_r and c_g and c_b and c_a and control.SetColor then
 		control:SetColor(c_r/255, c_g/255, c_b/255, c_a)
 	end
-	if sc_r and sc_g and sc_b and sc_a then
+	if sc_r and sc_g and sc_b and sc_a and control.SetStyleColor then
 		control:SetStyleColor(sc_r/255, sc_g/255, sc_b/255, sc_a)
 	end
 end
@@ -613,3 +628,27 @@ local removeFragmentsFromScene = function(scene, fragments)
 end
 
 PP.removeFragmentsFromScene = removeFragmentsFromScene
+
+--Added with API101043 - ZOs uses more and more DeferredInitialization meanwhile so we craete a wrapper function for that
+local postHookedOnDeferredInitControls = {}
+function PP.onDeferredInitCheck(object, callbackFunc, preCheckFunc)
+	if callbackFunc == nil then return end
+	--PreCheck funtion is needed?
+	local doNow = true
+	if type(preCheckFunc) == "function" then
+		doNow = preCheckFunc(object)
+	end
+	if not doNow then return end
+
+	--No deferred init available? Run callback directly
+	if object ~= nil then
+		if object.OnDeferredInitialize == nil then
+			callbackFunc(object)
+		else
+			if not postHookedOnDeferredInitControls[object] then
+				SecurePostHook(object, "OnDeferredInitialize", function(...) callbackFunc(object, ...) end)
+				postHookedOnDeferredInitControls[object] = true
+			end
+		end
+	end
+end

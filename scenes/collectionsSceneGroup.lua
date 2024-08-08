@@ -84,42 +84,57 @@ PP.collectionsSceneGroup = function()
 		end
 	end
 
-	PP.Anchor(ZO_CollectionsBook_TopLevelList, --[[#1]] TOPLEFT, ZO_CollectionsBook_TopLevelCategories, TOPRIGHT, 0, 16, --[[#2]] true, BOTTOMRIGHT, ZO_CollectionsBook_TopLevel, BOTTOMRIGHT,	0, 0)
+		--PTS API101043 2024-08-07
+	PP.onDeferredInitCheck(COLLECTIONS_BOOK, function()
+		PP.Anchor(ZO_CollectionsBook_TopLevelList, --[[#1]] TOPLEFT, ZO_CollectionsBook_TopLevelCategories, TOPRIGHT, 0, 16, --[[#2]] true, BOTTOMRIGHT, ZO_CollectionsBook_TopLevel, BOTTOMRIGHT,	0, 0)
+		PP.ScrollBar(COLLECTIONS_BOOK.gridListPanelList.list, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
+		PP.ScrollBar(COLLECTIONS_BOOK.categoryTree.scrollControl, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
 
-	local dataType00 = ZO_ScrollList_GetDataTypeTable(ZO_CollectionsBook_TopLevelListContainerList, 1)
-	local existingSetupCallback00 = dataType00.setupCallback
-	dataType00["controlHeight"] = 120
-	dataType00["controlWidth"] = 180
-	dataType00["spacingX"] = 6
-	dataType00["spacingY"] = 6
-	dataType00.setupCallback = function(control, data)
-		existingSetupCallback00(control, data)
-		EmptyCellHidden(control, data)
 
-		control:SetDimensions(dataType00["controlWidth"], dataType00["controlHeight"])
-		if control:GetNamedChild("OverlayBorder") then
-			local backdrop = control:GetNamedChild("OverlayBorder")
-			backdrop:SetCenterColor(10/255, 10/255, 10/255, 0.7)
-			backdrop:SetCenterTexture(nil, 4, 0)
-			backdrop:SetEdgeColor(40/255, 40/255, 40/255, 0.9)
-			backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
-			backdrop:SetInsets(1, 1, -1, -1)
-			backdrop:SetDrawLayer(0)
-			backdrop:SetDrawTier(0)
+		local dataType00 = ZO_ScrollList_GetDataTypeTable(ZO_CollectionsBook_TopLevelListContainerList, 1)
+		--todo PTS API101043 2024-08-07
+		if dataType00 ~= nil then
+			local existingSetupCallback00 = dataType00.setupCallback
+			dataType00["controlHeight"] = 120
+			dataType00["controlWidth"] = 180
+			dataType00["spacingX"] = 6
+			dataType00["spacingY"] = 6
+			dataType00.setupCallback = function(control, data)
+				existingSetupCallback00(control, data)
+				EmptyCellHidden(control, data)
+
+				control:SetDimensions(dataType00["controlWidth"], dataType00["controlHeight"])
+				if control:GetNamedChild("OverlayBorder") then
+					local backdrop = control:GetNamedChild("OverlayBorder")
+					backdrop:SetCenterColor(10/255, 10/255, 10/255, 0.7)
+					backdrop:SetCenterTexture(nil, 4, 0)
+					backdrop:SetEdgeColor(40/255, 40/255, 40/255, 0.9)
+					backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
+					backdrop:SetInsets(1, 1, -1, -1)
+					backdrop:SetDrawLayer(0)
+					backdrop:SetDrawTier(0)
+				end
+				if control:GetNamedChild("Highlight") then
+					local highlight = control:GetNamedChild("Highlight")
+					highlight:SetTextureCoords(0.29, 0.575, 0.002, 0.3)
+					PP.Anchor(highlight, --[[#1]] TOPLEFT, control, TOPLEFT, 1, 1, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	-1, -1)
+				end
+				if control:GetNamedChild("Title") then
+					local title = control:GetNamedChild("Title")
+					PP.Font(title, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+				end
+			end
+		else
+	d(">did not find ZO_CollectionsBook_TopLevelListContainerList dataType 1")
 		end
-		if control:GetNamedChild("Highlight") then
-			local highlight = control:GetNamedChild("Highlight")
-			highlight:SetTextureCoords(0.29, 0.575, 0.002, 0.3)
-			PP.Anchor(highlight, --[[#1]] TOPLEFT, control, TOPLEFT, 1, 1, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	-1, -1)
-		end
-		if control:GetNamedChild("Title") then
-			local title = control:GetNamedChild("Title")
-			PP.Font(title, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-		end
-	end
+	end, nil)
+
 
 --[[?]]--HOUSING_BOOK_SCENE, HOUSING_BOOK_KEYBOARD
+	--PTS API101043 2024-08-07
+	PP.onDeferredInitCheck(HOUSING_BOOK_KEYBOARD, function()
 --[[?]]	PP.ScrollBar(HOUSING_BOOK_KEYBOARD.navigationList, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)	--ZO_HousingBook_KeyboardNavigationList
+	end, nil)
 
 
 --ZO_OUTFIT_STYLES_BOOK_SCENE, ZO_OUTFIT_STYLES_BOOK_KEYBOARD, ZO_OUTFIT_STYLES_PANEL_KEYBOARD
@@ -131,138 +146,164 @@ PP.collectionsSceneGroup = function()
 
 	PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardTitleDividerTexture,					--[[#1]] TOPLEFT, nil, TOPLEFT,	-140, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 90, 0)
 
-	PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardEquipmentSheetSecondaryWeaponSwap, --[[#1]] TOPRIGHT, ZO_RestyleSheetWindowTopLevel_KeyboardEquipmentSheetSecondary, BOTTOMRIGHT,	5, -5)
+	--todo PTS API101043 2024-08-07
+	if ZO_RestyleSheetWindowTopLevel_KeyboardEquipmentSheetSecondaryWeaponSwap ~= nil then
+		PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardEquipmentSheetSecondaryWeaponSwap, --[[#1]] TOPRIGHT, ZO_RestyleSheetWindowTopLevel_KeyboardEquipmentSheetSecondary, BOTTOMRIGHT,	5, -5)
+	else
+d(">did not find ZO_RestyleSheetWindowTopLevel_KeyboardEquipmentSheetSecondaryWeaponSwap")
+	end
 
-	PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardEquipmentSheetPrimaryDividerTexture,	--[[#1]] TOPLEFT, nil, TOPLEFT,	-140, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 90, 0)
-	ZO_RestyleSheetWindowTopLevel_KeyboardEquipmentSheetSecondaryDivider:SetHidden(true)
+	--todo PTS API101043 2024-08-07
+	if ZO_RestyleSheetWindowTopLevel_KeyboardEquipmentSheetPrimaryDividerTexture ~= nil then
+		PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardEquipmentSheetPrimaryDividerTexture,	--[[#1]] TOPLEFT, nil, TOPLEFT,	-140, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 90, 0)
+		ZO_RestyleSheetWindowTopLevel_KeyboardEquipmentSheetSecondaryDivider:SetHidden(true)
+	else
+d(">did not find ZO_RestyleSheetWindowTopLevel_KeyboardEquipmentSheetPrimaryDividerTexture")
+	end
 
-	PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetSecondaryWeaponSwap, --[[#1]] TOPRIGHT, ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetSecondary, BOTTOMRIGHT,	5, -5)
+	--todo PTS API101043 2024-08-07
+	if ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetSecondaryWeaponSwap ~= nil then
+		PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetSecondaryWeaponSwap, --[[#1]] TOPRIGHT, ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetSecondary, BOTTOMRIGHT,	5, -5)
+	else
+d(">did not find ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetSecondaryWeaponSwap")
+	end
 
-	PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetPrimaryDividerTexture, --[[#1]] TOPLEFT, nil, TOPLEFT,	-140, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 90, 0)
-	ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetSecondaryDivider:SetHidden(true)
+	--todo PTS API101043 2024-08-07
+	if ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetPrimaryDividerTexture ~= nil then
+		PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetPrimaryDividerTexture, --[[#1]] TOPLEFT, nil, TOPLEFT,	-140, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 90, 0)
+		ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetSecondaryDivider:SetHidden(true)
 
-	PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardCollectibleSheetPrimaryDividerTexture, --[[#1]] TOPLEFT, nil, TOPLEFT,	-140, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 90, 0)
-	ZO_RestyleSheetWindowTopLevel_KeyboardCollectibleSheetSecondaryDivider:SetHidden(true)
+		PP.Anchor(ZO_RestyleSheetWindowTopLevel_KeyboardCollectibleSheetPrimaryDividerTexture, --[[#1]] TOPLEFT, nil, TOPLEFT,	-140, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 90, 0)
+		ZO_RestyleSheetWindowTopLevel_KeyboardCollectibleSheetSecondaryDivider:SetHidden(true)
+	else
+d(">did not find ZO_RestyleSheetWindowTopLevel_KeyboardOutfitStylesSheetPrimaryDividerTexture")
+	end
 
 	local dataType01 = ZO_ScrollList_GetDataTypeTable(ZO_OutfitStylesPanelTopLevel_KeyboardPaneContainerList, 1)
-	local existingSetupCallback01 = dataType01.setupCallback
-	dataType01["controlHeight"] = 68
-	dataType01["controlWidth"] = 68
-	dataType01["spacingX"] = 6
-	dataType01["spacingY"] = 6
-	dataType01.setupCallback = function(control, data)
-		existingSetupCallback01(control, data)
-		EmptyCellHidden(control, data)
+	--todo PTS API101043 2024-08-07
+	if dataType01 ~= nil then
+		local existingSetupCallback01 = dataType01.setupCallback
+		dataType01["controlHeight"] = 68
+		dataType01["controlWidth"] = 68
+		dataType01["spacingX"] = 6
+		dataType01["spacingY"] = 6
+		dataType01.setupCallback = function(control, data)
+			existingSetupCallback01(control, data)
+			EmptyCellHidden(control, data)
 
-		control:SetDimensions(dataType01["controlWidth"], dataType01["controlHeight"])
+			control:SetDimensions(dataType01["controlWidth"], dataType01["controlHeight"])
 
-		local backdrop = control:GetNamedChild("Backdrop")
-		backdrop:SetCenterColor(10/255, 10/255, 10/255, 0.7)
-		backdrop:SetCenterTexture(nil, 4, 0)
-		backdrop:SetEdgeColor(40/255, 40/255, 40/255, 0.9)
-		backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
-		backdrop:SetInsets(1, 1, -1, -1)
-		---------------------------------
+			local backdrop = control:GetNamedChild("Backdrop")
+			backdrop:SetCenterColor(10/255, 10/255, 10/255, 0.7)
+			backdrop:SetCenterTexture(nil, 4, 0)
+			backdrop:SetEdgeColor(40/255, 40/255, 40/255, 0.9)
+			backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
+			backdrop:SetInsets(1, 1, -1, -1)
+			---------------------------------
+		end
+	else
+d(">did not find ZO_OutfitStylesPanelTopLevel_KeyboardPaneContainerList dataType 1")
 	end
 
---ITEM_SETS_BOOK_SCENE, ITEM_SET_COLLECTIONS_BOOK_KEYBOARD
-	--==ZO_ItemSetsBook_Keyboard_TopLevel==--
-	-- local item_set = ITEM_SET_COLLECTIONS_BOOK_KEYBOARD
 
-	-- PP:CreateBackground(item_set.control,	--[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10)
+		--ITEM_SETS_BOOK_SCENE, ITEM_SET_COLLECTIONS_BOOK_KEYBOARD
+		--==ZO_ItemSetsBook_Keyboard_TopLevel==--
+		-- local item_set = ITEM_SET_COLLECTIONS_BOOK_KEYBOARD
+
+		-- PP:CreateBackground(item_set.control,	--[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10)
 
 
-	local ISCB		= ITEM_SET_COLLECTIONS_BOOK_KEYBOARD
-	local iscbTLC	= ISCB.control
-	local iscbList	= ISCB.gridListPanelList.list
+		local ISCB		= ITEM_SET_COLLECTIONS_BOOK_KEYBOARD
+		local iscbTLC	= ISCB.control
+		local iscbList	= ISCB.gridListPanelList.list
 
-	PP.Anchor(ZO_ItemSetsBook_Keyboard_TopLevelFilters,		--[[#1]] TOPLEFT, iscbTLC, TOPLEFT,	0, 0, --[[#2]] true, TOPRIGHT, iscbTLC, TOPRIGHT, 0, 0)
+		PP.Anchor(ZO_ItemSetsBook_Keyboard_TopLevelFilters,		--[[#1]] TOPLEFT, iscbTLC, TOPLEFT,	0, 0, --[[#2]] true, TOPRIGHT, iscbTLC, TOPRIGHT, 0, 0)
 
-	PP.Anchor(ZO_ItemSetsBook_Keyboard_TopLevelCategoryContentCategoryProgress, --[[#1]] TOPLEFT, ZO_ItemSetsBook_Keyboard_TopLevelCategoryContent, TOPLEFT, 0, 0, --[[#2]] true, TOPRIGHT, ZO_ItemSetsBook_Keyboard_TopLevelCategoryContent, TOPRIGHT, -8, 0)
+		PP.Anchor(ZO_ItemSetsBook_Keyboard_TopLevelCategoryContentCategoryProgress, --[[#1]] TOPLEFT, ZO_ItemSetsBook_Keyboard_TopLevelCategoryContent, TOPLEFT, 0, 0, --[[#2]] true, TOPRIGHT, ZO_ItemSetsBook_Keyboard_TopLevelCategoryContent, TOPRIGHT, -8, 0)
 
-	PP.Anchor(ZO_ItemSetsBook_Keyboard_TopLevelCategoryContent,		--[[#1]] TOPLEFT, ZO_ItemSetsBook_Keyboard_TopLevelCategories, TOPRIGHT,	10, 0, --[[#2]] true, BOTTOMRIGHT, ZO_ItemSetsBook_Keyboard_TopLevel, BOTTOMRIGHT, 0, 0)
-	PP.Anchor(ZO_ItemSetsBook_Keyboard_TopLevelCategoryContentList,	--[[#1]] TOPLEFT, ZO_ItemSetsBook_Keyboard_TopLevelCategoryContentCategoryProgress, BOTTOMLEFT,	0, 10, --[[#2]] true, BOTTOMRIGHT, ZO_ItemSetsBook_Keyboard_TopLevelCategoryContent, BOTTOMRIGHT, 0, 0)
+		PP.Anchor(ZO_ItemSetsBook_Keyboard_TopLevelCategoryContent,		--[[#1]] TOPLEFT, ZO_ItemSetsBook_Keyboard_TopLevelCategories, TOPRIGHT,	10, 0, --[[#2]] true, BOTTOMRIGHT, ZO_ItemSetsBook_Keyboard_TopLevel, BOTTOMRIGHT, 0, 0)
+		PP.Anchor(ZO_ItemSetsBook_Keyboard_TopLevelCategoryContentList,	--[[#1]] TOPLEFT, ZO_ItemSetsBook_Keyboard_TopLevelCategoryContentCategoryProgress, BOTTOMLEFT,	0, 10, --[[#2]] true, BOTTOMRIGHT, ZO_ItemSetsBook_Keyboard_TopLevelCategoryContent, BOTTOMRIGHT, 0, 0)
 
-	--------------------------
-	local dataType02 = ZO_ScrollList_GetDataTypeTable(iscbList, 1)
-	local existingSetupCallback02 = dataType02.setupCallback
-	dataType02["controlHeight"] = 68
-	dataType02["controlWidth"] = 68
-	dataType02["spacingX"] = 6
-	dataType02["spacingY"] = 6
-	dataType02.setupCallback = function(control, data)
-		existingSetupCallback02(control, data)
-		EmptyCellHidden(control, data)
+		--------------------------
+		local dataType02 = ZO_ScrollList_GetDataTypeTable(iscbList, 1)
+		local existingSetupCallback02 = dataType02.setupCallback
+		dataType02["controlHeight"] = 68
+		dataType02["controlWidth"] = 68
+		dataType02["spacingX"] = 6
+		dataType02["spacingY"] = 6
+		dataType02.setupCallback = function(control, data)
+			existingSetupCallback02(control, data)
+			EmptyCellHidden(control, data)
 
-		control:SetDimensions(dataType02["controlWidth"], dataType02["controlHeight"])
+			control:SetDimensions(dataType02["controlWidth"], dataType02["controlHeight"])
 
-		local backdrop = control:GetNamedChild("OverlayBorder")
-		backdrop:SetCenterColor(10/255, 10/255, 10/255, 0.7)
-		backdrop:SetCenterTexture(nil, 4, 0)
-		backdrop:SetEdgeColor(40/255, 40/255, 40/255, 0.9)
-		backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
-		backdrop:SetInsets(1, 1, -1, -1)
-		backdrop:SetDrawLayer(0)
-		backdrop:SetDrawLevel(0)
-		backdrop:SetDrawTier(0)
-	end
-	local dataType_2 = ZO_ScrollList_GetDataTypeTable(iscbList, 2)
-	local existingSetupCallback = dataType_2.setupCallback
-	dataType_2.setupCallback = function(control, data)
-		existingSetupCallback(control, data)
-		local progressBar = control:GetNamedChild("Progress")
-		PP.Bar(progressBar, --[[height]] 14, --[[fontSize]] 15)
-	end
+			local backdrop = control:GetNamedChild("OverlayBorder")
+			backdrop:SetCenterColor(10/255, 10/255, 10/255, 0.7)
+			backdrop:SetCenterTexture(nil, 4, 0)
+			backdrop:SetEdgeColor(40/255, 40/255, 40/255, 0.9)
+			backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
+			backdrop:SetInsets(1, 1, -1, -1)
+			backdrop:SetDrawLayer(0)
+			backdrop:SetDrawLevel(0)
+			backdrop:SetDrawTier(0)
+		end
+		local dataType_2 = ZO_ScrollList_GetDataTypeTable(iscbList, 2)
+		local existingSetupCallback = dataType_2.setupCallback
+		dataType_2.setupCallback = function(control, data)
+			existingSetupCallback(control, data)
+			local progressBar = control:GetNamedChild("Progress")
+			PP.Bar(progressBar, --[[height]] 14, --[[fontSize]] 15)
+		end
 
---[[?]]--[[?]]--[[?]]--[[?]]--[[?]]
---Tribute Patron card game - collections
---ZO_TributePatronBook_Keyboard_TopLevelInfoContainerGridListContainerListContents
-	local TPB		= TRIBUTE_PATRON_BOOK_KEYBOARD
-	local tpbTLC	= TPB.control --ZO_TributePatronBook_Keyboard_TopLevel
-	local tpbFilters = GetControl(tpbTLC, "Filters")
-	local tpbSearchLabel = GetControl(tpbFilters, "SearchLabel")
-	local tpbGridList = TPB.gridList
-	local tpbList	= tpbGridList.list --ZO_TributePatronBook_Keyboard_TopLevelInfoContainerGridListContainerList
-	local tpbListContents = GetControl(tpbList, "Contents")
-	local tpbCategories = TPB.categories --ZO_TributePatronBook_Keyboard_TopLevelCategories
+		--[[?]]--[[?]]--[[?]]--[[?]]--[[?]]
+		--Tribute Patron card game - collections
+		--ZO_TributePatronBook_Keyboard_TopLevelInfoContainerGridListContainerListContents
+		local TPB		= TRIBUTE_PATRON_BOOK_KEYBOARD
+		local tpbTLC	= TPB.control --ZO_TributePatronBook_Keyboard_TopLevel
+		local tpbFilters = GetControl(tpbTLC, "Filters")
+		local tpbSearchLabel = GetControl(tpbFilters, "SearchLabel")
+		local tpbGridList = TPB.gridList
+		local tpbList	= tpbGridList.list --ZO_TributePatronBook_Keyboard_TopLevelInfoContainerGridListContainerList
+		local tpbListContents = GetControl(tpbList, "Contents")
+		local tpbCategories = TPB.categories --ZO_TributePatronBook_Keyboard_TopLevelCategories
 
-	tpbSearchLabel:SetHeight(0)
-	tpbSearchLabel:ClearAnchors()
-	tpbSearchLabel:SetHidden(true)
-	PP.Anchor(tpbFilters,		--[[#1]] TOPLEFT, tpbTLC, TOPLEFT,	1, -23, 		--[[#2]] true, TOPRIGHT, tpbTLC, TOPRIGHT, 1, -23)
+		tpbSearchLabel:SetHeight(0)
+		tpbSearchLabel:ClearAnchors()
+		tpbSearchLabel:SetHidden(true)
+		PP.Anchor(tpbFilters,		--[[#1]] TOPLEFT, tpbTLC, TOPLEFT,	1, -23, 		--[[#2]] true, TOPRIGHT, tpbTLC, TOPRIGHT, 1, -23)
 
-	PP.Anchor(tpbList,			--[[#1]] TOPLEFT, tpbCategories, TOPRIGHT, 0, 0, 	--[[#2]] true, BOTTOMRIGHT, tpbTLC, BOTTOMRIGHT, 0, 0)
-	PP.Anchor(tpbListContents,	--[[#1]] TOPLEFT, tpbList, TOPLEFT,	0, 0, 			--[[#2]] true, BOTTOMRIGHT, tpbList, BOTTOMRIGHT, 0, 0)
-	PP.ScrollBar(tpbList, 		--[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
-	ZO_Scroll_SetMaxFadeDistance(tpbList, 10)
+		PP.Anchor(tpbList,			--[[#1]] TOPLEFT, tpbCategories, TOPRIGHT, 0, 0, 	--[[#2]] true, BOTTOMRIGHT, tpbTLC, BOTTOMRIGHT, 0, 0)
+		PP.Anchor(tpbListContents,	--[[#1]] TOPLEFT, tpbList, TOPLEFT,	0, 0, 			--[[#2]] true, BOTTOMRIGHT, tpbList, BOTTOMRIGHT, 0, 0)
+		PP.ScrollBar(tpbList, 		--[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
+		ZO_Scroll_SetMaxFadeDistance(tpbList, 10)
 
-	--------------------------
-	for gridScrollListDataType, dataTypeData in ipairs(tpbList.dataTypes) do
-		if dataTypeData.selectable ~= nil and dataTypeData.selectable == true then
-			local dataType_loop = ZO_ScrollList_GetDataTypeTable(tpbList, gridScrollListDataType)
-			local existingSetupCallback_loop = dataType_loop.setupCallback
-			dataType_loop.setupCallback = function(control, data)
-				existingSetupCallback_loop(control, data)
+		--------------------------
+		for gridScrollListDataType, dataTypeData in ipairs(tpbList.dataTypes) do
+			if dataTypeData.selectable ~= nil and dataTypeData.selectable == true then
+				local dataType_loop = ZO_ScrollList_GetDataTypeTable(tpbList, gridScrollListDataType)
+				local existingSetupCallback_loop = dataType_loop.setupCallback
+				dataType_loop.setupCallback = function(control, data)
+					existingSetupCallback_loop(control, data)
 
-				local backdrop = control:GetNamedChild("OverlayBorder")
-				if backdrop ~= nil then
-					backdrop:SetCenterColor(10/255, 10/255, 10/255, 0.7)
-					backdrop:SetCenterTexture(nil, 4, 0)
-					backdrop:SetEdgeColor(40/255, 40/255, 40/255, 0.9)
-					backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
-					backdrop:SetInsets(1, 1, -1, -1)
-					backdrop:SetDrawLayer(DL_BACKGROUND)
-					backdrop:SetDrawLevel(0)
-					backdrop:SetDrawTier(DT_LOW)
-				end
+					local backdrop = control:GetNamedChild("OverlayBorder")
+					if backdrop ~= nil then
+						backdrop:SetCenterColor(10/255, 10/255, 10/255, 0.7)
+						backdrop:SetCenterTexture(nil, 4, 0)
+						backdrop:SetEdgeColor(40/255, 40/255, 40/255, 0.9)
+						backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
+						backdrop:SetInsets(1, 1, -1, -1)
+						backdrop:SetDrawLayer(DL_BACKGROUND)
+						backdrop:SetDrawLevel(0)
+						backdrop:SetDrawTier(DT_LOW)
+					end
 
-				local highlight = control:GetNamedChild("Highlight")
-				if highlight then
-					highlight:SetTextureCoords(0.29, 0.575, 0.002, 0.3)
-					PP.Anchor(highlight, --[[#1]] TOPLEFT, control, TOPLEFT, 1, 1, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	-1, -1)
+					local highlight = control:GetNamedChild("Highlight")
+					if highlight then
+						highlight:SetTextureCoords(0.29, 0.575, 0.002, 0.3)
+						PP.Anchor(highlight, --[[#1]] TOPLEFT, control, TOPLEFT, 1, 1, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	-1, -1)
+					end
 				end
 			end
 		end
-	end
 
-end
+	end

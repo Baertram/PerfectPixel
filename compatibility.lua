@@ -225,6 +225,10 @@ PP.compatibility = function()
 			PP.ScrollBar(LibSets_SearchUI_TLC_KeyboardContentListScrollBar)
 			PP.Anchor(LibSets_SearchUI_TLC_KeyboardContentListScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
 			ZO_Scroll_SetMaxFadeDistance(LibSets_SearchUI_TLC_KeyboardContentList, PP.savedVars.ListStyle.list_fade_distance)
+
+			if ZO_ItemSetsBook_Keyboard_TopLevelFiltersLibSetsMoreOptions ~= nil then
+				PP.Anchor(ZO_ItemSetsBook_Keyboard_TopLevelFiltersLibSetsMoreOptions, --[[#1]] LEFT, ZO_ItemSetsBook_Keyboard_TopLevelFilters, RIGHT, -24, 0, --[[#2]] true, nil, nil, nil, nil, nil)
+			end
 		end
 
 		-- ===============================================================================================--

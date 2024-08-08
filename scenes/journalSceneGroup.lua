@@ -2,7 +2,7 @@ local PP = PP
 local removeFragmentsFromScene = PP.removeFragmentsFromScene
 
 PP.journalSceneGroup = function()
---===============================================================================================--
+	--===============================================================================================--
 	local SV_VER		= 0.4
 	local DEF = {
 		largeQuestList	= true,
@@ -10,19 +10,19 @@ PP.journalSceneGroup = function()
 	local SV = ZO_SavedVars:NewAccountWide(PP.ADDON_NAME, SV_VER, "JournalScene", DEF, GetWorldName())
 	---------------------------------------------
 	table.insert(PP.optionsData,
-	{	type				= "submenu",
-		name				= GetString(PP_LAM_SCENE_JOURNAL),
-		controls = {
-			{	type				= "checkbox",
-				name				= GetString(PP_LAM_SCENE_JOURNAL_QUEST_LARGE_LIST),
-				getFunc				= function() return SV.largeQuestList end,
-				setFunc				= function(value) SV.largeQuestList = value end,
-				default				= DEF.largeQuestList,
-				requiresReload		= true,
-			},
-		},
-	})
---===============================================================================================--
+			{	type				= "submenu",
+				 name				= GetString(PP_LAM_SCENE_JOURNAL),
+				 controls = {
+					 {	type				= "checkbox",
+						  name				= GetString(PP_LAM_SCENE_JOURNAL_QUEST_LARGE_LIST),
+						  getFunc				= function() return SV.largeQuestList end,
+						  setFunc				= function(value) SV.largeQuestList = value end,
+						  default				= DEF.largeQuestList,
+						  requiresReload		= true,
+					 },
+				 },
+			})
+	--===============================================================================================--
 	local function achievementsProgressBars()
 		PP.Bars(ACHIEVEMENTS.summaryProgressBarsScrollChild, false, nil, nil, nil, nil, true)
 	end
@@ -54,27 +54,27 @@ PP.journalSceneGroup = function()
 		-- PP.Anchor(list, --[[#1]] nil, nil, nil, 0, 3, --[[#2]] true, nil, nil, nil, 0, 0)
 		-- PP.ScrollBar(list,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
 		-- ZO_ScrollList_Commit(list)
- 		-- if progressBar then
-			-- PP.Bar(progressBar, --[[h]] 14, --[[f]] 15, 255, nil)
+		-- if progressBar then
+		-- PP.Bar(progressBar, --[[h]] 14, --[[f]] 15, 255, nil)
 		-- end
 		-- if filter then
-			-- Change the drawTier of the filter dropdown boxes so they get overlayed by the background backdrop
-			-- filter:SetDrawTier(DT_MEDIUM)
-			-- filter:SetDrawLayer(DL_TEXT)
-			-- filter:SetDrawLevel(1)
+		-- Change the drawTier of the filter dropdown boxes so they get overlayed by the background backdrop
+		-- filter:SetDrawTier(DT_MEDIUM)
+		-- filter:SetDrawLayer(DL_TEXT)
+		-- filter:SetDrawLevel(1)
 		-- end
 
 		-- if sceneShowCallback ~= nil then
-			-- scene:RegisterCallback("StateChange", function(oldState, newState)
-				-- if newState == SCENE_SHOWN and not scenesShown[scene] then
-					-- sceneShowCallback()
-					-- scenesShown[scene] = true
-				-- end
-			-- end)
+		-- scene:RegisterCallback("StateChange", function(oldState, newState)
+		-- if newState == SCENE_SHOWN and not scenesShown[scene] then
+		-- sceneShowCallback()
+		-- scenesShown[scene] = true
+		-- end
+		-- end)
 		-- end
 	end
 
---questJournal--ZO_QuestJournal--------------------------------------------------------------------
+	--questJournal--ZO_QuestJournal--------------------------------------------------------------------
 	PP.ScrollBar(ZO_QuestJournalNavigationContainer, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
 	PP.Anchor(ZO_QuestJournalQuestCount, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, -6)
 	PP.Anchor(ZO_QuestJournalNavigationContainerScroll, --[[#1]] TOPLEFT, nil, TOPLEFT, 5, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 0, 0)
@@ -158,11 +158,13 @@ PP.journalSceneGroup = function()
 		QUEST_JOURNAL_KEYBOARD.listDirty = true
 	end
 
---Antiquities--ZO_Cadwell--------------------------------------------------------------------
---cadwellsAlmanac--ZO_Cadwell--------------------------------------------------------------------
---Antiquities--------------------------------------------------------------------
-	PP.ScrollBar(ANTIQUITY_JOURNAL_KEYBOARD.contentList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false) --ZO_AntiquityJournal_Keyboard_TopLevelContentsContentList
-
+	--Antiquities--ZO_Cadwell--------------------------------------------------------------------
+	--cadwellsAlmanac--ZO_Cadwell--------------------------------------------------------------------
+	--Antiquities--------------------------------------------------------------------
+	--PTS API101043 2024-08-07
+	PP.onDeferredInitCheck(ANTIQUITY_JOURNAL_KEYBOARD, function()
+		PP.ScrollBar(ANTIQUITY_JOURNAL_KEYBOARD.contentList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false) --ZO_AntiquityJournal_Keyboard_TopLevelContentsContentList
+	end, nil) -- ZO_AntiquityJournal_Keyboard:OnDeferredInitialize
 
 --loreLibrary--ZO_LoreLibrary----------------------------------------------------------------------
 	PP.ScrollBar(LORE_LIBRARY.navigationTree.scrollControl, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false) --ZO_LoreLibraryNavigationContainer
@@ -170,9 +172,13 @@ PP.journalSceneGroup = function()
 
 
 --achievements--ZO_Achievements--------------------------------------------------------------------
-	PP.ScrollBar(ZO_AchievementsContentsCategories, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
-	PP.ScrollBar(ACHIEVEMENTS.contentList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
-	PP.ScrollBar(GetControl(ACHIEVEMENTS.summaryInset, "ProgressBars"), --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
+
+	--PTS API101043 2024-08-07
+	PP.onDeferredInitCheck(ACHIEVEMENTS, function()
+		PP.ScrollBar(ZO_AchievementsContentsCategories, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
+		PP.ScrollBar(ACHIEVEMENTS.contentList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
+		PP.ScrollBar(GetControl(ACHIEVEMENTS.summaryInset, "ProgressBars"), --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
+	end, nil)
 
 	--achievement "most recent" icons
 	-- local recentAchievementIconTemplate = "ZO_IconAchievement"

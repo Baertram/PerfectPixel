@@ -49,7 +49,7 @@ function PP.Core()
 			PP.Font(sp, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			sp:SetHidden(false)
 			PP:SetLockFn(sp, 'SetFont')
-	end
+		end
 		--"ButtonStackCount"-------------
 		if control:GetNamedChild("ButtonStackCount") then
 			local stack = control:GetNamedChild("ButtonStackCount")

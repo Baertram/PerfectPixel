@@ -44,8 +44,11 @@ function PP.Core()
 	local function OnCreateFn(control, data, dataType)
 		control:SetHeight(PP.savedVars.ListStyle.list_control_height)
 		--"SellPrice"--------------------
-		if control:GetNamedChild("SellPrice") then
-			local sp = control:GetNamedChild("SellPrice")
+		local sp = control:GetNamedChild("SellPriceText")
+		if sp == nil or sp.SetFont == nil then
+			sp = control:GetNamedChild("SellPrice")
+		end
+		if sp ~= nil then
 			PP.Font(sp, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			sp:SetHidden(false)
 			PP:SetLockFn(sp, 'SetFont')

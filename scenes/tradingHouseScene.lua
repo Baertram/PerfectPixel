@@ -35,7 +35,10 @@ PP.tradingHouseScene = function()
 			local trait				= rowControl:GetNamedChild("TraitInfo")
 			local bg				= rowControl:GetNamedChild("Bg")
 			local hl				= rowControl:GetNamedChild("Highlight")
-			local sellPrice			= rowControl:GetNamedChild("SellPriceText")
+			local sellPrice = rowControl:GetNamedChild("SellPriceText")
+			if sellPrice == nil or sellPrice.SetFont == nil then
+				sellPrice = rowControl:GetNamedChild("SellPrice")
+			end
 			local pricePerUnit		= rowControl:GetNamedChild("SellPricePerUnit")
 			local sellerName		= rowControl:GetNamedChild("SellerName")
 

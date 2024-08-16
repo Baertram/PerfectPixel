@@ -605,7 +605,31 @@ PP.compatibility = function()
 		end
 		-- ===============================================================================================--
 
+		-- ==ExtendedJournal==
+		--Initial compatibility started by DakJaniels. Many thanks!
+		-->Proper function SetAlternateMode added by code65536 -> Many thanks for adding this
+		if LibExtendedJournal and LibExtendedJournal.SetAlternateMode then
+			local callbackMain = function()
+				local frame = LibExtendedJournal.GetFrame()
+				PP:CreateBackground(frame, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 10)
+				PP.Anchor(frame, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 120, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -70)
+				PP.Font(frame:GetNamedChild("MenuBar"):GetNamedChild("Label"), --[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			end
+			local callbackList = function(control)
+				PP.ScrollBar(control)
+			end
+			LibExtendedJournal.SetAlternateMode(callbackMain, callbackList)
+		end
+
+		-- ===============================================================================================--
+
+
+
+
+
+		-- ===============================================================================================--
 		-- ==Misc ZO things==--
+		-- ===============================================================================================--
 
 		-- ==ZO_ChatOptionsDialog==--
 		if ZO_ChatOptionsDialog then
@@ -642,6 +666,8 @@ PP.compatibility = function()
 			ZO_ComboBoxDropdown_Singleton_KeyboardScrollScrollBarThumbMunge:SetHidden(true)
 			ZO_ComboBoxDropdown_Singleton_KeyboardBGMungeOverlay:SetHidden(true)
 		end
+
+
 		-- ===============================================================================================--
 		-- UnregisterForEvent--
 		EVENT_MANAGER:UnregisterForEvent(PP.ADDON_NAME .. "Compatibility", EVENT_PLAYER_ACTIVATED)

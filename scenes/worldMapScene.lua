@@ -44,9 +44,9 @@ PP.worldMapScene = function()
 	WORLD_MAP_SCENE:RegisterCallback("StateChange", function(oldState, newState)
 		if newState == SCENE_SHOWN then
 			ZO_WorldMapMapFrame:SetHidden(true)
-			PP:CallingBlockedFn(ZO_WorldMap.PP_BG, 'SetHidden', false)
+			PP:CallLockFn(ZO_WorldMap.PP_BG, 'SetHidden', false)
 		elseif newState == SCENE_HIDDEN then
-			PP:CallingBlockedFn(ZO_WorldMap.PP_BG, 'SetHidden', true)
+			PP:CallLockFn(ZO_WorldMap.PP_BG, 'SetHidden', true)
 		end
 	end)
 

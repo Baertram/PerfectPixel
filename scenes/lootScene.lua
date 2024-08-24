@@ -247,32 +247,12 @@ PP.lootScene = function()
 ----Movable window----------------------------------------------------------------------------
 	local pos = SV.pos
 
-	lootWindow:SetAnchor(TOPLEFT, reticle, BOTTOMLEFT, pos.x, pos.y)
+	-- lootWindow:SetAnchor(TOPLEFT, reticle, BOTTOMLEFT, pos.x, pos.y)
+	lootWindow:SetAnchorOffsets(pos.x, pos.y, 1)
 	lootWindow:SetClampedToScreen(true)
 
 	if SV.movable then
-
-		local function DragUpdate()
-			local deltaX, deltaY = GetUIMouseDeltas()
-
-			pos.x = pos.x + deltaX
-			pos.y = pos.y + deltaY
-
-			lootWindow:ClearAnchors()
-			lootWindow:SetAnchor(3, reticle, 6, pos.x, pos.y)
-		end
-
-		titleControl:SetMouseEnabled(true)
-
-		ZO_PreHookHandler(titleControl, "OnMouseDown", function(self, button, upInside, ctrl, alt, shift, command)
-			self:SetHandler("OnUpdate", DragUpdate)
-		end)
-
-		ZO_PreHookHandler(titleControl, "OnMouseUp", function(self, button, upInside, ctrl, alt, shift, command)
-			self:SetHandler("OnUpdate", nil)
-		end)
-
+		PP.SetMovableControl(titleControl, lootWindow, pos)
 	end
 ---------------------------------------------------------------------------------------------------
-
 end

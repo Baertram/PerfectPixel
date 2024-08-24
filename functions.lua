@@ -220,26 +220,26 @@ function PP:ForceRemoveFragment(scene, targetFragment)
 	scene:RemoveFragment(targetFragment)
 end
 
-function PP:SetLockFn(objectTable, fnName)
-	local exFn		= objectTable[fnName]
+function PP:SetLockFn(object, fnName)
+	local exFn		= object[fnName]
 	local marker	= '_' .. fnName
 
-	if objectTable[marker] then return end
+	if object[marker] then return end
 
-	objectTable[marker]	= exFn
-	objectTable[fnName] = function(...) end
+	object[marker]	= exFn
+	object[fnName] = function(...) end
 end
 
-function PP:CallingBlockedFn(objectTable, fnName, ...)
+function PP:CallLockFn(object, fnName, ...)
 	local marker	= '_' .. fnName
-	local fn		= objectTable[marker]
+	local fn		= object[marker]
 	if fn then
-		fn(objectTable, ...)
+		fn(object, ...)
 	end
 end
 
 
--- CallingBlockedFn
+-- CallLockFn
 ---------------------------------------------------------------------------------------------------
 -- SCENE_FRAGMENT_SHOWN		= "shown"
 -- SCENE_FRAGMENT_HIDDEN	= "hidden"
@@ -252,18 +252,11 @@ end
 --(3)--TOPLEFT		(1)---TOP		(9)---TOPRIGHT
 --(2)--LEFT			(128)-CENTER	(8)---RIGHT
 --(6)--BOTTOMLEFT	(4)---BOTTOM	(12)--BOTTOMRIGHT
--- isValid, point, relTo, relPoint, offsX, offsY, constraints = control:GetAnchor(anchorIndex)
-PP.Anchor = function(control, --[[#1]] set1_p, set1_rTo, set1_rp, set1_x, set1_y, --[[#2]] toggle, set2_p, set2_rTo, set2_rp, set2_x, set2_y)
-	if control == nil then
-		--d("[PP]Anchor - control is nil")
-		return
-	else
-		if control.ClearAnchors == nil or control.SetAnchor == nil then
-			--d("[PP]Anchor - control:SetAnchor is nil: " ..tostring(control:GetName()))
-			return
-		end
-	end
 
+-- isValid, point, relTo, relPoint, offsX, offsY, constraints = control:GetAnchor(anchorIndex)
+
+-- Another stupidity from ZoS. -- SetAnchorOffsets > anchorIndex = 1, 2 | GetAnchor() > anchorIndex = 0, 1 
+PP.Anchor = function(control, --[[#1]] set1_p, set1_rTo, set1_rp, set1_x, set1_y, --[[#2]] toggle, set2_p, set2_rTo, set2_rp, set2_x, set2_y)
 	local --[[#1]] get1_isA, get1_p, get1_rTo, get1_rp, get1_x, get1_y = control:GetAnchor(0)
 	local --[[#2]] get2_isA, get2_p, get2_rTo, get2_rp, get2_x, get2_y = control:GetAnchor(1)
 	control:ClearAnchors()
@@ -275,21 +268,16 @@ end
 
 --outline, thick-outline, soft-shadow-thin, soft-shadow-thick, shadow
 PP.Font = function(control, --[[Font]] font, size, outline, --[[Alpha]] a, --[[Color]] c_r, c_g, c_b, c_a, --[[StyleColor]] sc_r, sc_g, sc_b, sc_a)
-	if control == nil then
-		--d("[PP]Font - control is nil")
-		return
-	end
-
-	if font and control.SetFont then
+	if font then
 		control:SetFont(string.format("%s|%s|%s", font, size, outline))
 	end
 	if a then
 		control:SetAlpha(a)
 	end
-	if c_r and c_g and c_b and c_a and control.SetColor then
+	if c_r and c_g and c_b and c_a then
 		control:SetColor(c_r/255, c_g/255, c_b/255, c_a)
 	end
-	if sc_r and sc_g and sc_b and sc_a and control.SetStyleColor then
+	if sc_r and sc_g and sc_b and sc_a then
 		control:SetStyleColor(sc_r/255, sc_g/255, sc_b/255, sc_a)
 	end
 end
@@ -650,5 +638,168 @@ function PP.onDeferredInitCheck(object, callbackFunc, preCheckFunc)
 				postHookedOnDeferredInitControls[object] = true
 			end
 		end
+	end
+end
+
+-- Another stupidity from ZoS. -- GetUIMouseDeltas() does not work correctly at high frame rates.
+function PP.SetMovableControl(targetControl, movableControl, --[[table > pos.x and pos.y]] pos)
+	local m_lastPosX, m_lastPosY
+
+	targetControl:SetMouseEnabled(true)
+
+	local function UpdatePosition()
+		local m_posX, m_posY = GetUIMousePosition()
+		local deltaX, deltaY = m_posX - m_lastPosX, m_posY - m_lastPosY
+
+		m_lastPosX, m_lastPosY = m_posX, m_posY
+
+		pos.x, pos.y = pos.x + deltaX, pos.y + deltaY
+
+		movableControl:SetAnchorOffsets(pos.x, pos.y, 1)
+	end
+
+	ZO_PreHookHandler(targetControl, "OnMouseDown", function(self, ...)
+		m_lastPosX, m_lastPosY = GetUIMousePosition()
+		self:SetHandler("OnUpdate", UpdatePosition)
+	end)
+
+	ZO_PreHookHandler(targetControl, "OnMouseUp", function(self, ...)
+		self:SetHandler("OnUpdate", nil)
+	end)
+end
+
+function PP.GetLinks(tlc, children)
+	local cache = {}
+
+	for k, name in ipairs(children) do
+		for i = 1, #name do
+			local control = tlc:GetNamedChild(name[i])
+			-- local control = GetControl(tlc, name[i])
+
+			cache[k] = control or false
+
+			-- if control == nil then
+				-- d('|cff0000 not found ->| ' .. name[i])
+			-- else
+				-- d(control:GetName())
+			-- end
+
+			if control then break end
+		end
+	end
+
+	return tlc, unpack(cache)
+end
+
+function PP:SetLayoutLinks()
+	for _, t1 in pairs(self.layouts) do
+		for k2, t2 in pairs(t1) do
+			if k2 ~= 'default' then
+				local def = t1.default
+				setmetatable(t2, {__index = def})
+				-- for k3, t3 in pairs(t2) do
+					-- setmetatable(t3, {__index = def[k3]})
+				-- end
+			end
+		end
+	end
+end
+
+function PP:AddNewLayout(name, data)
+	self.layouts[name] = data
+	
+	PP:SetLayoutLinks()
+end
+
+function PP:GetLayout(name, extra)
+	local layout = PP.layouts[name]
+
+	return layout[extra] or layout.default
+end
+
+--InfoBar----------------------------------------
+local function fn(label)
+	label:SetHeight(32)
+	label:SetVerticalAlignment(TEXT_ALIGN_CENTER)
+	PP.Font(label, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.6)
+	PP:SetLockFn(label, 'SetFont')
+end
+
+function PP:RefreshStyle_InfoBar(infoBar, layout)
+	local divider	= infoBar:GetNamedChild("Divider")
+	local slots		= infoBar:GetNamedChild("FreeSlots")
+	local altSlots	= infoBar:GetNamedChild("AltFreeSlots")
+	local money		= infoBar:GetNamedChild("Money")
+	local altMoney	= infoBar:GetNamedChild("AltMoney")
+	local retrait	= infoBar:GetNamedChild("RetraitCurrency")
+	local currency1	= infoBar:GetNamedChild("Currency1")
+	local currency2	= infoBar:GetNamedChild("Currency2")
+	local layout	= layout or { infoBar_y = 6 }
+	
+	PP.Anchor(infoBar, --[[#1]] TOPLEFT, nil, BOTTOMLEFT, 0, layout.infoBar_y, --[[#2]] true, TOPRIGHT, nil, BOTTOMRIGHT, 0, layout.infoBar_y)
+
+	if divider and divider:GetType() == CT_CONTROL then
+		divider:SetHidden(true)
+	end
+	if slots and slots:GetType() == CT_LABEL then
+		PP.Anchor(slots,	--[[#1]] TOPLEFT,	nil, TOPLEFT, 0, 0)
+		fn(slots)
+	end
+	if altSlots and altSlots:GetType() == CT_LABEL then
+		PP.Anchor(altSlots, --[[#1]] LEFT,	nil, RIGHT, 16, 0)
+		fn(altSlots)
+	end
+	if money and money:GetType() == CT_LABEL then
+		PP.Anchor(money,	--[[#1]] TOPRIGHT,	nil, TOPRIGHT, -4, 0)
+		fn(money)
+	end
+	if altMoney and altMoney:GetType() == CT_LABEL then
+		PP.Anchor(altMoney,	--[[#1]] RIGHT,	nil, LEFT, -16, 0)
+		fn(altMoney)
+	end
+	if retrait and retrait:GetType() == CT_LABEL then
+		fn(retrait)
+	end
+	if currency1 and currency1:GetType() == CT_LABEL then
+		fn(currency1)
+	end
+	if currency2 and currency2:GetType() == CT_LABEL then
+		fn(currency2)
+	end
+end
+
+--ZO_MenuBar
+function PP:RefreshStyle_MenuBar(menuBar, layout)
+	local menuBar	= menuBar.m_object and menuBar or menuBar:GetNamedChild('Bar')
+	local m_object	= menuBar.m_object
+	
+	m_object.m_animationDuration	= layout.duration
+	m_object.m_normalSize			= layout.nSize
+	m_object.m_downSize				= layout.dSize
+	-- m_object.m_buttonPadding		= layout.m_bPadding
+	-- m_object.m_point				= layout.m_point
+	-- m_object.m_relativePoint		= layout.m_rPoint
+
+	for _, v in pairs(m_object.m_pool:GetActiveObjects()) do
+		v.m_object.m_anim = nil
+		-- local flash = v:GetNamedChild("Flash")
+		-- if flash then
+			-- v:GetNamedChild("Flash")["m_fadeAnimation"] = nil
+		-- end
+		if v.m_object.m_image:GetHeight() == layout.defSize then
+			v.m_object.m_image:SetDimensions(layout.dSize, layout.dSize)
+		end
+	end
+	-- menuBar.m_object:UpdateButtons()
+
+	local divider	= menuBar:GetParent():GetNamedChild("Divider")
+	local label		= menuBar:GetNamedChild("Active") or menuBar:GetNamedChild("Label")
+	if divider and divider:GetType() == CT_CONTROL then
+		divider:SetHidden(true)
+	end
+	if label and label:GetType() == CT_LABEL then
+		PP.Font(label, --[[Font]] PP.f.u67, layout.label_f_s, layout.fontOutline, --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+		label:SetVerticalAlignment(TEXT_ALIGN_CENTER)
+		label:SetHidden(layout.noLabel)
 	end
 end

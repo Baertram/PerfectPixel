@@ -86,7 +86,7 @@ PP.chatWindow = function()
 		[BSTATE_DISABLED_PRESSED]	= true,
 	}
 	ZO_PreHook(bend, 'SetState', function(self, state, ...)
-		PP:CallingBlockedFn(self, 'SetHidden', t_states[state])
+		PP:CallLockFn(self, 'SetHidden', t_states[state])
 	end)
 
 	PP.Anchor(sb, --[[#1]] nil, nil, nil, -13, 48, --[[#2]] true, nil, nil, nil, -13, -48)

@@ -1,5 +1,5 @@
-## APIVersion: 101042 101043
-## Version: 0.12.22
+## APIVersion: 101043
+## Version: 0.13.09
 ## Title: PerfectPixel
 ## Author: @KL1SK
 ## Description: PerfectPixle changes a lot UI elements.
@@ -16,6 +16,7 @@ lang/en.lua
 lang/$(language).lua
 
 functions.lua
+layouts.lua
 table.lua
 PerfectPixel.lua
 

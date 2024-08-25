@@ -82,8 +82,8 @@ PP.journalSceneGroup = function()
 	ZO_Scroll_SetMaxFadeDistance(ZO_QuestJournalNavigationContainer, 10)
 
 	if SV.largeQuestList then
-		local tree = QUEST_JOURNAL_KEYBOARD["navigationTree"]
-		tree.defaultIndent = 30		--[[def (40)]]
+		local tree = QUEST_JOURNAL_KEYBOARD.navigationTree
+		tree.defaultIndent = 50		--[[def (40)]]
 		tree.defaultSpacing = 0		--[[def (-10)]]
 		tree.width = 340			--[[def (300)]]
 		-- tree:SetExclusive(false) >> breaks the game
@@ -94,39 +94,48 @@ PP.journalSceneGroup = function()
 		PP.Anchor(ZO_QuestJournalNavigationContainerScroll, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 0, 0)
 
 		--TreeHeaderSetup(node, control, name, open)
-		local treeHeader = tree["templateInfo"]["ZO_SimpleArrowIconHeader"]
+		local treeHeader = tree.templateInfo.ZO_SimpleArrowIconHeader
 		treeHeader.setupFunction = function(node, control, name, open)
-			control:SetDimensionConstraints(320, 23, 320, 23)
+			control:SetDimensionConstraints(320, 26, 320, 26)
 			control:SetMouseEnabled(false)
-			control["icon"]:SetHidden(true)
-			control["iconHighlight"]:SetHidden(true)
+			control.icon:SetHidden(true)
+			control.iconHighlight:SetHidden(true)
 
 			--text--
-			local text = control["text"]
+			local text = control.text
 			text:SetModifyTextType(MODIFY_TEXT_TYPE_UPPERCASE)
 			text:SetText(name)
 			text:SetSelected(true)
 			text:SetVerticalAlignment(TEXT_ALIGN_CENTER)
-			PP.Font(text, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] 197, 194, 158, 1, --[[StyleColor]] 0, 0, 0, 0.8)
-			PP.Anchor(text, --[[#1]] TOPLEFT, control, TOPLEFT, 10, 0, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT, 0, 0)
+			PP.Font(text, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] 197, 194, 158, 1, --[[StyleColor]] 0, 0, 0, 0.8)
+			PP.Anchor(text, --[[#1]] TOPLEFT, control, TOPLEFT, 20, 2, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT, 0, 0)
 			text:SetMouseEnabled(false)
+			text:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling
 
-			if control:GetNamedChild("Backdrop") then return end
-			PP.ListBackdrop(control, -12, 0, 0, 0, --[[tex]] "PerfectPixel/tex/GradientRight.dds", 16, 0, --[[bd]] 197*0.3, 194*0.3, 158*0.3, 1, --[[edge]] 0, 0, 0, 0)
+			if control:GetNamedChild("Bg") then return end
+			local bg = CreateControl("$(parent)Bg", control, CT_TEXTURE)
+			bg:SetAnchorFill(control)
+			bg:SetTexture("PerfectPixel/tex/GradientRight.dds")
+			bg:SetColor(173/255, 166/255, 132/255, 0.4)
+			bg:SetDrawLevel(0)
+			bg:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling
 		end
 
 		--TreeEntrySetup(node, control, data, open)
-		local treeEntry = tree["templateInfo"]["ZO_QuestJournalNavigationEntry"]
+		local treeEntry = tree.templateInfo.ZO_QuestJournalNavigationEntry
 		local existingSetupCallback = treeEntry.setupFunction
 		treeEntry.setupFunction = function(node, control, data, open)
 			existingSetupCallback(node, control, data, open)
-			PP.Font(control, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-			control:SetDimensions(290, 21)
+			PP.Font(control, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			control:SetDimensions(290, 22)
 			control:SetVerticalAlignment(TEXT_ALIGN_CENTER)
+			control:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling
+
 			--icon--
 			local icon = control:GetNamedChild("Icon")
 			PP.Anchor(icon, --[[#1]] nil, nil, nil, -2, 0)
-			icon:SetDimensions(21, 21)
+			icon:SetDimensions(22, 22)
+			icon:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling
 		end
 
 		local pool = treeEntry.objectPool

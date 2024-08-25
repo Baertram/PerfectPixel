@@ -1,12 +1,11 @@
+local PP		= PP
+local namespace	= 'SkillsScene'
+
 PP.skillsScene = function()
---===============================================================================================--
-	local SV_VER			= 0.2
-	local DEF = {
+	--===============================================================================================--
+	local sv, def = PP:AddNewSavedVars(0.3, namespace, {
 		unwrappedSkillsTree	= true,
-		skillsTreeBG		= false,
-		skillsListBG		= false,
-	}
-	local SV = ZO_SavedVars:NewAccountWide(PP.ADDON_NAME, SV_VER, "SkillsScene", DEF, GetWorldName())
+	})
 	---------------------------------------------
 	table.insert(PP.optionsData,
 	{	type				= "submenu",
@@ -15,21 +14,14 @@ PP.skillsScene = function()
 			--Skills tree---------------------------------
 			{	type				= "checkbox",
 				name				= GetString(PP_LAM_SCENE_SKILLS_SKILLS_TREE_UNWRAPPED),
-				getFunc				= function() return SV.unwrappedSkillsTree end,
-				setFunc				= function(value) SV.unwrappedSkillsTree = value end,
-				default				= DEF.unwrappedSkillsTree,
-				requiresReload		= true,
-			},
-			{	type				= "checkbox",
-				name				= GetString(PP_LAM_SCENE_SKILLS_SKILLS_TREE_BG),
-				getFunc				= function() return SV.skillsTreeBG end,
-				setFunc				= function(value) SV.skillsTreeBG = value end,
-				default				= DEF.skillsTreeBG,
+				getFunc				= function() return sv.unwrappedSkillsTree end,
+				setFunc				= function(value) sv.unwrappedSkillsTree = value end,
+				default				= def.unwrappedSkillsTree,
 				requiresReload		= true,
 			},
 		},
 	})
---===============================================================================================--
+	--===============================================================================================--
 	-- local skillsScene = SCENE_MANAGER:GetScene('skills')
 	KEYBOARD_SKILLS_SCENE:RemoveFragment(FRAME_PLAYER_FRAGMENT)
 	KEYBOARD_SKILLS_SCENE:RemoveFragment(FRAME_EMOTE_FRAGMENT_SKILLS)
@@ -58,7 +50,7 @@ PP.skillsScene = function()
 
 	local skillList = ZO_SkillsSkillList
 
-	PP.ScrollBar(skillList,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
+	PP.ScrollBar(skillList)
 	PP.Anchor(skillList, --[[#1]] TOPLEFT, ZO_SkillsSkillInfo, BOTTOMLEFT, -60, 2, --[[#2]] true, BOTTOMRIGHT, ZO_Skills, BOTTOMRIGHT, 0, -40)
 
 	-- skillList.useFadeGradient = nil
@@ -81,9 +73,9 @@ PP.skillsScene = function()
 
 	ZO_Scroll_SetMaxFadeDistance(skillLinesContainer, 10)
 	PP.Anchor(skillLinesContainer, --[[#1]] TOPLEFT, ZO_SkillsSkyShards, BOTTOMLEFT, 0, 5,	--[[#2]] true, BOTTOMLEFT, ZO_Skills, BOTTOMLEFT, 0, 34)
-	PP.ScrollBar(skillLinesContainer,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
+	PP.ScrollBar(skillLinesContainer)
 
-	if SV.unwrappedSkillsTree then
+	if sv.unwrappedSkillsTree then
 		local tree = SKILLS_WINDOW.skillLinesTree
 		tree.defaultIndent = 50
 		tree.defaultSpacing = 0
@@ -100,22 +92,24 @@ PP.skillsScene = function()
 		local existingSetupCallback00 = treeHeader.setupFunction
 		treeHeader.setupFunction = function(node, control, skillTypeData, open)
 			existingSetupCallback00(node, control, skillTypeData, open)
-			control:SetDimensionConstraints(300, 23, 300, 23)
+			control:SetDimensionConstraints(300, 26, 300, 26)
 			control:SetMouseEnabled(false)
 			control.allowIconScaling = false
 			--text--
 			local icon = control:GetNamedChild("Icon")
 			local text = control:GetNamedChild("Text")
 			text:SetSelected(true)
-			PP.Font(text, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] 173, 166, 132, 1, --[[StyleColor]] 0, 0, 0, 0.8)
-			PP.Anchor(text, --[[#1]] LEFT, icon, RIGHT, 5, 0)
+			PP.Font(text, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] 173*0.9, 166*0.9, 132*0.9, 1, --[[StyleColor]] 0, 0, 0, 0.8)
+			PP.Anchor(text, --[[#1]] LEFT, icon, RIGHT, 0, 2)
 			text:SetVerticalAlignment(TEXT_ALIGN_CENTER)
-			text:SetDesaturation(-1)
+			-- text:SetDesaturation(-1)
 			text:SetMouseEnabled(false)
+			text:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling
 			--icon--
 			PP.Anchor(icon, --[[#1]] LEFT, control, LEFT, 0, 0)
-			icon:SetDimensions(33, 33)
+			icon:SetDimensions(40, 40)
 			icon:SetMouseEnabled(false)
+			icon:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling
 			--StatusIcon--
 			local sIcon = control:GetNamedChild("StatusIcon")
 			sIcon:SetHidden(true)
@@ -125,34 +119,39 @@ PP.skillsScene = function()
 			icon.animation:GetAnimation():SetDuration(nil)
 			icon:SetScale(1)
 			icon:SetTexture(control.skillTypeData.keyboardNormalIcon)
-
+			icon:SetDrawLevel(1)
 			--SpentSkillPoints  compatibility--
 			if control:GetNamedChild("PointText") then
 				PP.Font(control:GetNamedChild("PointText"), --[[Font]] PP.f.u67, 20, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 				PP.Anchor(control:GetNamedChild("PointText"), --[[#1]] nil, nil, nil, 220, 2)
 			end
 
-			if control:GetNamedChild("Backdrop") then return end
-			PP.ListBackdrop(control, 15, 0, 0, 0, --[[tex]] "PerfectPixel/tex/GradientRight.dds", 16, 0, --[[bd]] 173*0.3, 166*0.3, 132*0.3, 1, --[[edge]] 0, 0, 0, 0)
+			if control:GetNamedChild("Bg") then return end
+			local bg = CreateControl("$(parent)Bg", control, CT_TEXTURE)
+			bg:SetAnchorFill(control)
+			bg:SetTexture("PerfectPixel/tex/GradientRight.dds")
+			bg:SetColor(173/255, 166/255, 132/255, 0.4)
+			bg:SetDrawLevel(0)
+			bg:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling
 		end
 
 		--TreeEntrySetup(node, control, skillLineData, open)
 		local existingSetupCallback01 = treeEntry.setupFunction
 		treeEntry.setupFunction = function(node, control, skillLineData, open)
 			existingSetupCallback01(node, control, skillLineData, open)
-			control:SetHeight(21)
+			control:SetHeight(22)
 			control:SetVerticalAlignment(TEXT_ALIGN_CENTER)
-			PP.Font(control, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			PP.Font(control, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			--StatusIcon--
 			PP.Anchor(control:GetNamedChild("StatusIcon"), --[[#1]] nil, nil, nil, -2, 0)
-
+			control:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling
 			--SpentSkillPoints  compatibility--
 			if control:GetNamedChild("LevelText") then
-				PP.Font(control:GetNamedChild("LevelText"), --[[Font]] PP.f.u67, 14, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+				PP.Font(control:GetNamedChild("LevelText"), --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 				PP.Anchor(control:GetNamedChild("LevelText"), --[[#1]] nil, nil, nil, -74, 1)
 			end
 			if control:GetNamedChild("PointText") then
-				PP.Font(control:GetNamedChild("PointText"), --[[Font]] PP.f.u67, 14, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+				PP.Font(control:GetNamedChild("PointText"), --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 				PP.Anchor(control:GetNamedChild("PointText"), --[[#1]] nil, nil, nil, 160, 1)
 			end
 
@@ -162,7 +161,7 @@ PP.skillsScene = function()
 --ZO_SkillsAdvisor_Keyboard_TopLevel	--ZO_SharedMediumLeftPanelBackground
 	PP:CreateBackground(ZO_SkillsAdvisor_Keyboard_TopLevel, --[[#1]] nil, nil, nil, 0, -30, --[[#2]] nil, nil, nil, 32, 12)
 	
-	PP.ScrollBar(ZO_SkillsAdvisor_Suggestions_Keyboard_TopLevelSkillSuggestionList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
+	PP.ScrollBar(ZO_SkillsAdvisor_Suggestions_Keyboard_TopLevelSkillSuggestionList)
 	PP.Anchor(ZO_SkillsAdvisor_Suggestions_Keyboard_TopLevel, --[[#1]] TOPLEFT, ZO_SkillsAdvisor_Keyboard_TopLevelDivider, BOTTOMLEFT, 3, -5, --[[#2]] true, BOTTOMRIGHT, ZO_SkillsAdvisor_Keyboard_TopLevel, BOTTOMRIGHT, 30, 4)
 	
 	ZO_Scroll_SetMaxFadeDistance(ZO_SkillsAdvisor_Suggestions_Keyboard_TopLevelSkillSuggestionList, 10)
@@ -224,8 +223,8 @@ PP.skillsScene = function()
 		PP:CreateBackground(MEDIUM_LEFT_PANEL_BG_FRAGMENT.control, --[[#1]] nil, nil, nil, -10, -5, --[[#2]] nil, nil, nil, 0, 44)
 		PP:CreateBackground(scribingAltarSclotsContainer, --[[#1]] nil, nil, nil, -10, -5, --[[#2]] nil, nil, nil, 0, 44)
 
-		PP.ScrollBar(ZO_Scribing_Keyboard_TLLibraryCraftedAbilitiesGridListContainerList, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
-		PP.ScrollBar(ZO_Scribing_Keyboard_TLLibraryScripts, --[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, true)
+		PP.ScrollBar(ZO_Scribing_Keyboard_TLLibraryCraftedAbilitiesGridListContainerList)
+		PP.ScrollBar(ZO_Scribing_Keyboard_TLLibraryScripts)
 	end)
 
 
@@ -263,8 +262,8 @@ PP.skillsScene = function()
 		scribingLibraryScene:RemoveFragment(MEDIUM_LEFT_PANEL_BG_FRAGMENT)
 		PP:CreateBackground(MEDIUM_LEFT_PANEL_BG_FRAGMENT.control, --[[#1]] nil, nil, nil, -10, -5, --[[#2]] nil, nil, nil, 0, 44)
 
-		PP.ScrollBar(ZO_ScribingLibrary_Keyboard_TLLibraryCraftedAbilitiesGridListContainerList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
-		PP.ScrollBar(ZO_ScribingLibrary_Keyboard_TLLibraryScripts, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
+		PP.ScrollBar(ZO_ScribingLibrary_Keyboard_TLLibraryCraftedAbilitiesGridListContainerList)
+		PP.ScrollBar(ZO_ScribingLibrary_Keyboard_TLLibraryScripts)
 	end)
 end
 

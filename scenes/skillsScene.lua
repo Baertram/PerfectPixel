@@ -31,7 +31,6 @@ PP.skillsScene = function()
 	})
 --===============================================================================================--
 	-- local skillsScene = SCENE_MANAGER:GetScene('skills')
-
 	KEYBOARD_SKILLS_SCENE:RemoveFragment(FRAME_PLAYER_FRAGMENT)
 	KEYBOARD_SKILLS_SCENE:RemoveFragment(FRAME_EMOTE_FRAGMENT_SKILLS)
 	KEYBOARD_SKILLS_SCENE:RemoveFragment(RIGHT_BG_FRAGMENT)
@@ -41,7 +40,7 @@ PP.skillsScene = function()
 
 	PP:CreateBackground(ZO_Skills, --[[#1]] nil, nil, nil, -10, -5, --[[#2]] nil, nil, nil, 0, 44)
 
-	PP.Anchor(ZO_Skills, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 85,	--[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -104)
+	PP.Anchor(ZO_Skills, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 115,	--[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -104)
 
 	PP.Anchor(ZO_SkillsAvailablePoints, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, 0)
 	PP.Font(ZO_SkillsAvailablePoints, --[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)

@@ -10,7 +10,7 @@ _G['PP'] = {
 	['ADDON_NAME']		= 'PerfectPixel',
 	['ADDON_AUTHOR']	= '@KL1SK, Baertram',
 	['ADDON_WEBSITE']	= 'https://www.esoui.com/downloads/info2103-PerfectPixel.html',
-	['ADDON_VERSION'] 	= '0.13.09',
+	['ADDON_VERSION'] 	= '0.13.11',
 }
 
 local PP = PP

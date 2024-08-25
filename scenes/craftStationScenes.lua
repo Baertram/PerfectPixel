@@ -22,6 +22,7 @@ PP.craftStationScenes = function()
 		{ ZO_UniversalDeconstructionTopLevel_KeyboardPanel, 'universalDeconstructionSceneKeyboard' },
 		{ ZO_EnchantingTopLevelInventory, 'enchanting' }, { ZO_AlchemyTopLevelInventory, 'alchemy' },
 		{ ZO_ProvisionerTopLevel, 'provisioner' },
+		{ ZO_RetraitStation_KeyboardTopLevelRetraitPanel, 'retrait_keyboard_root' },
 	}
 
 	local l_tabs = PP:GetLayout('menuBar', 'tabs')
@@ -104,6 +105,8 @@ PP.craftStationScenes = function()
 		end
 	end
 
+	local TopOffsetY			= 110
+	local BottomOffsetY			= -90
 ---------------------------------------------------------------------------------------------------
 	-- SMITHING --==SCENE_MANAGER:GetScene('smithing')==--
 	PP.Anchor(ZO_SmithingTopLevelSetContainer, --[[#1]] TOPRIGHT, ZO_SmithingTopLevelCreationPanel, TOPRIGHT, 0, 0, --[[#2]] true, BOTTOMRIGHT, ZO_SmithingTopLevelCreationPanel, BOTTOMRIGHT, 0, 0)
@@ -146,70 +149,20 @@ PP.craftStationScenes = function()
 		self.list:SetAnchorOffsets(0, el.list_t_y[enchantingMode], 1)
 	end)
 ---------------------------------------------------------------------------------------------------
-	-- PROVISIONER --==SCENE_MANAGER:GetScene('provisioner')==--
-	ZO_ProvisionerTopLevelProvisioningFiltersHaveIngredients:SetAnchorFill(ZO_SmithingTopLevelCreationPanelHaveMaterials)
-	PP.Font(ZO_ProvisionerTopLevelTabsLabel, --[[Font]] PP.f.u67, 20, "shadow", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-	ZO_ProvisionerTopLevelTabsLabel:SetAnchorOffsets(-10, 0, 1)
-	ZO_ProvisionerTopLevelDetails:SetHidden(true)
-	ZO_ProvisionerTopLevelDetailsDivider:SetHidden(true)
-	PP:SetLockFn(ZO_ProvisionerTopLevelDetails,			'SetHidden')
-	PP:SetLockFn(ZO_ProvisionerTopLevelDetailsDivider,	'SetHidden')
-	PP:SetLockFn(ZO_ProvisionerTopLevelTabsLabel,		'SetFont')
-	PP:SetLockFn(ZO_ProvisionerTopLevelTabsLabel,		'SetAnchor')
-	PP:SetLockFn(ZO_ProvisionerTopLevelTabs,			'SetAnchor')
-	ZO_ProvisionerTopLevelTabs.m_object.m_buttonPadding = 5
-
-	-- function ZO_Provisioner:OnTabFilterChanged(filterData)
-	-- function ZO_Provisioner:ConfigureFromSettings(settings)
----------------------------------------------------------------------------------------------------
-	local TopOffsetY			= 110
-	local BottomOffsetY			= -90
-
---==ZO_WritAdvisor==--
-	local waTLC = ZO_WritAdvisor_Keyboard_TopLevel
-	PP:CreateBackground(waTLC,		--[[#1]] nil, nil, nil, 0, -24, --[[#2]] nil, nil, nil, 0, 17)
-	PP.Anchor(waTLC:GetNamedChild("HeaderContainerDivider"), --[[#1]] TOPLEFT, waTLC, TOPLEFT, 0, 20, --[[#2]] true, TOPRIGHT, waTLC, TOPRIGHT, -30, 20)
-
-	for i = 1, #WRIT_ADVISOR_KEYBOARD_FRAGMENT_GROUP do
-		if WRIT_ADVISOR_KEYBOARD_FRAGMENT_GROUP[i] == MEDIUM_LEFT_PANEL_BG_FRAGMENT then
-			WRIT_ADVISOR_KEYBOARD_FRAGMENT_GROUP[i] = nil
-		end
-	end
----------------------------------------------------------------------------------------------------
-	-- ZO_RETRAIT_KEYBOARD --==SCENE_MANAGER:GetScene('retrait_keyboard_root')==--
-	local retrait_station	= ZO_RETRAIT_STATION_KEYBOARD
+	-- ZO_RETRAIT_KEYBOARD ZO_RETRAIT_STATION_KEYBOARD --==SCENE_MANAGER:GetScene('retrait_keyboard_root')==-- -- ZO_RetraitStation_KeyboardTopLevel-- ZO_RetraitStation_KeyboardTopLevelReconstructPanel	
 	local retrait_panel		= ZO_RETRAIT_KEYBOARD
 	local traitContainer	= retrait_panel.traitContainer
 	local traitList			= retrait_panel.traitList
 
-	KEYBOARD_RETRAIT_ROOT_SCENE:AddFragment(FRAME_TARGET_BLUR_CENTERED_FRAGMENT)
+	PP:CreateBackground(ZO_RetraitStation_KeyboardTopLevelReconstructPanelOptions, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10)
+	ZO_RetraitStation_KeyboardTopLevelReconstructPanel:SetAnchorFill(ZO_ItemSetsBook_Keyboard_TopLevel)
 
-	PP:ForceRemoveFragment(KEYBOARD_RETRAIT_ROOT_SCENE, THIN_LEFT_PANEL_BG_FRAGMENT)
-	PP:ForceRemoveFragment(KEYBOARD_RETRAIT_ROOT_SCENE, RIGHT_PANEL_BG_FRAGMENT)
-	PP:ForceRemoveFragment(KEYBOARD_RETRAIT_ROOT_SCENE, RIGHT_BG_FRAGMENT)
-	PP:ForceRemoveFragment(KEYBOARD_RETRAIT_ROOT_SCENE, TREE_UNDERLAY_FRAGMENT)
-	
-	PP:CreateBackground(retrait_panel.control,	--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
-
-	PP.ScrollBar(ZO_RetraitStation_KeyboardTopLevelRetraitPanelInventoryBackpack)
-
-	PP.Anchor(ZO_RetraitStation_KeyboardTopLevelRetraitPanel, --[[#1]] TOPRIGHT, ZO_RetraitStation_KeyboardTopLevel, TOPRIGHT, 0, TopOffsetY, --[[#2]] true, BOTTOMRIGHT, ZO_RetraitStation_KeyboardTopLevel, BOTTOMRIGHT, 0, BottomOffsetY)
-	PP.Anchor(ZO_RetraitStation_KeyboardTopLevelRetraitPanelInventory, --[[#1]] TOPLEFT, ZO_RetraitStation_KeyboardTopLevelRetraitPanel, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, ZO_RetraitStation_KeyboardTopLevelRetraitPanel, BOTTOMRIGHT, 0, 0)
-
-	function retrait_station:RefreshModeMenuAnchors() end
-	retrait_station.modeMenu:SetWidth(550)
-	PP.Anchor(retrait_station.modeMenu, --[[#1]] BOTTOM, retrait_panel.control, TOP, -40, 0)
-
-	PP.Anchor(ZO_RetraitStation_KeyboardTopLevelRetraitPanelInventoryFilterDivider,	--[[#1]] TOP, ZO_RetraitStation_KeyboardTopLevelRetraitPanelInventory, TOP, 0, 60)
-
-	--ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainer
 	PP:CreateBackground(traitContainer:GetNamedChild("BG"),	--[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, -2, -2)
 
 	traitList.highlightTemplate = nil
 	traitList.selectionTemplate = nil
 
 	PP.Anchor(traitList, --[[#1]] TOPLEFT, traitContainer, TOPLEFT, -6, -6, --[[#2]] true, BOTTOMRIGHT, traitContainer, BOTTOMRIGHT, 0, 6)
-	-- PP.Anchor(ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerBG, --[[#1]] TOPLEFT, traitList, TOPLEFT, -6, -6, --[[#2]] true, BOTTOMRIGHT, traitList, BOTTOMRIGHT, 0, 6)
 	PP.Anchor(ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerSelectTraitLabel, --[[#1]] BOTTOM, traitContainer, TOP, 0, -6)
 
 	PP.ScrollBar(traitList)
@@ -252,10 +205,41 @@ PP.craftStationScenes = function()
 		orig_RefreshTraitList(...)
 		traitContainer:SetHeight(traitList.uniformControlHeight * #traitList.data - (traitList.uniformControlHeight - ZO_ScrollList_GetDataTypeTable(traitList, 1).height))
 	end
+
+	function ZO_RETRAIT_STATION_KEYBOARD:RefreshModeMenuAnchors() end
 ---------------------------------------------------------------------------------------------------
 
 
---==PROVISIONER_SCENE==-- --==SCENE_MANAGER:GetScene('provisioner')==--PROVISIONER
+--==ZO_WritAdvisor==--
+	local waTLC = ZO_WritAdvisor_Keyboard_TopLevel
+	PP:CreateBackground(waTLC,		--[[#1]] nil, nil, nil, 0, -24, --[[#2]] nil, nil, nil, 0, 17)
+	PP.Anchor(waTLC:GetNamedChild("HeaderContainerDivider"), --[[#1]] TOPLEFT, waTLC, TOPLEFT, 0, 20, --[[#2]] true, TOPRIGHT, waTLC, TOPRIGHT, -30, 20)
+
+	for i = 1, #WRIT_ADVISOR_KEYBOARD_FRAGMENT_GROUP do
+		if WRIT_ADVISOR_KEYBOARD_FRAGMENT_GROUP[i] == MEDIUM_LEFT_PANEL_BG_FRAGMENT then
+			WRIT_ADVISOR_KEYBOARD_FRAGMENT_GROUP[i] = nil
+		end
+	end
+---------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------
+	-- PROVISIONER --==SCENE_MANAGER:GetScene('provisioner')==--
+	ZO_ProvisionerTopLevelProvisioningFiltersHaveIngredients:SetAnchorFill(ZO_SmithingTopLevelCreationPanelHaveMaterials)
+	PP.Font(ZO_ProvisionerTopLevelTabsLabel, --[[Font]] PP.f.u67, 20, "shadow", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+	ZO_ProvisionerTopLevelTabsLabel:SetAnchorOffsets(-10, 0, 1)
+	ZO_ProvisionerTopLevelDetails:SetHidden(true)
+	ZO_ProvisionerTopLevelDetailsDivider:SetHidden(true)
+	PP:SetLockFn(ZO_ProvisionerTopLevelDetails,			'SetHidden')
+	PP:SetLockFn(ZO_ProvisionerTopLevelDetailsDivider,	'SetHidden')
+	PP:SetLockFn(ZO_ProvisionerTopLevelTabsLabel,		'SetFont')
+	PP:SetLockFn(ZO_ProvisionerTopLevelTabsLabel,		'SetAnchor')
+	PP:SetLockFn(ZO_ProvisionerTopLevelTabs,			'SetAnchor')
+	ZO_ProvisionerTopLevelTabs.m_object.m_buttonPadding = 5
+
+	-- function ZO_Provisioner:OnTabFilterChanged(filterData)
+	-- function ZO_Provisioner:ConfigureFromSettings(settings)
+
 	local PROVISIONER				= PROVISIONER
 	local ingredientRowsContainer	= PROVISIONER.ingredientRowsContainer
 	local ingredientRows			= PROVISIONER.ingredientRows
@@ -263,8 +247,8 @@ PP.craftStationScenes = function()
 	local resultTooltip				= PROVISIONER.resultTooltip
 	local detailsPane				= PROVISIONER.detailsPane
 	local recipeTree				= PROVISIONER.recipeTree
-
-	local provisionerPanel = ZO_ProvisionerTopLevelPanel
+	local provisionerPanel			= ZO_ProvisionerTopLevelPanel
+	PROVISIONER.ingredientRows		= {}
 
 	-- recipeTree.defaultIndent = 20		--[[def (60)]]
 	recipeTree.defaultSpacing = -11		--[[def (-10)]]
@@ -279,9 +263,6 @@ PP.craftStationScenes = function()
 		end
 	end
 	
---------------------------------------
-	-- detailsPane:SetHidden(true)
-	PROVISIONER.ingredientRows = {}
 
 --========================================================================	
 	local function OnCheckChanged()
@@ -291,12 +272,7 @@ PP.craftStationScenes = function()
 	end
 
 	local cTooltip	= PP:CreateAnimatedButton(provisionerPanel, TOPLEFT, nil, TOPLEFT, 4, 10, "esoui/art/menubar/gamepad/gp_playermenu_icon_tutorial.dds", 32, 32, GetString(PP_LAM_CRAFT_STATIONS_PROVISIONER_SHOWTOOLTIP), sv.Provisioner_ShowTooltip, OnCheckChanged)
-	-- local cIngr		= PP:CreateAnimatedButton(ZO_ProvisionerTopLevelHaveIngredients, LEFT, cTooltip, RIGHT, 6, 0, "esoui/art/inventory/gamepad/gp_inventory_icon_miscellaneous.dds", 32, 32, GetString(SI_CRAFTING_HAVE_INGREDIENTS_TOOLTIP))
-	-- local cSkills	= PP:CreateAnimatedButton(ZO_ProvisionerTopLevelHaveSkills, LEFT, cIngr, RIGHT, 6, 0, "esoui/art/inventory/gamepad/gp_inventory_icon_materials.dds", 32, 32, GetString(SI_CRAFTING_HAVE_SKILLS_TOOLTIP))
-	-- PP:CreateAnimatedButton(ZO_ProvisionerTopLevelIsQuestItem, LEFT, cSkills, RIGHT, 6, 0, "esoui/art/inventory/gamepad/gp_inventory_icon_quest.dds", 32, 32, GetString(SI_CRAFTING_IS_QUEST_ITEM_TOOLTIP))
-	
-	-- PP:CreateAnimatedButton(ZO_SmithingTopLevelDeconstructionPanelInventoryIncludeBanked, nil, nil, nil, 20, 20, "/esoui/art/icons/servicemappins/servicepin_bank.dds", 32, 32)
-	--========================================================================
+
 	local _, _, maxWidth = resultTooltip:GetDimensionConstraints()
 
 	local function Create(pool, objectKey)

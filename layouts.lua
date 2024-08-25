@@ -31,13 +31,11 @@ PP:AddNewLayout('inventory', {
 			noTabs				= true,
 			noFDivider			= true
 		},
-		[ZO_StoreWindow] = {
-			menu				= ZO_Fence_Keyboard_WindowMenu,
-		},
 		[ZO_StablePanel] = {
 			menu				= ZO_StableWindowMenu,
 		},
 		[ZO_Trade] = {
+			menu				= ZO_Fence_Keyboard_WindowMenu,
 			removeFragments		= { TITLE_FRAGMENT, PLAYER_TRADE_TITLE_FRAGMENT, RIGHT_BG_FRAGMENT },
 			hideBgForScene		= { ZO_PlayerInventory }
 		},
@@ -49,17 +47,23 @@ PP:AddNewLayout('inventory', {
 		[ZO_SmithingTopLevelImprovementPanel] = {
 			list_t_y			= 84,
 			list_b_y			= -130,
-			infoBar_y			= 136,
+			infoBar_y			= 136
 		},
 		[ZO_UniversalDeconstructionTopLevel_KeyboardPanel] = {
 			removeFragments		= { RIGHT_PANEL_BG_FRAGMENT },
 			forceRemoveFragment	= { THIN_LEFT_PANEL_BG_FRAGMENT, MEDIUM_LEFT_PANEL_BG_FRAGMENT }
 		},
 		[ZO_EnchantingTopLevelInventory] = {
-			list_t_y			= { [ENCHANTING_MODE_CREATION] = 130, [ENCHANTING_MODE_EXTRACTION] = 84 },
+			list_t_y			= { [ENCHANTING_MODE_CREATION] = 130, [ENCHANTING_MODE_EXTRACTION] = 84 }
 		},
 		[ZO_ProvisionerTopLevel] = {
-			list_t_y			= 110,
+			list_t_y			= 110
+		},
+		[ZO_RetraitStation_KeyboardTopLevelRetraitPanel] = {
+			list_t_y			= 84,
+			addFragments		= { FRAME_TARGET_BLUR_CENTERED_FRAGMENT },
+			forceRemoveFragment	= { THIN_LEFT_PANEL_BG_FRAGMENT, RIGHT_PANEL_BG_FRAGMENT, RIGHT_BG_FRAGMENT, TREE_UNDERLAY_FRAGMENT },
+			-- menu				= ZO_RetraitStation_KeyboardTopLevelModeMenu
 		},
 	}
 )

@@ -26,18 +26,6 @@ PP.contextMenus = function()
 		ZO_MenuHighlight:SetAnchor(BOTTOMRIGHT, control, BOTTOMRIGHT, 2, 0)
 		ZO_MenuHighlight:SetHidden(false)
 		control.nameLabel:SetColor(control.nameLabel.highlightColor:UnpackRGBA())
-
-		--LibCustomMenu submenu "arrow" fix - It moves 8 pixelto the right on mouseEnter so we need to save the actual
-		--anchor and move the x offset 8 pixels back to the left -> See ZO_Menu_UnselectItem
-		if LibCustomMenu ~= nil then
-			local subMenuArrow = control:GetNamedChild("Arrow")
-			if subMenuArrow ~= nil then
-				zo_callLater(function()
-					subMenuArrow:ClearAnchors()
-					subMenuArrow:SetAnchor(RIGHT, control, RIGHT, -8, 0)
-				end, 0)
-			end
-		end
 		return true
 	end)
 	--> See compatibility.lua for "LibCustomMenu" submenu changes!

@@ -25,14 +25,14 @@ PP.groupMenuKeyboardScene = function()
 
 	-- PP.Anchor(ZO_BattlegroundFinder_KeyboardActionButtonContainerQueueButton,		--[[#1]] BOTTOM, ZO_SearchingForGroup, BOTTOM, 0, -4)
 	-- PP.Anchor(ZO_BattlegroundFinder_KeyboardLockReason,								--[[#1]] BOTTOM, ZO_BattlegroundFinder_Keyboard, BOTTOM, 0, 0)
-	
+
 	-- PP.Anchor(ZO_SearchingForGroupLeaveQueueButton,									--[[#1]] BOTTOM, ZO_SearchingForGroup, BOTTOM, 0, -40)
 
 	PP.ScrollBar(ZO_DungeonFinder_KeyboardListSection)
 
 	ZO_Scroll_SetMaxFadeDistance(ZO_DungeonFinder_KeyboardListSection, 10)
 
----???
+	---???
 	--Endeavours - TIMED_ACTIVITIES_KEYBOARD
 	local sceneFragmentsShown = {}
 
@@ -59,4 +59,38 @@ PP.groupMenuKeyboardScene = function()
 			sceneFragmentsShown[TIMED_ACTIVITIES_FRAGMENT] = true
 		end
 	end)
+
+	--API101044 Golden pursuits - PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT
+	if PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT ~= nil then
+		PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT:RegisterCallback("StateChange", function(oldState, newState)
+			if newState == SCENE_FRAGMENT_SHOWN and not sceneFragmentsShown[PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT] then
+				local goldenPursuitsKeyboard = PROMOTIONAL_EVENTS_KEYBOARD
+				local goldenPursuitsScrollList = goldenPursuitsKeyboard.activityList
+				local goldenPursuitScrollListContents = goldenPursuitsScrollList:GetNamedChild("Contents")
+				if goldenPursuitScrollListContents then
+					--Change the overall campaign bar
+					PP.Bar(PROMOTIONAL_EVENTS_KEYBOARD.campaignProgress, 18, 16, nil, nil, true)
+
+					--Change the bars of each possible task
+					PP.Bars(goldenPursuitScrollListContents, true, 18, 16, nil, nil, true)
+					--Move the progessBar of the tasks a bit to the right to show the left edge
+					for i=1, goldenPursuitScrollListContents:GetNumChildren(), 1 do
+						local childCtrl = goldenPursuitScrollListContents:GetChild(i)
+						if childCtrl ~= nil then
+							local name = childCtrl:GetNamedChild("Name")
+							local progressBar = childCtrl:GetNamedChild("ProgressBar")
+							local rewardContainer = childCtrl:GetNamedChild("RewardContainer")
+							if name ~= nil and rewardContainer ~= nil and progressBar ~= nil then
+								--Do not use PP.Anchor, else it will call ClearAnchors() and break the right (2nd) anchor
+								progressBar:SetAnchor(TOPLEFT, name, BOTTOMLEFT, 2, 5)
+							end
+						end
+					end
+
+					PP.ScrollBar(goldenPursuitsScrollList)
+				end
+				sceneFragmentsShown[PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT] = true
+			end
+		end)
+	end
 end

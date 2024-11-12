@@ -268,6 +268,9 @@ end
 
 --outline, thick-outline, soft-shadow-thin, soft-shadow-thick, shadow
 PP.Font = function(control, --[[Font]] font, size, outline, --[[Alpha]] a, --[[Color]] c_r, c_g, c_b, c_a, --[[StyleColor]] sc_r, sc_g, sc_b, sc_a)
+	if not control then 
+		return 			
+	end
 	if font then
 		control:SetFont(string.format("%s|%s|%s", font, size, outline))
 	end

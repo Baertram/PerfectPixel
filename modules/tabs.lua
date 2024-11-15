@@ -48,6 +48,7 @@ PP.tabs = function()
 	PP.Anchor(ZO_ProvisionerTopLevelInfoBar, --[[#1]] TOPLEFT, ZO_SmithingTopLevelRefinementPanelInventoryBackpack, BOTTOMLEFT, 0, 2, --[[#2]] true, TOPRIGHT, ZO_SmithingTopLevelRefinementPanelInventoryBackpack, BOTTOMRIGHT, 0, 2)
 	
 	for _, infoBar in pairs(PP.InfoBar) do
+		local layout = nil --PP:GetLayout('menuBar', infoBar) 20241115 Baertram - layout was always nil. Is using PP:GetLayout('menuBar', infoBar) correct here?
 		PP:RefreshStyle_InfoBar(infoBar, layout)
 	end
 

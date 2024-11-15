@@ -31,6 +31,71 @@ PP.compatibility = function()
 				-- lcmSMHighlight:SetInheritAlpha(false)
 			end
 		end
+
+		-- ==LibScrollableMenu==--
+		if LibScrollableMenu then
+			local lsm = LibScrollableMenu
+			--local lsmContextMenu = lsm.contextMenu
+
+			local function addPPBackgroundToLSMDropdown(comboBox)
+				if comboBox == nil then return end
+				--local comboBoxContainerCtrl = comboBox.m_container --the complete combobox with the v icon to open the dropdown
+				local dropdownObject = comboBox.m_dropdownObject --the object of the dropdown
+				local comboBoxDropdownCtrl = dropdownObject.control
+
+				--Backgroundd
+				local comboBoxDropdownCtrlBG = GetControl(comboBoxDropdownCtrl, "BG")
+				if comboBoxDropdownCtrlBG ~= nil then
+					comboBoxDropdownCtrlBG:SetCenterTexture(nil, 4, 0)
+					comboBoxDropdownCtrlBG:SetCenterColor(10/255, 10/255, 10/255, 0.96)
+					comboBoxDropdownCtrlBG:SetEdgeTexture(nil, 1, 1, 1, 0)
+					comboBoxDropdownCtrlBG:SetEdgeColor(60/255, 60/255, 60/255, 1)
+					comboBoxDropdownCtrlBG:SetInsets(-1, -1, 1, 1)
+
+					PP.Anchor(comboBoxDropdownCtrlBG, --[[#1]] TOPLEFT, nil, TOPLEFT, -2, 1, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, -2, -1)
+				end
+
+				--Scrollbar
+				local scrollList = dropdownObject.scroll
+				if scrollList ~= nil then
+					PP.ScrollBar(scrollList)
+				end
+
+				--Divider controls
+				--todo 20241115
+			end
+
+			--[[For debugging only as this will not work to replace all dropdowns -> The dropdown opens -> options are read -> LSM applies the options.XMLtemplates etc. -> look of LSM is like defined in options again :)
+			lsm:RegisterCallback('OnDropdownMenuAdded', function(comboBox, optionsPassedIn)
+	d("[PP-LSM]TEST - Callback fired: OnDropdownMenuAdded - current visibleRows: " ..tostring(optionsPassedIn.visibleRowsDropdown))
+PP._lsm = PP._lsm or {}
+PP._lsm.comboBoxesAdded = PP._lsm.comboBoxesAdded or {}
+table.insert(PP._lsm.comboBoxesAdded, comboBox)
+			end)
+			]]
+
+			--Register the LSM On*Show handlers here and replace the backgrounds, scrollbar, etc. then on each show as they are build dynamically each time!
+			--Normal menus
+			lsm:RegisterCallback('OnMenuShow', function(comboBox)
+				addPPBackgroundToLSMDropdown(comboBox)
+			end)
+			--Submenus and submenus at context menus
+			lsm:RegisterCallback('OnSubMenuShow', function(comboBox)
+				addPPBackgroundToLSMDropdown(comboBox)
+			end)
+			--Context menus
+			local lsm_contextMenuOnShowHandlerName = "OnContextMenuShow"
+			if lsm.version < "2.40" then
+				lsm_contextMenuOnShowHandlerName = "OnContextmenuShow" --Here was a typo in the menu (no upper case)
+			end
+			lsm:RegisterCallback(lsm_contextMenuOnShowHandlerName, function(comboBox)
+				addPPBackgroundToLSMDropdown(comboBox)
+			end)
+
+		end
+
+
+
 		-- ===============================================================================================--
 
 		-- ==CraftBagExtended==--

@@ -430,8 +430,8 @@ PP.Bars = function(progressBarsOverviewContainer --[[parentControl]], isProgress
 			local progressBar = childCtrl:GetNamedChild("Progress") or childCtrl:GetNamedChild("ProgressBar")
 			if progressBar ~= nil then
 				PP_bar((isProgressBarPassedIn == true and progressBar) or childCtrl,
-						--[[height]] height or 14,
-						--[[fontSize]] fontSize or 15,
+				--[[height]] height or 14,
+				--[[fontSize]] fontSize or 15,
 						bgEdgeColor,
 						glowEdgeColor,
 						reAnchorText

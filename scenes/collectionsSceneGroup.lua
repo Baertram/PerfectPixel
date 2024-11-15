@@ -12,9 +12,12 @@ PP.collectionsSceneGroup = function()
 		end
 	end
 
-	--[[?]]	local function itemSetCollectionsProgressBars()
-		--[[?]]		PP.Bars(ITEM_SET_COLLECTIONS_BOOK_KEYBOARD.summaryScrollChild, true, nil, nil, nil, nil, false)
-		--[[?]]	end
+	--Update summary progressBars at e.g. set collections book
+	local function updateContentScrollChildProgressBars(scrollChildCtrl, useScrollChildCtrl, height, fontSize)
+		if scrollChildCtrl then
+			PP.Bars(scrollChildCtrl, useScrollChildCtrl, --[[h]] height, --[[f]] fontSize)
+		end
+	end
 
 	local fragments	= {RIGHT_BG_FRAGMENT, TREE_UNDERLAY_FRAGMENT, TITLE_FRAGMENT, COLLECTIONS_TITLE_FRAGMENT, MEDIUM_LEFT_PANEL_BG_FRAGMENT}
 	local scenes	= {
@@ -37,6 +40,7 @@ PP.collectionsSceneGroup = function()
 		local search		= gVar.contentSearchEditBox	and gVar.contentSearchEditBox:GetParent()
 		local categories	= gVar.categories
 		local progressBar	= gVar.progressBar or gVar.categoryProgress
+		local summaryContentScrollChild = gVar.summaryScrollChild
 
 		if scene then
 			for j=1, #fragments do
@@ -74,6 +78,8 @@ PP.collectionsSceneGroup = function()
 		if progressBar then
 			PP.Bar(progressBar, --[[h]] 14, --[[f]] 15)
 		end
+		--At set collecitons book: This will only have 1 line as PP inits, so we need to call it again on each SetCollectionsOpen
+		updateContentScrollChildProgressBars(summaryContentScrollChild, true, 14, 15)
 	end
 
 	--COLLECTIONS_BOOK_SCENE, COLLECTIONS_BOOK
@@ -284,4 +290,13 @@ PP.collectionsSceneGroup = function()
 		end
 	end
 
+	--------------------------
+	--On each open of the set collecitons book: Update the summary progress bars as they might have added new
+	local setCollectionsBookScene = scenes[6][1]
+	local setCollectionsBookSceneGVar = scenes[6][2]
+	setCollectionsBookScene:RegisterCallback("StateChange", function(oldState, newState)
+		if newState == SCENE_SHOWN then
+			updateContentScrollChildProgressBars(setCollectionsBookSceneGVar.summaryScrollChild, true, 14, 15)
+		end
+	end)
 end

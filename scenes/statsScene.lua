@@ -9,9 +9,21 @@ PP.statsScene = function()
 	PP:CreateBackground(ZO_StatsPanel,						--[[#1]] nil, ZO_AdvancedStatsPanel, nil, -15, -10,	--[[#2]] nil, nil, nil, 0, 10)
 	local bg = ZO_StatsPanel.PP_BG
 	 STATS_SCENE:RegisterCallback("StateChange", function(oldState, newState)
-        if newState == SCENE_HIDDEN then
-            bg:SetHidden(true)
-        end
+		 if newState == SCENE_HIDDEN then
+			 bg:SetHidden(true)
+		 --[[
+		 --20241115 Baertram Not working as the attribute bars are not progress bars and thus BG and GLow etc. are missing!
+		 elseif newState == SCENE_SHOWING then
+			--Attribute bars
+			--ZO_StatsPanelPaneScrollChildAttributesRow1
+			--ZO_StatsPanelPaneScrollChildAttributesRow1Magicka
+			--ZO_StatsPanelPaneScrollChildAttributesRow1Health
+			--ZO_StatsPanelPaneScrollChildAttributesRow1Stamina
+			for _, statsAttributeControl in ipairs(STATS.attributeControls) do
+				PP.Bar(statsAttributeControl, 14, 15)
+			end
+	 	 ]]
+		 end
     end)
 
 
@@ -20,6 +32,9 @@ PP.statsScene = function()
 
 	PP.ScrollBar(ZO_StatsPanelPane, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, true)
 	ZO_Scroll_SetMaxFadeDistance(ZO_StatsPanelPane, PP.savedVars.ListStyle.list_fade_distance)
+
+
+
 
 --ZO_ADVANCED_STATS_WINDOW
 	for i = 1, #ADVANCED_STATS_FRAGMENT_GROUP do

@@ -117,7 +117,7 @@ TLW_BG:SetDrawTier(0)
 
 PP.TLW_BG = TLW_BG
 
-function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1, --[[#2]] point2, relTo2, relPoint2, x2, y2, namespace)
+function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1, --[[#2]] point2, relTo2, relPoint2, x2, y2, namespace, width, height)
 	local namespace		= namespace or 'WindowStyle'
 	local sv			= self:GetSavedVars(namespace)
 	local insets		= sv.skin_backdrop_insets
@@ -139,7 +139,9 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 	end
 
 	bg:SetAnchor(point1 or TOPLEFT,		relTo1 or parent,	relPoint1 or TOPLEFT,		(x1 or 0) - insets, (y1 or 0) - insets)
-	bg:SetAnchor(point2 or BOTTOMRIGHT,	relTo2 or parent,	relPoint2 or BOTTOMRIGHT,	(x2 or 0) + insets, (y2 or 0) + insets)
+	if width == nil and height == nil then
+		bg:SetAnchor(point2 or BOTTOMRIGHT,	relTo2 or parent,	relPoint2 or BOTTOMRIGHT,	(x2 or 0) + insets, (y2 or 0) + insets)
+	end
 
 	bg:SetCenterTexture(sv.skin_backdrop, sv.skin_backdrop_tile_size, sv.skin_backdrop_tile and 1 or 0)
 	bg:SetCenterColor(unpack(sv.skin_backdrop_col))
@@ -147,6 +149,16 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 	bg:SetEdgeTexture(sv.skin_edge, sv.skin_edge_file_width, sv.skin_edge_file_height, sv.skin_edge_thickness, 0)
 	bg:SetEdgeColor(unpack(sv.skin_edge_col))
 	bg:SetIntegralWrapping(sv.skin_edge_integral_wrapping)
+
+	if width ~= nil and height ~= nil then
+		bg:SetDimensions(width, height)
+	else
+		if width ~= nil then
+			bg:SetWidth(width)
+		elseif height ~= nil then
+			bg:SetHeigt(height)
+		end
+	end
 
 	parent.PP_BG = bg
 

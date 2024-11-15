@@ -48,11 +48,15 @@ PP.chatWindow = function()
 
 	PP:CreateBackground(bg, --[[#1]] nil, nil, nil, 6, 6, --[[#2]] nil, nil, nil, -6, -6, namespace)
 
+	local cwMinBar  = ZO_ChatWindowMinBar
+	local bgMinBar  = cwMinBar:GetNamedChild('BG')
+	PP:CreateBackground(bgMinBar, --[[#1]] BOTTOMLEFT, nil, BOTTOMLEFT, 1, -20, --[[#2]] nil, nil, nil, 0, 0, nil, 39, 235)
+
 	ZO_PostHook(KEYBOARD_CHAT_SYSTEM, 'OnPlayerActivated', function(...)
 		PP.Anchor(container,	--[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, -18, -5)
 		PP.Anchor(textEntry,	--[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, -13, nil)
 		PP.Anchor(minimize,		--[[#1]] nil, nil, nil, 5, nil)
-		PP:UpdateBackgrounds('ChatWindow')
+		PP:UpdateBackgrounds(namespace)
 	end)
 
 	--scrollbar

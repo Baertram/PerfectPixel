@@ -158,6 +158,14 @@ PP.compatibility = function()
 			PP.Anchor(IIFA_GUI_ListHolder_Slider, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, 14, 0)
 			ZO_Scroll_SetMaxFadeDistance(IIFA_GUI_ListHolder, PP.savedVars.ListStyle.list_fade_distance)
 			IIFA_GUI_BGMungeOverlay:SetHidden(true)
+			PP.SetStyle_Tooltip(GetControl("IIFA_ITEM_TOOLTIP"))
+			PP.SetStyle_Tooltip(GetControl("IIFA_POPUP_TOOLTIP"))
+			PP:CreateBackground(IIFA_CharBagFrame, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			PP:CreateBackground(IIFA_CharBagFrame_BG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			IIFA_CharBagFrame_BGMungeOverlay:SetHidden(true)
+			PP:CreateBackground(IIFA_CharCurrencyFrame, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			PP:CreateBackground(IIFA_CharCurrencyFrame_BG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+			IIFA_CharCurrencyFrame_BGMungeOverlay:SetHidden(true)
 		end
 		-- ===============================================================================================--
 

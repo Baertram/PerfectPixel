@@ -165,7 +165,6 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 	if not self.backgrounds[namespace] then
 		self.backgrounds[namespace] = {}
 	end
-
 	table.insert(self.backgrounds[namespace], bg)
 
 	if exBG then return end

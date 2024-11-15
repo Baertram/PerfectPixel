@@ -222,13 +222,19 @@ PP.tooltips = function()
 			applyLayout(tooltip, specialLayout, bg)
 		end
 	end
+	PP.SetStyle_Tooltip = SetStyle_Tooltip
 
 	PP.Bar(SkillTooltipProgression, --[[height]] 8, --[[fontSize]] 15)
+
+	ZO_SmithingTopLevelCreationPanelResultTooltipGlow:SetHidden(true)
 
 	SetStyle_Tooltip(ComparativeTooltip1)
 	SetStyle_Tooltip(ComparativeTooltip2)
 	SetStyle_Tooltip(PopupTooltip)
 	SetStyle_Tooltip(ZO_ProvisionerTopLevelTooltip)
+	SetStyle_Tooltip(ZO_AlchemyTopLevelTooltip)
+	SetStyle_Tooltip(ZO_EnchantingTopLevelTooltip)
+	SetStyle_Tooltip(ZO_SmithingTopLevelCreationPanelResultTooltip)
 
 	ZO_PreHook("InitializeTooltip", function(tooltip, control, ...)
 		local specialLayout

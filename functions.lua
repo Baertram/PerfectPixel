@@ -296,6 +296,7 @@ PP.Font = function(control, --[[Font]] font, size, outline, --[[Alpha]] a, --[[C
 		control:SetStyleColor(sc_r/255, sc_g/255, sc_b/255, sc_a)
 	end
 end
+local PP_Font = PP.Font
 
 PP.ListBackdrop = function(control, x_1, y_1, x_2, y_2, --[[tex]] tex, size, mod, --[[bd]] c_r, c_g, c_b, c_a, --[[edge]] edge_r, edge_g, edge_b, edge_a, --[[e_tex]] e_tex, e_t)
 	if not control:GetNamedChild("Backdrop") then
@@ -408,7 +409,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 	end
 
 	if barText then
-		PP.Font(barText, --[[Font]] PP.f.u67, fSize, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+		PP_Font(barText, --[[Font]] PP.f.u67, fSize, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 	end
 
 	bg:SetHidden(true)
@@ -740,7 +741,7 @@ end
 local function fn(label)
 	label:SetHeight(32)
 	label:SetVerticalAlignment(TEXT_ALIGN_CENTER)
-	PP.Font(label, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.6)
+	PP_Font(label, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.6)
 	PP:SetLockFn(label, 'SetFont')
 end
 
@@ -817,7 +818,7 @@ function PP:RefreshStyle_MenuBar(menuBar, layout)
 		divider:SetHidden(true)
 	end
 	if label and label:GetType() == CT_LABEL then
-		PP.Font(label, --[[Font]] PP.f.u67, layout.label_f_s, layout.fontOutline, --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+		PP_Font(label, --[[Font]] PP.f.u67, layout.label_f_s, layout.fontOutline, --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 		label:SetVerticalAlignment(TEXT_ALIGN_CENTER)
 		label:SetHidden(layout.noLabel)
 	end

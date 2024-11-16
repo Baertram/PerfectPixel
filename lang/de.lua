@@ -69,6 +69,8 @@ local stringsDe = {
 	PP_LAM_KEYBINDSTRIP								= "Tastenkombination Leiste",
 	--Chat
 	PP_LAM_SCENE_CHAT								= GetString(SI_CHAT_TAB_GENERAL),
+	--Companion SkillsScene
+	PP_LAM_SCENE_COMPANION_SKILLS					= "Gefährten Fertigkeiten",
 }
 
 

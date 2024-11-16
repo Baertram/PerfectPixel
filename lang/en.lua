@@ -72,6 +72,8 @@ local stringsEn = {
 	PP_LAM_KEYBINDSTRIP								= "Keybind strip",
 	--Chat
 	PP_LAM_SCENE_CHAT								= GetString(SI_CHAT_TAB_GENERAL),
+	--Companion SkillsScene
+	PP_LAM_SCENE_COMPANION_SKILLS					= "Companion Skills Scene",
 }
 
 --Provide the English strings as addon global values

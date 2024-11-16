@@ -50,6 +50,7 @@ EVENT_MANAGER:RegisterForEvent(PP.ADDON_NAME, EVENT_ADD_ON_LOADED, function(even
 		PP.helpSceneGroup()
 		PP.gameMenuInGameScene()
 		PP.performanceMeter()
+		PP.companionsScene()
 
 		PP.compatibility()
 

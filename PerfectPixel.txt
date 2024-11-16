@@ -41,6 +41,7 @@ scenes\mailSceneGroup.lua
 scenes\notificationsScene.lua
 scenes\helpSceneGroup.lua
 scenes\gameMenuInGameScene.lua
+scenes\companion.lua
 
 modules\chatWindow.lua
 modules\compass.lua

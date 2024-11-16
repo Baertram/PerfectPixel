@@ -29,6 +29,8 @@ PP.TabList = {
 	ZO_ListDialog1List,
 	--UniversalDeconstruction
 	ZO_UniversalDeconstructionTopLevel_KeyboardPanelInventoryBackpack,
+	--Companion equipment
+	COMPANION_EQUIPMENT_KEYBOARD.list,
 }
 
 PP.Tabs = {

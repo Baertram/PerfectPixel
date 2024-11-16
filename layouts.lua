@@ -68,6 +68,25 @@ PP:AddNewLayout('inventory', {
 	}
 )
 
+PP:AddNewLayout('companionInventory', {
+		default = {
+			tl_t_y				= 110,
+			tl_b_y				= -90,
+			list_w				= 565,
+			list_t_y			= 130,
+			list_b_y			= 0,
+			infoBar_y			= 0,
+			sort_w				= 565,
+			sort_name_w			= 241,
+			sort_name_t_x		= 88,
+			noTabs				= false,
+			noSearch			= false,
+			noFDivider			= false,
+			menu				= false
+		},
+	}
+)
+
 PP:AddNewLayout('menuBar', {
 		default = {
 			duration	= 50,

@@ -276,6 +276,7 @@ PP.Anchor = function(control, --[[#1]] set1_p, set1_rTo, set1_rp, set1_x, set1_y
 		control:SetAnchor(set2_p or get2_p, set2_rTo or get2_rTo, set2_rp or get2_rp, set2_x or get2_x, set2_y or get2_y)
 	end
 end
+local PP_Anchor = PP.Anchor
 
 --outline, thick-outline, soft-shadow-thin, soft-shadow-thick, shadow
 PP.Font = function(control, --[[Font]] font, size, outline, --[[Alpha]] a, --[[Color]] c_r, c_g, c_b, c_a, --[[StyleColor]] sc_r, sc_g, sc_b, sc_a)
@@ -326,6 +327,17 @@ PP.CreateBackdrop = function(control)
 	return backdrop
 end
 
+local function offset(slider, hidden)
+	local contents = slider:GetParent().contents
+	if contents == nil then return end
+	if hidden then
+		PP_Anchor(contents, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, -6, 0)
+	else
+		PP_Anchor(contents, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, -15, 0)
+	end
+end
+
+
 PP.ScrollBar = function(control)
 	local slider	= control:GetType() == CT_SLIDER and control or control.scrollbar or control:GetParent().scrollbar
 	local sb		= slider
@@ -357,21 +369,14 @@ PP.ScrollBar = function(control)
 
 	if not contents then return end
 
-	local function offset(hidden)
-		if hidden then
-			PP.Anchor(contents, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, -6, 0)
-		else
-			PP.Anchor(contents, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, -15, 0)
-		end
-	end
 
-	offset(true)
+	offset(sb, true)
 
 	ZO_PreHookHandler(sb, 'OnEffectivelyShown', function()
-		offset(false)
+		offset(sb, false)
 	end)
 	ZO_PreHookHandler(sb, 'OnEffectivelyHidden', function()
-		offset(true)
+		offset(sb, true)
 	end)
 
 end
@@ -398,7 +403,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 			glowBG:SetCenterColor(0/255, 0/255, 0/255, 0)
 			glowBG:SetEdgeTexture(nil, 1, 1, 1, 0)
 			glowBG:SetEdgeColor(173/255, 166/255, 132/255, 1)
-			PP.Anchor(glowBG, --[[#1]] TOPLEFT, bar, TOPLEFT, -3, -3, --[[#2]] true, BOTTOMRIGHT, bar, BOTTOMRIGHT, 3, 3)
+			PP_Anchor(glowBG, --[[#1]] TOPLEFT, bar, TOPLEFT, -3, -3, --[[#2]] true, BOTTOMRIGHT, bar, BOTTOMRIGHT, 3, 3)
 		end
 	end
 
@@ -422,7 +427,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 	if not control:GetNamedChild("Backdrop") then
 		local barBG = CreateControl("$(parent)Backdrop", control, CT_BACKDROP)
 
-		PP.Anchor(barBG, --[[#1]] TOPLEFT, control, TOPLEFT, -2, -2, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	2, 2)
+		PP_Anchor(barBG, --[[#1]] TOPLEFT, control, TOPLEFT, -2, -2, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	2, 2)
 		barBG:SetCenterTexture(nil, 8, 0)
 		barBG:SetCenterColor(10/255, 10/255, 10/255, 0.8)
 		barBG:SetEdgeTexture(nil, 1, 1, 1, 0)
@@ -750,25 +755,25 @@ function PP:RefreshStyle_InfoBar(infoBar, layout)
 	local currency2	= infoBar:GetNamedChild("Currency2")
 	local layout	= layout or { infoBar_y = 6 }
 	
-	PP.Anchor(infoBar, --[[#1]] TOPLEFT, nil, BOTTOMLEFT, 0, layout.infoBar_y, --[[#2]] true, TOPRIGHT, nil, BOTTOMRIGHT, 0, layout.infoBar_y)
+	PP_Anchor(infoBar, --[[#1]] TOPLEFT, nil, BOTTOMLEFT, 0, layout.infoBar_y, --[[#2]] true, TOPRIGHT, nil, BOTTOMRIGHT, 0, layout.infoBar_y)
 
 	if divider and divider:GetType() == CT_CONTROL then
 		divider:SetHidden(true)
 	end
 	if slots and slots:GetType() == CT_LABEL then
-		PP.Anchor(slots,	--[[#1]] TOPLEFT,	nil, TOPLEFT, 0, 0)
+		PP_Anchor(slots,	--[[#1]] TOPLEFT,	nil, TOPLEFT, 0, 0)
 		fn(slots)
 	end
 	if altSlots and altSlots:GetType() == CT_LABEL then
-		PP.Anchor(altSlots, --[[#1]] LEFT,	nil, RIGHT, 16, 0)
+		PP_Anchor(altSlots, --[[#1]] LEFT,	nil, RIGHT, 16, 0)
 		fn(altSlots)
 	end
 	if money and money:GetType() == CT_LABEL then
-		PP.Anchor(money,	--[[#1]] TOPRIGHT,	nil, TOPRIGHT, -4, 0)
+		PP_Anchor(money,	--[[#1]] TOPRIGHT,	nil, TOPRIGHT, -4, 0)
 		fn(money)
 	end
 	if altMoney and altMoney:GetType() == CT_LABEL then
-		PP.Anchor(altMoney,	--[[#1]] RIGHT,	nil, LEFT, -16, 0)
+		PP_Anchor(altMoney,	--[[#1]] RIGHT,	nil, LEFT, -16, 0)
 		fn(altMoney)
 	end
 	if retrait and retrait:GetType() == CT_LABEL then

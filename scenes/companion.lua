@@ -145,24 +145,95 @@ d("[PP]Companion overview fragment shown")
 	local companionEquipmentKeyboardFragment = COMPANION_EQUIPMENT_KEYBOARD_FRAGMENT
 	--OnDeferredInit: No
 
+	local companionEquipmentChildren = {
+		{ 'List', 'Backpack'	},	--1	list
+		{ 'SortBy'				},	--2	sortBy
+		{ 'Tabs'				},	--3	tabs
+		{ 'FilterDivider'		},	--4	filterDivider
+		{ 'SearchFilters'		},	--5	searchFilters
+		{ 'SearchDivider'		},	--6	searchDivider
+		{ 'InfoBar'				},	--7	infoBar
+		{ 'Menu'				}	--8	menu
+	}
+
+
 	local function onCompanionEQuipmentFragmentShown()
 		local companionEquipmentControl = companionEquipmentKeyboard.control
 		PP.Anchor(companionEquipmentControl, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 115,	--[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -104)
 
-		local companionEquipmentFilterDivider = GetControl(companionEquipmentControl, "FilterDivider")
-		PP.Anchor(companionEquipmentFilterDivider, --[[#1]] TOP, companionEquipmentControl, TOP, 0, 60,	--[[#2]] nil, nil, nil, nil, nil, nil)
+		--Get layout of "companionInventory" and apply it to the companion equipment (inventory list)
+		local l_tabs = PP:GetLayout('menuBar', 'tabs')
+		local l_menu = PP:GetLayout('menuBar', 'menu')
+		local layout         = PP:GetLayout('companionInventory', companionEquipmentControl)
+		local tlc, list, sortBy, tabs, filterDivider, searchFilters, searchDivider, infoBar, menu = PP.GetLinks(companionEquipmentControl, companionEquipmentChildren)
+		menu = layout.menu or menu
 
-		local companionEquipmentInfoBarDivider = GetControl(companionEquipmentControl, "InfoBarDivider")
-		companionEquipmentInfoBarDivider:SetHidden(true)
+		PP.Anchor(tlc,					--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, layout.tl_t_y, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, layout.tl_b_y)
 
-		--List
-		local companionEquipmentSortBy = GetControl(companionEquipmentControl, "SortBy")
-		local companionEquipmentList = companionEquipmentKeyboard.list
+		if list then
+			PP.ScrollBar(list)
+			--todo 2024116 ScrollBar's offset x needs to be +5 or such, as it directly is attached to the list rows, and in player inventory/banks it is not?
+			PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, layout.list_t_y, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, layout.list_b_y)
+			list:SetWidth(layout.list_w)
+			--ZO_Scroll_SetMaxFadeDistance(list, 10)
+			ZO_ScrollList_Commit(list)
+		end
+		if sortBy then
+			PP.Anchor(sortBy,			--[[#1]] BOTTOM, list, TOP, 0, 0)
+			local sortByName = sortBy:GetNamedChild("Name")
+			sortByName:SetWidth(layout.sort_name_w)
+			sortByName:SetAnchorOffsets(layout.sort_name_t_x, nil, 1)
+		end
+		local emptyLabel = tlc:GetNamedChild("Empty")
+		if emptyLabel then
+			PP.Anchor(emptyLabel,		--[[#1]] TOPLEFT, tlc, TOPLEFT, 50, 200, --[[#2]] true, TOPRIGHT, tlc, TOPRIGHT, -50, 200)
+		end
+		if tabs then
+			PP.Anchor(tabs,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, -20, 10)
+			tabs:SetHidden(layout.noTabs)
+			PP:RefreshStyle_MenuBar(tabs, l_tabs)
+		end
+		if filterDivider then
+			PP.Anchor(filterDivider,	--[[#1]] TOP, tlc, TOP, 0, 52)
+			filterDivider:SetHidden(layout.noFDivider)
+		end
+		if searchFilters then
+			PP.Anchor(searchFilters,	--[[#1]] TOPRIGHT, tlc, TOPRIGHT, -20, 60)
+		end
+		if searchDivider then
+			PP.Anchor(searchDivider,	--[[#1]] TOP, tlc, TOP, 0, 98)
+		end
+		if menu then
+			PP.Anchor(menu,				--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, -30, 64)
+			PP:RefreshStyle_MenuBar(menu, l_menu)
+		end
+		if infoBar then
+			PP:RefreshStyle_InfoBar(infoBar, layout) --20241115 Baertram - layout variable was nil here, so I renamed the l variable above to layout (local l = PP:GetLayout('inventory', control)). Is that correct?
+		end
 
-		PP.ScrollBar(companionEquipmentList)
-		PP.Anchor(companionEquipmentList, --[[#1]] TOPLEFT, companionEquipmentSortBy, BOTTOMLEFT, 0, 5, --[[#2]] true, BOTTOMRIGHT, companionEquipmentControl, BOTTOMRIGHT, 0, 0)
-		ZO_Scroll_SetMaxFadeDistance(companionEquipmentList, 10)
-		ZO_ScrollList_Commit(companionEquipmentList)
+		--[[ Scene fragment add/remove is handled in companionCharacterKeyboardScene state change callback as this fires indenependently from the companion equipment fragment
+		if scene then
+			local s		= SCENE_MANAGER:GetScene(scene)
+			local a_f	= layout.addFragments
+			local r_f	= layout.removeFragments
+			local h_bg	= layout.hideBgForScene
+
+			for i = 1, #a_f do
+				s:AddFragment(a_f[i])
+			end
+			for i = 1, #r_f do
+				s:RemoveFragment(r_f[i])
+			end
+			for i = 1, #h_bg do
+				PP:HideBackgroundForScene(SCENE_MANAGER:GetScene(scene), h_bg[i].PP_BG)
+			end
+		end
+		]]
+
+		--Apply the list's SavedVariables from normal inventory (font etc.) to companion equipment list too
+		--todo 20241116 Baertram
+
+
 	end
 	companionEquipmentKeyboardFragment:RegisterCallback("StateChange", function(oldState, newState)
         if newState == SCENE_SHOWN then

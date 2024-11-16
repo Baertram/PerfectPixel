@@ -51,6 +51,7 @@ d("[PP]Companion character scene shown")
         end
     end)
 
+	local companionCharacterFragmentBGWasUnhidden = false
 	local function onCompanionCharacterFragmentShown()
 		local companionControl = companionKeyboard.control
 		local companionMenuHeaderBar = GetControl(companionControl, "MenuHeaderBar")
@@ -59,6 +60,11 @@ d("[PP]Companion character scene shown")
 		local companionNavigationTree = companionCharacterKeyboard.navigationTree
 
 		PP:CreateBackground(companionCharacterKeyboardControl, --[[#1]] nil, nil, nil, -10, -5, --[[#2]] nil, nil, nil, 0, 44)
+		if not companionCharacterFragmentBGWasUnhidden then
+			local bg = companionCharacterKeyboardControl.PP_BG
+			bg:SetHidden(false)
+			companionCharacterFragmentBGWasUnhidden = true
+		end
 		PP.Anchor(companionCharacterKeyboardControl, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 115,	--[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -104)
 
 		PP.Anchor(companionMenuHeaderBar, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, -30, 64)
@@ -170,6 +176,7 @@ d("[PP]Companion equipment fragment shown")
 	local companionSkillsKeyboardFragment = COMPANION_CHARACTER_KEYBOARD_FRAGMENT
 	--OnDeferredInit: No
 
+	local companionSkillsSceneBGWasUnhidden = false
 	local function onCompanionSkillsSceneShown()
 		companionSkillsKeyboardScene:RemoveFragment(FRAME_PLAYER_FRAGMENT)
 		companionSkillsKeyboardScene:RemoveFragment(FRAME_EMOTE_FRAGMENT_SKILLS)
@@ -184,6 +191,11 @@ d("[PP]Companion equipment fragment shown")
 		local skillLinesContainer = GetControl(skillPanel, "SkillLinesContainer")
 
 		PP:CreateBackground(skillPanel, --[[#1]] nil, nil, nil, -10, -5, --[[#2]] nil, nil, nil, 0, 44)
+		if not companionSkillsSceneBGWasUnhidden then
+			local bg = skillPanel.PP_BG
+			bg:SetHidden(false)
+			companionSkillsSceneBGWasUnhidden = true
+		end
 
 		PP.Anchor(skillPanel, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 115,	--[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -104)
 

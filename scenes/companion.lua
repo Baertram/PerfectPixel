@@ -140,11 +140,17 @@ d("[PP]Companion overview fragment shown")
 		local companionEquipmentFilterDivider = GetControl(companionEquipmentControl, "FilterDivider")
 		PP.Anchor(companionEquipmentFilterDivider, --[[#1]] TOP, companionEquipmentControl, TOP, 0, 60,	--[[#2]] nil, nil, nil, nil, nil, nil)
 
-		local companionEquipmentList = companionEquipmentKeyboard.list
-		local companionEquipmentSortBy = GetControl(companionEquipmentControl, "SortBy")
-		PP.ScrollBar(companionEquipmentList)
-		PP.Anchor(companionEquipmentList, --[[#1]] TOPLEFT, companionEquipmentSortBy, BOTTOMLEFT, 0, 5, --[[#2]] true, BOTTOMRIGHT, companionEquipmentControl, BOTTOMRIGHT, 0, -40)
+		local companionEquipmentInfoBarDivider = GetControl(companionEquipmentControl, "InfoBarDivider")
+		companionEquipmentInfoBarDivider:SetHidden(true)
 
+		--List
+		local companionEquipmentSortBy = GetControl(companionEquipmentControl, "SortBy")
+		local companionEquipmentList = companionEquipmentKeyboard.list
+
+		PP.ScrollBar(companionEquipmentList)
+		PP.Anchor(companionEquipmentList, --[[#1]] TOPLEFT, companionEquipmentSortBy, BOTTOMLEFT, 0, 5, --[[#2]] true, BOTTOMRIGHT, companionEquipmentControl, BOTTOMRIGHT, 0, 0)
+		ZO_Scroll_SetMaxFadeDistance(companionEquipmentList, 10)
+		ZO_ScrollList_Commit(companionEquipmentList)
 	end
 	companionEquipmentKeyboardFragment:RegisterCallback("StateChange", function(oldState, newState)
         if newState == SCENE_SHOWN then

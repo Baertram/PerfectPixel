@@ -85,9 +85,15 @@ d("[PP]Companion character fragment shown")
 	local companionCharacterWindowKeyboardFragment = COMPANION_CHARACTER_WINDOW_FRAGMENT
 	--OnDeferredInit: No
 
+	local companionCharacterWindowFragmentBGWasUnhidden = false
 	local function onCompanionCharacterWindowFragmentShown()
 		local companionCharacterWindowControl = companionCharacterWindowKeyboard.control
 		PP:CreateBackground(companionCharacterWindowControl,		--[[#1]] nil, nil, nil, 0, 16, --[[#2]] nil, ZO_CharacterWindowStats, nil, -2, 32)
+		if not companionCharacterWindowFragmentBGWasUnhidden then
+			local bg = companionCharacterWindowControl.PP_BG
+			bg:SetHidden(false)
+			companionCharacterWindowFragmentBGWasUnhidden = true
+		end
 	end
 	companionCharacterWindowKeyboardFragment:RegisterCallback("StateChange", function(oldState, newState)
         if newState == SCENE_SHOWN then

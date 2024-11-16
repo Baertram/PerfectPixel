@@ -45,7 +45,7 @@ PP.companionsScene = function()
 	end
 	companionCharacterKeyboardScene:RegisterCallback("StateChange", function(oldState, newState)
         if newState == SCENE_SHOWN and not onCompanionCharacterSceneDone and HasActiveCompanion() then
-d("[PP]Companion character scene shown")
+--d("[PP]Companion character scene shown")
 			onCompanionCharacterSceneShown()
 			onCompanionCharacterSceneDone = true
         end
@@ -72,7 +72,7 @@ d("[PP]Companion character scene shown")
 	end
 	companionCharacterKeyboardFragment:RegisterCallback("StateChange", function(oldState, newState)
         if newState == SCENE_SHOWN and not onCompanionCharacterFragmentDone and HasActiveCompanion() then
-d("[PP]Companion character fragment shown")
+--d("[PP]Companion character fragment shown")
 			onCompanionCharacterFragmentShown()
 			onCompanionCharacterFragmentDone = true
         end
@@ -98,7 +98,7 @@ d("[PP]Companion character fragment shown")
 	end
 	companionCharacterWindowKeyboardFragment:RegisterCallback("StateChange", function(oldState, newState)
         if newState == SCENE_SHOWN and not onCompanionCharacterWindowFragmentDone and HasActiveCompanion() then
-d("[PP]Companion character window fragment shown")
+--d("[PP]Companion character window fragment shown")
 			onCompanionCharacterWindowFragmentShown()
 			onCompanionCharacterWindowFragmentDone = true
         end
@@ -119,13 +119,16 @@ d("[PP]Companion character window fragment shown")
 	]]
 
 	PP.onDeferredInitCheck(companionOverviewKeyboard, function()
-d("[PP]Companion overview OnDeferredInit done")
+--d("[PP]Companion overview OnDeferredInit done")
 		local companionOverViewControl = companionOverviewKeyboard.control
 
 		PP.Anchor(companionOverViewControl, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 115,	--[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -104)
 
 		local companionOverviewLevelAndXPBarContainer = GetControl(companionOverViewControl, "LevelProgress")  --All anchored to this one?
 		PP.Anchor(companionOverviewLevelAndXPBarContainer, --[[#1]] TOPLEFT, companionOverViewControl, TOPLEFT, 0, 0,	--[[#2]] true, TOPRIGHT, companionOverViewControl, TOPRIGHT, -20, 0)
+
+		local companionOverviewLevelProgressBar = GetControl(companionOverViewControl, "LevelProgressBar")
+		PP.Bar(companionOverviewLevelProgressBar, 14, 15)
 
 		--local companionOverviewLevelProgressIcon = GetControl(companionOverViewControl, "LevelProgressIcon")
 		--local companionOverviewOutfitContainer = GetControl(companionOverViewControl, "Outfit")
@@ -218,7 +221,7 @@ d("[PP]Companion overview OnDeferredInit done")
 	end
 	companionEquipmentKeyboardFragment:RegisterCallback("StateChange", function(oldState, newState)
         if newState == SCENE_SHOWN and not companionEquipmentFragmentDone and HasActiveCompanion() then
-d("[PP]Companion equipment fragment shown")
+--d("[PP]Companion equipment fragment shown")
 			onCompanionEQuipmentFragmentShown()
 			companionEquipmentFragmentDone = true
         end
@@ -233,6 +236,75 @@ d("[PP]Companion equipment fragment shown")
 	local companionSkillsKeyboardFragment = COMPANION_CHARACTER_KEYBOARD_FRAGMENT
 	--OnDeferredInit: No
 
+	--Setup the companion skills list with custom setupFunctions (show whole list)
+	if sv.unwrappedSkillsTree then
+		local tree = COMPANION_SKILLS_KEYBOARD.skillLinesTree
+		tree.defaultIndent = 50
+		tree.defaultSpacing = 0
+		-- tree:SetExclusive(false) >> breaks the game
+		tree.exclusiveCloseNodeFunction = function(treeNode)
+			treeNode:SetOpen(true, false)
+		end
+
+		local treeHeader	= tree.templateInfo.ZO_SkillIconHeader
+		local treeEntry		= tree.templateInfo.ZO_CompanionSkills_SkillLineEntry
+
+		--TreeHeaderSetup(node, control, skillTypeData, open)
+		local existingSetupCallback00 = treeHeader.setupFunction
+		treeHeader.setupFunction = function(node, control, skillTypeData, open)
+			existingSetupCallback00(node, control, skillTypeData, open)
+			control:SetDimensionConstraints(300, 26, 300, 26)
+			control:SetMouseEnabled(false)
+			control.allowIconScaling = false
+			--text--
+			local icon = control:GetNamedChild("Icon")
+			local text = control:GetNamedChild("Text")
+			text:SetSelected(true)
+			PP.Font(text, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] 173*0.9, 166*0.9, 132*0.9, 1, --[[StyleColor]] 0, 0, 0, 0.8)
+			PP.Anchor(text, --[[#1]] LEFT, icon, RIGHT, 0, 2)
+			text:SetVerticalAlignment(TEXT_ALIGN_CENTER)
+			-- text:SetDesaturation(-1)
+			text:SetMouseEnabled(false)
+			text:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling
+			--icon--
+			PP.Anchor(icon, --[[#1]] LEFT, control, LEFT, 0, 0)
+			icon:SetDimensions(40, 40)
+			icon:SetMouseEnabled(false)
+			icon:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling
+			--StatusIcon--
+			local sIcon = control:GetNamedChild("StatusIcon")
+			sIcon:SetHidden(true)
+			--Channel--
+			control:GetNamedChild("Channel"):SetMouseEnabled(false)
+
+			icon.animation:GetAnimation():SetDuration(nil)
+			icon:SetScale(1)
+			icon:SetTexture(control.skillTypeData.keyboardNormalIcon)
+			icon:SetDrawLevel(1)
+
+			if control:GetNamedChild("Bg") then return end
+			local bg = CreateControl("$(parent)Bg", control, CT_TEXTURE)
+			bg:SetAnchorFill(control)
+			bg:SetTexture("PerfectPixel/tex/GradientRight.dds")
+			bg:SetColor(173/255, 166/255, 132/255, 0.4)
+			bg:SetDrawLevel(0)
+			bg:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling
+		end
+
+		--TreeEntrySetup(node, control, skillLineData, open)
+		local existingSetupCallback01 = treeEntry.setupFunction
+		treeEntry.setupFunction = function(node, control, skillLineData, open)
+			existingSetupCallback01(node, control, skillLineData, open)
+			control:SetHeight(22)
+			control:SetVerticalAlignment(TEXT_ALIGN_CENTER)
+			PP.Font(control, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			--StatusIcon--
+			PP.Anchor(control:GetNamedChild("StatusIcon"), --[[#1]] nil, nil, nil, -2, 0)
+			control:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling
+		end
+
+	end
+
 	local companionSkillsSceneBGWasUnhidden = false
 	local function onCompanionSkillsSceneShown()
 		companionSkillsKeyboardScene:RemoveFragment(FRAME_PLAYER_FRAGMENT)
@@ -244,6 +316,7 @@ d("[PP]Companion equipment fragment shown")
 
 		local skillPanel = companionSkillsKeyboard.control
 		local skillLineInfo = GetControl(skillPanel, "SkillLineInfo")
+		local skillLineInfoXPBar = GetControl(skillLineInfo, "XPBar")
 		local skillList = GetControl(skillPanel, "SkillList")
 		local skillLinesContainer = GetControl(skillPanel, "SkillLinesContainer")
 
@@ -258,15 +331,9 @@ d("[PP]Companion equipment fragment shown")
 
 		--ZO_CompanionSkills_Panel_KeyboardSkillLineInfo
 		PP.Anchor(skillLineInfo, --[[#1]] TOP, skillPanel, TOP, 112, -5, --[[#2]] false, LEFT, skillLinesContainer, RIGHT, 65, 0)
-
-		--PP.Font(ZO_SkillsSkillInfoName, --[[Font]] PP.f.u67, 20, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-		--PP.Font(ZO_SkillsSkillInfoRank, --[[Font]] PP.f.u67, 54, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-		--PP.Anchor(ZO_SkillsSkillInfoRank, --[[#1]] LEFT, nil, LEFT, -50, 0)
-		--PP.Bar(ZO_SkillsSkillInfoXPBar, --[[height]] 14, --[[fontSize]] 15)
-		--PP.Anchor(ZO_SkillsSkillInfoXPBar, --[[#1]] TOPLEFT, ZO_SkillsSkillInfoRank, BOTTOMRIGHT, 15, -30, --[[#2]] true, BOTTOMRIGHT, ZO_SkillsSkillList, TOPRIGHT, -20, -16)
+		PP.Bar(skillLineInfoXPBar, --[[height]] 14, --[[fontSize]] 15)
 
 		--ZO_CompanionSkills_Panel_KeyboardSkillList
-
 		PP.ScrollBar(skillList)
 		PP.Anchor(skillList, --[[#1]] TOPLEFT, skillLineInfo, BOTTOMLEFT, -60, 2, --[[#2]] true, BOTTOMRIGHT, skillPanel, BOTTOMRIGHT, 0, -40)
 
@@ -282,74 +349,10 @@ d("[PP]Companion equipment fragment shown")
 			end
 		end)
 
-		--PP.Anchor(ZO_SkillsAssignableActionBar, --[[#1]] TOPLEFT, skillList, BOTTOMLEFT, -50, 0)
-
 		--ZO_SkillsSkillLinesContainer
 		ZO_Scroll_SetMaxFadeDistance(skillLinesContainer, 10)
 		PP.Anchor(skillLinesContainer, --[[#1]] TOPLEFT, skillPanel, TOPLEFT, 0, 5,	--[[#2]] true, BOTTOMLEFT, skillPanel, BOTTOMLEFT, 0, 34)
 		PP.ScrollBar(skillLinesContainer)
-
-		if sv.unwrappedSkillsTree then
-			local tree = COMPANION_SKILLS_KEYBOARD.skillLinesTree
-			tree.defaultIndent = 50
-			tree.defaultSpacing = 0
-			-- tree:SetExclusive(false) >> breaks the game
-			tree.exclusiveCloseNodeFunction = function(treeNode)
-				treeNode:SetOpen(true, false)
-			end
-
-			--SpentSkillPoints  compatibility--
-			local treeHeader	= tree.templateInfo.SSP_Header			or tree.templateInfo.ZO_SkillIconHeader
-			local treeEntry		= tree.templateInfo.SSP_NavigationEntry	or tree.templateInfo.ZO_SkillsNavigationEntry
-
-			--TreeHeaderSetup(node, control, skillTypeData, open)
-			local existingSetupCallback00 = treeHeader.setupFunction
-			treeHeader.setupFunction = function(node, control, skillTypeData, open)
-				existingSetupCallback00(node, control, skillTypeData, open)
-				control:SetDimensionConstraints(300, 26, 300, 26)
-				control:SetMouseEnabled(false)
-				control.allowIconScaling = false
-				--text--
-				local icon = control:GetNamedChild("Icon")
-				local text = control:GetNamedChild("Text")
-				text:SetSelected(true)
-				PP.Font(text, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] 173*0.9, 166*0.9, 132*0.9, 1, --[[StyleColor]] 0, 0, 0, 0.8)
-				PP.Anchor(text, --[[#1]] LEFT, icon, RIGHT, 0, 2)
-				text:SetVerticalAlignment(TEXT_ALIGN_CENTER)
-				-- text:SetDesaturation(-1)
-				text:SetMouseEnabled(false)
-				text:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling
-				--icon--
-				PP.Anchor(icon, --[[#1]] LEFT, control, LEFT, 0, 0)
-				icon:SetDimensions(40, 40)
-				icon:SetMouseEnabled(false)
-				icon:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling
-				--StatusIcon--
-				local sIcon = control:GetNamedChild("StatusIcon")
-				sIcon:SetHidden(true)
-				--Channel--
-				control:GetNamedChild("Channel"):SetMouseEnabled(false)
-
-				icon.animation:GetAnimation():SetDuration(nil)
-				icon:SetScale(1)
-				icon:SetTexture(control.skillTypeData.keyboardNormalIcon)
-				icon:SetDrawLevel(1)
-				--SpentSkillPoints  compatibility--
-				if control:GetNamedChild("PointText") then
-					PP.Font(control:GetNamedChild("PointText"), --[[Font]] PP.f.u67, 20, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-					PP.Anchor(control:GetNamedChild("PointText"), --[[#1]] nil, nil, nil, 220, 2)
-				end
-
-				if control:GetNamedChild("Bg") then return end
-				local bg = CreateControl("$(parent)Bg", control, CT_TEXTURE)
-				bg:SetAnchorFill(control)
-				bg:SetTexture("PerfectPixel/tex/GradientRight.dds")
-				bg:SetColor(173/255, 166/255, 132/255, 0.4)
-				bg:SetDrawLevel(0)
-				bg:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling
-			end
-
-		end
 
 		onCompanionSkillsSceneShownApplied = true
 	end

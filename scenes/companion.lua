@@ -34,6 +34,7 @@ PP.companionsScene = function()
 	local companionCharacterKeyboardFragment = COMPANION_CHARACTER_KEYBOARD_FRAGMENT
 	--OnDeferredInit: No
 
+	local onCompanionCharacterSceneDone = false
 	local function onCompanionCharacterSceneShown()
 		companionCharacterKeyboardScene:RemoveFragment(FRAME_PLAYER_FRAGMENT)
 		companionCharacterKeyboardScene:RemoveFragment(FRAME_EMOTE_FRAGMENT_SKILLS)
@@ -43,14 +44,14 @@ PP.companionsScene = function()
 		companionCharacterKeyboardScene:RemoveFragment(COMPANION_TITLE_FRAGMENT)
 	end
 	companionCharacterKeyboardScene:RegisterCallback("StateChange", function(oldState, newState)
-        if newState == SCENE_SHOWN then
+        if newState == SCENE_SHOWN and not onCompanionCharacterSceneDone and HasActiveCompanion() then
 d("[PP]Companion character scene shown")
-			if HasActiveCompanion() then
-				onCompanionCharacterSceneShown()
-			end
+			onCompanionCharacterSceneShown()
+			onCompanionCharacterSceneDone = true
         end
     end)
 
+	local onCompanionCharacterFragmentDone = false
 	local companionCharacterFragmentBGWasUnhidden = false
 	local function onCompanionCharacterFragmentShown()
 		local companionControl = companionKeyboard.control
@@ -70,11 +71,10 @@ d("[PP]Companion character scene shown")
 		PP.Anchor(companionMenuHeaderBar, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, -30, 64)
 	end
 	companionCharacterKeyboardFragment:RegisterCallback("StateChange", function(oldState, newState)
-        if newState == SCENE_SHOWN then
+        if newState == SCENE_SHOWN and not onCompanionCharacterFragmentDone and HasActiveCompanion() then
 d("[PP]Companion character fragment shown")
-			if HasActiveCompanion() then
-				onCompanionCharacterFragmentShown()
-			end
+			onCompanionCharacterFragmentShown()
+			onCompanionCharacterFragmentDone = true
         end
     end)
 
@@ -85,6 +85,7 @@ d("[PP]Companion character fragment shown")
 	local companionCharacterWindowKeyboardFragment = COMPANION_CHARACTER_WINDOW_FRAGMENT
 	--OnDeferredInit: No
 
+	local onCompanionCharacterWindowFragmentDone = false
 	local companionCharacterWindowFragmentBGWasUnhidden = false
 	local function onCompanionCharacterWindowFragmentShown()
 		local companionCharacterWindowControl = companionCharacterWindowKeyboard.control
@@ -96,11 +97,10 @@ d("[PP]Companion character fragment shown")
 		end
 	end
 	companionCharacterWindowKeyboardFragment:RegisterCallback("StateChange", function(oldState, newState)
-        if newState == SCENE_SHOWN then
+        if newState == SCENE_SHOWN and not onCompanionCharacterWindowFragmentDone and HasActiveCompanion() then
 d("[PP]Companion character window fragment shown")
-			if HasActiveCompanion() then
-				onCompanionCharacterWindowFragmentShown()
-			end
+			onCompanionCharacterWindowFragmentShown()
+			onCompanionCharacterWindowFragmentDone = true
         end
     end)
 
@@ -110,6 +110,13 @@ d("[PP]Companion character window fragment shown")
 	local companionOverviewKeyboard = COMPANION_OVERVIEW_KEYBOARD
 	local companionOverviewKeyboardFragment = COMPANION_OVERVIEW_KEYBOARD_FRAGMENT
 	--OnDeferredInit: Yes
+
+	--[[
+	local onCompanionOverviewFragmentDone = false
+	local function onCompanionOverviewFragmentShown()
+
+	end
+	]]
 
 	PP.onDeferredInitCheck(companionOverviewKeyboard, function()
 d("[PP]Companion overview OnDeferredInit done")
@@ -125,20 +132,18 @@ d("[PP]Companion overview OnDeferredInit done")
 		--local companionOverviewSkilslLabel = GetControl(companionOverViewControl, "SkillsLabel")
 		--local companionOverviewSkillsPriorityBar = GetControl(companionOverViewControl, "ReadOnlyActionBar")
 		--local companionOverviewRapport = GetControl(companionOverViewControl, "LevelProgress")
-	end)
 
-	local function onCompanionOverviewFragmentShown()
-
-	end
-	companionOverviewKeyboardFragment:RegisterCallback("StateChange", function(oldState, newState)
-        if newState == SCENE_SHOWN then
-d("[PP]Companion overview fragment shown")
-			if HasActiveCompanion() then
+		--[[
+		companionOverviewKeyboardFragment:RegisterCallback("StateChange", function(oldState, newState)
+			if newState == SCENE_SHOWN and not onCompanionOverviewFragmentDone and HasActiveCompanion()  then
+	d("[PP]Companion overview fragment shown")
 				onCompanionOverviewFragmentShown()
+				onCompanionOverviewFragmentDone = true
 			end
-        end
-    end)
+		end)
+		]]
 
+	end)
 	--===============================================================================================--
 	--Companion equipment (at character scene)
 	local companionEquipmentKeyboard = COMPANION_EQUIPMENT_KEYBOARD
@@ -156,7 +161,7 @@ d("[PP]Companion overview fragment shown")
 		{ 'Menu'				}	--8	menu
 	}
 
-
+	local companionEquipmentFragmentDone = false
 	local function onCompanionEQuipmentFragmentShown()
 		local companionEquipmentControl = companionEquipmentKeyboard.control
 		PP.Anchor(companionEquipmentControl, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 115,	--[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -104)
@@ -172,10 +177,8 @@ d("[PP]Companion overview fragment shown")
 
 		if list then
 			PP.ScrollBar(list)
-			--todo 2024116 ScrollBar's offset x needs to be +5 or such, as it directly is attached to the list rows, and in player inventory/banks it is not?
 			PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, layout.list_t_y, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, layout.list_b_y)
 			list:SetWidth(layout.list_w)
-			--ZO_Scroll_SetMaxFadeDistance(list, 10)
 			ZO_ScrollList_Commit(list)
 		end
 		if sortBy then
@@ -211,36 +214,13 @@ d("[PP]Companion overview fragment shown")
 			PP:RefreshStyle_InfoBar(infoBar, layout) --20241115 Baertram - layout variable was nil here, so I renamed the l variable above to layout (local l = PP:GetLayout('inventory', control)). Is that correct?
 		end
 
-		--[[ Scene fragment add/remove is handled in companionCharacterKeyboardScene state change callback as this fires indenependently from the companion equipment fragment
-		if scene then
-			local s		= SCENE_MANAGER:GetScene(scene)
-			local a_f	= layout.addFragments
-			local r_f	= layout.removeFragments
-			local h_bg	= layout.hideBgForScene
-
-			for i = 1, #a_f do
-				s:AddFragment(a_f[i])
-			end
-			for i = 1, #r_f do
-				s:RemoveFragment(r_f[i])
-			end
-			for i = 1, #h_bg do
-				PP:HideBackgroundForScene(SCENE_MANAGER:GetScene(scene), h_bg[i].PP_BG)
-			end
-		end
-		]]
-
-		--Apply the list's SavedVariables from normal inventory (font etc.) to companion equipment list too
-		--todo 20241116 Baertram
-
-
+		--Scene fragment add/remove is handled in companionCharacterKeyboardScene state change callback as this fires indenependently from the companion equipment fragment
 	end
 	companionEquipmentKeyboardFragment:RegisterCallback("StateChange", function(oldState, newState)
-        if newState == SCENE_SHOWN then
+        if newState == SCENE_SHOWN and not companionEquipmentFragmentDone and HasActiveCompanion() then
 d("[PP]Companion equipment fragment shown")
-			if HasActiveCompanion() then
-				onCompanionEQuipmentFragmentShown()
-			end
+			onCompanionEQuipmentFragmentShown()
+			companionEquipmentFragmentDone = true
         end
     end)
 

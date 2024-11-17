@@ -44,12 +44,12 @@ PP.companionsScene = function()
 		companionCharacterKeyboardScene:RemoveFragment(COMPANION_TITLE_FRAGMENT)
 	end
 	companionCharacterKeyboardScene:RegisterCallback("StateChange", function(oldState, newState)
-        if newState == SCENE_SHOWN and not onCompanionCharacterSceneDone and HasActiveCompanion() then
---d("[PP]Companion character scene shown")
+		if newState == SCENE_SHOWN and not onCompanionCharacterSceneDone and HasActiveCompanion() then
+			--d("[PP]Companion character scene shown")
 			onCompanionCharacterSceneShown()
 			onCompanionCharacterSceneDone = true
-        end
-    end)
+		end
+	end)
 
 	local onCompanionCharacterFragmentDone = false
 	local companionCharacterFragmentBGWasUnhidden = false
@@ -71,12 +71,12 @@ PP.companionsScene = function()
 		PP.Anchor(companionMenuHeaderBar, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, -30, 64)
 	end
 	companionCharacterKeyboardFragment:RegisterCallback("StateChange", function(oldState, newState)
-        if newState == SCENE_SHOWN and not onCompanionCharacterFragmentDone and HasActiveCompanion() then
---d("[PP]Companion character fragment shown")
+		if newState == SCENE_SHOWN and not onCompanionCharacterFragmentDone and HasActiveCompanion() then
+			--d("[PP]Companion character fragment shown")
 			onCompanionCharacterFragmentShown()
 			onCompanionCharacterFragmentDone = true
-        end
-    end)
+		end
+	end)
 
 
 	--===============================================================================================--
@@ -97,12 +97,12 @@ PP.companionsScene = function()
 		end
 	end
 	companionCharacterWindowKeyboardFragment:RegisterCallback("StateChange", function(oldState, newState)
-        if newState == SCENE_SHOWN and not onCompanionCharacterWindowFragmentDone and HasActiveCompanion() then
---d("[PP]Companion character window fragment shown")
+		if newState == SCENE_SHOWN and not onCompanionCharacterWindowFragmentDone and HasActiveCompanion() then
+			--d("[PP]Companion character window fragment shown")
 			onCompanionCharacterWindowFragmentShown()
 			onCompanionCharacterWindowFragmentDone = true
-        end
-    end)
+		end
+	end)
 
 
 	--===============================================================================================--
@@ -119,7 +119,7 @@ PP.companionsScene = function()
 	]]
 
 	PP.onDeferredInitCheck(companionOverviewKeyboard, function()
---d("[PP]Companion overview OnDeferredInit done")
+		--d("[PP]Companion overview OnDeferredInit done")
 		local companionOverViewControl = companionOverviewKeyboard.control
 
 		PP.Anchor(companionOverViewControl, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 115,	--[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -104)
@@ -220,12 +220,12 @@ PP.companionsScene = function()
 		--Scene fragment add/remove is handled in companionCharacterKeyboardScene state change callback as this fires indenependently from the companion equipment fragment
 	end
 	companionEquipmentKeyboardFragment:RegisterCallback("StateChange", function(oldState, newState)
-        if newState == SCENE_SHOWN and not companionEquipmentFragmentDone and HasActiveCompanion() then
---d("[PP]Companion equipment fragment shown")
+		if newState == SCENE_SHOWN and not companionEquipmentFragmentDone and HasActiveCompanion() then
+			--d("[PP]Companion equipment fragment shown")
 			onCompanionEQuipmentFragmentShown()
 			companionEquipmentFragmentDone = true
-        end
-    end)
+		end
+	end)
 
 
 	--===============================================================================================--
@@ -358,13 +358,11 @@ PP.companionsScene = function()
 	end
 
 	companionSkillsKeyboardScene:RegisterCallback("StateChange", function(oldState, newState)
-        if newState == SCENE_SHOWN then
-d("[PP]Companion skills scene showing")
-			if not onCompanionSkillsSceneShownApplied then
-				onCompanionSkillsSceneShown()
-			end
-        end
-    end)
+		if newState == SCENE_SHOWN and not onCompanionSkillsSceneShownApplied and HasActiveCompanion() then
+			--d("[PP]Companion skills scene showing")
+			onCompanionSkillsSceneShown()
+		end
+	end)
 
 
 	--===============================================================================================--
@@ -373,22 +371,112 @@ d("[PP]Companion skills scene showing")
 	local companionCollectionsKeyboardScene = COMPANION_COLLECTION_BOOK_KEYBOARD_SCENE
 	--OnDeferredInit: Yes
 
-	PP.onDeferredInitCheck(companionCollectionsKeyboard, function()
-d("[PP]Companion collections book OnDeferredInit done")
-	end)
+	local companionCollectionsRemoveFragments = { RIGHT_BG_FRAGMENT, TREE_UNDERLAY_FRAGMENT, TITLE_FRAGMENT, COMPANION_TITLE_FRAGMENT }
+	local scene			= companionCollectionsKeyboardScene
+	local gVar			= companionCollectionsKeyboard
+	local tlw			= gVar.control
+	local list			= gVar.gridListPanelList	and gVar.gridListPanelList.list
+	local search		= gVar.contentSearchEditBox	and gVar.contentSearchEditBox:GetParent()
+	local categories	= gVar.categories
+	local progressBar	= gVar.progressBar or gVar.categoryProgress
 
+	if scene then
+		for j=1, #companionCollectionsRemoveFragments do
+			local fragment = companionCollectionsRemoveFragments[j]
+			if scene:HasFragment(fragment) then
+				scene:RemoveFragment(fragment)
+			end
+		end
 
-	local function onCompanionCollectionsSceneShown()
-
+		PP:CreateBackground(tlw, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10)
+		PP.Anchor(tlw, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 120, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -70)
 	end
-	companionCollectionsKeyboardScene:RegisterCallback("StateChange", function(oldState, newState)
-        if newState == SCENE_SHOWN then
-d("[PP]Companion collections scene shown")
-			if HasActiveCompanion() then
+
+	if categories then
+		PP.Anchor(categories, --[[#1]] TOPLEFT, tlw, TOPLEFT, 0, 50, --[[#2]] true, BOTTOMLEFT, tlw, BOTTOMLEFT, 0, 0)
+		PP.ScrollBar(categories, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
+		ZO_Scroll_SetMaxFadeDistance(categories, 10)
+	end
+	if search then
+		search:GetNamedChild("Label"):SetHidden(true)
+		PP.Anchor(search, --[[#1]] TOPLEFT, tlw, TOPLEFT, 10, 10)
+	end
+	if list then
+		ZO_Scroll_SetMaxFadeDistance(list, 10)
+		PP.ScrollBar(list, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
+	end
+
+
+	local function EmptyCellHidden(control, data)
+		if data.isEmptyCell then
+			control:SetHidden(true)
+		end
+	end
+
+	--[[
+	local onCompanionCollectionsSceneShownApplied = false
+	local function onCompanionCollectionsSceneShown()
+		onCompanionCollectionsSceneShownApplied = true
+	end
+	]]
+
+	PP.onDeferredInitCheck(companionCollectionsKeyboard, function()
+	d("[PP]Companion collections book OnDeferredInit done")
+
+		local companionCollectionsKeyboardControl = companionCollectionsKeyboard.control
+		local companionCollectionsKeyboardCategories = companionCollectionsKeyboard.categories
+		local companionCollectionsKeyboardList = companionCollectionsKeyboard.gridListPanelControl
+		local companionCollectionsKeyboardListContainerList = GetControl(companionCollectionsKeyboardList, "ContainerList")
+
+		local companionCollectionsKeyboardGridList = companionCollectionsKeyboard.gridListPanelList.list
+		local companionCollectionsKeyboardCategoryTreeScroll = companionCollectionsKeyboard.categoryTree.scrollControl
+
+		PP.Anchor(companionCollectionsKeyboardList, --[[#1]] TOPLEFT, companionCollectionsKeyboardControl, TOPRIGHT, 0, 16, --[[#2]] true, BOTTOMRIGHT, companionCollectionsKeyboardControl, BOTTOMRIGHT,	0, 0)
+		PP.ScrollBar(companionCollectionsKeyboardGridList, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
+		PP.ScrollBar(companionCollectionsKeyboardCategoryTreeScroll, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
+
+
+		local dataType00 = ZO_ScrollList_GetDataTypeTable(companionCollectionsKeyboardListContainerList, 1)
+		local existingSetupCallback00 = dataType00.setupCallback
+		dataType00["controlHeight"] = 120
+		dataType00["controlWidth"] = 180
+		dataType00["spacingX"] = 6
+		dataType00["spacingY"] = 6
+		dataType00.setupCallback = function(control, data)
+			existingSetupCallback00(control, data)
+			EmptyCellHidden(control, data)
+
+			control:SetDimensions(dataType00["controlWidth"], dataType00["controlHeight"])
+			if control:GetNamedChild("OverlayBorder") then
+				local backdrop = control:GetNamedChild("OverlayBorder")
+				backdrop:SetCenterColor(10/255, 10/255, 10/255, 0.7)
+				backdrop:SetCenterTexture(nil, 4, 0)
+				backdrop:SetEdgeColor(40/255, 40/255, 40/255, 0.9)
+				backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
+				backdrop:SetInsets(1, 1, -1, -1)
+				backdrop:SetDrawLayer(0)
+				backdrop:SetDrawTier(0)
+			end
+			if control:GetNamedChild("Highlight") then
+				local highlight = control:GetNamedChild("Highlight")
+				highlight:SetTextureCoords(0.29, 0.575, 0.002, 0.3)
+				PP.Anchor(highlight, --[[#1]] TOPLEFT, control, TOPLEFT, 1, 1, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	-1, -1)
+			end
+			if control:GetNamedChild("Title") then
+				local title = control:GetNamedChild("Title")
+				PP.Font(title, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			end
+		end
+
+		--[[
+		companionCollectionsKeyboardScene:RegisterCallback("StateChange", function(oldState, newState)
+			if newState == SCENE_SHOWN and not onCompanionCollectionsSceneShownApplied and HasActiveCompanion()then
+	d("[PP]Companion collections scene shown")
 				onCompanionCollectionsSceneShown()
 			end
-        end
-    end)
+		end)
+		]]
+	end, nil)
 end
 
 

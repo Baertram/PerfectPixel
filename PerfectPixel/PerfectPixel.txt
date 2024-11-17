@@ -1,0 +1,58 @@
+## APIVersion: 101044 101045
+## Version: 0.13.14
+## AddOnVersion: 001314
+## Title: PerfectPixel
+## Author: @KL1SK
+## Description: PerfectPixle changes a lot UI elements.
+## SavedVariables: PerfectPixel
+
+## OptionalDependsOn: LibAddonMenu-2.0>=37 LibVotansAddonList>=10903 LibCustomMenu>=722 LibScrollableMenu>=020301
+## OptionalDependsOn: AdvancedFilters>=1648 SpentSkillPoints
+
+Init.lua
+Media.lua
+Settings.lua
+
+lang/en.lua
+lang/$(language).lua
+
+functions.lua
+layouts.lua
+table.lua
+PerfectPixel.lua
+
+bindings.xml
+
+scenes\inventoryScene.lua
+scenes\tradingHouseScene.lua
+scenes\lootScene.lua
+scenes\restyleStationKeyboardSceneGroup.lua
+scenes\craftStationScenes.lua
+scenes\statsScene.lua
+scenes\skillsScene.lua
+scenes\journalSceneGroup.lua
+scenes\collectionsSceneGroup.lua
+scenes\worldMapScene.lua
+scenes\groupMenuKeyboardScene.lua
+scenes\friendsListGroup.lua
+scenes\guildSceneGroup.lua
+scenes\allianceWarSceneGroup.lua
+scenes\mailSceneGroup.lua
+scenes\notificationsScene.lua
+scenes\helpSceneGroup.lua
+scenes\gameMenuInGameScene.lua
+scenes\companion.lua
+
+modules\chatWindow.lua
+modules\compass.lua
+modules\contextMenu.lua
+modules\dialogsMenu.lua
+modules\keybindStrip.lua
+modules\performanceMeter.lua
+modules\playerProgressBar.lua
+modules\reticle.lua
+modules\scrolling.lua
+modules\tabs.lua
+modules\tooltips.lua
+
+compatibility.lua

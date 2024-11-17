@@ -668,6 +668,18 @@ table.insert(PP._lsm.comboBoxesAdded, comboBox)
 					end
 				end
 			end)
+
+			GUILD_HISTORY_KEYBOARD_SCENE:RegisterCallback("StateChange", function(oldState, newState)
+				if newState == SCENE_SHOWN then
+					--[[ -- Change size of guild history first and last buttons ]]
+					if FCOChangeStuff_GuildHistory_Nav_FirstPageButton ~= nil then
+						FCOChangeStuff_GuildHistory_Nav_FirstPageButton:SetDimensions(44, 44)
+					end
+					if FCOChangeStuff_GuildHistory_Nav_LastPageButton ~= nil then
+						FCOChangeStuff_GuildHistory_Nav_LastPageButton:SetDimensions(44, 44)
+					end
+				end
+			end)
 		end
 
 		-- ===============================================================================================--

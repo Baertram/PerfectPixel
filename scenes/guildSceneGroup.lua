@@ -56,17 +56,19 @@ PP.guildSceneGroup = function()
 --guildHistory--ZO_GuildHistory--------------------------------------------------------------------
 	--With API 101041 GuildHistory got a deferred initialized scene, so it builds the controls first as it get's called the first time
 	--> ZO_GuildHistory_Keyboard:OnDeferredInitialize() -> Object  GUILD_HISTORY_KEYBOARD -> Class ZO_GuildHistory_Keyboard
-	if guildHistKB ~= nil and ZO_GuildHistory_Keyboard_TL ~= nil then
-		--AS Libhistoire uses the same we need to add an optional dependency -> SecurePostHook(ZO_GuildHistory_Keyboard, "OnDeferredInitialize", function(history)
-		SecurePostHook(ZO_GuildHistory_Keyboard, "OnDeferredInitialize", function()
-			local list = ZO_GuildHistory_Keyboard_TLList
-			PP.Anchor(list,  TOPLEFT, ZO_GuildHistory_Keyboard_TLActivityLogHeader, BOTTOMLEFT, 0, 0, true, BOTTOMRIGHT, ZO_GuildHistory_Keyboard_TL, BOTTOMRIGHT,	0, 0)
-			PP.Anchor(ZO_GuildHistory_Keyboard_TLCategoriesHeader, TOPLEFT, ZO_GuildHistory_Keyboard_TL, TOPLEFT,	10, 80)
-			PP.ScrollBar(list,	180, 180, 180, 0.7, 20, 20, 20, 0.7, false)
-			ZO_Scroll_SetMaxFadeDistance(list, 10)
-			ZO_ScrollList_Commit(list)
-		end)
-	end
+	--As Libhistoire uses the same we need to add an optional dependency -> SecurePostHook(ZO_GuildHistory_Keyboard, "OnDeferredInitialize", function(history)
+	SecurePostHook(ZO_GuildHistory_Keyboard, "OnDeferredInitialize", function()
+		local list = ZO_GuildHistory_Keyboard_TLList
+		PP.Anchor(list,  TOPLEFT, ZO_GuildHistory_Keyboard_TLActivityLogHeader, BOTTOMLEFT, 0, 0, true, BOTTOMRIGHT, ZO_GuildHistory_Keyboard_TL, BOTTOMRIGHT, 0, -30)
+		PP.Anchor(ZO_GuildHistory_Keyboard_TLCategoriesHeader, TOPLEFT, ZO_GuildHistory_Keyboard_TL, TOPLEFT,	10, 80)
+		PP.ScrollBar(list,	180, 180, 180, 0.7, 20, 20, 20, 0.7, false)
+		ZO_Scroll_SetMaxFadeDistance(list, 10)
+		ZO_ScrollList_Commit(list)
+		--Move the footer contianing the previous and next buttons
+		PP.Anchor(ZO_GuildHistory_Keyboard_TLFooter, TOP, list, BOTTOM, 0, -10)
+		ZO_GuildHistory_Keyboard_TLFooterPreviousButton:SetDimensions(48, 48)
+		ZO_GuildHistory_Keyboard_TLFooterNextButton:SetDimensions(48, 48)
+	end)
 
 --guildRecruitmentKeyboard-------------------------------------------------------------------------
 	PP.Anchor(ZO_GuildRecruitment_Keyboard_TopLevelList, --[[#1]] TOPLEFT, ZO_GuildRecruitment_Keyboard_TopLevel, TOPLEFT,	0, 80)

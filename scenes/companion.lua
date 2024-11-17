@@ -421,7 +421,7 @@ PP.companionsScene = function()
 	]]
 
 	PP.onDeferredInitCheck(companionCollectionsKeyboard, function()
-	d("[PP]Companion collections book OnDeferredInit done")
+--d("[PP]Companion collections book OnDeferredInit done")
 
 		local companionCollectionsKeyboardControl = companionCollectionsKeyboard.control
 		local companionCollectionsKeyboardCategories = companionCollectionsKeyboard.categories
@@ -431,7 +431,7 @@ PP.companionsScene = function()
 		local companionCollectionsKeyboardGridList = companionCollectionsKeyboard.gridListPanelList.list
 		local companionCollectionsKeyboardCategoryTreeScroll = companionCollectionsKeyboard.categoryTree.scrollControl
 
-		PP.Anchor(companionCollectionsKeyboardList, --[[#1]] TOPLEFT, companionCollectionsKeyboardControl, TOPRIGHT, 0, 16, --[[#2]] true, BOTTOMRIGHT, companionCollectionsKeyboardControl, BOTTOMRIGHT,	0, 0)
+		PP.Anchor(companionCollectionsKeyboardList, --[[#1]] TOPLEFT, companionCollectionsKeyboardCategories, TOPRIGHT, 0, 16, --[[#2]] true, BOTTOMRIGHT, companionCollectionsKeyboardControl, BOTTOMRIGHT,	0, 0)
 		PP.ScrollBar(companionCollectionsKeyboardGridList, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
 		PP.ScrollBar(companionCollectionsKeyboardCategoryTreeScroll, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
 

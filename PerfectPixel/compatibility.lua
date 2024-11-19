@@ -51,6 +51,10 @@ PP.compatibility = function()
 					comboBoxDropdownCtrlBG:SetEdgeTexture(nil, 1, 1, 1, 0)
 					comboBoxDropdownCtrlBG:SetEdgeColor(60/255, 60/255, 60/255, 1)
 					comboBoxDropdownCtrlBG:SetInsets(-1, -1, 1, 1)
+                                        local mungeOverlay = GetControl(comboBoxDropdownCtrlBG, "MungeOverlay")
+					if mungeOverlay then
+                                             mungeOverlay:SetHidden(true)
+					end
 
 					PP.Anchor(comboBoxDropdownCtrlBG, --[[#1]] TOPLEFT, nil, TOPLEFT, -2, 1, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, -2, -1)
 				end

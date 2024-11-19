@@ -172,23 +172,23 @@ PP.companionsScene = function()
 		--Get layout of "companionInventory" and apply it to the companion equipment (inventory list)
 		local l_tabs = PP:GetLayout('menuBar', 'tabs')
 		local l_menu = PP:GetLayout('menuBar', 'menu')
-		local layout         = PP:GetLayout('companionInventory', companionEquipmentControl)
+		local companionLayout = PP:GetLayout('companionInventory', companionEquipmentControl)
 		local tlc, list, sortBy, tabs, filterDivider, searchFilters, searchDivider, infoBar, menu = PP.GetLinks(companionEquipmentControl, companionEquipmentChildren)
-		menu = layout.menu or menu
+		menu = companionLayout.menu or menu
 
-		PP.Anchor(tlc,					--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, layout.tl_t_y, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, layout.tl_b_y)
+		PP.Anchor(tlc,					--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, companionLayout.tl_t_y, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, companionLayout.tl_b_y)
 
 		if list then
 			PP.ScrollBar(list)
-			PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, layout.list_t_y, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, layout.list_b_y)
-			list:SetWidth(layout.list_w)
+			PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, companionLayout.list_t_y, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, companionLayout.list_b_y)
+			list:SetWidth(companionLayout.list_w)
 			ZO_ScrollList_Commit(list)
 		end
 		if sortBy then
 			PP.Anchor(sortBy,			--[[#1]] BOTTOM, list, TOP, 0, 0)
 			local sortByName = sortBy:GetNamedChild("Name")
-			sortByName:SetWidth(layout.sort_name_w)
-			sortByName:SetAnchorOffsets(layout.sort_name_t_x, nil, 1)
+			sortByName:SetWidth(companionLayout.sort_name_w)
+			sortByName:SetAnchorOffsets(companionLayout.sort_name_t_x, nil, 1)
 		end
 		local emptyLabel = tlc:GetNamedChild("Empty")
 		if emptyLabel then
@@ -196,12 +196,12 @@ PP.companionsScene = function()
 		end
 		if tabs then
 			PP.Anchor(tabs,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, -20, 10)
-			tabs:SetHidden(layout.noTabs)
+			tabs:SetHidden(companionLayout.noTabs)
 			PP:RefreshStyle_MenuBar(tabs, l_tabs)
 		end
 		if filterDivider then
 			PP.Anchor(filterDivider,	--[[#1]] TOP, tlc, TOP, 0, 52)
-			filterDivider:SetHidden(layout.noFDivider)
+			filterDivider:SetHidden(companionLayout.noFDivider)
 		end
 		if searchFilters then
 			PP.Anchor(searchFilters,	--[[#1]] TOPRIGHT, tlc, TOPRIGHT, -20, 60)
@@ -214,7 +214,7 @@ PP.companionsScene = function()
 			PP:RefreshStyle_MenuBar(menu, l_menu)
 		end
 		if infoBar then
-			PP:RefreshStyle_InfoBar(infoBar, layout) --20241115 Baertram - layout variable was nil here, so I renamed the l variable above to layout (local l = PP:GetLayout('inventory', control)). Is that correct?
+			PP:RefreshStyle_InfoBar(infoBar, companionLayout)
 		end
 
 		--Scene fragment add/remove is handled in companionCharacterKeyboardScene state change callback as this fires indenependently from the companion equipment fragment

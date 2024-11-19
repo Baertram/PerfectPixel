@@ -29,8 +29,8 @@ PP.craftStationScenes = function()
 	local l_menu = PP:GetLayout('menuBar', 'menu')
 
 	for i = 1, #tlcs do
-		local control, scene	= tlcs[i][1], tlcs[i][2]
-		local l					= PP:GetLayout('inventory', control)
+		local control, scene     = tlcs[i][1], tlcs[i][2]
+		local craftStationLayout = PP:GetLayout('inventory', control)
 
 		if control then
 			local tlc, list, categories, sortBy, tabs, filterDivider, listDivider, infoBar = PP.GetLinks(control, children)
@@ -39,19 +39,19 @@ PP.craftStationScenes = function()
 			if tlc == ZO_ProvisionerTopLevel then
 				tlc = CreateControl("$(parent)Panel", tlc, CT_CONTROL)
 				tlc:SetAnchorFill(ZO_SmithingTopLevelRefinementPanel)
-				tlc:SetWidth(l.list_w)
+				tlc:SetWidth(craftStationLayout.list_w)
 			end
 
 			PP:CreateBackground(tlc,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
-			PP.Anchor(tlc,					--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, l.tl_t_y, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, l.tl_b_y)
+			PP.Anchor(tlc,					--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, craftStationLayout.tl_t_y, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, craftStationLayout.tl_b_y)
 
 			if tlc:GetNamedChild('Inventory') then
 				tlc:GetNamedChild('Inventory'):SetAnchorFill(tlc)
 			end
 			if list then
 				PP.ScrollBar(list)
-				PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, l.list_t_y, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, l.list_b_y)
-				list:SetWidth(l.list_w)
+				PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, craftStationLayout.list_t_y, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, craftStationLayout.list_b_y)
+				list:SetWidth(craftStationLayout.list_w)
 			end
 			-- if categories then
 				-- PP.ScrollBar(categories)
@@ -59,17 +59,17 @@ PP.craftStationScenes = function()
 			if sortBy then
 				PP.Anchor(sortBy,			--[[#1]] BOTTOM, list, TOP, 0, 0)
 				local sortByName = sortBy:GetNamedChild("Name")
-				sortByName:SetWidth(l.sort_name_w)
-				sortByName:SetAnchorOffsets(l.sort_name_t_x, nil, 1)
+				sortByName:SetWidth(craftStationLayout.sort_name_w)
+				sortByName:SetAnchorOffsets(craftStationLayout.sort_name_t_x, nil, 1)
 			end
 			if tabs then
 				PP.Anchor(tabs,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, -20, 10)
-				tabs:SetHidden(l.noTabs)
+				tabs:SetHidden(craftStationLayout.noTabs)
 				PP:RefreshStyle_MenuBar(tabs, l_tabs)
 			end
 			if filterDivider then
 				PP.Anchor(filterDivider,	--[[#1]] TOP, tlc, TOP, 0, 52)
-				filterDivider:SetHidden(l.noFDivider)
+				filterDivider:SetHidden(craftStationLayout.noFDivider)
 			end
 			if listDivider then
 				PP.Anchor(listDivider,		--[[#1]] TOP, tlc, TOP, 0, 98)
@@ -79,16 +79,16 @@ PP.craftStationScenes = function()
 				PP:RefreshStyle_MenuBar(menu, l_menu)
 			end
 			if infoBar then
-				PP:RefreshStyle_InfoBar(infoBar, l)
+				PP:RefreshStyle_InfoBar(infoBar, craftStationLayout)
 			end
 		end
 
 		if scene then
 			local s		= SCENE_MANAGER:GetScene(scene)
-			local a_f	= l.addFragments
-			local r_f	= l.removeFragments
-			local fr_f	= l.forceRemoveFragment
-			local h_bg	= l.hideBgForScene
+			local a_f	= craftStationLayout.addFragments
+			local r_f	= craftStationLayout.removeFragments
+			local fr_f	= craftStationLayout.forceRemoveFragment
+			local h_bg	= craftStationLayout.hideBgForScene
 			
 			for i = 1, #a_f do
 				s:AddFragment(a_f[i])

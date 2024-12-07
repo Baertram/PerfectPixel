@@ -881,33 +881,46 @@ end
 local ex_PreviewFuncs = {}
 local ex_IsCharacterPreviewingAvailable --contains the original IsCharacterPreviewingAvailable function
 local function new_IsCharacterPreviewingAvailable(...) --always return true, independently from FRAME_PLAYER_FRAGMENT
+d("[PP]new_IsCharacterPreviewingAvailable")
 	return true
 end
 local sceneCallbacksForPreviewDone = {}
-local function RemoveFragmentFromSceneAndKeepPreviewFunctionality(scene, fragment, previewFuncNameTab)
-	if scene == nil or sceneCallbacksForPreviewDone[scene] or fragment == nil or ZO_IsTableEmpty(previewFuncNameTab) then return end
-	scene:RemoveFragment(fragment)
+local new_PreviewFuncs = {}
+local function RemoveFragmentFromSceneAndKeepPreviewFunctionality(scene, fragmentToRemove, previewFuncNameTab, stateChangeFragment)
+	if scene == nil or sceneCallbacksForPreviewDone[scene] or fragmentToRemove == nil or ZO_IsTableEmpty(previewFuncNameTab) then return end
+	scene:RemoveFragment(fragmentToRemove)
+	local sceneName = scene.name
 
-	local itemPreview						= SYSTEMS:GetObject("itemPreview")
+	local itemPreview = SYSTEMS:GetObject("itemPreview")
 	if itemPreview == nil then return end
 
 	if ex_IsCharacterPreviewingAvailable == nil then
 		ex_IsCharacterPreviewingAvailable = IsCharacterPreviewingAvailable
 	end
 
+	if stateChangeFragment ~= nil then
+		stateChangeFragment:RegisterCallback("StateChange", function(oldState, newState)
+			if newState == SCENE_FRAGMENT_SHOWING then
+				KEYBOARD_GROUP_MENU_SCENE:AddFragment(fragmentToRemove)
+			elseif newState == SCENE_FRAGMENT_HIDDEN then
+				KEYBOARD_GROUP_MENU_SCENE:RemoveFragment(fragmentToRemove)
+			end
+		end )
+	end
+
 	local function callback_EndCurrentPreview()
 		itemPreview:UnregisterCallback("EndCurrentPreview", callback_EndCurrentPreview)
-		scene:RemoveFragment(fragment)
+		scene:RemoveFragment(fragmentToRemove)
 	end
-	local new_PreviewFuncs = {}
 
 	for idx, previewFuncName in ipairs(previewFuncNameTab) do
 		local ex_PreviewFunc = ex_PreviewFuncs[previewFuncName] or itemPreview[previewFuncName]
 		if ex_PreviewFunc ~= nil then
 			ex_PreviewFuncs[previewFuncName] = ex_PreviewFuncs[previewFuncName] or ex_PreviewFunc
 
-			new_PreviewFuncs[previewFuncName] = function(...)
-				scene:AddFragment(fragment)
+			local previewFuncNameOfScene = sceneName .. "_" .. previewFuncName
+			new_PreviewFuncs[previewFuncNameOfScene] = new_PreviewFuncs[previewFuncNameOfScene] or function(...)
+				scene:AddFragment(fragmentToRemove)
 				itemPreview:RegisterCallback("EndCurrentPreview", callback_EndCurrentPreview)
 				return ex_PreviewFunc(...)
 			end
@@ -918,7 +931,7 @@ local function RemoveFragmentFromSceneAndKeepPreviewFunctionality(scene, fragmen
 		if newState == SCENE_SHOWING then
 			IsCharacterPreviewingAvailable = new_IsCharacterPreviewingAvailable
 			for idx, previewFuncName in ipairs(previewFuncNameTab) do
-				itemPreview[previewFuncName] = new_PreviewFuncs[previewFuncName]
+				itemPreview[previewFuncName] = new_PreviewFuncs[sceneName .. "_" .. previewFuncName]
 			end
 
 		elseif newState == SCENE_HIDDEN then

@@ -63,36 +63,46 @@ PP.groupMenuKeyboardScene = function()
 	end)
 
 	--API101044 Golden pursuits - PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT
-	if PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT ~= nil then
-		PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT:RegisterCallback("StateChange", function(oldState, newState)
-			if newState == SCENE_FRAGMENT_SHOWN and not sceneFragmentsShown[PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT] then
-				local goldenPursuitsKeyboard = PROMOTIONAL_EVENTS_KEYBOARD
-				local goldenPursuitsScrollList = goldenPursuitsKeyboard.activityList
-				local goldenPursuitScrollListContents = goldenPursuitsScrollList:GetNamedChild("Contents")
-				if goldenPursuitScrollListContents then
-					--Change the overall campaign bar
-					PP.Bar(PROMOTIONAL_EVENTS_KEYBOARD.campaignProgress, 18, 16, nil, nil, true)
+	local goldenPursuitsFragment = PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT
+	local goldenPursuitsKeyboard = PROMOTIONAL_EVENTS_KEYBOARD
+	goldenPursuitsFragment:RegisterCallback("StateChange", function(oldState, newState)
+		goldenPursuitsKeyboard = goldenPursuitsKeyboard or PROMOTIONAL_EVENTS_KEYBOARD
+		if newState == SCENE_FRAGMENT_SHOWN and not sceneFragmentsShown[goldenPursuitsFragment] then
+			local goldenPursuitsScrollList = goldenPursuitsKeyboard.activityList
+			local orig_ScrollListDataType1SetupCallback = goldenPursuitsScrollList.dataTypes[1].setupCallback
 
-					--Change the bars of each possible task
-					PP.Bars(goldenPursuitScrollListContents, true, 18, 16, nil, nil, true)
-					--Move the progessBar of the tasks a bit to the right to show the left edge
-					for i=1, goldenPursuitScrollListContents:GetNumChildren(), 1 do
-						local childCtrl = goldenPursuitScrollListContents:GetChild(i)
-						if childCtrl ~= nil then
-							local name = childCtrl:GetNamedChild("Name")
-							local progressBar = childCtrl:GetNamedChild("ProgressBar")
-							local rewardContainer = childCtrl:GetNamedChild("RewardContainer")
-							if name ~= nil and rewardContainer ~= nil and progressBar ~= nil then
-								--Do not use PP.Anchor, else it will call ClearAnchors() and break the right (2nd) anchor
-								progressBar:SetAnchor(TOPLEFT, name, BOTTOMLEFT, 2, 5)
-							end
+			goldenPursuitsScrollList.dataTypes[1].setupCallback = function(ctrl, ...)
+				orig_ScrollListDataType1SetupCallback(ctrl, ...)
+				local progressBar = ctrl:GetNamedChild("Progress")
+				if progressBar then
+					PP.Bar(progressBar, 18, 16, nil, nil, true)
+				end
+			end
+
+			local goldenPursuitScrollListContents = goldenPursuitsScrollList:GetNamedChild("Contents")
+			if goldenPursuitScrollListContents then
+				--Change the overall campaign bar
+				PP.Bar(goldenPursuitsKeyboard.campaignProgress, 18, 16, nil, nil, true)
+
+				--Change the bars of each possible task
+				PP.Bars(goldenPursuitScrollListContents, true, 18, 16, nil, nil, true)
+				--Move the progessBar of the tasks a bit to the right to show the left edge
+				for i=1, goldenPursuitScrollListContents:GetNumChildren(), 1 do
+					local childCtrl = goldenPursuitScrollListContents:GetChild(i)
+					if childCtrl ~= nil then
+						local name = childCtrl:GetNamedChild("Name")
+						local progressBar = childCtrl:GetNamedChild("ProgressBar")
+						local rewardContainer = childCtrl:GetNamedChild("RewardContainer")
+						if name ~= nil and rewardContainer ~= nil and progressBar ~= nil then
+							--Do not use PP.Anchor, else it will call ClearAnchors() and break the right (2nd) anchor
+							progressBar:SetAnchor(TOPLEFT, name, BOTTOMLEFT, 2, 5)
 						end
 					end
-
-					PP.ScrollBar(goldenPursuitsScrollList)
 				end
-				sceneFragmentsShown[PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT] = true
+
+				PP.ScrollBar(goldenPursuitsScrollList)
 			end
-		end)
-	end
+			sceneFragmentsShown[PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT] = true
+		end
+	end)
 end

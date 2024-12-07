@@ -123,7 +123,10 @@ PP.inventoryScene = function()
 		TREASURE_MAP_INVENTORY_SCENE:RemoveFragment(FRAME_TARGET_CENTERED_FRAGMENT)
 		TREASURE_MAP_INVENTORY_SCENE:RemoveFragment(FRAME_PLAYER_FRAGMENT)
 
+
 		local inventoryScene = SCENE_MANAGER:GetScene('inventory')
+		PP.RemoveFragmentFromSceneAndKeepPreviewFunctionality(inventoryScene, FRAME_PLAYER_FRAGMENT, {"PreviewInventoryItem"})
+		--[[
 
 		inventoryScene:RemoveFragment(FRAME_PLAYER_FRAGMENT)
 
@@ -155,6 +158,7 @@ PP.inventoryScene = function()
 				itemPreview.PreviewInventoryItem	= ex_PreviewInventoryItem
 			end
 		end)
+		]]
 	end
 
 	--SCENE_MANAGER:GetScene("stables")

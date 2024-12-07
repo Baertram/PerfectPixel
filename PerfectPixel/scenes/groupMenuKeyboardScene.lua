@@ -1,6 +1,8 @@
 PP.groupMenuKeyboardScene = function()
 
-	KEYBOARD_GROUP_MENU_SCENE:RemoveFragment(FRAME_PLAYER_FRAGMENT)
+	--KEYBOARD_GROUP_MENU_SCENE:RemoveFragment(FRAME_PLAYER_FRAGMENT)
+	PP.RemoveFragmentFromSceneAndKeepPreviewFunctionality(KEYBOARD_GROUP_MENU_SCENE, FRAME_PLAYER_FRAGMENT, {"PreviewInventoryItem", "PreviewOutfit", "PreviewCollectible"})
+
 	KEYBOARD_GROUP_MENU_SCENE:RemoveFragment(RIGHT_BG_FRAGMENT)
 	KEYBOARD_GROUP_MENU_SCENE:RemoveFragment(TREE_UNDERLAY_FRAGMENT)
 	KEYBOARD_GROUP_MENU_SCENE:RemoveFragment(TITLE_FRAGMENT)

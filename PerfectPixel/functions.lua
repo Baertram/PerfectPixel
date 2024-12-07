@@ -823,3 +823,111 @@ function PP:RefreshStyle_MenuBar(menuBar, layout)
 		label:SetHidden(layout.noLabel)
 	end
 end
+
+
+--Player fragment spin remove but keeping item preview at the scene active
+--[[
+local SM = SCENE_MANAGER
+
+local ex_PreviewMarketProduct = itemPreview.PreviewMarketProduct
+local function new_PreviewMarketProduct(...)
+	SM:GetCurrentScene():AddFragment(FRAME_PLAYER_FRAGMENT)
+	itemPreview:RegisterCallback("EndCurrentPreview", callback_EndCurrentPreview)
+	return ex_PreviewMarketProduct(...)
+end
+
+
+	function ZO_ItemPreview_Shared:PreviewMarketProduct(marketProductId)
+		self:SharedPreviewSetup(ZO_ITEM_PREVIEW_MARKET_PRODUCT, marketProductId)
+	end
+
+	function ZO_ItemPreview_Shared:PreviewFurnitureMarketProduct(marketProductId)
+		self:SharedPreviewSetup(ZO_ITEM_PREVIEW_FURNITURE_MARKET_PRODUCT, marketProductId)
+	end
+
+	function ZO_ItemPreview_Shared:PreviewCollectibleAsFurniture(collectibleId)
+		self:SharedPreviewSetup(ZO_ITEM_PREVIEW_COLLECTIBLE_AS_FURNITURE, collectibleId)
+	end
+
+	function ZO_ItemPreview_Shared:PreviewPlacedFurniture(furnitureId)
+		self:SharedPreviewSetup(ZO_ITEM_PREVIEW_PLACED_FURNITURE, furnitureId)
+	end
+
+	function ZO_ItemPreview_Shared:PreviewProvisionerItemAsFurniture(recipeListIndex, recipeIndex)
+		self:SharedPreviewSetup(ZO_ITEM_PREVIEW_PROVISIONER_ITEM_AS_FURNITURE, recipeListIndex, recipeIndex)
+	end
+
+	function ZO_ItemPreview_Shared:PreviewTradingHouseSearchResult(tradingHouseIndex)
+		self:SharedPreviewSetup(ZO_ITEM_PREVIEW_TRADING_HOUSE_SEARCH_RESULT, tradingHouseIndex)
+	end
+
+	function ZO_ItemPreview_Shared:PreviewStoreEntry(storeEntryIndex)
+		self:SharedPreviewSetup(ZO_ITEM_PREVIEW_STORE_ENTRY, storeEntryIndex)
+	end
+
+	function ZO_ItemPreview_Shared:PreviewOutfit(actorCategory, outfitIndex)
+		self:SharedPreviewSetup(ZO_ITEM_PREVIEW_OUTFIT, actorCategory, outfitIndex)
+	end
+
+	function ZO_ItemPreview_Shared:PreviewCollectible(collectibleId)
+		self:SharedPreviewSetup(ZO_ITEM_PREVIEW_COLLECTIBLE, collectibleId)
+	end
+]]
+--Backup original "is preview available" function and then overwrite if always returnign true. Register a scene state
+--change callback and on showing replace the original with the other function, also replacing the preview functions for
+--inventory, collectible etc. (dependent on the scene). On state hidden replace the overwritten functions with the backuped
+--originals again. Previewing function will also add the fragment which got removed (e.g. player fragment to stop spinning around)
+--and ending the preview removes that fragment again
+local ex_PreviewFuncs = {}
+local ex_IsCharacterPreviewingAvailable --contains the original IsCharacterPreviewingAvailable function
+local function new_IsCharacterPreviewingAvailable(...) --always return true, independently from FRAME_PLAYER_FRAGMENT
+	return true
+end
+local sceneCallbacksForPreviewDone = {}
+local function RemoveFragmentFromSceneAndKeepPreviewFunctionality(scene, fragment, previewFuncNameTab)
+	if scene == nil or sceneCallbacksForPreviewDone[scene] or fragment == nil or ZO_IsTableEmpty(previewFuncNameTab) then return end
+	scene:RemoveFragment(fragment)
+
+	local itemPreview						= SYSTEMS:GetObject("itemPreview")
+	if itemPreview == nil then return end
+
+	if ex_IsCharacterPreviewingAvailable == nil then
+		ex_IsCharacterPreviewingAvailable = IsCharacterPreviewingAvailable
+	end
+
+	local function callback_EndCurrentPreview()
+		itemPreview:UnregisterCallback("EndCurrentPreview", callback_EndCurrentPreview)
+		scene:RemoveFragment(fragment)
+	end
+	local new_PreviewFuncs = {}
+
+	for idx, previewFuncName in ipairs(previewFuncNameTab) do
+		local ex_PreviewFunc = ex_PreviewFuncs[previewFuncName] or itemPreview[previewFuncName]
+		if ex_PreviewFunc ~= nil then
+			ex_PreviewFuncs[previewFuncName] = ex_PreviewFuncs[previewFuncName] or ex_PreviewFunc
+
+			new_PreviewFuncs[previewFuncName] = function(...)
+				scene:AddFragment(fragment)
+				itemPreview:RegisterCallback("EndCurrentPreview", callback_EndCurrentPreview)
+				return ex_PreviewFunc(...)
+			end
+		end
+	end
+
+	scene:RegisterCallback("StateChange", function(oldState, newState)
+		if newState == SCENE_SHOWING then
+			IsCharacterPreviewingAvailable = new_IsCharacterPreviewingAvailable
+			for idx, previewFuncName in ipairs(previewFuncNameTab) do
+				itemPreview[previewFuncName] = new_PreviewFuncs[previewFuncName]
+			end
+
+		elseif newState == SCENE_HIDDEN then
+			IsCharacterPreviewingAvailable = ex_IsCharacterPreviewingAvailable
+			for idx, previewFuncName in ipairs(previewFuncNameTab) do
+				itemPreview[previewFuncName] = ex_PreviewFuncs[previewFuncName]
+			end
+		end
+	end)
+	sceneCallbacksForPreviewDone[scene] = true
+end
+PP.RemoveFragmentFromSceneAndKeepPreviewFunctionality = RemoveFragmentFromSceneAndKeepPreviewFunctionality

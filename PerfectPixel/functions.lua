@@ -881,7 +881,6 @@ end
 local ex_PreviewFuncs = {}
 local ex_IsCharacterPreviewingAvailable --contains the original IsCharacterPreviewingAvailable function
 local function new_IsCharacterPreviewingAvailable(...) --always return true, independently from FRAME_PLAYER_FRAGMENT
-d("[PP]new_IsCharacterPreviewingAvailable")
 	return true
 end
 local sceneCallbacksForPreviewDone = {}
@@ -913,7 +912,7 @@ local function RemoveFragmentFromSceneAndKeepPreviewFunctionality(scene, fragmen
 		scene:RemoveFragment(fragmentToRemove)
 	end
 
-	for idx, previewFuncName in ipairs(previewFuncNameTab) do
+	for _, previewFuncName in ipairs(previewFuncNameTab) do
 		local ex_PreviewFunc = ex_PreviewFuncs[previewFuncName] or itemPreview[previewFuncName]
 		if ex_PreviewFunc ~= nil then
 			ex_PreviewFuncs[previewFuncName] = ex_PreviewFuncs[previewFuncName] or ex_PreviewFunc

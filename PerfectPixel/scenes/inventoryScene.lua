@@ -125,7 +125,7 @@ PP.inventoryScene = function()
 
 
 		local inventoryScene = SCENE_MANAGER:GetScene('inventory')
-		PP.RemoveFragmentFromSceneAndKeepPreviewFunctionality(inventoryScene, FRAME_PLAYER_FRAGMENT, {"PreviewInventoryItem"})
+		PP.RemoveFragmentFromSceneAndKeepPreviewFunctionality(inventoryScene, FRAME_PLAYER_FRAGMENT, {"PreviewInventoryItem"}, nil)
 		--[[
 
 		inventoryScene:RemoveFragment(FRAME_PLAYER_FRAGMENT)

@@ -1,3 +1,4 @@
+PP.compatibilityFunctions = {}
 PP.compatibility = function()
 	local PP = PP
 	local tinsert = table.insert
@@ -34,229 +35,214 @@ PP.compatibility = function()
 
 		-- ===============================================================================================--
 		-- ==LibScrollableMenu==--
-        if LibScrollableMenu then
-            local lsm = LibScrollableMenu
+		if LibScrollableMenu then
+			local lsm = LibScrollableMenu
 
-            -- Cache styled controls to avoid re-styling
-            local styledControls = {}
+			local CUSTOM_HIGHLIGHT_TEXT_COLOR = ZO_ColorDef:New("FFFFFF") --white
 
-            local function styleLSMHighlight(highlight)
-                if not highlight or styledControls[highlight] then return end
+			-- Cache styled controls to avoid re-styling
+			local styledLSMControls = {}
+
+            local function styleLSMHighlight(highlight, isSubmenuCallbackEntry)
+--d("[PP]styleLSMHighlight - highlight: " .. tostring(highlight ~= nil and highlight:GetName() or "nil"))
+                if not highlight or styledLSMControls[highlight] then return end
+
+				if not isSubmenuCallbackEntry then
+					highlight:SetCenterColor(96 / 255 * 0.3, 125 / 255 * 0.3, 139 / 255 * 0.3, 1)
+					highlight:SetEdgeColor(96 / 255 * 0.5, 125 / 255 * 0.5, 139 / 255 * 0.5, 0)
+				end
 
                 highlight:SetCenterTexture(nil, 4, 0)
-                highlight:SetCenterColor(96 / 255 * 0.3, 125 / 255 * 0.3, 139 / 255 * 0.3, 1)
                 highlight:SetEdgeTexture(nil, 1, 1, 1, 0)
-                highlight:SetEdgeColor(96 / 255 * 0.5, 125 / 255 * 0.5, 139 / 255 * 0.5, 0)
                 highlight:SetInsets(0, 0, 0, 0)
                 highlight:SetBlendMode(TEX_BLEND_MODE_ADD)
-
                 if highlight:IsPixelRoundingEnabled() then
                     highlight:SetPixelRoundingEnabled(false)
                 end
-
-                styledControls[highlight] = true
+                styledLSMControls[highlight] = true
             end
 
-            local function hideControlMungeOverlays(parentControl)
-                if not parentControl or styledControls[parentControl] then return end
+			--Called from XML code to apply the row's highlight values
+			function PP.compatibilityFunctions.ApplyLSMRowHighlight(highlightControl, isSubmenuCallbackEntry)
+--d("[PP]applyPPLSMRowHighlight - highlight: " .. tostring(highlightControl:GetName()))
+				styleLSMHighlight(highlightControl, isSubmenuCallbackEntry)
+			end
 
-                local overlayControls = {
-                    GetControl(parentControl, "MungeOverlay"),
-                    GetControl(parentControl, "HeaderBGDividerMungeOverlay"),
-                    GetControl(parentControl, "HeaderDividerSimpleMungeOverlay"),
-                    GetControl(parentControl, "HeaderDividerSimpleDividerMungeOverlay")
-                }
 
-                for _, control in ipairs(overlayControls) do
-                    if control then
-                        control:SetHidden(true)
-                    end
-                end
-
-                styledControls[parentControl] = true
-            end
-
-			--[[
-				if not styledControls[control] then
-					PP:CreateBackground(control, nil, nil, nil, -2, 1, nil, nil, nil, -2, -1)
-					hideControlMungeOverlays(control)
-					data._highlightTemplate = styleLSMHighlight(control)
-					styledControls[control] = true
+			local function hideControlMungeOverlays(parentControl)
+				--d("[PP]hideControlMungeOverlays")
+				if not parentControl or styledLSMControls[parentControl] then return end
+				local overlayControls = {
+					GetControl(parentControl, "MungeOverlay"),
+					GetControl(parentControl, "HeaderBGDividerMungeOverlay"),
+					GetControl(parentControl, "HeaderDividerSimpleMungeOverlay"),
+					GetControl(parentControl, "HeaderDividerSimpleDividerMungeOverlay")
+				}
+				for _, control in ipairs(overlayControls) do
+					if control then
+						--d(">sethidden true on " .. tostring(control:GetName()))
+						control:SetHidden(true)
+					end
 				end
+				styledLSMControls[parentControl] = true
+			end
 
-                if template and not styledControls[template] then
-                    PP:CreateBackground(template, nil, nil, nil, -2, 1, nil, nil, nil, -2, -1)
-                    local highlight = GetControl(template, "Highlight")
-                    styleLSMHighlight(highlight)
-                    hideControlMungeOverlays(template)
-                    ZO_ComboBox:UpdateHighlightTemplate(templateName, "ZO_ThinListHighlight")
-                    styledControls[template] = true
-                end
-			]]
 			local function addPPStyle(control, data, templateName)
-				if control and not styledControls[control] then
+				--d("[PP]addPP - control: " .. tostring(control) .. ", data: " .. tostring(data) .. "; templateName: " ..tostring(templateName))
+				if control and not styledLSMControls[control] then
 					PP:CreateBackground(control, nil, nil, nil, -2, 1, nil, nil, nil, -2, -1)
 					hideControlMungeOverlays(control)
+					--[[
 					if data ~= nil then
+
 						data._highlightTemplate = styleLSMHighlight(control)
-					elseif templateName ~= nil then
+					else
 						local highlight = GetControl(control, "Highlight")
 						styleLSMHighlight(highlight)
-                    	ZO_ComboBox:UpdateHighlightTemplate(templateName, "ZO_ThinListHighlight")
 					end
-					styledControls[control] = true
+					]]
+					styledLSMControls[control] = true
 				end
 			end
 
-            -- Pre-style the template controls
-            local function styleTemplateOnce(templateName)
-                --[[
-                if template and not styledControls[template] then
-                    PP:CreateBackground(template, nil, nil, nil, -2, 1, nil, nil, nil, -2, -1)
-                    local highlight = GetControl(template, "Highlight")
-                    styleLSMHighlight(highlight)
-                    hideControlMungeOverlays(template)
-                    ZO_ComboBox:UpdateHighlightTemplate(templateName, "ZO_ThinListHighlight")
-                    styledControls[template] = true
-                end
-                ]]
-				local template = GetControl(templateName)
-				addPPStyle(template, nil, templateName)
-            end
+			local function addPPBackgroundToLSMDropdown(dropdownControl, dropdownObject)
+				--d("[PP]addPPBackgroundToLSMDropdown")
+				if not dropdownControl then return end
 
-            -- Style all relevant templates
-            styleTemplateOnce("LibScrollableMenu_ComboBoxHeaderEntry")
-            styleTemplateOnce("LibScrollableMenu_ComboBoxEntry")
-            styleTemplateOnce("LibScrollableMenu_ComboBoxCheckboxEntry")
-            styleTemplateOnce("LibScrollableMenu_ComboBoxRadioButtonEntry")
+				dropdownObject = dropdownObject or dropdownControl.m_dropdownObject
+				if not dropdownObject then return end
+				--d(">dropdownObject found")
+				local comboBoxDropdownCtrl = dropdownObject.control
 
-            local function addPPBackgroundToLSMDropdown(dropdownControl)
-                if not dropdownControl then return end
+				-- Style background only once
+				local bg = comboBoxDropdownCtrl ~= nil and GetControl(comboBoxDropdownCtrl, "BG")
+				--d(">bg found: " ..tostring(bg))
+				addPPStyle(bg, nil, nil)
 
-                local dropdownObject = dropdownControl.m_dropdownObject
-                if not dropdownObject then return end
+				-- Style scrollbar only once
+				local scrollList = dropdownObject.scroll
+				if scrollList and not styledLSMControls[scrollList] then
+					--d(">scrollList found: " ..tostring(scrollList))
+					PP.ScrollBar(scrollList)
+					styledLSMControls[scrollList] = true
+				end
+			end
 
-                local comboBoxDropdownCtrl = dropdownObject.control
-                local bg = GetControl(comboBoxDropdownCtrl, "BG")
+			local PP_LSMDropdownOptions = {
+				--visibleRowsDropdown = 30,
+				--visibleRowsSubmenu = 30,
+				--maxDropdownHeight = 400,
+				--sortEntries = true,
+				--sortType = ZO_SORT_BY_NAME,
+				--sortOrder = ZO_SORT_ORDER_UP,
+				--font = PP.f.u67,
+				--spacing = 2,
+				--disableFadeGradient = false,
+				--headerColor = ZO_ColorDef:New("E6E6E6FF"),
+				--normalColor = ZO_ColorDef:New("E6E6E6FF"),
+				--disabledColor = ZO_ColorDef:New("666666FF"),
+				--highlightContextMenuOpeningControl = true,
+				--useDefaultHighlightForSubmenuWithCallback = false,
+				--highlightColor =	CUSTOM_HIGHLIGHT_TEXT_COLOR,
+				--highlightTemplate =	"ZO_TallListSelectedHighlight",
+				--titleText = "Dropdown Title",
+				--titleFont = PP.f.u67,
+				--subtitleText = "Dropdown Subtitle",
+				--subtitleFont = PP.f.u57,
+				titleTextAlignment = TEXT_ALIGN_CENTER,
 
-                -- Style background only once
-                if bg and not styledControls[bg] then
-                    PP:CreateBackground(bg, nil, nil, nil, -2, 1, nil, nil, nil, -2, -1)
-                    hideControlMungeOverlays(bg)
-                    local highlight = GetControl(bg, "Highlight")
-                    styleLSMHighlight(highlight)
-                    styledControls[bg] = true
-                end
+				--Apply PP highlight stle, same as ZO_Menu uses, to LSM entryTypes' highlights
+				XMLRowHighlightTemplates = {
+					[lsm.LSM_ENTRY_TYPE_NORMAL] = {
+						template = 'PP_LibScrollableMenu_Highlight_Default',
+						color = CUSTOM_HIGHLIGHT_TEXT_COLOR,
+					},
+					[lsm.LSM_ENTRY_TYPE_SUBMENU] = {
+						template = 'PP_LibScrollableMenu_Highlight_Default',
+						templateWithCallback = 'PP_LibScrollableMenu_Highlight_SubmenuCallbackGreen',
+						color = CUSTOM_HIGHLIGHT_TEXT_COLOR,
+					},
+					[lsm.LSM_ENTRY_TYPE_CHECKBOX] = {
+						template = 'PP_LibScrollableMenu_Highlight_Default',
+						color = CUSTOM_HIGHLIGHT_TEXT_COLOR,
+					},
+					[lsm.LSM_ENTRY_TYPE_BUTTON] = {
+						template = 'PP_LibScrollableMenu_Highlight_Default',
+						color = CUSTOM_HIGHLIGHT_TEXT_COLOR,
+					},
+					[lsm.LSM_ENTRY_TYPE_RADIOBUTTON] = {
+						template = 'PP_LibScrollableMenu_Highlight_Default',
+						color = CUSTOM_HIGHLIGHT_TEXT_COLOR,
+					},
+				},
+			}
 
-                -- Style scrollbar only once
-                local scrollList = dropdownObject.scroll
-                if scrollList and not styledControls[scrollList] then
-                    PP.ScrollBar(scrollList)
-                    styledControls[scrollList] = true
-                end
-            end
+			local function mixinPPOptionsToLSMOptions(dropdownObject, options)
+--d(">mixinPPOptionsToLSMOptions - dropdownObject: " .. tostring(dropdownObject and dropdownObject.m_container or nil) .. ", options: " ..tostring(options))
+				if options == nil then
+					if dropdownObject then
+						if dropdownObject.GetOptions then
+							options = dropdownObject:GetOptions()
+--d(">>options taken from dropdownObject:GetOptions()")
+						else
+							local comboBoxObject = ZO_ComboBox_ObjectFromContainer(dropdownObject)
+							options = (comboBoxObject ~= nil and comboBoxObject:GetOptions()) or nil
+--d(">>options taken from ZO_ComboBox_ObjectFromContainer():GetOptions()")
+						end
+					end
+					options = options or {}
+				end
+				zo_mixin(options, PP_LSMDropdownOptions)
+				return options
+			end
 
-            local dropdownOptions = {
-                --visibleRowsDropdown = 30,
-                --visibleRowsSubmenu = 30,
-                --maxDropdownHeight = 400,
-                --sortEntries = true,
-                --sortType = ZO_SORT_BY_NAME,
-                --sortOrder = ZO_SORT_ORDER_UP,
-                font = PP.f.u67,
-                spacing = 2,
-                --disableFadeGradient = false,
-                --headerColor = ZO_ColorDef:New("E6E6E6FF"),
-                --normalColor = ZO_ColorDef:New("E6E6E6FF"),
-                --disabledColor = ZO_ColorDef:New("666666FF"),
-                --highlightContextMenuOpeningControl = true,
-                --useDefaultHighlightForSubmenuWithCallback = false,
-                --titleText = "Dropdown Title",
-                titleFont = PP.f.u67,
-                --subtitleText = "Dropdown Subtitle",
-                subtitleFont = PP.f.u57,
-                titleTextAlignment = TEXT_ALIGN_CENTER,
-                XMLRowTemplates = {
-                    [lsm.scrollListRowTypes.LSM_ENTRY_TYPE_HEADER] = {
-                        template = "LibScrollableMenu_ComboBoxHeaderEntry",
-                        rowHeight = 25,
-                        setupFunc = function (control, data, list)
-							addPPStyle(control, data)
-                            --[[
-							if not styledControls[control] then
-                                PP:CreateBackground(control, nil, nil, nil, -2, 1, nil, nil, nil, -2, -1)
-                                hideControlMungeOverlays(control)
-                                data._highlightTemplate = styleLSMHighlight(control)
-                                styledControls[control] = true
-                            end
-                            ]]
-                        end
-                    },
-                    [lsm.scrollListRowTypes.LSM_ENTRY_TYPE_NORMAL] = {
-                        template = "LibScrollableMenu_ComboBoxEntry",
-                        rowHeight = 30,
-                        setupFunc = function (control, data, list)
-							addPPStyle(control, data)
-                            --[[
-                            if not styledControls[control] then
-                                PP:CreateBackground(control, nil, nil, nil, -2, 1, nil, nil, nil, -2, -1)
-                                local highlight = GetControl(control, "Highlight")
-                                styleLSMHighlight(highlight)
-                                data._highlightTemplate = styleLSMHighlight(control)
-                                styledControls[control] = true
-                            end
-                            ]]
-                        end
-                    },
-                    [lsm.scrollListRowTypes.LSM_ENTRY_TYPE_CHECKBOX] = {
-                        template = "LibScrollableMenu_ComboBoxCheckboxEntry",
-                        rowHeight = 25,
-                        setupFunc = function (control, data, list)
-							addPPStyle(control, data)
-                            --[[
-                            if not styledControls[control] then
-                                PP:CreateBackground(control, nil, nil, nil, -2, 1, nil, nil, nil, -2, -1)
-                                local highlight = GetControl(control, "Highlight")
-                                styleLSMHighlight(highlight)
-                                data._highlightTemplate = styleLSMHighlight(control)
-                                styledControls[control] = true
-                            end
-                            ]]
-                        end
-                    },
-                    [lsm.scrollListRowTypes.LSM_ENTRY_TYPE_RADIOBUTTON] = {
-                        template = "LibScrollableMenu_ComboBoxRadioButtonEntry",
-                        rowHeight = 25,
-                        setupFunc = function (control, data, list)
-							addPPStyle(control, data)
-                            --[[
-                            if not styledControls[control] then
-                                PP:CreateBackground(control, nil, nil, nil, -2, 1, nil, nil, nil, -2, -1)
-                                local highlight = GetControl(control, "Highlight")
-                                styleLSMHighlight(highlight)
-                                data._highlightTemplate = styleLSMHighlight(control)
-                                styledControls[control] = true
-                            end
-                            ]]
-                        end
-                    }
-                },
-            }
+			local function mixinPPOptionsAndUpdateThemToDropdown(dropdownObject, dropdownControl, isContextMenu)
+				dropdownObject = dropdownObject or dropdownControl.m_dropdownObject
+				if dropdownObject then
+--d(">mixinPPOptionsAndUpdateThemToDropdown")
+					local options
+					options = mixinPPOptionsToLSMOptions(dropdownObject, options)
+					SetCustomScrollableMenuOptions(options, (not isContextMenu and dropdownControl) or nil)
+				end
+			end
 
-            -- Register LSM callback handlers with options
-            lsm:RegisterCallback('OnMenuShow', function (_, dropdownControl)
-				addPPBackgroundToLSMDropdown(dropdownControl)
-            end, dropdownOptions)
+			-- Register LSM callback handlers with options -> Maybe that this register comes after the other addon was loaded :-(
+			-->So we use the 'OnMenuShow' and 'OnContextMenuShow' callbacks below for a 2nd chance to mixin the PP options
+			lsm:RegisterCallback('OnDropdownMenuAdded', function(dropdownObject, options)
+				local dropDownTLCCtrl = dropdownObject.m_container
 
-            lsm:RegisterCallback('OnSubMenuShow', function (_, dropdownControl)
-                addPPBackgroundToLSMDropdown(dropdownControl)
-            end, dropdownOptions)
+				--d("[PP]================================================================")
+				--d("[PP]LSM OnDropdownMenuAdded - dropdown: " ..tostring(lsm.GetControlName(dropDownTLCCtrl)))
+				--d("[PP]================================================================")
+				--Overwrite the options of the LSM with the PP styled options
+				return mixinPPOptionsToLSMOptions(dropdownObject, options)
+			end)
 
-            local contextMenuCallback = lsm.version < "2.40" and "OnContextmenuShow" or "OnContextMenuShow"
-            lsm:RegisterCallback(contextMenuCallback, function (_, dropdownControl)
-                addPPBackgroundToLSMDropdown(dropdownControl)
-            end, dropdownOptions)
-        end
+			lsm:RegisterCallback('OnMenuShow', function(dropdownControl, dropdownObject)
+--d("[PP]--------------------------------------------------")
+--d("[PP]LSM OnMenuShow - dropdown: " .. tostring(lsm.GetControlName(dropdownControl)) .. ", name: " .. tostring(lsm.GetControlName(dropdownControl)))
+--d("[PP]--------------------------------------------------")
+				addPPBackgroundToLSMDropdown(dropdownControl, dropdownObject)
+				mixinPPOptionsAndUpdateThemToDropdown(dropdownObject, dropdownControl)
+			end)
+
+			lsm:RegisterCallback('OnSubMenuShow', function(dropdownControl, dropdownObject)
+				local dropDownTLCCtrl = dropdownObject.m_container
+--d("[PP]LSM OnSubMenuShow - dropdown: " .. tostring(lsm.GetControlName(dropDownTLCCtrl)) .. ", name: " .. tostring(lsm.GetControlName(dropdownControl)))
+				addPPBackgroundToLSMDropdown(dropdownControl, dropdownObject)
+				--options of mainMenu should be copied to submenu automatically so no need to PPify (mixin) it explicitly here
+			end)
+
+			local contextMenuCallback = (lsm.version < "2.33" and "OnContextmenuShow") or "OnContextMenuShow"
+			lsm:RegisterCallback(contextMenuCallback, function (dropdownControl, dropdownObject)
+				local dropDownTLCCtrl = dropdownObject.m_container
+--d("[PP]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+--d("[PP]LSM " .. tostring(contextMenuCallback) .." - dropdown: " .. tostring(lsm.GetControlName(dropDownTLCCtrl)) .. ", name: " .. tostring(lsm.GetControlName(dropdownControl)))
+--d("[PP]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+				addPPBackgroundToLSMDropdown(dropdownControl, dropdownObject)
+				mixinPPOptionsAndUpdateThemToDropdown(dropdownObject, dropdownControl, true)
+			end)
+		end
         -- ===============================================================================================--
 
 

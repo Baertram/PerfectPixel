@@ -58,21 +58,21 @@ PP.compatibility = function()
                 if not highlight or styledLSMControls[highlight] or not entryType then return end
 
 				local entryTypeToLayout = {
-					[LSM_ENTRY_TYPE_NORMAL] = {
+					[lsm.LSM_ENTRY_TYPE_NORMAL] = {
 						layoutFunc = function(highLightControl)
 							highlight:SetCenterColor(96 / 255 * 0.3, 125 / 255 * 0.3, 139 / 255 * 0.3, 1)
 							highlight:SetEdgeColor(96 / 255 * 0.5, 125 / 255 * 0.5, 139 / 255 * 0.5, 0)
 							defaultEntryTypeLayout(highlight)
 						end,
 					},
-					[LSM_ENTRY_TYPE_BUTTON] = {
+					[lsm.LSM_ENTRY_TYPE_BUTTON] = {
 						layoutFunc = function(highLightControl)
 							highlight:SetCenterColor(96 / 255 * 0.3, 125 / 255 * 0.3, 139 / 255 * 0.3, 1)
 							highlight:SetEdgeColor(200 / 255 * 0.5, 200 / 255 * 0.5, 200 / 255 * 0.5, 1)
 							defaultEntryTypeLayout(highlight)
 						end,
 					},
-					[LSM_ENTRY_TYPE_SUBMENU] = {
+					[lsm.LSM_ENTRY_TYPE_SUBMENU] = {
 						layoutFunc = function(highLightControl)
 							defaultEntryTypeLayout(highlight)
 						end,
@@ -233,7 +233,7 @@ PP.compatibility = function()
 --d(">mixinPPOptionsAndUpdateThemToDropdown")
 					local options
 					options = mixinPPOptionsToLSMOptions(dropdownObject, options)
-					SetCustomScrollableMenuOptions(options, (not isContextMenu and dropdownControl) or nil)
+					SetCustomScrollableMenuOptions(options, (not isContextMenu and dropdownObject) or nil)
 				end
 			end
 
@@ -242,24 +242,30 @@ PP.compatibility = function()
 			lsm:RegisterCallback('OnDropdownMenuAdded', function(dropdownObject, options)
 				local dropDownTLCCtrl = dropdownObject.m_container
 
-				--d("[PP]================================================================")
-				--d("[PP]LSM OnDropdownMenuAdded - dropdown: " ..tostring(lsm.GetControlName(dropDownTLCCtrl)))
-				--d("[PP]================================================================")
+				--[[
+				d("[PP]================================================================")
+				d("[PP]LSM OnDropdownMenuAdded - dropdown: " ..tostring(lsm.GetControlName(dropDownTLCCtrl)))
+				d("[PP]================================================================")
+				]]
 				--Overwrite the options of the LSM with the PP styled options
 				return mixinPPOptionsToLSMOptions(dropdownObject, options)
 			end)
 
 			lsm:RegisterCallback('OnMenuShow', function(dropdownControl, dropdownObject)
---d("[PP]--------------------------------------------------")
---d("[PP]LSM OnMenuShow - dropdown: " .. tostring(lsm.GetControlName(dropdownControl)) .. ", name: " .. tostring(lsm.GetControlName(dropdownControl)))
---d("[PP]--------------------------------------------------")
+				--[[
+				d("[PP]--------------------------------------------------")
+				d("[PP]LSM OnMenuShow - dropdown: " .. tostring(lsm.GetControlName(dropdownControl)) .. ", name: " .. tostring(lsm.GetControlName(dropdownControl)))
+				d("[PP]--------------------------------------------------")
+				]]
 				addPPBackgroundToLSMDropdown(dropdownControl, dropdownObject)
 				mixinPPOptionsAndUpdateThemToDropdown(dropdownObject, dropdownControl)
 			end)
 
 			lsm:RegisterCallback('OnSubMenuShow', function(dropdownControl, dropdownObject)
 				local dropDownTLCCtrl = dropdownObject.m_container
---d("[PP]LSM OnSubMenuShow - dropdown: " .. tostring(lsm.GetControlName(dropDownTLCCtrl)) .. ", name: " .. tostring(lsm.GetControlName(dropdownControl)))
+				--[[
+				d("[PP]LSM OnSubMenuShow - dropdown: " .. tostring(lsm.GetControlName(dropDownTLCCtrl)) .. ", name: " .. tostring(lsm.GetControlName(dropdownControl)))
+				]]
 				addPPBackgroundToLSMDropdown(dropdownControl, dropdownObject)
 				--options of mainMenu should be copied to submenu automatically so no need to PPify (mixin) it explicitly here
 			end)
@@ -267,9 +273,11 @@ PP.compatibility = function()
 			local contextMenuCallback = (lsm.version < "2.33" and "OnContextmenuShow") or "OnContextMenuShow"
 			lsm:RegisterCallback(contextMenuCallback, function (dropdownControl, dropdownObject)
 				local dropDownTLCCtrl = dropdownObject.m_container
---d("[PP]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
---d("[PP]LSM " .. tostring(contextMenuCallback) .." - dropdown: " .. tostring(lsm.GetControlName(dropDownTLCCtrl)) .. ", name: " .. tostring(lsm.GetControlName(dropdownControl)))
---d("[PP]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+				--[[
+				d("[PP]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+				d("[PP]LSM " .. tostring(contextMenuCallback) .." - dropdown: " .. tostring(lsm.GetControlName(dropDownTLCCtrl)) .. ", name: " .. tostring(lsm.GetControlName(dropdownControl)))
+				d("[PP]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+				]]
 				addPPBackgroundToLSMDropdown(dropdownControl, dropdownObject)
 				mixinPPOptionsAndUpdateThemToDropdown(dropdownObject, dropdownControl, true)
 			end)

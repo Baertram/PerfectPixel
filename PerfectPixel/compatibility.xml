@@ -6,17 +6,17 @@
 		-->
 		<Backdrop name="PP_LibScrollableMenu_Highlight_Default" inherits="ZO_SelectionHighlight" virtual="true" blendMode="ADD">
 			<OnInitialized>
-				PP.compatibilityFunctions.ApplyLSMRowHighlight(self, LSM_ENTRY_TYPE_NORMAL)
+				PP.compatibilityFunctions.ApplyLSMRowHighlight(self, LibScrollableMenu.LSM_ENTRY_TYPE_NORMAL)
 			</OnInitialized>
 		</Backdrop>
 		<Backdrop name="PP_LibScrollableMenu_Highlight_SubmenuCallbackGreen" inherits="ZO_SelectionHighlight" virtual="true" blendMode="ADD" centerColor="002200" edgeColor="002200">
 			<OnInitialized>
-				PP.compatibilityFunctions.ApplyLSMRowHighlight(self, LSM_ENTRY_TYPE_SUBMENU)
+				PP.compatibilityFunctions.ApplyLSMRowHighlight(self, LibScrollableMenu.LSM_ENTRY_TYPE_SUBMENU)
 			</OnInitialized>
 		</Backdrop>
 		<Backdrop name="PP_LibScrollableMenu_Highlight_Button_Default" inherits="ZO_SelectionHighlight" virtual="true" blendMode="ADD">
 			<OnInitialized>
-				PP.compatibilityFunctions.ApplyLSMRowHighlight(self, LSM_ENTRY_TYPE_BUTTON)
+				PP.compatibilityFunctions.ApplyLSMRowHighlight(self, LibScrollableMenu.LSM_ENTRY_TYPE_BUTTON)
 			</OnInitialized>
 		</Backdrop>
     </Controls>

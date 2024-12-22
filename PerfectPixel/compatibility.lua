@@ -43,15 +43,7 @@ PP.compatibility = function()
 			-- Cache styled controls to avoid re-styling
 			local styledLSMControls = {}
 
-            local function styleLSMHighlight(highlight, isSubmenuCallbackEntry)
---d("[PP]styleLSMHighlight - highlight: " .. tostring(highlight ~= nil and highlight:GetName() or "nil"))
-                if not highlight or styledLSMControls[highlight] then return end
-
-				if not isSubmenuCallbackEntry then
-					highlight:SetCenterColor(96 / 255 * 0.3, 125 / 255 * 0.3, 139 / 255 * 0.3, 1)
-					highlight:SetEdgeColor(96 / 255 * 0.5, 125 / 255 * 0.5, 139 / 255 * 0.5, 0)
-				end
-
+			local function defaultEntryTypeLayout(highlight)
                 highlight:SetCenterTexture(nil, 4, 0)
                 highlight:SetEdgeTexture(nil, 1, 1, 1, 0)
                 highlight:SetInsets(0, 0, 0, 0)
@@ -59,13 +51,44 @@ PP.compatibility = function()
                 if highlight:IsPixelRoundingEnabled() then
                     highlight:SetPixelRoundingEnabled(false)
                 end
-                styledLSMControls[highlight] = true
+			end
+
+            local function styleLSMHighlight(highlight, entryType)
+--d("[PP]styleLSMHighlight - highlight: " .. tostring(highlight ~= nil and highlight:GetName() or "nil"))
+                if not highlight or styledLSMControls[highlight] or not entryType then return end
+
+				local entryTypeToLayout = {
+					[LSM_ENTRY_TYPE_NORMAL] = {
+						layoutFunc = function(highLightControl)
+							highlight:SetCenterColor(96 / 255 * 0.3, 125 / 255 * 0.3, 139 / 255 * 0.3, 1)
+							highlight:SetEdgeColor(96 / 255 * 0.5, 125 / 255 * 0.5, 139 / 255 * 0.5, 0)
+							defaultEntryTypeLayout(highlight)
+						end,
+					},
+					[LSM_ENTRY_TYPE_BUTTON] = {
+						layoutFunc = function(highLightControl)
+							highlight:SetCenterColor(96 / 255 * 0.3, 125 / 255 * 0.3, 139 / 255 * 0.3, 1)
+							highlight:SetEdgeColor(200 / 255 * 0.5, 200 / 255 * 0.5, 200 / 255 * 0.5, 1)
+							defaultEntryTypeLayout(highlight)
+						end,
+					},
+					[LSM_ENTRY_TYPE_SUBMENU] = {
+						layoutFunc = function(highLightControl)
+							defaultEntryTypeLayout(highlight)
+						end,
+					},
+				}
+				local layoutData = entryTypeToLayout[entryType] or entryTypeToLayout[LSM_ENTRY_TYPE_NORMAL]
+				if layoutData and type(layoutData.layoutFunc) == "function" then
+					layoutData.layoutFunc(highlight)
+					styledLSMControls[highlight] = true
+				end
             end
 
 			--Called from XML code to apply the row's highlight values
-			function PP.compatibilityFunctions.ApplyLSMRowHighlight(highlightControl, isSubmenuCallbackEntry)
+			function PP.compatibilityFunctions.ApplyLSMRowHighlight(highlightControl, entryType)
 --d("[PP]applyPPLSMRowHighlight - highlight: " .. tostring(highlightControl:GetName()))
-				styleLSMHighlight(highlightControl, isSubmenuCallbackEntry)
+				styleLSMHighlight(highlightControl, entryType)
 			end
 
 
@@ -84,6 +107,14 @@ PP.compatibility = function()
 						control:SetHidden(true)
 					end
 				end
+				--SetCenterTexture(*string* _filename_, *layout_measurement* _tilingInterval_, *[TextureAddressMode|#TextureAddressMode]* _addressMode_)
+				--parentControl:SetCenterTexture(nil, 4, 0)
+				parentControl:SetCenterColor(10/255, 10/255, 10/255, 0.96)
+				--SetEdgeTexture(*string* _filename_, *integer* _edgeFileWidth_, *integer* _edgeFileHeight_, *layout_measurement* _cornerSize_, *integer* _edgeFilePadding_)
+				--parentControl:SetEdgeTexture(nil, 1, 1, 1, 0)
+				parentControl:SetEdgeColor(60/255, 60/255, 60/255, 1)
+				--SetInsets(*layout_measurement* _left_, *layout_measurement* _top_, *layout_measurement* _right_, *layout_measurement* _bottom_)
+				--parentControl:SetInsets(-1, -1, 1, 1)
 				styledLSMControls[parentControl] = true
 			end
 
@@ -167,7 +198,7 @@ PP.compatibility = function()
 						color = CUSTOM_HIGHLIGHT_TEXT_COLOR,
 					},
 					[lsm.LSM_ENTRY_TYPE_BUTTON] = {
-						template = 'PP_LibScrollableMenu_Highlight_Default',
+						template = 'PP_LibScrollableMenu_Highlight_Button_Default',
 						color = CUSTOM_HIGHLIGHT_TEXT_COLOR,
 					},
 					[lsm.LSM_ENTRY_TYPE_RADIOBUTTON] = {
@@ -365,21 +396,29 @@ PP.compatibility = function()
 		-- ===============================================================================================--
 
 		-- ==InventoryInsightFromAshes==--
-		if IIFA_GUI then
-			PP:CreateBackground(IIFA_GUI_BG, --[[#1]] nil, nil, nil, 6, 6, --[[#2]] nil, nil, nil, -6, -6)
-			PP.ScrollBar(IIFA_GUI_ListHolder_Slider)
-			PP.Anchor(IIFA_GUI_ListHolder_Slider, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, 14, 0)
-			ZO_Scroll_SetMaxFadeDistance(IIFA_GUI_ListHolder, PP.savedVars.ListStyle.list_fade_distance)
+        if IIFA_GUI then
+            PP:CreateBackground(IIFA_GUI_BG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+            PP.ScrollBar(IIFA_GUI_ListHolder_Slider)
+            PP.Anchor(IIFA_GUI_ListHolder_Slider, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, 14, 0)
+            ZO_Scroll_SetMaxFadeDistance(IIFA_GUI_ListHolder, PP.savedVars.ListStyle.list_fade_distance)
+            PP.Font(IIFA_GUI_Header_Label, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			if IIFA_GUI_ListHolder and IIFA_GUI_ListHolder_Counts then
+			--PP.Anchor(IIFA_GUI_ListHolder_Counts_Items, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, -59, 0)
+			--PP.Anchor(IIFA_GUI_ListHolder_Counts_Slots, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, -59, 0)
+			IIFA_GUI_ListHolder_Counts_Items:SetAnchorOffsets(0, 59)
+			IIFA_GUI_ListHolder_Counts_Slots:SetAnchorOffsets(0, 59)
+			end
 			IIFA_GUI_BGMungeOverlay:SetHidden(true)
-			PP.SetStyle_Tooltip(GetControl("IIFA_ITEM_TOOLTIP"))
-			PP.SetStyle_Tooltip(GetControl("IIFA_POPUP_TOOLTIP"))
-			PP:CreateBackground(IIFA_CharBagFrame, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
-			PP:CreateBackground(IIFA_CharBagFrame_BG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
-			IIFA_CharBagFrame_BGMungeOverlay:SetHidden(true)
-			PP:CreateBackground(IIFA_CharCurrencyFrame, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
-			PP:CreateBackground(IIFA_CharCurrencyFrame_BG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
-			IIFA_CharCurrencyFrame_BGMungeOverlay:SetHidden(true)
-		end
+            PP.SetStyle_Tooltip(GetControl("IIFA_ITEM_TOOLTIP"))
+            PP.SetStyle_Tooltip(GetControl("IIFA_POPUP_TOOLTIP"))
+            PP:CreateBackground(IIFA_CharBagFrame, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+            PP:CreateBackground(IIFA_CharBagFrame_BG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+            IIFA_CharBagFrame_BGMungeOverlay:SetHidden(true)
+            PP:CreateBackground(IIFA_CharCurrencyFrame, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+            PP:CreateBackground(IIFA_CharCurrencyFrame_BG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+            IIFA_CharCurrencyFrame_BGMungeOverlay:SetHidden(true)
+        end
+
 		-- ===============================================================================================--
 
 		-- ==WizardsWardrobe==--

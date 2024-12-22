@@ -6,7 +6,7 @@
 ## Description: PerfectPixle changes a lot UI elements.
 ## SavedVariables: PerfectPixel
 
-## OptionalDependsOn: LibAddonMenu-2.0>=37 LibVotansAddonList>=10903 LibCustomMenu>=722 LibScrollableMenu>=020303
+## OptionalDependsOn: LibAddonMenu-2.0>=37 LibCustomMenu>=722 LibMapPins-1.0>=10040 LibScrollableMenu>=020303 LibVotansAddonList>=10903
 ## OptionalDependsOn: AdvancedFilters>=1648 SpentSkillPoints
 
 Init.lua

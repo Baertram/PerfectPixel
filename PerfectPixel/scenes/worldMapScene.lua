@@ -58,12 +58,24 @@ PP.worldMapScene = function()
 	ZO_WorldMapInfoMenuBarDivider:SetHidden(true)
 
 	PP.Anchor(ZO_WorldMapInfo, --[[#1]] TOPRIGHT, nil, TOPRIGHT, 0, 60, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 0, -70)
-	
-	local tab = {ZO_WorldMapQuestsPane, ZO_WorldMapKeyPane, ZO_WorldMapLocationsList, ZO_WorldMapHousesList, ZO_WorldMapFiltersPvEContainer}
-	for _, v in ipairs(tab) do
-		PP.ScrollBar(v,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
-		ZO_Scroll_SetMaxFadeDistance(v, 10)
-	end
+    -- if ZO_WorldMapFiltersPvEContainer == nil then
+        -- ZO_WorldMapFiltersPvEContainer = CreateControl("ZO_WorldMapFiltersPvEContainer", ZO_WorldMapFiltersPvE, CT_CONTROL)
+    -- end
+	-- if ZO_WorldMapFiltersPvPContainer == nil then
+        -- ZO_WorldMapFiltersPvPContainer = CreateControl("ZO_WorldMapFiltersPvPContainer", ZO_WorldMapFiltersPvP, CT_CONTROL)
+    -- end
+    local tab = { ZO_WorldMapQuestsPane, ZO_WorldMapKeyPane, ZO_WorldMapLocationsList, ZO_WorldMapHousesList }
+	--LibMapPins will add the container (scrollable) to the MapFilters PVE and PVP
+    if ZO_WorldMapFiltersPvEContainer ~= nil then
+        table.insert(tab, ZO_WorldMapFiltersPvEContainer)
+    end
+	if ZO_WorldMapFiltersPvPContainer ~= nil then
+        table.insert(tab, ZO_WorldMapFiltersPvPContainer)
+    end
+    for _, v in ipairs(tab) do
+        PP.ScrollBar(v, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
+        ZO_Scroll_SetMaxFadeDistance(v, 10)
+    end
 
 	PP.Anchor(ZO_WorldMapQuests, --[[#1]] TOPLEFT, ZO_WorldMapInfo, TOPLEFT, 0, 60, --[[#2]] true, BOTTOMRIGHT, ZO_WorldMapInfo, BOTTOMRIGHT, 0, 0)
 	PP.Anchor(ZO_WorldMapKey, --[[#1]] TOPLEFT, ZO_WorldMapInfo, TOPLEFT, -20, 60, --[[#2]] true, BOTTOMRIGHT, ZO_WorldMapInfo, BOTTOMRIGHT, 0, 0)

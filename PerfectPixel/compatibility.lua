@@ -37,6 +37,7 @@ PP.compatibility = function ()
         -- ==LibScrollableMenu==--
         if LibScrollableMenu then
             local lsm = LibScrollableMenu
+            local lsm_SetCustomScrollableMenuOptions = SetCustomScrollableMenuOptions
 
             local CUSTOM_HIGHLIGHT_TEXT_COLOR = ZO_ColorDef:New("FFFFFF") --white
 
@@ -244,7 +245,7 @@ PP.compatibility = function ()
                     --d(">mixinPPOptionsAndUpdateThemToDropdown")
                     local options
                     options = mixinPPOptionsToLSMOptions(dropdownObject, options)
-                    SetCustomScrollableMenuOptions(options, (not isContextMenu and dropdownObject) or nil)
+                    lsm_SetCustomScrollableMenuOptions(options, (not isContextMenu and dropdownObject) or nil)
                 end
             end
 
@@ -281,8 +282,7 @@ PP.compatibility = function ()
                 --options of mainMenu should be copied to submenu automatically so no need to PPify (mixin) it explicitly here
             end)
 
-            local contextMenuCallback = (lsm.version < "2.33" and "OnContextmenuShow") or "OnContextMenuShow"
-            lsm:RegisterCallback(contextMenuCallback, function (dropdownControl, dropdownObject)
+            lsm:RegisterCallback("OnContextMenuShow", function (dropdownControl, dropdownObject)
                 local dropDownTLCCtrl = dropdownObject.m_container
                 --[[
 				d("[PP]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")

@@ -251,12 +251,6 @@ PP.skillsScene = function()
             if extraSetup then
                 extraSetup(scene, module)
             end
-
-            -- Common scrollbars
-            local prefix = sceneName == "scribingKeyboard" and "ZO_Scribing_Keyboard_TL" or "ZO_ScribingLibrary_Keyboard_TL"
-            PP.ScrollBar(_G[prefix .. "LibraryCraftedAbilitiesGridListContainerList"])
-            PP.ScrollBar(_G[prefix .. "LibraryScripts"])
-            PP.ScrollBar(ZO_ScribingLibrary_CraftedAbilitySkills_Keyboard_TopLevelListScrollBar)
         end)
     end
 
@@ -270,6 +264,25 @@ PP.skillsScene = function()
 			local modeMenuControl = module.modeMenu
 			PP.Anchor(modeMenuControl, TOPRIGHT, GuiRoot, TOPRIGHT, -30, 64) --same as skills and other's SceneGroupBar
 
+			--Scribing tab
+			---Scrollbars
+            PP.ScrollBar(module.craftedAbilitiesGridList.scrollbar) -- ZO_Scribing_Keyboard_TLLibraryCraftedAbilitiesGridListContainerListScrollBar
+            PP.ScrollBar(module.scriptsList.scrollbar) -- ZO_Scribing_Keyboard_TLLibraryScripts
+
+			--Archive tab
+			local recentContainer = module.recentContainer
+			local recentScribedAbilitiesList = module.recentScribedAbilitiesList
+			---search box
+			local scribedSearchContainer = module.scribedSearchContainer
+			PP.Anchor(scribedSearchContainer, TOPLEFT, module.libraryContainer, TOPLEFT, 10, 10)
+			---list
+			PP.Anchor(recentScribedAbilitiesList, TOPLEFT, recentContainer, TOPLEFT, 0, 120, true, BOTTOMRIGHT, recentContainer, BOTTOMRIGHT, 0, 0)
+			---Scrollbars
+			PP.ScrollBar(recentScribedAbilitiesList.scrollbar)
+
+        	-- Additional background for slots container (left side)
+        	PP:CreateBackground(module.slotsContainer, nil, nil, nil, -10, -5, nil, nil, nil, 0, 44)
+
 			-- Style Tooltip
 			if ZO_Scribing_Keyboard_TLResultTooltip then
 				PP.SetStyle_Tooltip(ZO_Scribing_Keyboard_TLResultTooltip)
@@ -278,7 +291,7 @@ PP.skillsScene = function()
 			-- Specific fragment handling
 			local scribingPanelKeyboardFragment = SCRIBING_FRAGMENT_KEYBOARD
 			scribingPanelKeyboardFragment:RegisterCallback("StateChange", function(oldState, newState)
-				if newState == SCENE_FRAGMENT_SHOWING or newState == SCENE_FRAGMENT_SHOWN then
+				if newState == SCENE_FRAGMENT_SHOWING then --or newState == SCENE_FRAGMENT_SHOWN then
 					--Left side
 					ZO_SharedMediumLeftPanelBackgroundLeft:SetHidden(true)
 
@@ -290,31 +303,36 @@ PP.skillsScene = function()
 
 					--Archive tab
 					ZO_Scribing_Keyboard_TLRecentFilterDivider:SetHidden(true)
-					---search box
-					local scribedSearchContainer = module.scribedSearchContainer
-					PP.Anchor(scribedSearchContainer, TOPLEFT, module.libraryContainer, TOPLEFT, 10, 10)
-					---list
-					local recentScribedAbilitiesList = module.recentScribedAbilitiesList
-					PP.Anchor(recentScribedAbilitiesList, TOPLEFT, module.recentContainer, TOPLEFT, 0, 120, true, BOTTOMRIGHT, module.recentContainer, BOTTOMRIGHT, 0, 0)
 				end
         	end)
-
-        	-- Additional background for slots container
-        	PP:CreateBackground(module.slotsContainer, nil, nil, nil, -10, -5, nil, nil, nil, 0, 44)
-    	end)
+	end)
 
     -- Setup Scribing Library - At skills
-    SetupScribingModule(SCRIBING_LIBRARY_KEYBOARD, { { name = "libraryContainer", anchors = anchorsForLibraryContainer } }, "scribingLibraryKeyboard", function (scene)
-        -- Additional setup specific to scribing library
-        local rightPanelTitleFragment = RIGHT_PANEL_TITLE_FRAGMENT
-        rightPanelTitleFragment:RegisterCallback("StateChange", function (oldState, newState)
-            if newState == SCENE_FRAGMENT_SHOWING or newState == SCENE_FRAGMENT_SHOWN then
-                if SCENE_MANAGER.currentScene ~= scene then return end
-                rightPanelTitleFragment.control:SetHidden(true)
-                ZO_ScribingLibrary_Keyboard_TLLibraryFilterDivider:SetHidden(true)
-                ZO_ScribingLibrary_Keyboard_TLLibraryInfoBarDivider:SetHidden(true)
-                ZO_SharedMediumLeftPanelBackgroundLeft:SetHidden(true)
-            end
-        end)
-    end)
+    SetupScribingModule(SCRIBING_LIBRARY_KEYBOARD, { { name = "libraryContainer", anchors = anchorsForLibraryContainer } },
+			"scribingLibraryKeyboard", function (scene, module)
+			--Scribing skills
+			---Scrollbars
+			PP.ScrollBar(module.craftedAbilitiesGridList.scrollbar) -- "ZO_ScribingLibrary_Keyboard_TLLibraryCraftedAbilitiesGridListContainerList"
+			PP.ScrollBar(module.scriptsList.scrollbar) --"ZO_ScribingLibrary_Keyboard_TLLibraryScripts"
+			--Left side
+			---Scrollbars
+            PP.ScrollBar(ZO_ScribingLibrary_CraftedAbilitySkills_Keyboard_TopLevelListScrollBar) --ZO_ScribingLibrary_CraftedAbilitySkills_Keyboard_TopLevelListScrollBar
+
+			-- Additional setup specific to scribing library
+			local rightPanelTitleFragment = RIGHT_PANEL_TITLE_FRAGMENT
+			rightPanelTitleFragment:RegisterCallback("StateChange", function (oldState, newState)
+				if newState == SCENE_FRAGMENT_SHOWING or newState == SCENE_FRAGMENT_SHOWN then
+					if SCENE_MANAGER.currentScene ~= scene then return end
+					--Left side
+					ZO_SharedMediumLeftPanelBackgroundLeft:SetHidden(true)
+
+					--Right side
+					rightPanelTitleFragment.control:SetHidden(true)
+
+					--Scribing library
+					ZO_ScribingLibrary_Keyboard_TLLibraryFilterDivider:SetHidden(true)
+					ZO_ScribingLibrary_Keyboard_TLLibraryInfoBarDivider:SetHidden(true)
+				end
+			end)
+	end)
 end

@@ -270,12 +270,6 @@ PP.skillsScene = function()
 			local modeMenuControl = module.modeMenu
 			PP.Anchor(modeMenuControl, TOPRIGHT, GuiRoot, TOPRIGHT, -30, 64) --same as skills and other's SceneGroupBar
 
-			-- -- Anchor the usable checkbox
-			-- local checkbox = ZO_Scribing_Keyboard_TLLibraryIsUsableCheckbox
-			-- if checkbox then
-			--     checkbox:SetAnchor(RIGHT, ZO_Scribing_Keyboard_TLLibrarySearch, RIGHT, 100, 50, ANCHOR_CONSTRAINS_XY)
-			-- end
-
 			-- Style Tooltip
 			if ZO_Scribing_Keyboard_TLResultTooltip then
 				PP.SetStyle_Tooltip(ZO_Scribing_Keyboard_TLResultTooltip)
@@ -285,11 +279,23 @@ PP.skillsScene = function()
 			local scribingPanelKeyboardFragment = SCRIBING_FRAGMENT_KEYBOARD
 			scribingPanelKeyboardFragment:RegisterCallback("StateChange", function(oldState, newState)
 				if newState == SCENE_FRAGMENT_SHOWING or newState == SCENE_FRAGMENT_SHOWN then
+					--Left side
+					ZO_SharedMediumLeftPanelBackgroundLeft:SetHidden(true)
+
+					--Scribing tab
 					ZO_Scribing_Keyboard_TLLibraryFilterDivider:SetHidden(true)
 					ZO_Scribing_Keyboard_TLLibraryInfoBarDivider:SetHidden(true)
 					ZO_Scribing_Keyboard_TLModeMenuDivider:SetHidden(true)
 					ZO_Scribing_Keyboard_TLSlotsContainerBG:SetHidden(true)
-					ZO_SharedMediumLeftPanelBackgroundLeft:SetHidden(true)
+
+					--Archive tab
+					ZO_Scribing_Keyboard_TLRecentFilterDivider:SetHidden(true)
+					---search box
+					local scribedSearchContainer = module.scribedSearchContainer
+					PP.Anchor(scribedSearchContainer, TOPLEFT, module.libraryContainer, TOPLEFT, 10, 10)
+					---list
+					local recentScribedAbilitiesList = module.recentScribedAbilitiesList
+					PP.Anchor(recentScribedAbilitiesList, TOPLEFT, module.recentContainer, TOPLEFT, 0, 120, true, BOTTOMRIGHT, module.recentContainer, BOTTOMRIGHT, 0, 0)
 				end
         	end)
 

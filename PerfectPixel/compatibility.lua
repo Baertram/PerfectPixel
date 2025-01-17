@@ -617,6 +617,27 @@ PP.compatibility = function ()
         if DebugLogViewer then
             PP:CreateBackground(DebugLogViewerMainWindowBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
             DebugLogViewerMainWindowBGMungeOverlay:SetHidden(true)
+
+            PP.ScrollBar(DebugLogViewerMainWindowListScrollBar)
+            ZO_Scroll_SetMaxFadeDistance(DebugLogViewerMainWindowList, 10)
+            DebugLogViewerMainWindowListScrollBar:ClearAnchors()
+            DebugLogViewerMainWindowListScrollBar:SetAnchor(TOPLEFT, DebugLogViewerMainWindowList, TOPRIGHT, 10, 25)
+            DebugLogViewerMainWindowListScrollBar:SetAnchor(BOTTOMLEFT, DebugLogViewerMainWindowList, BOTTOMRIGHT, -6, -25)
+
+            DebugLogViewerMainWindowListScrollBarUp:SetHidden(false)
+            DebugLogViewerMainWindowListScrollBarDown:SetHidden(false)
+        end
+
+        --DebugLogViewer - Quicklog window
+        if DebugLogWindow then
+            PP.ScrollBar(DebugLogWindowScrollbar)
+            ZO_Scroll_SetMaxFadeDistance(DebugLogWindow, 10)
+            DebugLogWindowScrollbar:ClearAnchors()
+            DebugLogWindowScrollbar:SetAnchor(TOPRIGHT, DebugLogWindow, TOPRIGHT, -10, 40)
+            DebugLogWindowScrollbar:SetAnchor(BOTTOMRIGHT, DebugLogWindow, BOTTOMRIGHT, -8, -40)
+
+            DebugLogWindowScrollbarScrollUp:SetHidden(false)
+            DebugLogWindowScrollbarScrollDown:SetHidden(false)
         end
         -- ===============================================================================================--
 

@@ -290,7 +290,7 @@ PP.collectionsSceneGroup = function()
 	end
 
 	--------------------------
-	--On each open of the set collecitons book: Update the summary progress bars as they might have added new
+	--On each open of the set collections book: Update the summary progress bars as they might have added new
 	local setCollectionsBookScene = scenes[6][1]
 	local setCollectionsBookSceneGVar = scenes[6][2]
 	setCollectionsBookScene:RegisterCallback("StateChange", function(oldState, newState)

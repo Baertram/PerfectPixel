@@ -176,7 +176,14 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 	local el = PP:GetLayout('inventory', ZO_EnchantingTopLevelInventory)
 	ZO_PreHook(ZO_EnchantingInventory, "ChangeMode", function(self, enchantingMode)
 		self.list:SetAnchorOffsets(0, el.list_t_y[enchantingMode], 1)
+
+		if enchantingMode == ENCHANTING_MODE_CREATION then
+			ZO_EnchantingTopLevelRuneSlotContainerBg:SetHidden(true)
+		end
 	end)
+
+	PP:CreateBackground(ZO_EnchantingTopLevelRuneSlotContainer, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, -30, 10)
+
 ---------------------------------------------------------------------------------------------------
 	-- ZO_RETRAIT_KEYBOARD ZO_RETRAIT_STATION_KEYBOARD --==SCENE_MANAGER:GetScene('retrait_keyboard_root')==-- -- ZO_RetraitStation_KeyboardTopLevel-- ZO_RetraitStation_KeyboardTopLevelReconstructPanel	
 	local retrait_panel		= ZO_RETRAIT_KEYBOARD

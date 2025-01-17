@@ -110,6 +110,22 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 			if infoBar then
 				PP:RefreshStyle_InfoBar(infoBar, craftStationLayout)
 			end
+
+			local slotContainer = control:GetNamedChild("SlotContainer")
+			if slotContainer then
+				PP:CreateBackground(slotContainer,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+				local oldSlotContainerBg = slotContainer:GetNamedChild("Bg")
+				if oldSlotContainerBg then
+					oldSlotContainerBg:SetHidden(true)
+				end
+			elseif control == ZO_SmithingTopLevelCreationPanel then
+				PP:CreateBackground(ZO_SmithingTopLevelCreationPanelMultiCraftContainer,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+				ZO_SmithingTopLevelCreationPanelMultiCraftContainerBg:SetHidden(true)
+			elseif control == ZO_AlchemyTopLevelInventory then
+				PP:CreateBackground(ZO_AlchemyTopLevelSlotContainer,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+				ZO_AlchemyTopLevelSlotContainerBg:SetHidden(true)
+			end
+
 		end
 
 		if scene then
@@ -177,12 +193,12 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 	ZO_PreHook(ZO_EnchantingInventory, "ChangeMode", function(self, enchantingMode)
 		self.list:SetAnchorOffsets(0, el.list_t_y[enchantingMode], 1)
 
-		if enchantingMode == ENCHANTING_MODE_CREATION then
-			ZO_EnchantingTopLevelRuneSlotContainerBg:SetHidden(true)
-		end
+		ZO_EnchantingTopLevelRuneSlotContainerBg:SetHidden(true)
+		ZO_EnchantingTopLevelExtractionSlotContainerBg:SetHidden(true)
 	end)
 
 	PP:CreateBackground(ZO_EnchantingTopLevelRuneSlotContainer, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, -30, 10)
+	PP:CreateBackground(ZO_EnchantingTopLevelExtractionSlotContainer, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10)
 
 ---------------------------------------------------------------------------------------------------
 	-- ZO_RETRAIT_KEYBOARD ZO_RETRAIT_STATION_KEYBOARD --==SCENE_MANAGER:GetScene('retrait_keyboard_root')==-- -- ZO_RetraitStation_KeyboardTopLevel-- ZO_RetraitStation_KeyboardTopLevelReconstructPanel	
@@ -437,5 +453,16 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 			return true
 		end
 	end)
+
+	--Reused in several crafting scenes, like enchanting, jewelry, smithing, clothier, woodworking, provisioner -> all of them at the "Recipes" tab
+	SecurePostHook(PROVISIONER, "EmbedInCraftingScene", function()
+		--Move the provisioner multicraft control to the same bottom Y offset -64 like other PP crafting backgrounds use
+		--so it's all at 1 line while switching the different craftingModes (e.g. at enchanting)
+		ZO_ProvisionerTopLevelMultiCraftContainerBg:SetHidden(true)
+		ZO_ProvisionerTopLevelMultiCraftContainer:ClearAnchors()
+		ZO_ProvisionerTopLevelMultiCraftContainer:SetAnchor(BOTTOM, GuiRoot, BOTTOM, 0, -64)
+	end)
+	PP:CreateBackground(ZO_ProvisionerTopLevelMultiCraftContainer, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10)
+	ZO_ProvisionerTopLevelMultiCraftContainerBg:SetHidden(true)
 --===============================================================================================--
 end

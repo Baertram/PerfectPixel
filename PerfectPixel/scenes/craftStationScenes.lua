@@ -51,6 +51,9 @@ PP.craftStationScenes = function()
 				tlc = CreateControl("$(parent)Panel", tlc, CT_CONTROL)
 				tlc:SetAnchorFill(ZO_SmithingTopLevelRefinementPanel)
 				tlc:SetWidth(craftStationLayout.list_w)
+
+				PP:CreateBackground(ZO_ProvisionerTopLevelFilletPanelSlotContainer,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+				ZO_ProvisionerTopLevelFilletPanelSlotContainerBg:SetHidden(true)
 			end
 
 			PP:CreateBackground(tlc,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)

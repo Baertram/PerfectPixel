@@ -78,12 +78,11 @@ PP.collectionsSceneGroup = function()
 		if progressBar then
 			PP.Bar(progressBar, --[[h]] 14, --[[f]] 15)
 		end
-		--At set collecitons book: This will only have 1 line as PP inits, so we need to call it again on each SetCollectionsOpen
+		--At set collections book: This will only have 1 line as PP inits, so we need to call it again on each SetCollectionsOpen
 		updateContentScrollChildProgressBars(summaryContentScrollChild, true, 14, 15)
 	end
 
 	--COLLECTIONS_BOOK_SCENE, COLLECTIONS_BOOK
-
 	local function EmptyCellHidden(control, data)
 		if data.isEmptyCell then
 			control:SetHidden(true)
@@ -298,5 +297,14 @@ PP.collectionsSceneGroup = function()
 		if newState == SCENE_SHOWN then
 			updateContentScrollChildProgressBars(setCollectionsBookSceneGVar.summaryScrollChild, true, 14, 15)
 		end
+	end)
+
+
+	--DLC BOOK
+	local dlcBookObj = scenes[2][2] -- DLC_BOOK_KEYBOARD
+	PP.onDeferredInitCheck(dlcBookObj, function()
+	d("[PP]DLC_BOOK_KEYBOARD - onDeferredInitCheck")
+		--Scrollbar at the left navigation scrollChild
+		PP.ScrollBar(dlcBookObj.navigationList, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
 	end)
 end

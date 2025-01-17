@@ -18,10 +18,21 @@ PP.craftStationScenes = function()
 	}
 
 	local tlcs = {
-		{ ZO_SmithingTopLevelRefinementPanel, 'smithing' }, { ZO_SmithingTopLevelCreationPanel }, { ZO_SmithingTopLevelDeconstructionPanel }, { ZO_SmithingTopLevelImprovementPanel },  { ZO_SmithingTopLevelResearchPanel },
+		--Smithing
+		{ ZO_SmithingTopLevelRefinementPanel, 'smithing' },
+		{ ZO_SmithingTopLevelCreationPanel },
+		{ ZO_SmithingTopLevelDeconstructionPanel },
+		{ ZO_SmithingTopLevelImprovementPanel },
+		{ ZO_SmithingTopLevelResearchPanel },
+		--Universal Deconstruction
 		{ ZO_UniversalDeconstructionTopLevel_KeyboardPanel, 'universalDeconstructionSceneKeyboard' },
-		{ ZO_EnchantingTopLevelInventory, 'enchanting' }, { ZO_AlchemyTopLevelInventory, 'alchemy' },
+		--Enchanting
+		{ ZO_EnchantingTopLevelInventory, 'enchanting' },
+		--Alchemy
+		{ ZO_AlchemyTopLevelInventory, 'alchemy' },
+		--Provisioning
 		{ ZO_ProvisionerTopLevel, 'provisioner' },
+		--Retrait
 		{ ZO_RetraitStation_KeyboardTopLevelRetraitPanel, 'retrait_keyboard_root' },
 	}
 
@@ -50,7 +61,25 @@ PP.craftStationScenes = function()
 			end
 			if list then
 				PP.ScrollBar(list)
-				PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, craftStationLayout.list_t_y, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, craftStationLayout.list_b_y)
+
+--[[
+Checking type on argument offsetY failed in ControlSetAnchorLua
+if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess for enchanting mode create and mode extarct?)
+->local craftStationLayout = PP:GetLayout('inventory', ZO_EnchantingTopLevelInventory)
+-->Will be properly applying the table's entry Y offset then at e.g. ENCHANTING inventory:SetMode function below
+]]
+				local listOffsetY = craftStationLayout.list_t_y
+				local listOffsetYCopy = listOffsetY --remove reference so we do not overwrite the original layout
+				if type(listOffsetY) == "table" then
+					listOffsetYCopy = 0
+				end
+				local listOffsetBY = craftStationLayout.list_b_y
+				local listOffsetBYCopy = listOffsetBY --remove reference so we do not overwrite the original layout
+				if type(listOffsetBYCopy) == "table" then
+					listOffsetBYCopy = 0
+				end
+				PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, listOffsetYCopy, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, listOffsetBYCopy)
+
 				list:SetWidth(craftStationLayout.list_w)
 			end
 			-- if categories then

@@ -1,6 +1,6 @@
 ## APIVersion: 101044 101045
-## Version: 0.13.15
-## AddOnVersion: 001315
+## Version: 0.13.16
+## AddOnVersion: 001316
 ## Title: PerfectPixel
 ## Author: @KL1SK
 ## Description: PerfectPixle changes a lot UI elements.

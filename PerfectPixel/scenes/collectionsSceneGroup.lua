@@ -303,7 +303,6 @@ PP.collectionsSceneGroup = function()
 	--DLC BOOK
 	local dlcBookObj = scenes[2][2] -- DLC_BOOK_KEYBOARD
 	PP.onDeferredInitCheck(dlcBookObj, function()
-	d("[PP]DLC_BOOK_KEYBOARD - onDeferredInitCheck")
 		--Scrollbar at the left navigation scrollChild
 		PP.ScrollBar(dlcBookObj.navigationList, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
 	end)

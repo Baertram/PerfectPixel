@@ -28,5 +28,17 @@ PP.allianceWarSceneGroup = function()
 	PP.Anchor(ZO_CampaignSelector, --[[#1]] BOTTOMRIGHT, ZO_CampaignOverviewTopDivider, TOPRIGHT, -165, 25)
 
 --ZO_CampaignBrowser
+	local campaignBrowserScene = scenes[2].scene -- CAMPAIGN_BROWSER_SCENE
+	--local campaignBrowserObj = scenes[2].gVar -- CAMPAIGN_BROWSER
+
+	local campaignBrowserXPBarChanged = false
+	campaignBrowserScene:RegisterCallback("StateChange", function(oldState, newState)
+		if newState == SCENE_SHOWN and not campaignBrowserXPBarChanged then
+			PP.Bar(GetControl(ZO_CampaignAvARank, "XPBar"), 14, 15, nil, nil, true)
+			campaignBrowserXPBarChanged = true
+        --elseif newState == SCENE_HIDDEN then
+        end
+	end)
+
 ---------------------------------------------------------------------------------------------------
 end

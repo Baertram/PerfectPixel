@@ -383,6 +383,7 @@ PP.ScrollBar = function(control)
 end
 
 PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColor, glowEdgeColor, reAnchorText)
+	--todo 20250117 param reAnchorText is not used anywhere?
 	local bar		= control
 	local barText	= control:GetNamedChild("Progress")
 	local bg		= control:GetNamedChild("BG")

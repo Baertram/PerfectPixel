@@ -82,7 +82,8 @@ PP.journalSceneGroup = function()
 	ZO_Scroll_SetMaxFadeDistance(ZO_QuestJournalNavigationContainer, 10)
 
 	if SV.largeQuestList then
-		local tree = QUEST_JOURNAL_KEYBOARD.navigationTree
+		local questJournalKeyboardObj = scenes[1].gVar --QUEST_JOURNAL_KEYBOARD
+		local tree = questJournalKeyboardObj.navigationTree
 		tree.defaultIndent = 50		--[[def (40)]]
 		tree.defaultSpacing = 0		--[[def (-10)]]
 		tree.width = 340			--[[def (300)]]
@@ -164,29 +165,39 @@ PP.journalSceneGroup = function()
 			treeEntrySetHandler(control)
 		end
 
-		QUEST_JOURNAL_KEYBOARD.listDirty = true
+		questJournalKeyboardObj.listDirty = true
 	end
 
 	--Antiquities--ZO_Cadwell--------------------------------------------------------------------
 	--cadwellsAlmanac--ZO_Cadwell--------------------------------------------------------------------
 	--Antiquities--------------------------------------------------------------------
 	--PTS API101043 2024-08-07
-	PP.onDeferredInitCheck(ANTIQUITY_JOURNAL_KEYBOARD, function()
-		PP.ScrollBar(ANTIQUITY_JOURNAL_KEYBOARD.contentList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false) --ZO_AntiquityJournal_Keyboard_TopLevelContentsContentList
+	local antiquityJournalKeyboardObj = scenes[2].gVar --ANTIQUITY_JOURNAL_KEYBOARD
+	PP.onDeferredInitCheck(antiquityJournalKeyboardObj, function()
+		PP.ScrollBar(antiquityJournalKeyboardObj.contentList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false) --ZO_AntiquityJournal_Keyboard_TopLevelContentsContentList
+		--API101045 2025-01-17 Add missing progressbar UI styling
+		PP.Bar(antiquityJournalKeyboardObj.categoryProgress, 14, 15)
 	end, nil) -- ZO_AntiquityJournal_Keyboard:OnDeferredInitialize
 
 --loreLibrary--ZO_LoreLibrary----------------------------------------------------------------------
-	PP.ScrollBar(LORE_LIBRARY.navigationTree.scrollControl, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false) --ZO_LoreLibraryNavigationContainer
-	PP.ScrollBar(LORE_LIBRARY.list.list, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
+	local loreLibraryObj = scenes[4].gVar --LORE_LIBRARY
+	PP.ScrollBar(loreLibraryObj.navigationTree.scrollControl, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false) --ZO_LoreLibraryNavigationContainer
+	PP.ScrollBar(loreLibraryObj.list.list, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
 
 
 --achievements--ZO_Achievements--------------------------------------------------------------------
 
 	--PTS API101043 2024-08-07
-	PP.onDeferredInitCheck(ACHIEVEMENTS, function()
+	local achievementsObj = scenes[5].gVar --ACHIEVEMENTS
+	PP.onDeferredInitCheck(achievementsObj, function()
 		PP.ScrollBar(ZO_AchievementsContentsCategories, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
-		PP.ScrollBar(ACHIEVEMENTS.contentList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
-		PP.ScrollBar(GetControl(ACHIEVEMENTS.summaryInset, "ProgressBars"), --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
+		PP.ScrollBar(achievementsObj.contentList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
+		PP.ScrollBar(GetControl(achievementsObj.summaryInset, "ProgressBars"), --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
+
+		--API101045 2025-01-17 Add missing progressbar UI styling
+		PP.Bar(achievementsObj.categoryProgress, 14, 15)
+		PP.Bars(achievementsObj.summaryProgressBarsScrollChild, false, 14, 15, nil, nil, true)
+
 	end, nil)
 
 	--achievement "most recent" icons

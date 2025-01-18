@@ -1,17 +1,17 @@
 ---@class PP
-_G['PP'] = {
-	['media']			= { ['textures'] = {}, ['edges'] = {}, ['fonts'] = {}, ['colors'] = {}, },
-	['modules']			= {},
-	['savedVars']		= {},
-	['localization']	= {},
+PP = {
+	media			= { textures = {}, edges = {}, fonts = {}, colors = {}, },
+	modules			= {},
+	savedVars		= {},
+	localization	= {},
 
-	['layouts']			= {},
-	['optionsData']		= {},
+	layouts			= {},
+	optionsData		= {},
 
-	['ADDON_NAME']		= 'PerfectPixel',
-	['ADDON_AUTHOR']	= '@KL1SK, Baertram',
-	['ADDON_WEBSITE']	= 'https://www.esoui.com/downloads/info2103-PerfectPixel.html',
-	['ADDON_VERSION'] 	= '0.13.16',
+	ADDON_NAME		= 'PerfectPixel',
+	ADDON_AUTHOR	= '@KL1SK, Baertram',
+	ADDON_WEBSITE	= 'https://www.esoui.com/downloads/info2103-PerfectPixel.html',
+	ADDON_VERSION 	= '0.13.16',
 }
 
 local PP = PP ---@class PP

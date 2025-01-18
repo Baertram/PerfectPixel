@@ -204,7 +204,7 @@ PP.tradingHouseScene = function()
 	end
 
 --==ZO_TradingHouseSearchHistoryTopLevel_Keyboard================================================--
-	TRADING_HOUSE_SEARCH_HISTORY_KEYBOARD_FRAGMENT.callbackRegistry = nil
+	TRADING_HOUSE_SEARCH_HISTORY_KEYBOARD_FRAGMENT:ClearCallbackRegistry() --.callbackRegistry = nil
 
 	PP:CreateBackground(ZO_TradingHouseSearchHistoryTopLevel_Keyboard,		--[[#1]] nil, nil, nil, 0, 1, --[[#2]] nil, nil, nil, -4, -2)
 

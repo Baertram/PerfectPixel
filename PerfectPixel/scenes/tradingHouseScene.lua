@@ -143,7 +143,7 @@ PP.tradingHouseScene = function()
 		local sortBy = ZO_TradingHouseBrowseItemsRightPaneSearchSortBy
 		sortBy:SetHeight(28)
 		if not ZO_TradingHouseBrowseItemsRightPaneSearchSortByPriceSeparator then
-			CreateControl("$(parent)Separator", sortBy:GetNamedChild("Price"), CT_LABEL)
+			ZO_TradingHouseBrowseItemsRightPaneSearchSortByPriceSeparator = CreateControl("$(parent)Separator", sortBy:GetNamedChild("Price"), CT_LABEL)
 		end
 		local separator = sortBy:GetNamedChild("PriceSeparator")
 		separator:SetText("/")
@@ -175,7 +175,7 @@ PP.tradingHouseScene = function()
 		for _, v in ipairs(tabSortBy) do
 			local text = sortBy:GetNamedChild(v)
 			PP.Font(text, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] 197, 194, 158, 1, --[[StyleColor]] 0, 0, 0, 0.5)
-			text:SetWidth(text:GetStringWidth(text))
+			text:SetWidth(text:GetStringWidth(v))
 		end
 	end
 

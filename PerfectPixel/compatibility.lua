@@ -886,6 +886,34 @@ PP.compatibility = function ()
             LAMAddonSettingsWindowUnderlayLeft:SetHidden(true)
             LAMAddonSettingsWindowUnderlayRight:SetHidden(true)
 	        PP:CreateBackground(LAMAddonSettingsWindow,		--[[#1]] nil, nil, nil, 40, 60, --[[#2]] nil, nil, nil, 6, -50)
+
+            --Use LAM2-.0 callback "panel opened" to know when a panel was created, and add the PP style scrollbar then "once"
+            local panelsWithPPScrollbar = {}
+            local function addPPScrollbarToLAM2Panel(panel, updateScrollBar)
+                updateScrollBar = updateScrollBar or false
+                local scrollBarCtrl = (panel and panel.container and panel.container.scrollbar) or nil
+                if scrollBarCtrl  ~= nil then
+                    if not updateScrollBar then
+                        PP.ScrollBar(scrollBarCtrl)
+                        panelsWithPPScrollbar[panel] = true
+                    end
+                    ZO_Scroll_SetMaxFadeDistance(scrollBarCtrl, PP.savedVars.ListStyle.list_fade_distance)
+                end
+            end
+
+            CALLBACK_MANAGER:RegisterCallback("LAM-PanelOpened", function(panel)
+                if panel and panelsWithPPScrollbar[panel] then return end
+                addPPScrollbarToLAM2Panel(panel, false)
+            end)
+            CALLBACK_MANAGER:RegisterCallback("LAM-PanelControlsCreated", function(panel)
+                if not panel then return end
+                if panelsWithPPScrollbar[panel] then
+                    --Just update the scrollbar bounds
+                    addPPScrollbarToLAM2Panel(panel, true)
+                else
+                    addPPScrollbarToLAM2Panel(panel, false)
+                end
+            end)
         end
 
         -- ===============================================================================================--

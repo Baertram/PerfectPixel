@@ -138,17 +138,17 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 			local fr_f	= craftStationLayout.forceRemoveFragment
 			local h_bg	= craftStationLayout.hideBgForScene
 			
-			for i = 1, #a_f do
-				s:AddFragment(a_f[i])
+			for j = 1, #a_f do
+				s:AddFragment(a_f[j])
 			end
-			for i = 1, #r_f do
-				s:RemoveFragment(r_f[i])
+			for k = 1, #r_f do
+				s:RemoveFragment(r_f[k])
 			end
-			for i = 1, #fr_f do
-				PP:ForceRemoveFragment(s, fr_f[i])
+			for l = 1, #fr_f do
+				PP:ForceRemoveFragment(s, fr_f[l])
 			end
-			for i = 1, #h_bg do	
-				PP:HideBackgroundForScene(SCENE_MANAGER:GetScene(scene), h_bg[i].PP_BG)
+			for m = 1, #h_bg do
+				PP:HideBackgroundForScene(SCENE_MANAGER:GetScene(scene), h_bg[m].PP_BG)
 			end
 		end
 	end

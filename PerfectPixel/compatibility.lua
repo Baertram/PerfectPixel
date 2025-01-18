@@ -1016,18 +1016,6 @@ PP.compatibility = function ()
             ZO_UIErrorsBGMungeOverlay:SetHidden(true)
         end
 
-        -- ==ZO_GameMenu==--
-        if ZO_GameMenu_InGame then
-            PP.ScrollBar(ZO_OptionsWindowSettingsScrollBar)
-            PP.Anchor(ZO_OptionsWindowSettingsScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
-            ZO_Scroll_SetMaxFadeDistance(ZO_OptionsWindowSettingsScrollBar, PP.savedVars.ListStyle.list_fade_distance)
-            PP.ScrollBar(ZO_GameMenu_InGameNavigationContainerScrollBar)
-            PP.Anchor(ZO_GameMenu_InGameNavigationContainerScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
-            ZO_Scroll_SetMaxFadeDistance(ZO_GameMenu_InGameNavigationContainer, PP.savedVars.ListStyle.list_fade_distance)
-            ZO_SharedThinLeftPanelBackgroundLeft:SetHidden(true)
-            ZO_SharedThinLeftPanelBackgroundRight:SetHidden(true)
-        end
-
         -- ==ZO_ComboBoxDropdown_Singleton_Keyboard==--
         if ZO_ComboBoxDropdown_Singleton_Keyboard then
             PP:CreateBackground(ZO_ComboBoxDropdown_Singleton_KeyboardScroll, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)

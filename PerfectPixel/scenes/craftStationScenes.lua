@@ -436,7 +436,7 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 						local level = GetNonCombatBonus(GetNonCombatBonusLevelTypeForTradeskillType(tradeskill))
 						if level < levelReq then
 							local levelPassiveAbilityId = GetTradeskillLevelPassiveAbilityId(tradeskill)
-							local levelPassiveAbilityName = GetAbilityName(levelPassiveAbilityId)
+							local levelPassiveAbilityName = ZO_CachedStrFormat(SI_ABILITY_NAME, GetAbilityName(levelPassiveAbilityId, "player"))
 							ItemTooltip:AddLine(zo_strformat(SI_RECIPE_REQUIRES_LEVEL_PASSIVE, levelPassiveAbilityName, levelReq), "", ZO_ERROR_COLOR:UnpackRGBA())
 						end
 					end

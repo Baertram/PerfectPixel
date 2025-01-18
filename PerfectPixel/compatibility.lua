@@ -880,6 +880,12 @@ PP.compatibility = function ()
             PP.ScrollBar(LAMAddonSettingsWindowAddonListScrollBar)
             PP.Anchor(LAMAddonSettingsWindowAddonListScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
             ZO_Scroll_SetMaxFadeDistance(LAMAddonSettingsWindowAddonListContents, PP.savedVars.ListStyle.list_fade_distance)
+
+            LAMAddonSettingsWindowBackgroundLeft:SetHidden(true)
+            LAMAddonSettingsWindowBackgroundRight:SetHidden(true)
+            LAMAddonSettingsWindowUnderlayLeft:SetHidden(true)
+            LAMAddonSettingsWindowUnderlayRight:SetHidden(true)
+	        PP:CreateBackground(LAMAddonSettingsWindow,		--[[#1]] nil, nil, nil, 40, 60, --[[#2]] nil, nil, nil, 6, -50)
         end
 
         -- ===============================================================================================--
@@ -1002,12 +1008,6 @@ PP.compatibility = function ()
         -- ===============================================================================================--
         -- ==Misc ZO things==--
         -- ===============================================================================================--
-
-        -- ==ZO_ChatOptionsDialog==--
-        if ZO_ChatOptionsDialog then
-            PP:CreateBackground(ZO_ChatOptionsDialogBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
-            ZO_ChatOptionsDialogBGMungeOverlay:SetHidden(true)
-        end
 
         -- ==ZO_UIErrors==--
         if ZO_UIErrors then

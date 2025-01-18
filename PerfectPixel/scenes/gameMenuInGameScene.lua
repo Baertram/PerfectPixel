@@ -80,10 +80,6 @@ PP.gameMenuInGameScene = function()
 	--OPTIONS------------------------------------------------------------------------------------------
 	-- ==ZO_GameMenu==--
 	if ZO_GameMenu_InGame then
-		local function updateGameMenuAnchor()
-			--PP.Anchor(ZO_OptionsWindow, TOPLEFT, GuiRoot, TOPLEFT, 305, 83)
-		end
-
 		PP.ScrollBar(ZO_OptionsWindowSettingsScrollBar)
 		PP.Anchor(ZO_OptionsWindowSettingsScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
 		ZO_Scroll_SetMaxFadeDistance(ZO_OptionsWindowSettingsScrollBar, PP.savedVars.ListStyle.list_fade_distance)
@@ -95,8 +91,6 @@ PP.gameMenuInGameScene = function()
 		ZO_OptionsWindowBGLeft:SetHidden(true)
 
 		PP:CreateBackground(ZO_OptionsWindow,		--[[#1]] TOPLEFT, ZO_OptionsWindow, TOPLEFT, 40, 60, --[[#2]] BOTTOMRIGHT, ZO_OptionsWindow, BOTTOMRIGHT, -100, -50)
-		--This needs to be repeated as each game menu entry is selected in the ZO_GameMenu_InGameNavigationContainer :-(
-		updateGameMenuAnchor()
 	end
 
 	--CONTROLS-----------------------------------------------------------------------------------------

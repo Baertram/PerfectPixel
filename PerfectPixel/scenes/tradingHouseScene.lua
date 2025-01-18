@@ -175,7 +175,7 @@ PP.tradingHouseScene = function()
 		for _, v in ipairs(tabSortBy) do
 			local text = sortBy:GetNamedChild(v)
 			PP.Font(text, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] 197, 194, 158, 1, --[[StyleColor]] 0, 0, 0, 0.5)
-			text:SetWidth(text:GetStringWidth())
+			text:SetWidth(text:GetStringWidth(text))
 		end
 	end
 

@@ -1,3 +1,5 @@
+local PP = PP ---@class PP
+
 PP.collectionsSceneGroup = function()
 	--orig
 	function ZO_RestyleCommon_Keyboard.UpdateAnchors(control, hasSubTabs)

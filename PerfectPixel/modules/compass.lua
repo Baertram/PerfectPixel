@@ -1,3 +1,5 @@
+local PP = PP ---@class PP
+
 PP.compass = function()
 	local SV, DEF = PP:AddNewSavedVars(0.2, 'Compass', {
 		toggle			= true,

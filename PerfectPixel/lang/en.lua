@@ -76,6 +76,7 @@ local stringsEn = {
 	PP_LAM_SCENE_COMPANION_SKILLS					= "Companion Skills Scene",
 }
 
+local PP = PP ---@class PP
 --Provide the English strings as addon global values
 PP.stringsEn = stringsEn
 

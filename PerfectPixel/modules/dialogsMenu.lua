@@ -1,3 +1,5 @@
+local PP = PP ---@class PP
+
 PP.dialogsMenu = function()
 	local MAX_NUM_DIALOGS	= 1					--zo_dialog.lua -> local MAX_NUM_DIALOGS = 1, _G['ESO_Dialogs']
 	local tinsert			= table.insert

@@ -1,3 +1,5 @@
+local PP = PP ---@class PP
+
 PP.playerProgressBar = function()
 
 	ZO_PreHook(PLAYER_PROGRESS_BAR, "Show", function(self, ...)

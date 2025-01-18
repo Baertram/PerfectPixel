@@ -73,7 +73,7 @@ local stringsDe = {
 	PP_LAM_SCENE_COMPANION_SKILLS					= "Gefährten Fertigkeiten",
 }
 
-
+local PP = PP ---@class PP
 --Use the metatable to use EN strings for untranslated/missing stringIds
 setmetatable(stringsDe, {__index = PP.stringsEn})
 

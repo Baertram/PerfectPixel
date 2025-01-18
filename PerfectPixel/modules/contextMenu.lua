@@ -1,3 +1,5 @@
+local PP = PP ---@class PP
+
 PP.contextMenus = function()
 	--ZO_Menu
 	ZO_PreHookHandler(ZO_Menu, 'OnShow', function()

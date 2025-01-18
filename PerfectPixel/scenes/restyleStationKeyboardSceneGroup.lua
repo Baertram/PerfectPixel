@@ -1,3 +1,5 @@
+local PP = PP ---@class PP
+
 PP.restyleStationKeyboardSceneGroup = function()
 
 	--restyle_station_keyboard--ZO_RESTYLE_SCENE--ZO_RestyleStationTopLevel_Keyboard-------------------

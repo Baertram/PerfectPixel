@@ -1,4 +1,4 @@
-local PP		= PP
+local PP = PP ---@class PP
 local namespace	= 'PerformanceMeter'
 
 PP.performanceMeter = function()

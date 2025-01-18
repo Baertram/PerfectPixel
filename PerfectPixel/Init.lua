@@ -1,3 +1,4 @@
+---@class PP
 _G['PP'] = {
 	['media']			= { ['textures'] = {}, ['edges'] = {}, ['fonts'] = {}, ['colors'] = {}, },
 	['modules']			= {},
@@ -13,7 +14,7 @@ _G['PP'] = {
 	['ADDON_VERSION'] 	= '0.13.16',
 }
 
-local PP = PP
+local PP = PP ---@class PP
 
 EVENT_MANAGER:RegisterForEvent(PP.ADDON_NAME, EVENT_ADD_ON_LOADED, function(eventType, addonName)
 	if addonName == PP.ADDON_NAME then

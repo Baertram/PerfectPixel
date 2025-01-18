@@ -1,4 +1,4 @@
-local PP = PP
+local PP = PP ---@class PP
 local removeFragmentsFromScene = PP.removeFragmentsFromScene
 
 PP.friendsListGroup = function()

@@ -18,6 +18,13 @@ over = ( 232, 232, 184 )
 -- function PP.СheckAllowedDataTypeId(typeId)
 	-- return self.AllowedDataTypeIds[typeId]
 -- end
+
+---@generic T
+---@param version any Version number for saved variables
+---@param namespace string Namespace for the saved variables
+---@param defaults T Default values
+---@return T savedVars The saved variables for this namespace
+---@return T defaults The default values
 function PP:AddNewSavedVars(version, namespace, defaults)
 	local SV = self.savedVars
 
@@ -28,6 +35,9 @@ function PP:AddNewSavedVars(version, namespace, defaults)
 	return SV[namespace], SV[namespace].default
 end
 
+---@param namespace string Namespace to get saved variables for
+---@return table|nil savedVars The saved variables for this namespace, or nil if not found
+---@return table|nil defaults The default values for this namespace, or nil if not found 
 function PP:GetSavedVars(namespace)
 	local SV = self.savedVars[namespace]
 
@@ -118,10 +128,10 @@ TLW_BG:SetDrawTier(0)
 PP.TLW_BG = TLW_BG
 
 function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1, --[[#2]] point2, relTo2, relPoint2, x2, y2, namespace, width, height)
-	local namespace		= namespace or 'WindowStyle'
+	namespace		= namespace or 'WindowStyle'
 	local sv			= self:GetSavedVars(namespace)
 	local insets		= sv.skin_backdrop_insets
-	local parent		= parent
+	parent		= parent
 	local bg
 	local exBG
 
@@ -182,7 +192,7 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 end
 
 function PP:UpdateBackgrounds(namespace)
-	local namespace		= namespace or 'WindowStyle'
+	namespace		= namespace or 'WindowStyle'
 	local sv			= self:GetSavedVars(namespace)
 	local backgrounds	= self.backgrounds[namespace]
 	local insets		= sv.skin_backdrop_insets
@@ -649,8 +659,8 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 		end
 	end
 
-	function control:SetToggleFunction(fn)
-		self.toggleFunction = fn
+	function control:SetToggleFunction(tFn)
+		self.toggleFunction = tFn
 	end
 
 	control:SetHandler("OnMouseEnter", function(self)
@@ -826,7 +836,7 @@ function PP:RefreshStyle_InfoBar(infoBar, layout)
 	local retrait	= infoBar:GetNamedChild("RetraitCurrency")
 	local currency1	= infoBar:GetNamedChild("Currency1")
 	local currency2	= infoBar:GetNamedChild("Currency2")
-	local layout	= layout or { infoBar_y = 6 }
+	layout	= layout or { infoBar_y = 6 }
 	
 	PP_Anchor(infoBar, --[[#1]] TOPLEFT, nil, BOTTOMLEFT, 0, layout.infoBar_y, --[[#2]] true, TOPRIGHT, nil, BOTTOMRIGHT, 0, layout.infoBar_y)
 
@@ -862,7 +872,7 @@ end
 
 --ZO_MenuBar
 function PP:RefreshStyle_MenuBar(menuBar, layout)
-	local menuBar	= menuBar.m_object and menuBar or menuBar:GetNamedChild('Bar')
+	menuBar	= menuBar.m_object and menuBar or menuBar:GetNamedChild('Bar')
 	local m_object	= menuBar.m_object
 	
 	m_object.m_animationDuration	= layout.duration

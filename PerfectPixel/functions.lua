@@ -484,7 +484,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 			local glowBG = CreateControl("$(parent)Backdrop", glow, CT_BACKDROP)
 			glowBG:SetCenterTexture(nil, 8, 0)
 			glowBG:SetCenterColor(0/255, 0/255, 0/255, 0)
-			glowBG:SetEdgeTexture(nil, 1, 1, 1, 0)
+			glowBG:SetEdgeTexture("", 1, 1, 1, 0)
 			glowBG:SetEdgeColor(173/255, 166/255, 132/255, 1)
 			PP_Anchor(glowBG, --[[#1]] TOPLEFT, bar, TOPLEFT, -3, -3, --[[#2]] true, BOTTOMRIGHT, bar, BOTTOMRIGHT, 3, 3)
 		end
@@ -513,7 +513,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 		PP_Anchor(barBG, --[[#1]] TOPLEFT, control, TOPLEFT, -2, -2, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	2, 2)
 		barBG:SetCenterTexture(nil, 8, 0)
 		barBG:SetCenterColor(10/255, 10/255, 10/255, 0.8)
-		barBG:SetEdgeTexture(nil, 1, 1, 1, 0)
+		barBG:SetEdgeTexture("", 1, 1, 1, 0)
 		barBG:SetEdgeColor(60/255, 60/255, 60/255, 0.9)
 		barBG:SetInsets(-1, -1, 1, 1)
 	end

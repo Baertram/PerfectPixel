@@ -378,12 +378,11 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 	end
 
 	function PROVISIONER:AddIngredientRowsTooltip(tooltip, numIngredients, recipeListIndex, recipeIndex, listId)
-		local ingredientRowsPool = self.ingredientRowsPool
+		ingredientRowsPool = self.ingredientRowsPool
 		
 		if not ingredientRowsPool[listId] then
 			ingredientRowsPool[listId] = {}
 		end
-		
 		ingredientRowsPool:ReleaseIngredientRowsTo(listId)
 
 		for ingredientIndex = 1, numIngredients do

@@ -114,5 +114,11 @@ PP.chatWindow = function()
 	thumb:SetWidth(4)
 	thumb:SetTexture(tex)
 	thumb:SetColor(120/255, 120/255, 120/255, 1)
-	thumb:SetHitInsets(-4, 0, 5, 0)		
+	thumb:SetHitInsets(-4, 0, 5, 0)
+
+	-- ==ZO_ChatOptionsDialog==--
+	if ZO_ChatOptionsDialog then
+		PP:CreateBackground(ZO_ChatOptionsDialogBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+		ZO_ChatOptionsDialogBGMungeOverlay:SetHidden(true)
+	end
 end

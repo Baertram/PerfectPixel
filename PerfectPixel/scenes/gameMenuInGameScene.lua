@@ -52,6 +52,8 @@ PP.gameMenuInGameScene = function()
 			PP.Anchor(ZO_AddOns, --[[#1]] TOPLEFT, GuiRoot, TOPLEFT, 250, 50, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMLEFT, 1200, -70)
 			-- gameMenuInGameScene:UnregisterCallback("StateChange",  SceneStateChange)
 			reAnchored = true
+
+
 		end
 
 		local function SceneStateChange(oldState, newState)
@@ -73,6 +75,22 @@ PP.gameMenuInGameScene = function()
 			SetFullscreenEffect(FULLSCREEN_EFFECT_NONE)
 		end)
 --[[?]]
+	end
+
+	--OPTIONS------------------------------------------------------------------------------------------
+	-- ==ZO_GameMenu==--
+	if ZO_GameMenu_InGame then
+		PP.ScrollBar(ZO_OptionsWindowSettingsScrollBar)
+		PP.Anchor(ZO_OptionsWindowSettingsScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
+		ZO_Scroll_SetMaxFadeDistance(ZO_OptionsWindowSettingsScrollBar, PP.savedVars.ListStyle.list_fade_distance)
+		PP.ScrollBar(ZO_GameMenu_InGameNavigationContainerScrollBar)
+		PP.Anchor(ZO_GameMenu_InGameNavigationContainerScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
+		ZO_Scroll_SetMaxFadeDistance(ZO_GameMenu_InGameNavigationContainer, PP.savedVars.ListStyle.list_fade_distance)
+		ZO_SharedThinLeftPanelBackgroundLeft:SetHidden(true)
+		ZO_SharedThinLeftPanelBackgroundRight:SetHidden(true)
+		ZO_OptionsWindowBGLeft:SetHidden(true)
+
+		PP:CreateBackground(ZO_OptionsWindow,		--[[#1]] TOPLEFT, ZO_OptionsWindow, TOPLEFT, 40, 60, --[[#2]] BOTTOMRIGHT, ZO_OptionsWindow, BOTTOMRIGHT, -100, -50)
 	end
 
 	--CONTROLS-----------------------------------------------------------------------------------------

@@ -880,6 +880,40 @@ PP.compatibility = function ()
             PP.ScrollBar(LAMAddonSettingsWindowAddonListScrollBar)
             PP.Anchor(LAMAddonSettingsWindowAddonListScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
             ZO_Scroll_SetMaxFadeDistance(LAMAddonSettingsWindowAddonListContents, PP.savedVars.ListStyle.list_fade_distance)
+
+            LAMAddonSettingsWindowBackgroundLeft:SetHidden(true)
+            LAMAddonSettingsWindowBackgroundRight:SetHidden(true)
+            LAMAddonSettingsWindowUnderlayLeft:SetHidden(true)
+            LAMAddonSettingsWindowUnderlayRight:SetHidden(true)
+	        PP:CreateBackground(LAMAddonSettingsWindow,		--[[#1]] nil, nil, nil, 40, 60, --[[#2]] nil, nil, nil, 6, -50)
+
+            --Use LAM2-.0 callback "panel opened" to know when a panel was created, and add the PP style scrollbar then "once"
+            local panelsWithPPScrollbar = {}
+            local function addPPScrollbarToLAM2Panel(panel, updateScrollBar)
+                updateScrollBar = updateScrollBar or false
+                local scrollBarCtrl = (panel and panel.container and panel.container.scrollbar) or nil
+                if scrollBarCtrl  ~= nil then
+                    if not updateScrollBar then
+                        PP.ScrollBar(scrollBarCtrl)
+                        panelsWithPPScrollbar[panel] = true
+                    end
+                    ZO_Scroll_SetMaxFadeDistance(scrollBarCtrl, PP.savedVars.ListStyle.list_fade_distance)
+                end
+            end
+
+            CALLBACK_MANAGER:RegisterCallback("LAM-PanelOpened", function(panel)
+                if panel and panelsWithPPScrollbar[panel] then return end
+                addPPScrollbarToLAM2Panel(panel, false)
+            end)
+            CALLBACK_MANAGER:RegisterCallback("LAM-PanelControlsCreated", function(panel)
+                if not panel then return end
+                if panelsWithPPScrollbar[panel] then
+                    --Just update the scrollbar bounds
+                    addPPScrollbarToLAM2Panel(panel, true)
+                else
+                    addPPScrollbarToLAM2Panel(panel, false)
+                end
+            end)
         end
 
         -- ===============================================================================================--
@@ -1003,29 +1037,11 @@ PP.compatibility = function ()
         -- ==Misc ZO things==--
         -- ===============================================================================================--
 
-        -- ==ZO_ChatOptionsDialog==--
-        if ZO_ChatOptionsDialog then
-            PP:CreateBackground(ZO_ChatOptionsDialogBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
-            ZO_ChatOptionsDialogBGMungeOverlay:SetHidden(true)
-        end
-
         -- ==ZO_UIErrors==--
         if ZO_UIErrors then
             PP:CreateBackground(ZO_UIErrors, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
             ZO_UIErrorsBG:SetHidden(false)
             ZO_UIErrorsBGMungeOverlay:SetHidden(true)
-        end
-
-        -- ==ZO_GameMenu==--
-        if ZO_GameMenu_InGame then
-            PP.ScrollBar(ZO_OptionsWindowSettingsScrollBar)
-            PP.Anchor(ZO_OptionsWindowSettingsScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
-            ZO_Scroll_SetMaxFadeDistance(ZO_OptionsWindowSettingsScrollBar, PP.savedVars.ListStyle.list_fade_distance)
-            PP.ScrollBar(ZO_GameMenu_InGameNavigationContainerScrollBar)
-            PP.Anchor(ZO_GameMenu_InGameNavigationContainerScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
-            ZO_Scroll_SetMaxFadeDistance(ZO_GameMenu_InGameNavigationContainer, PP.savedVars.ListStyle.list_fade_distance)
-            ZO_SharedThinLeftPanelBackgroundLeft:SetHidden(true)
-            ZO_SharedThinLeftPanelBackgroundRight:SetHidden(true)
         end
 
         -- ==ZO_ComboBoxDropdown_Singleton_Keyboard==--

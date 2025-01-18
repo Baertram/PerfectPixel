@@ -74,11 +74,12 @@ PP.gameMenuInGameScene = function()
 		end)
 --[[?]]
 	end
---CONTROLS-----------------------------------------------------------------------------------------
-	-- ZO_KeybindingsLeft:SetHidden(true)
-	-- ZO_KeybindingsRight:SetHidden(true)
 
-	-- PP.Anchor(ZO_KeybindingsList,			--[[#1]] TOPLEFT, ZO_AddOnsTitle, TOPLEFT, 20, 40,		--[[#2]] true, BOTTOMRIGHT, ZO_AddOns, BOTTOMRIGHT, -10, -40)
-	
+	--CONTROLS-----------------------------------------------------------------------------------------
+	ZO_KeybindingsLeft:SetHidden(true)
+	ZO_KeybindingsRight:SetHidden(true)
+	--PP.Anchor(ZO_KeybindingsList,			--[[#1]] TOPLEFT, ZO_AddOnsTitle, TOPLEFT, 20, 40,		--[[#2]] true, BOTTOMRIGHT, ZO_AddOns, BOTTOMRIGHT, -10, -40)
+	PP:CreateBackground(ZO_Keybindings,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+	PP.Scrollbar(ZO_KeybindingsListScrollBar)
 	
 end

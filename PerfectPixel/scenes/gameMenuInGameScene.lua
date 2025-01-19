@@ -45,6 +45,13 @@ PP.gameMenuInGameScene = function()
 		PP.Font(ZO_AddOnsSecondaryButtonNameLabel,	--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 		PP.Font(ZO_AddOnsTitle,						--[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 
+		PP.Anchor(ZO_AddOnsAdvancedUIErrors.label,	--[[#1]] TOPRIGHT, ZO_AddOnsList, BOTTOMRIGHT, 0, 15)
+		PP.Anchor(ZO_AddOnsAdvancedUIErrors,		--[[#1]] RIGHT, ZO_AddOnsAdvancedUIErrors.label, LEFT, -5, -3)
+		PP.Font(ZO_AddOnsAdvancedUIErrors.label,	--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+
+		PP.Anchor(ZO_AddOnsCurrentBindingsSaved,		--[[#1]] TOPLEFT, ZO_AddOnsList, BOTTOMLEFT, 10, 15)
+		PP.Font(ZO_AddOnsCurrentBindingsSaved,			--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+
 		ZO_Scroll_SetMaxFadeDistance(ZO_AddOnsList, 10)
 --[[?]]
 		local reAnchored = false

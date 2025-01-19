@@ -1,3 +1,5 @@
+local CM = CALLBACK_MANAGER
+
 PP.compatibilityFunctions = {}
 PP.compatibility = function ()
     local PP = PP
@@ -901,11 +903,11 @@ PP.compatibility = function ()
                 end
             end
 
-            CALLBACK_MANAGER:RegisterCallback("LAM-PanelOpened", function(panel)
+            CM:RegisterCallback("LAM-PanelOpened", function(panel)
                 if panel and panelsWithPPScrollbar[panel] then return end
                 addPPScrollbarToLAM2Panel(panel, false)
             end)
-            CALLBACK_MANAGER:RegisterCallback("LAM-PanelControlsCreated", function(panel)
+            CM:RegisterCallback("LAM-PanelControlsCreated", function(panel)
                 if not panel then return end
                 if panelsWithPPScrollbar[panel] then
                     --Just update the scrollbar bounds

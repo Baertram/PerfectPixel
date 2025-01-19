@@ -50,6 +50,8 @@ local stringsRu = {
 	PP_LAM_SCENE_CHAT								= GetString(SI_CHAT_TAB_GENERAL),
 }
 
+---@class PP
+local PP = PP
 --Use the metatable to use EN strings for untranslated/missing stringIds
 setmetatable(stringsRu, {__index = PP.stringsEn})
 

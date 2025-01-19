@@ -1,4 +1,4 @@
-local PP		= PP
+local PP = PP ---@class PP
 local namespace	= 'InventoryScene'
 
 PP.inventoryScene = function()
@@ -101,14 +101,14 @@ PP.inventoryScene = function()
 			local r_f	= inventoryLayout.removeFragments
 			local h_bg	= inventoryLayout.hideBgForScene
 			
-			for i = 1, #a_f do
-				s:AddFragment(a_f[i])
+			for j = 1, #a_f do
+				s:AddFragment(a_f[j])
 			end
-			for i = 1, #r_f do
-				s:RemoveFragment(r_f[i])
+			for k = 1, #r_f do
+				s:RemoveFragment(r_f[k])
 			end
-			for i = 1, #h_bg do	
-				PP:HideBackgroundForScene(SCENE_MANAGER:GetScene(scene), h_bg[i].PP_BG)
+			for l = 1, #h_bg do
+				PP:HideBackgroundForScene(SCENE_MANAGER:GetScene(scene), h_bg[l].PP_BG)
 			end
 		end
 	end

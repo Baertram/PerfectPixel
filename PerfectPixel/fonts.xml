@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GuiXml>
+	<!-- Faces -->
+	<String name="PP_MEDIUM_FONT" value="EsoUI/Common/Fonts/Univers57.slug"/>
+	<FallbackFont font="$(PP_MEDIUM_FONT)"/>
+	<BackupFont originalFont="$(PP_MEDIUM_FONT)" backupFont="EsoUI/Common/Fonts/Univers57Cyrillic-Condensed.slug"/>
+	<!-- ESO-829122: In Japanese, MEDIUM_FONT would normally be ESO_FWNTLGUDC70-DB.slug. However, due to the nature of backup fonts, 
+    since both MEDIUM_FONT and CHAT_FONT Western are based on Univers57, doing that here would mean CHAT_FONT would load
+    70-DB glyphs before loading 70-M glyphs, which is undesirable. This is a compromise until backup fonts can be augmented to correct for this. -->
+	<BackupFont originalFont="$(PP_MEDIUM_FONT)" backupFont="EsoUI/Common/Fonts/ESO_FWUDC_70-M.slug"/>
+	<BackupFont originalFont="$(PP_MEDIUM_FONT)" backupFont="EsoUI/Common/Fonts/MYingHeiPRC-W5.slug"/>
+	<String name="PP_BOLD_FONT" value="EsoUI/Common/Fonts/Univers67.slug"/>
+	<BackupFont originalFont="$(PP_BOLD_FONT)" backupFont="EsoUI/Common/Fonts/Univers67Cyrillic-CondensedBold.slug"/>
+	<BackupFont originalFont="$(PP_BOLD_FONT)" backupFont="EsoUI/Common/Fonts/ESO_FWNTLGUDC70-DB.slug"/>
+	<BackupFont originalFont="$(PP_BOLD_FONT)" backupFont="EsoUI/Common/Fonts/MYingHeiPRC-W5.slug"/>
+	<String name="PP_CHAT_FONT" value="EsoUI/Common/Fonts/Univers57.slug"/>
+	<BackupFont originalFont="$(PP_CHAT_FONT)" backupFont="EsoUI/Common/Fonts/Univers57Cyrillic-Condensed.slug"/>
+	<BackupFont originalFont="$(PP_CHAT_FONT)" backupFont="EsoUI/Common/Fonts/ESO_FWUDC_70-M.slug"/>
+	<BackupFont originalFont="$(PP_CHAT_FONT)" backupFont="EsoUI/Common/Fonts/MYingHeiPRC-W5.slug"/>
+	<String name="PP_GAMEPAD_LIGHT_FONT" value="EsoUI/Common/Fonts/FTN47.slug"/>
+	<BackupFont originalFont="$(PP_GAMEPAD_LIGHT_FONT)" backupFont="EsoUI/Common/Fonts/ESO_FWNTLGUDC70-DB.slug"/>
+	<BackupFont originalFont="$(PP_GAMEPAD_LIGHT_FONT)" backupFont="EsoUI/Common/Fonts/MYingHeiPRC-W5.slug"/>
+	<String name="PP_GAMEPAD_MEDIUM_FONT" value="EsoUI/Common/Fonts/FTN57.slug"/>
+	<BackupFont originalFont="$(PP_GAMEPAD_MEDIUM_FONT)" backupFont="EsoUI/Common/Fonts/ESO_FWNTLGUDC70-DB.slug"/>
+	<BackupFont originalFont="$(PP_GAMEPAD_MEDIUM_FONT)" backupFont="EsoUI/Common/Fonts/MYingHeiPRC-W5.slug"/>
+	<!-- Split out from GAMEPAD_MEDIUM_FONT so we don't have to generate outlines for large CJK fonts.
+    This currently saves about 100 MB of memory, but is only useful as long as we only use outlines with latin characters (usually numbers). -->
+	<String name="PP_GAMEPAD_MEDIUM_FONT_LATIN" value="EsoUI/Common/Fonts/FTN57.slug"/>
+	<String name="PP_GAMEPAD_BOLD_FONT" value="EsoUI/Common/Fonts/FTN87.slug"/>
+	<BackupFont originalFont="$(PP_GAMEPAD_BOLD_FONT)" backupFont="EsoUI/Common/Fonts/ESO_FWNTLGUDC70-DB.slug"/>
+	<BackupFont originalFont="$(PP_GAMEPAD_BOLD_FONT)" backupFont="EsoUI/Common/Fonts/MYingHeiPRC-W5.slug"/>
+	<String name="PP_ANTIQUE_FONT" value="EsoUI/Common/Fonts/ProseAntiquePSMT.slug"/>
+	<BackupFont originalFont="$(PP_ANTIQUE_FONT)" backupFont="EsoUI/Common/Fonts/ProseAntiquePSMTCyrillic.slug"/>
+	<String name="PP_HANDWRITTEN_FONT" value="EsoUI/Common/Fonts/Handwritten_Bold.slug"/>
+	<BackupFont originalFont="$(PP_HANDWRITTEN_FONT)" backupFont="EsoUI/Common/Fonts/HandwrittenCyrillic_Bold.slug"/>
+	<String name="PP_STONE_TABLET_FONT" value="EsoUI/Common/Fonts/TrajanPro-Regular.slug"/>
+	<BackupFont originalFont="$(PP_STONE_TABLET_FONT)" backupFont="EsoUI/Common/Fonts/TrajanProCyrillic-Regular.slug"/>
+	<!-- Sizes -->
+	<String name="PP_KB_8" value="8"/>
+	<String name="PP_KB_9" value="9"/>
+	<String name="PP_KB_10" value="10"/>
+	<String name="PP_KB_11" value="11"/>
+	<String name="PP_KB_12" value="12"/>
+	<String name="PP_KB_13" value="13"/>
+	<String name="PP_KB_14" value="14"/>
+	<String name="PP_KB_15" value="15"/>
+	<String name="PP_KB_16" value="16"/>
+	<String name="PP_KB_17" value="17"/>
+	<String name="PP_KB_18" value="18"/>
+	<String name="PP_KB_19" value="19"/>
+	<String name="PP_KB_20" value="20"/>
+	<String name="PP_KB_21" value="21"/>
+	<String name="PP_KB_22" value="22"/>
+	<String name="PP_KB_23" value="23"/>
+	<String name="PP_KB_24" value="24"/>
+	<String name="PP_KB_25" value="25"/>
+	<String name="PP_KB_26" value="26"/>
+	<String name="PP_KB_28" value="28"/>
+	<String name="PP_KB_30" value="30"/>
+	<String name="PP_KB_32" value="32"/>
+	<String name="PP_KB_34" value="34"/>
+	<String name="PP_KB_36" value="36"/>
+	<String name="PP_KB_40" value="40"/>
+	<String name="PP_KB_48" value="48"/>
+	<String name="PP_KB_54" value="54"/>
+	<String name="PP_GP_18" value="18"/>
+	<String name="PP_GP_20" value="20"/>
+	<String name="PP_GP_22" value="22"/>
+	<String name="PP_GP_25" value="25"/>
+	<String name="PP_GP_27" value="27"/>
+	<String name="PP_GP_34" value="34"/>
+	<String name="PP_GP_36" value="36"/>
+	<String name="PP_GP_42" value="42"/>
+	<String name="PP_GP_45" value="45"/>
+	<String name="PP_GP_48" value="48"/>
+	<String name="PP_GP_54" value="54"/>
+	<String name="PP_GP_61" value="61"/>
+</GuiXml>

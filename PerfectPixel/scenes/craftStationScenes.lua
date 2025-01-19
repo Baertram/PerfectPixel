@@ -1,4 +1,4 @@
-local PP		= PP
+local PP = PP ---@class PP
 local namespace	= 'CraftStations'
 
 PP.craftStationScenes = function()
@@ -137,18 +137,18 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 			local r_f	= craftStationLayout.removeFragments
 			local fr_f	= craftStationLayout.forceRemoveFragment
 			local h_bg	= craftStationLayout.hideBgForScene
-			
-			for i = 1, #a_f do
-				s:AddFragment(a_f[i])
+
+			for j = 1, #a_f do
+				s:AddFragment(a_f[j])
 			end
-			for i = 1, #r_f do
-				s:RemoveFragment(r_f[i])
+			for k = 1, #r_f do
+				s:RemoveFragment(r_f[k])
 			end
-			for i = 1, #fr_f do
-				PP:ForceRemoveFragment(s, fr_f[i])
+			for l = 1, #fr_f do
+				PP:ForceRemoveFragment(s, fr_f[l])
 			end
-			for i = 1, #h_bg do	
-				PP:HideBackgroundForScene(SCENE_MANAGER:GetScene(scene), h_bg[i].PP_BG)
+			for m = 1, #h_bg do
+				PP:HideBackgroundForScene(SCENE_MANAGER:GetScene(scene), h_bg[m].PP_BG)
 			end
 		end
 	end
@@ -223,7 +223,7 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 	PP.ScrollBar(traitList)
 
 	PP.Font(ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerSelectTraitLabel, --[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-	
+
 	ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerDivider:SetHidden(true)
 	ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerBGMungeOverlay:SetHidden(true)
 
@@ -317,7 +317,7 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 			control.text:SetDimensionConstraints(0, 0, 400, 0)
 		end
 	end
-	
+
 
 --========================================================================	
 	local function OnCheckChanged()
@@ -353,7 +353,7 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 
 		control.name	= name
 		control.count	= count
-		
+
 		return control
 	end
 
@@ -378,12 +378,11 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 	end
 
 	function PROVISIONER:AddIngredientRowsTooltip(tooltip, numIngredients, recipeListIndex, recipeIndex, listId)
-		local ingredientRowsPool = self.ingredientRowsPool
-		
+		ingredientRowsPool = self.ingredientRowsPool
+
 		if not ingredientRowsPool[listId] then
 			ingredientRowsPool[listId] = {}
 		end
-		
 		ingredientRowsPool:ReleaseIngredientRowsTo(listId)
 
 		for ingredientIndex = 1, numIngredients do
@@ -420,7 +419,7 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 		if sv.Provisioner_ShowTooltip then
 			ZO_SelectableLabel_OnMouseEnter(self)
 			InitializeTooltip(ItemTooltip, self, RIGHT, -64, 0)
-			
+
 			local data				= self.data
 			local numIngredients	= data.numIngredients
 			local recipeListIndex	= data.recipeListIndex
@@ -436,7 +435,7 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 						local level = GetNonCombatBonus(GetNonCombatBonusLevelTypeForTradeskillType(tradeskill))
 						if level < levelReq then
 							local levelPassiveAbilityId = GetTradeskillLevelPassiveAbilityId(tradeskill)
-							local levelPassiveAbilityName = GetAbilityName(levelPassiveAbilityId)
+							local levelPassiveAbilityName = ZO_CachedStrFormat(SI_ABILITY_NAME, GetAbilityName(levelPassiveAbilityId, "player"))
 							ItemTooltip:AddLine(zo_strformat(SI_RECIPE_REQUIRES_LEVEL_PASSIVE, levelPassiveAbilityName, levelReq), "", ZO_ERROR_COLOR:UnpackRGBA())
 						end
 					end

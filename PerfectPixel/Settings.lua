@@ -1,4 +1,4 @@
-local PP		= PP
+local PP = PP ---@class PP
 local media		= PP.media
 local unpack	= unpack
 local tinsert	= table.insert
@@ -42,8 +42,8 @@ function PP.PackTables(...)
 end
 
 function PP:AddBackdropSettings(namespace, updateFn)
-	local namespace			= namespace	or 'WindowStyle'
-	local updateFn			= updateFn	or self.UpdateBackgrounds
+	namespace			= namespace	or 'WindowStyle'
+	updateFn			= updateFn	or self.UpdateBackgrounds
 	local sv, def			= self:GetSavedVars(namespace)
 
 	return
@@ -92,8 +92,8 @@ function PP:AddBackdropSettings(namespace, updateFn)
 end
 
 function PP:AddEdgeSettings(namespace, updateFn)
-	local namespace			= namespace	or 'WindowStyle'
-	local updateFn			= updateFn	or self.UpdateBackgrounds
+	namespace			= namespace	or 'WindowStyle'
+	updateFn			= updateFn	or self.UpdateBackgrounds
 	local sv, def			= self:GetSavedVars(namespace)
 
 	return

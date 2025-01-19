@@ -1,3 +1,5 @@
+local PP = PP ---@class PP
+
 PP.gameMenuInGameScene = function()
 --===============================================================================================--
 	local SV_VER		= 0.1

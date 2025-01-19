@@ -10,6 +10,7 @@
 ## OptionalDependsOn: AdvancedFilters>=1648 SpentSkillPoints
 
 Init.lua
+fonts.xml
 Media.lua
 Settings.lua
 

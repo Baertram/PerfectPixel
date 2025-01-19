@@ -1,9 +1,11 @@
+local PP = PP ---@class PP
+
 PP.contextMenus = function()
 	--ZO_Menu
 	ZO_PreHookHandler(ZO_Menu, 'OnShow', function()
 		ZO_MenuBG:SetCenterTexture(nil, 4, 0)
 		ZO_MenuBG:SetCenterColor(10/255, 10/255, 10/255, 0.96)
-		ZO_MenuBG:SetEdgeTexture(nil, 1, 1, 1, 0)
+		ZO_MenuBG:SetEdgeTexture("", 1, 1, 1, 0)
 		ZO_MenuBG:SetEdgeColor(60/255, 60/255, 60/255, 1)
 		ZO_MenuBG:SetInsets(-1, -1, 1, 1)
 		ZO_MenuBGMungeOverlay:SetHidden(true)
@@ -14,7 +16,7 @@ PP.contextMenus = function()
 
 	ZO_MenuHighlight:SetCenterTexture(nil, 4, 0)
 	ZO_MenuHighlight:SetCenterColor(96/255*0.3, 125/255*0.3, 139/255*0.3, 1)
-	ZO_MenuHighlight:SetEdgeTexture(nil, 1, 1, 1, 0)
+	ZO_MenuHighlight:SetEdgeTexture("", 1, 1, 1, 0)
 	ZO_MenuHighlight:SetEdgeColor(96/255*0.5, 125/255*0.5, 139/255*0.5, 0)
 	ZO_MenuHighlight:SetInsets(0, 0, 0, 0)
 	-- ZO_MenuHighlight:SetInheritAlpha(false)

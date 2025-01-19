@@ -1,4 +1,4 @@
-local PP		= PP
+local PP = PP ---@class PP
 local namespace	= 'ChatWindow'
 
 PP.chatWindow = function()
@@ -73,7 +73,7 @@ PP.chatWindow = function()
 	local bend		= sb:GetNamedChild("ScrollEnd")
 
 	local thumb		= sb:GetThumbTextureControl()
-	local contents	= sb:GetParent().contents
+	-- local contents	= sb:GetParent().contents
 	local tex		= "PerfectPixel/tex/tex_white.dds"
 
 	up:SetHidden(true)

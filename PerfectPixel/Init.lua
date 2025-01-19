@@ -1,19 +1,20 @@
-_G['PP'] = {
-	['media']			= { ['textures'] = {}, ['edges'] = {}, ['fonts'] = {}, ['colors'] = {}, },
-	['modules']			= {},
-	['savedVars']		= {},
-	['localization']	= {},
+---@class PP
+PP = {
+	media			= { textures = {}, edges = {}, fonts = {}, colors = {}, },
+	modules			= {},
+	savedVars		= {},
+	localization	= {},
 
-	['layouts']			= {},
-	['optionsData']		= {},
+	layouts			= {},
+	optionsData		= {},
 
-	['ADDON_NAME']		= 'PerfectPixel',
-	['ADDON_AUTHOR']	= '@KL1SK, Baertram',
-	['ADDON_WEBSITE']	= 'https://www.esoui.com/downloads/info2103-PerfectPixel.html',
-	['ADDON_VERSION'] 	= '0.13.16',
+	ADDON_NAME		= 'PerfectPixel',
+	ADDON_AUTHOR	= '@KL1SK, Baertram',
+	ADDON_WEBSITE	= 'https://www.esoui.com/downloads/info2103-PerfectPixel.html',
+	ADDON_VERSION 	= '0.13.16',
 }
 
-local PP = PP
+local PP = PP ---@class PP
 
 EVENT_MANAGER:RegisterForEvent(PP.ADDON_NAME, EVENT_ADD_ON_LOADED, function(eventType, addonName)
 	if addonName == PP.ADDON_NAME then

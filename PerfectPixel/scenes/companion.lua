@@ -1,4 +1,4 @@
-local PP		= PP
+local PP = PP ---@class PP
 local namespace	= 'CompanionScene'
 
 PP.companionsScene = function()
@@ -452,7 +452,7 @@ PP.companionsScene = function()
 				backdrop:SetCenterColor(10/255, 10/255, 10/255, 0.7)
 				backdrop:SetCenterTexture(nil, 4, 0)
 				backdrop:SetEdgeColor(40/255, 40/255, 40/255, 0.9)
-				backdrop:SetEdgeTexture(nil, 1, 1, 1, 0)
+				backdrop:SetEdgeTexture("", 1, 1, 1, 0)
 				backdrop:SetInsets(1, 1, -1, -1)
 				backdrop:SetDrawLayer(0)
 				backdrop:SetDrawTier(0)

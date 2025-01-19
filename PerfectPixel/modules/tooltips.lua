@@ -1,4 +1,4 @@
-local PP		= PP
+local PP = PP ---@class PP
 local namespace	= 'Tooltips'
 
 PP.tooltips = function()
@@ -79,7 +79,8 @@ PP.tooltips = function()
 					if pressed then
 						-- d("Show")
 						ItemTooltip:ShowComparativeTooltips()
-						if not ComparativeTooltip1:GetAnchor() then
+                        local anchorIndex = 1
+						if not ComparativeTooltip1:GetAnchor(anchorIndex) then
 							-- d("anch")
 							PP.Anchor(ComparativeTooltip1, --[[#1]] TOPRIGHT, ItemTooltip, TOPLEFT, -20, 0)
 							PP.Anchor(ComparativeTooltip2, --[[#1]] TOPRIGHT, ComparativeTooltip1, TOPLEFT, -20, 0)

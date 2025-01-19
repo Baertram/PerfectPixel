@@ -1,10 +1,10 @@
 local CM = CALLBACK_MANAGER
+local tinsert = table.insert
+
+local PP = PP
 
 PP.compatibilityFunctions = {}
 PP.compatibility = function ()
-    local PP = PP
-    local tinsert = table.insert
-
     local function Compatibility()
         -- ==LibCustomMenu==--
         if LibCustomMenu then
@@ -16,7 +16,7 @@ PP.compatibility = function ()
             ZO_PreHookHandler(LibCustomMenuSubmenu, "OnShow", function ()
                 lcmSMBG:SetCenterTexture(nil, 4, 0)
                 lcmSMBG:SetCenterColor(10 / 255, 10 / 255, 10 / 255, 0.96)
-                lcmSMBG:SetEdgeTexture(nil, 1, 1, 1, 0)
+                lcmSMBG:SetEdgeTexture("", 1, 1, 1, 0)
                 lcmSMBG:SetEdgeColor(60 / 255, 60 / 255, 60 / 255, 1)
                 lcmSMBG:SetInsets(-1, -1, 1, 1)
                 if lcmSMBGMungeOverlay then lcmSMBGMungeOverlay:SetHidden(true) end
@@ -28,7 +28,7 @@ PP.compatibility = function ()
             if lcmSMHighlight then
                 lcmSMHighlight:SetCenterTexture(nil, 4, 0)
                 lcmSMHighlight:SetCenterColor(96 / 255 * 0.3, 125 / 255 * 0.3, 139 / 255 * 0.3, 1)
-                lcmSMHighlight:SetEdgeTexture(nil, 1, 1, 1, 0)
+                lcmSMHighlight:SetEdgeTexture("", 1, 1, 1, 0)
                 lcmSMHighlight:SetEdgeColor(96 / 255 * 0.5, 125 / 255 * 0.5, 139 / 255 * 0.5, 0)
                 lcmSMHighlight:SetInsets(0, 0, 0, 0)
                 -- lcmSMHighlight:SetInheritAlpha(false)
@@ -48,7 +48,7 @@ PP.compatibility = function ()
 
             local function defaultEntryTypeLayout(highlight)
                 highlight:SetCenterTexture(nil, 4, 0)
-                highlight:SetEdgeTexture(nil, 1, 1, 1, 0)
+                highlight:SetEdgeTexture("", 1, 1, 1, 0)
                 highlight:SetInsets(0, 0, 0, 0)
                 highlight:SetBlendMode(TEX_BLEND_MODE_ADD)
                 if highlight:IsPixelRoundingEnabled() then
@@ -118,7 +118,7 @@ PP.compatibility = function ()
                 --parentControl:SetCenterTexture(nil, 4, 0)
                 parentControl:SetCenterColor(10 / 255, 10 / 255, 10 / 255, 0.96)
                 --SetEdgeTexture(*string* _filename_, *integer* _edgeFileWidth_, *integer* _edgeFileHeight_, *layout_measurement* _cornerSize_, *integer* _edgeFilePadding_)
-                --parentControl:SetEdgeTexture(nil, 1, 1, 1, 0)
+                --parentControl:SetEdgeTexture("", 1, 1, 1, 0)
                 parentControl:SetEdgeColor(60 / 255, 60 / 255, 60 / 255, 1)
                 --SetInsets(*layout_measurement* _left_, *layout_measurement* _top_, *layout_measurement* _right_, *layout_measurement* _bottom_)
                 --parentControl:SetInsets(-1, -1, 1, 1)

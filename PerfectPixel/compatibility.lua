@@ -1,5 +1,7 @@
-local PP = PP ---@class PP
+local CM = CALLBACK_MANAGER
 local tinsert = table.insert
+
+local PP = PP
 
 PP.compatibilityFunctions = {}
 PP.compatibility = function ()
@@ -885,7 +887,7 @@ PP.compatibility = function ()
             LAMAddonSettingsWindowBackgroundRight:SetHidden(true)
             LAMAddonSettingsWindowUnderlayLeft:SetHidden(true)
             LAMAddonSettingsWindowUnderlayRight:SetHidden(true)
-	        PP:CreateBackground(LAMAddonSettingsWindow,		--[[#1]] nil, nil, nil, 40, 60, --[[#2]] nil, nil, nil, 6, -50)
+	        PP:CreateBackground(LAMAddonSettingsWindow,		--[[#1]] nil, nil, nil, 40, 60, --[[#2]] nil, nil, nil, 46, -50)
 
             --Use LAM2-.0 callback "panel opened" to know when a panel was created, and add the PP style scrollbar then "once"
             local panelsWithPPScrollbar = {}
@@ -895,17 +897,19 @@ PP.compatibility = function ()
                 if scrollBarCtrl  ~= nil then
                     if not updateScrollBar then
                         PP.ScrollBar(scrollBarCtrl)
+                        local scrollBarParent = scrollBarCtrl:GetParent()
+                        PP.Anchor(scrollBarCtrl, --[[#1]] TOPLEFT, scrollBarParent, TOPRIGHT, nil, nil, --[[#2]] true, BOTTOMLEFT, scrollBarParent, BOTTOMRIGHT, 10, 0)
                         panelsWithPPScrollbar[panel] = true
                     end
                     ZO_Scroll_SetMaxFadeDistance(scrollBarCtrl, PP.savedVars.ListStyle.list_fade_distance)
                 end
             end
 
-            CALLBACK_MANAGER:RegisterCallback("LAM-PanelOpened", function(panel)
+            CM:RegisterCallback("LAM-PanelOpened", function(panel)
                 if panel and panelsWithPPScrollbar[panel] then return end
                 addPPScrollbarToLAM2Panel(panel, false)
             end)
-            CALLBACK_MANAGER:RegisterCallback("LAM-PanelControlsCreated", function(panel)
+            CM:RegisterCallback("LAM-PanelControlsCreated", function(panel)
                 if not panel then return end
                 if panelsWithPPScrollbar[panel] then
                     --Just update the scrollbar bounds

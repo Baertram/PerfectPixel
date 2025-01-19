@@ -29,11 +29,10 @@ PP.gameMenuInGameScene = function()
 --ADD-ONS------------------------------------------------------------------------------------------
 	if SV.addons_toggle then
 		PP:CreateBackground(ZO_AddOns, --[[#1]] nil, nil, nil, 2, -4, --[[#2]] nil, nil, nil, 4, -2)
+		PP.ScrollBar(ZO_AddOnsList,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
 
 		ZO_AddOnsBGLeft:SetHidden(true)
 		ZO_AddOnsDivider:SetHidden(true)
-
-		PP.ScrollBar(ZO_AddOnsList,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
 
 		PP.Anchor(ZO_AddOnsTitle,					--[[#1]] TOPLEFT, nil, TOPLEFT, 10, 5)
 		PP.Anchor(ZO_AddOnsList,					--[[#1]] TOPLEFT, ZO_AddOnsTitle, BOTTOMLEFT, 0, 5,		--[[#2]] true, BOTTOMRIGHT, ZO_AddOns, BOTTOMRIGHT, 0, -10)
@@ -45,22 +44,23 @@ PP.gameMenuInGameScene = function()
 		PP.Font(ZO_AddOnsSecondaryButtonNameLabel,	--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 		PP.Font(ZO_AddOnsTitle,						--[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 
-		PP.Anchor(ZO_AddOnsAdvancedUIErrors.label,	--[[#1]] TOPRIGHT, ZO_AddOnsList, BOTTOMRIGHT, 0, 15)
-		PP.Anchor(ZO_AddOnsAdvancedUIErrors,		--[[#1]] RIGHT, ZO_AddOnsAdvancedUIErrors.label, LEFT, -5, -3)
 		PP.Font(ZO_AddOnsAdvancedUIErrors.label,	--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-
-		PP.Anchor(ZO_AddOnsCurrentBindingsSaved,		--[[#1]] TOPLEFT, ZO_AddOnsList, BOTTOMLEFT, 10, 15)
-		PP.Font(ZO_AddOnsCurrentBindingsSaved,			--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-
+		if AddonSelector == nil then
+			PP.Anchor(ZO_AddOnsCurrentBindingsSaved,		--[[#1]] TOPLEFT, ZO_AddOnsList, BOTTOMLEFT, 10, 15)
+			PP.Font(ZO_AddOnsCurrentBindingsSaved,			--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+		end
 		ZO_Scroll_SetMaxFadeDistance(ZO_AddOnsList, 10)
---[[?]]
+		--[[?]]
 		local reAnchored = false
 		local function reAnchorAddonsUINow()
 			PP.Anchor(ZO_AddOns, --[[#1]] TOPLEFT, GuiRoot, TOPLEFT, 250, 50, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMLEFT, 1200, -70)
+
+			zo_callLater(function()
+				PP.Anchor(ZO_AddOnsAdvancedUIErrors.label,	--[[#1]] TOPRIGHT, ZO_AddOnsList, BOTTOMRIGHT, 0, 15)
+				PP.Anchor(ZO_AddOnsAdvancedUIErrors,		--[[#1]] RIGHT, ZO_AddOnsAdvancedUIErrors.label, LEFT, -5, -3)
+			end, 0)
 			-- gameMenuInGameScene:UnregisterCallback("StateChange",  SceneStateChange)
 			reAnchored = true
-
-
 		end
 
 		local function SceneStateChange(oldState, newState)
@@ -81,7 +81,7 @@ PP.gameMenuInGameScene = function()
 		ZO_PreHookHandler(ZO_AddOns, 'OnEffectivelyHidden', function()
 			SetFullscreenEffect(FULLSCREEN_EFFECT_NONE)
 		end)
---[[?]]
+		--[[?]]
 	end
 
 	--OPTIONS------------------------------------------------------------------------------------------

@@ -897,6 +897,8 @@ PP.compatibility = function ()
                 if scrollBarCtrl  ~= nil then
                     if not updateScrollBar then
                         PP.ScrollBar(scrollBarCtrl)
+                        local scrollBarParent = scrollBarCtrl:GetParent()
+                        PP.Anchor(scrollBarCtrl, --[[#1]] TOPLEFT, scrollBarParent, TOPRIGHT, nil, nil, --[[#2]] true, BOTTOMLEFT, scrollBarParent, BOTTOMRIGHT, 10, 0)
                         panelsWithPPScrollbar[panel] = true
                     end
                     ZO_Scroll_SetMaxFadeDistance(scrollBarCtrl, PP.savedVars.ListStyle.list_fade_distance)

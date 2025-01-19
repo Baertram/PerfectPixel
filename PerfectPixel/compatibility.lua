@@ -887,7 +887,7 @@ PP.compatibility = function ()
             LAMAddonSettingsWindowBackgroundRight:SetHidden(true)
             LAMAddonSettingsWindowUnderlayLeft:SetHidden(true)
             LAMAddonSettingsWindowUnderlayRight:SetHidden(true)
-	        PP:CreateBackground(LAMAddonSettingsWindow,		--[[#1]] nil, nil, nil, 40, 60, --[[#2]] nil, nil, nil, 6, -50)
+	        PP:CreateBackground(LAMAddonSettingsWindow,		--[[#1]] nil, nil, nil, 40, 60, --[[#2]] nil, nil, nil, 46, -50)
 
             --Use LAM2-.0 callback "panel opened" to know when a panel was created, and add the PP style scrollbar then "once"
             local panelsWithPPScrollbar = {}

@@ -231,6 +231,8 @@ PP.tooltips = function()
 	PP.Bar(SkillTooltipProgression, --[[height]] 8, --[[fontSize]] 15)
 
 	ZO_SmithingTopLevelCreationPanelResultTooltipGlow:SetHidden(true)
+    ZO_AlchemyTopLevelTooltipGlow:SetHidden(true)
+    ZO_ProvisionerTopLevelTooltipGlow:SetHidden(true)
 
 	SetStyle_Tooltip(ComparativeTooltip1)
 	SetStyle_Tooltip(ComparativeTooltip2)

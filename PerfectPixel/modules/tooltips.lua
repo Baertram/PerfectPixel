@@ -102,10 +102,6 @@ PP.tooltips = function()
 	end
 
 ---------------------------------------------------------------------------------------------------
-
-	if not sv.toggle then return end
-
----------------------------------------------------------------------------------------------------
 	--RedirectTextures
 	-- RedirectTexture("EsoUI/Art/Miscellaneous/horizontaldivider.dds",	"PerfectPixel/tex/RedirectTextures/EsoUI/Art/Miscellaneous/horizontaldivider.dds")
 	-- RedirectTexture("EsoUI/Art/Miscellaneous/horizontaldividerred.dds",	"PerfectPixel/tex/RedirectTextures/EsoUI/Art/Miscellaneous/horizontaldividerred.dds")
@@ -186,6 +182,8 @@ PP.tooltips = function()
 
 
 	local function SetStyle_Tooltip(tooltip, specialLayout)
+		if not sv.toggle then return end
+
 		local bg				= tooltip:GetNamedChild("BG") or tooltip:GetNamedChild("Frame")
 		if not tooltip.isStyled then
 			tooltip.isStyled = true
@@ -228,11 +226,20 @@ PP.tooltips = function()
 	end
 	PP.SetStyle_Tooltip = SetStyle_Tooltip
 
+
+---------------------------------------------------------------------------------------------------
+	--SavedVariables disabled? Exit here
+	if not sv.toggle then return end
+
+---------------------------------------------------------------------------------------------------
+
+
 	PP.Bar(SkillTooltipProgression, --[[height]] 8, --[[fontSize]] 15)
 
 	ZO_SmithingTopLevelCreationPanelResultTooltipGlow:SetHidden(true)
-    ZO_AlchemyTopLevelTooltipGlow:SetHidden(true)
+ 	ZO_AlchemyTopLevelTooltipGlow:SetHidden(true)
     ZO_ProvisionerTopLevelTooltipGlow:SetHidden(true)
+
 
 	SetStyle_Tooltip(ComparativeTooltip1)
 	SetStyle_Tooltip(ComparativeTooltip2)

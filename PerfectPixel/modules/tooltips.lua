@@ -238,6 +238,7 @@ PP.tooltips = function()
 
 	ZO_SmithingTopLevelCreationPanelResultTooltipGlow:SetHidden(true)
  	ZO_AlchemyTopLevelTooltipGlow:SetHidden(true)
+ 	ZO_EnchantingTopLevelTooltipGlow:SetHidden(true)
     ZO_ProvisionerTopLevelTooltipGlow:SetHidden(true)
 
 

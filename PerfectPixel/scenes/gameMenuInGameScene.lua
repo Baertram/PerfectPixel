@@ -26,7 +26,7 @@ PP.gameMenuInGameScene = function()
 	})
 --===============================================================================================--
 
-	local gameMenuInGameScene = SCENE_MANAGER:GetScene('gameMenuInGame')
+	--local gameMenuInGameScene = SCENE_MANAGER:GetScene('gameMenuInGame')
 
 --ADD-ONS------------------------------------------------------------------------------------------
 	if SV.addons_toggle then
@@ -57,10 +57,12 @@ PP.gameMenuInGameScene = function()
 		local function reAnchorAddonsUINow()
 			PP.Anchor(ZO_AddOns, --[[#1]] TOPLEFT, GuiRoot, TOPLEFT, 250, 50, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMLEFT, 1200, -70)
 
-			zo_callLater(function()
-				PP.Anchor(ZO_AddOnsAdvancedUIErrors.label,	--[[#1]] TOPRIGHT, ZO_AddOnsList, BOTTOMRIGHT, 0, 15)
-				PP.Anchor(ZO_AddOnsAdvancedUIErrors,		--[[#1]] RIGHT, ZO_AddOnsAdvancedUIErrors.label, LEFT, -5, -3)
-			end, 0)
+			if AddonSelector == nil then
+				zo_callLater(function()
+					PP.Anchor(ZO_AddOnsAdvancedUIErrors,		TOPLEFT, ZO_AddOnsDivider, BOTTOMLEFT, 0, -6)
+					PP.Anchor(ZO_AddOnsAdvancedUIErrors.label,	LEFT, ZO_AddOnsAdvancedUIErrors, RIGHT, 5, 2)
+				end, 0)
+			end
 			-- gameMenuInGameScene:UnregisterCallback("StateChange",  SceneStateChange)
 			reAnchored = true
 		end

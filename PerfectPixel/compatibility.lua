@@ -737,6 +737,15 @@ PP.compatibility = function ()
                 ArkadiusTradeToolsSalesFrameFilterBarTimeBGMungeOverlay,
                 ArkadiusTradeToolsStatisticsFrameFilterBarTimeBGMungeOverlay,
                 ArkadiusTradeToolsWindowBackdropMungeOverlay,
+                ArkadiusTradeToolsWindowHeaderBackgroundTopLeft,
+                ArkadiusTradeToolsWindowHeaderBackgroundBottomLeft,
+                ArkadiusTradeToolsWindowHeaderBackgroundLeft,
+                ArkadiusTradeToolsWindowHeaderBackgroundTopRight,
+                ArkadiusTradeToolsWindowHeaderBackgroundBottomRight,
+                ArkadiusTradeToolsWindowHeaderBackgroundRight,
+                ArkadiusTradeToolsWindowHeaderBackgroundTop,
+                ArkadiusTradeToolsWindowHeaderBackgroundBottom,
+                ArkadiusTradeToolsWindowHeaderBackgroundCenter,
             }
 
             for i, overlay in ipairs(overlays) do

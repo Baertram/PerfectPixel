@@ -328,7 +328,7 @@ PP.compatibility = function ()
                 --PP.Anchor(ZO_AddOns, --[[#1]] TOPLEFT, GuiRoot, TOPLEFT, 256, 35, --[[#2]] false, nil, nil, nil, nil, nil)
 			    PP.Anchor(ZO_AddOns, --[[#1]] TOPLEFT, GuiRoot, TOPLEFT, 256, 35, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMLEFT, 1200, -80)
 
-                PP.Anchor(ZO_AddOnsList, --[[#1]] TOPLEFT, AddonSelector, BOTTOMLEFT, 0, 10, --[[#2]] true, BOTTOMRIGHT, ZO_AddOns, BOTTOMRIGHT, -20, -50) --list:SetAnchor(BOTTOMRIGHT, ZOAddOns, BOTTOMRIGHT, -20, -50)
+                PP.Anchor(ZO_AddOnsList, --[[#1]] TOPLEFT, AddonSelector, BOTTOMLEFT, 0, 10, --[[#2]] true, BOTTOMRIGHT, ZO_AddOns, BOTTOMRIGHT, -20, -50)
                 PP.Anchor(AddonSelectorBottomDivider, --[[#1]] BOTTOM, AddonSelector, BOTTOM, 40, 0)
                 PP.Anchor(AddonSelectorSearchBox, --[[#1]] TOPRIGHT, ZO_AddOns, TOPRIGHT, -6, 6)
                 if AddonSelectorAutoReloadUI and AddonSelectorAutoReloadUILabel then

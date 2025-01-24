@@ -31,14 +31,14 @@ PP.gameMenuInGameScene = function()
 --ADD-ONS------------------------------------------------------------------------------------------
 	if SV.addons_toggle then
 		--PP:CreateBackground(ZO_AddOns, --[[#1]] nil, nil, nil, 2, -4, --[[#2]] nil, nil, nil, 4, -2)
-		PP:CreateBackground(ZO_AddOns, --[[#1]] TOPLEFT, ZO_AddOns, TOPLEFT, 2, -4, --[[#2]] BOTTOMRIGHT, ZO_AddOns, BOTTOMRIGHT, 4, 70)
+		PP:CreateBackground(ZO_AddOns, --[[#1]] nil, nil, nil, 2, -4, --[[#2]] nil, nil, nil, 4, 70)
 		PP.ScrollBar(ZO_AddOnsList,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
 
 		ZO_AddOnsBGLeft:SetHidden(true)
 		ZO_AddOnsDivider:SetHidden(true)
 
 		PP.Anchor(ZO_AddOnsTitle,					--[[#1]] TOPLEFT, nil, TOPLEFT, 10, 5)
-		PP.Anchor(ZO_AddOnsList,					--[[#1]] TOPLEFT, ZO_AddOnsTitle, BOTTOMLEFT, 0, 5,		--[[#2]] true, BOTTOMRIGHT, ZO_AddOns, BOTTOMRIGHT, -20, -50)
+		PP.Anchor(ZO_AddOnsList,					--[[#1]] TOPLEFT, ZO_AddOnsTitle, BOTTOMLEFT, 0, 20,		--[[#2]] true, BOTTOMRIGHT, ZO_AddOns, BOTTOMRIGHT, -20, 20)
 		PP.Anchor(ZO_AddOnsCharacterSelectDropdown,	--[[#1]] LEFT, ZO_AddOnsTitle, RIGHT, 50, 1)
 
 		PP.Font(ZO_AddOnsPrimaryButtonKeyLabel,		--[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
@@ -57,7 +57,6 @@ PP.gameMenuInGameScene = function()
 		local reAnchored = false
 		local function reAnchorAddonsUINow()
 			PP.Anchor(ZO_AddOns, --[[#1]] TOPLEFT, GuiRoot, TOPLEFT, 250, 50, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMLEFT, 1200, -80)
-			PP:CreateBackground(ZO_AddOns, --[[#1]] nil, nil, nil, 2, -4, --[[#2]] nil, nil, nil, 4, -2)
 
 			if AddonSelector == nil then
 				zo_callLater(function()
@@ -75,6 +74,11 @@ PP.gameMenuInGameScene = function()
 				if AddonSelector == nil then
 					reAnchorAddonsUINow()
 				end
+
+                ZO_AddOns:ClearAnchors()
+				ZO_AddOns:SetMouseEnabled(true)
+                ZO_AddOns:SetMovable(true)
+
 			elseif newState == SCENE_SHOWN then
 				ZO_AddOnsList2Row1Divider:SetHidden(true)
 			end

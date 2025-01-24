@@ -548,6 +548,16 @@ PP.compatibility = function ()
                 control:SetHidden(true)
             end
         end
+
+        --Dolgubons Lazy Writ Creator
+        if DolgubonsWrits then
+            local dlwcSmallUI = DolgubonsWrits
+            if dlwcSmallUI then
+                PP:CreateBackground(dlwcSmallUI, nil, nil, nil, 0, 0, nil, nil, nil, 0, 0)
+                DolgubonsWritsBackdropBackdrop:SetHidden(true)
+            end
+        end
+
         -- ===============================================================================================--
         -- ==LibSets==--
         if LibSets then

@@ -563,6 +563,11 @@ PP.compatibility = function ()
             end
         end
 
+        if DolgubonsLazyWritStatsWindow then
+            PP:CreateBackground(DolgubonsLazyWritStatsWindowBackdrop, nil, nil, nil, 0, 0, nil, nil, nil, 0, 0)
+            PP.ScrollBar(DolgubonsLazyWritStatsWindowRewardScroll.object.list)
+        end
+
         -- ===============================================================================================--
         -- ==LibSets==--
         if LibSets then

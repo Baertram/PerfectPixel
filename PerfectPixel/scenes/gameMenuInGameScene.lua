@@ -74,11 +74,6 @@ PP.gameMenuInGameScene = function()
 				if AddonSelector == nil then
 					reAnchorAddonsUINow()
 				end
-
-                ZO_AddOns:ClearAnchors()
-				ZO_AddOns:SetMouseEnabled(true)
-                ZO_AddOns:SetMovable(true)
-
 			elseif newState == SCENE_SHOWN then
 				ZO_AddOnsList2Row1Divider:SetHidden(true)
 			end

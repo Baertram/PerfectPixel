@@ -574,7 +574,63 @@ PP.compatibility = function ()
 
         if DolgubonsLazyWritStatsWindow then
             PP:CreateBackground(DolgubonsLazyWritStatsWindowBackdrop, nil, nil, nil, 0, 0, nil, nil, nil, 0, 0)
-            PP.ScrollBar(DolgubonsLazyWritStatsWindowRewardScroll.object.list)
+            local scrollList = DolgubonsLazyWritStatsWindowRewardScroll.object.list
+            PP.ScrollBar(scrollList)
+
+            -- Style all rows in the list
+            local dataType = ZO_ScrollList_GetDataTypeTable(scrollList, 1)
+            local originalSetupCallback = dataType.setupCallback
+            dataType.setupCallback = function (control, data)
+                originalSetupCallback(control, data)
+
+                -- Create backdrop if it doesn't exist
+                if not control.backdrop then
+                    local backdrop = PP.CreateBackdrop(control)
+                    backdrop:SetCenterColor(20 / 255, 20 / 255, 20 / 255, 0.8)
+                    backdrop:SetEdgeColor(40 / 255, 40 / 255, 40 / 255, 0.9)
+                    backdrop:SetEdgeTexture("", 1, 1, 1, 0)
+                    backdrop:SetInsets(1, 1, -1, -1)
+                end
+
+                -- Style each craft section in the row
+                for i = 1, 7 do
+                    local craftControl = control:GetNamedChild("Craft" .. i)
+                    if craftControl then
+                        -- Hide the default backdrop
+                        local bg = craftControl:GetNamedChild("BG")
+                        if bg then
+                            bg:SetHidden(true)
+                        end
+
+                        -- Style the labels
+                        local nameLabel = craftControl:GetNamedChild("Name")
+                        local amountLabel = craftControl:GetNamedChild("Amount")
+
+                        if nameLabel then
+                            -- Keep original color (76BCC3 from WritCreater.xml)
+                            PP.Font(nameLabel, PP.f.u67, 16, "outline")
+                            PP.Anchor(nameLabel, --[[#1]] LEFT, craftControl, LEFT, 5, 0)
+                        end
+
+                        if amountLabel then
+                            PP.Font(amountLabel, PP.f.u67, 16, "outline")
+                            PP.Anchor(amountLabel, --[[#1]] RIGHT, craftControl, RIGHT, -5, 0)
+                        end
+                    end
+                end
+
+                -- Adjust row height (30px from XML)
+                control:SetHeight(30)
+                control:SetMouseEnabled(true)
+
+                -- Add mouseover highlight behavior
+                control:SetHandler("OnMouseEnter", function (self)
+                    self.backdrop:SetCenterColor(30 / 255, 30 / 255, 30 / 255, 0.8)
+                end)
+                control:SetHandler("OnMouseExit", function (self)
+                    self.backdrop:SetCenterColor(20 / 255, 20 / 255, 20 / 255, 0.8)
+                end)
+            end
         end
 
         -- ===============================================================================================--

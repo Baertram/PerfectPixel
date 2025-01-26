@@ -225,7 +225,7 @@ function PP:StyleAttributeBars()
                 end
 
                 -- Apply backdrop styling.
-                barBG:SetCenterTexture(nil, 8, 0)
+                barBG:SetCenterTexture("", 8, 0)
                 barBG:SetEdgeTexture("", 1, 1, 1, 0)
                 barBG:SetCenterColor(colors.center:UnpackRGBA())
                 barBG:SetEdgeColor(colors.edge:UnpackRGBA())

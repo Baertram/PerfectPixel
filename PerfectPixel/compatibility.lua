@@ -14,7 +14,7 @@ PP.compatibility = function ()
             local lcmSMHighlight = GetControl(lcmSM, "Highlight")
 
             ZO_PreHookHandler(LibCustomMenuSubmenu, "OnShow", function ()
-                lcmSMBG:SetCenterTexture(nil, 4, 0)
+                lcmSMBG:SetCenterTexture("", 4, 0)
                 lcmSMBG:SetCenterColor(10 / 255, 10 / 255, 10 / 255, 0.96)
                 lcmSMBG:SetEdgeTexture("", 1, 1, 1, 0)
                 lcmSMBG:SetEdgeColor(60 / 255, 60 / 255, 60 / 255, 1)
@@ -26,7 +26,7 @@ PP.compatibility = function ()
             -- lcmSMBG:SetInheritAlpha(false)
 
             if lcmSMHighlight then
-                lcmSMHighlight:SetCenterTexture(nil, 4, 0)
+                lcmSMHighlight:SetCenterTexture("", 4, 0)
                 lcmSMHighlight:SetCenterColor(96 / 255 * 0.3, 125 / 255 * 0.3, 139 / 255 * 0.3, 1)
                 lcmSMHighlight:SetEdgeTexture("", 1, 1, 1, 0)
                 lcmSMHighlight:SetEdgeColor(96 / 255 * 0.5, 125 / 255 * 0.5, 139 / 255 * 0.5, 0)
@@ -47,7 +47,7 @@ PP.compatibility = function ()
             local styledLSMControls = {}
 
             local function defaultEntryTypeLayout(highlight)
-                highlight:SetCenterTexture(nil, 4, 0)
+                highlight:SetCenterTexture("", 4, 0)
                 highlight:SetEdgeTexture("", 1, 1, 1, 0)
                 highlight:SetInsets(0, 0, 0, 0)
                 highlight:SetBlendMode(TEX_BLEND_MODE_ADD)
@@ -115,7 +115,7 @@ PP.compatibility = function ()
                     end
                 end
                 --SetCenterTexture(*string* _filename_, *layout_measurement* _tilingInterval_, *[TextureAddressMode|#TextureAddressMode]* _addressMode_)
-                --parentControl:SetCenterTexture(nil, 4, 0)
+                --parentControl:SetCenterTexture("", 4, 0)
                 parentControl:SetCenterColor(10 / 255, 10 / 255, 10 / 255, 0.96)
                 --SetEdgeTexture(*string* _filename_, *integer* _edgeFileWidth_, *integer* _edgeFileHeight_, *layout_measurement* _cornerSize_, *integer* _edgeFilePadding_)
                 --parentControl:SetEdgeTexture("", 1, 1, 1, 0)

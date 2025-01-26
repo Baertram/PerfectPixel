@@ -450,7 +450,7 @@ PP.companionsScene = function()
 			if control:GetNamedChild("OverlayBorder") then
 				local backdrop = control:GetNamedChild("OverlayBorder")
 				backdrop:SetCenterColor(10/255, 10/255, 10/255, 0.7)
-				backdrop:SetCenterTexture(nil, 4, 0)
+				backdrop:SetCenterTexture("", 4, 0)
 				backdrop:SetEdgeColor(40/255, 40/255, 40/255, 0.9)
 				backdrop:SetEdgeTexture("", 1, 1, 1, 0)
 				backdrop:SetInsets(1, 1, -1, -1)

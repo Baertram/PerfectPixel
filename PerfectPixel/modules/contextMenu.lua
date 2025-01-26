@@ -3,7 +3,7 @@ local PP = PP ---@class PP
 PP.contextMenus = function()
 	--ZO_Menu
 	ZO_PreHookHandler(ZO_Menu, 'OnShow', function()
-		ZO_MenuBG:SetCenterTexture(nil, 4, 0)
+		ZO_MenuBG:SetCenterTexture("", 4, 0)
 		ZO_MenuBG:SetCenterColor(10/255, 10/255, 10/255, 0.96)
 		ZO_MenuBG:SetEdgeTexture("", 1, 1, 1, 0)
 		ZO_MenuBG:SetEdgeColor(60/255, 60/255, 60/255, 1)
@@ -14,7 +14,7 @@ PP.contextMenus = function()
 	PP.Anchor(ZO_MenuBG, --[[#1]] TOPLEFT, nil, TOPLEFT, -2, 4, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, -2, -4)
 	-- ZO_MenuBG:SetInheritAlpha(false)
 
-	ZO_MenuHighlight:SetCenterTexture(nil, 4, 0)
+	ZO_MenuHighlight:SetCenterTexture("", 4, 0)
 	ZO_MenuHighlight:SetCenterColor(96/255*0.3, 125/255*0.3, 139/255*0.3, 1)
 	ZO_MenuHighlight:SetEdgeTexture("", 1, 1, 1, 0)
 	ZO_MenuHighlight:SetEdgeColor(96/255*0.5, 125/255*0.5, 139/255*0.5, 0)

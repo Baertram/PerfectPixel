@@ -569,10 +569,11 @@ PP.compatibility = function ()
             if dlwcSmallUI then
                 if DolgubonsWritCrafterSavedVars and 
                    DolgubonsWritCrafterSavedVars["Default"][GetDisplayName()]["$AccountWide"]["skin"] ~= "default" then
-                    return
+                    -- Skip styling for DolgubonsWrits if skin is not "default"
+                else
+                    PP:CreateBackground(dlwcSmallUI, nil, nil, nil, 0, 0, nil, nil, nil, 0, 0)
+                    DolgubonsWritsBackdropBackdrop:SetHidden(true)
                 end
-                PP:CreateBackground(dlwcSmallUI, nil, nil, nil, 0, 0, nil, nil, nil, 0, 0)
-                DolgubonsWritsBackdropBackdrop:SetHidden(true)
             end
         end
 

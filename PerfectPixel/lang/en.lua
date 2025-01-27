@@ -28,7 +28,7 @@ local stringsEn = {
 	PP_LAM_OTHERS									= "Others",
 	PP_LAM_DONOTINTERRUPT							= "Do not interrupt interactive actions.",
 	PP_LAM_BLUR_BG									= "Blur background",
-	-- PP_LAM_FADE_SCENE_DURATION						= "Fade scene duration (ms)",
+	PP_LAM_FADE_SCENE_DURATION						= "Fade scene duration (ms)",
 	--Reticle
 	PP_LAM_RETICLE									= "Reticle",
 	PP_LAM_RETICLE_HIDE_STEALTH						= "Hide \"" .. GetString(SI_STEALTH_HIDDEN) .. "\" Text",

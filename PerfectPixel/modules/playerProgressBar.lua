@@ -40,7 +40,7 @@ PP.playerProgressBar = function()
 			local barBG = CreateControl("$(parent)Backdrop", bar, CT_BACKDROP)
 
 			PP.Anchor(barBG, --[[#1]] TOPLEFT, bar, TOPLEFT, -2, -2, --[[#2]] true, BOTTOMRIGHT, bar, BOTTOMRIGHT,	2, 2)
-			barBG:SetCenterTexture(nil, 8, 0)
+			barBG:SetCenterTexture("", 8, 0)
 			barBG:SetCenterColor(10/255, 10/255, 10/255, 0.8)
 			barBG:SetEdgeTexture("", 1, 1, 1, 0)
 			barBG:SetEdgeColor(60/255, 60/255, 60/255, 0.9)

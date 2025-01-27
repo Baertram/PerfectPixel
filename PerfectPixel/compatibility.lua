@@ -14,7 +14,7 @@ PP.compatibility = function ()
             local lcmSMHighlight = GetControl(lcmSM, "Highlight")
 
             ZO_PreHookHandler(LibCustomMenuSubmenu, "OnShow", function ()
-                lcmSMBG:SetCenterTexture(nil, 4, 0)
+                lcmSMBG:SetCenterTexture("", 4, 0)
                 lcmSMBG:SetCenterColor(10 / 255, 10 / 255, 10 / 255, 0.96)
                 lcmSMBG:SetEdgeTexture("", 1, 1, 1, 0)
                 lcmSMBG:SetEdgeColor(60 / 255, 60 / 255, 60 / 255, 1)
@@ -26,7 +26,7 @@ PP.compatibility = function ()
             -- lcmSMBG:SetInheritAlpha(false)
 
             if lcmSMHighlight then
-                lcmSMHighlight:SetCenterTexture(nil, 4, 0)
+                lcmSMHighlight:SetCenterTexture("", 4, 0)
                 lcmSMHighlight:SetCenterColor(96 / 255 * 0.3, 125 / 255 * 0.3, 139 / 255 * 0.3, 1)
                 lcmSMHighlight:SetEdgeTexture("", 1, 1, 1, 0)
                 lcmSMHighlight:SetEdgeColor(96 / 255 * 0.5, 125 / 255 * 0.5, 139 / 255 * 0.5, 0)
@@ -47,7 +47,7 @@ PP.compatibility = function ()
             local styledLSMControls = {}
 
             local function defaultEntryTypeLayout(highlight)
-                highlight:SetCenterTexture(nil, 4, 0)
+                highlight:SetCenterTexture("", 4, 0)
                 highlight:SetEdgeTexture("", 1, 1, 1, 0)
                 highlight:SetInsets(0, 0, 0, 0)
                 highlight:SetBlendMode(TEX_BLEND_MODE_ADD)
@@ -115,7 +115,7 @@ PP.compatibility = function ()
                     end
                 end
                 --SetCenterTexture(*string* _filename_, *layout_measurement* _tilingInterval_, *[TextureAddressMode|#TextureAddressMode]* _addressMode_)
-                --parentControl:SetCenterTexture(nil, 4, 0)
+                --parentControl:SetCenterTexture("", 4, 0)
                 parentControl:SetCenterColor(10 / 255, 10 / 255, 10 / 255, 0.96)
                 --SetEdgeTexture(*string* _filename_, *integer* _edgeFileWidth_, *integer* _edgeFileHeight_, *layout_measurement* _cornerSize_, *integer* _edgeFilePadding_)
                 --parentControl:SetEdgeTexture("", 1, 1, 1, 0)
@@ -567,14 +567,75 @@ PP.compatibility = function ()
         if DolgubonsWrits then
             local dlwcSmallUI = DolgubonsWrits
             if dlwcSmallUI then
-                PP:CreateBackground(dlwcSmallUI, nil, nil, nil, 0, 0, nil, nil, nil, 0, 0)
-                DolgubonsWritsBackdropBackdrop:SetHidden(true)
+                if DolgubonsWritCrafterSavedVars and 
+                   DolgubonsWritCrafterSavedVars["Default"][GetDisplayName()]["$AccountWide"]["skin"] ~= "default" then
+                    -- Skip styling for DolgubonsWrits if skin is not "default"
+                else
+                    PP:CreateBackground(dlwcSmallUI, nil, nil, nil, 0, 0, nil, nil, nil, 0, 0)
+                    DolgubonsWritsBackdropBackdrop:SetHidden(true)
+                end
             end
         end
 
         if DolgubonsLazyWritStatsWindow then
             PP:CreateBackground(DolgubonsLazyWritStatsWindowBackdrop, nil, nil, nil, 0, 0, nil, nil, nil, 0, 0)
-            PP.ScrollBar(DolgubonsLazyWritStatsWindowRewardScroll.object.list)
+            local scrollList = DolgubonsLazyWritStatsWindowRewardScroll.object.list
+            PP.ScrollBar(scrollList)
+
+            -- Style all rows in the list
+            local dataType = ZO_ScrollList_GetDataTypeTable(scrollList, 1)
+            local originalSetupCallback = dataType.setupCallback
+            dataType.setupCallback = function (control, data)
+                originalSetupCallback(control, data)
+
+                -- Create backdrop if it doesn't exist
+                if not control.backdrop then
+                    local backdrop = PP.CreateBackdrop(control)
+                    backdrop:SetCenterColor(20 / 255, 20 / 255, 20 / 255, 0.8)
+                    backdrop:SetEdgeColor(40 / 255, 40 / 255, 40 / 255, 0.9)
+                    backdrop:SetEdgeTexture("", 1, 1, 1, 0)
+                    backdrop:SetInsets(1, 1, -1, -1)
+                end
+
+                -- Style each craft section in the row
+                for i = 1, 7 do
+                    local craftControl = control:GetNamedChild("Craft" .. i)
+                    if craftControl then
+                        -- Hide the default backdrop
+                        local bg = craftControl:GetNamedChild("BG")
+                        if bg then
+                            bg:SetHidden(true)
+                        end
+
+                        -- Style the labels
+                        local nameLabel = craftControl:GetNamedChild("Name")
+                        local amountLabel = craftControl:GetNamedChild("Amount")
+
+                        if nameLabel then
+                            -- Keep original color (76BCC3 from WritCreater.xml)
+                            PP.Font(nameLabel, PP.f.u67, 16, "outline")
+                            PP.Anchor(nameLabel, --[[#1]] LEFT, craftControl, LEFT, 5, 0)
+                        end
+
+                        if amountLabel then
+                            PP.Font(amountLabel, PP.f.u67, 16, "outline")
+                            PP.Anchor(amountLabel, --[[#1]] RIGHT, craftControl, RIGHT, -5, 0)
+                        end
+                    end
+                end
+
+                -- Adjust row height (30px from XML)
+                control:SetHeight(30)
+                control:SetMouseEnabled(true)
+
+                -- Add mouseover highlight behavior
+                control:SetHandler("OnMouseEnter", function (self)
+                    self.backdrop:SetCenterColor(30 / 255, 30 / 255, 30 / 255, 0.8)
+                end)
+                control:SetHandler("OnMouseExit", function (self)
+                    self.backdrop:SetCenterColor(20 / 255, 20 / 255, 20 / 255, 0.8)
+                end)
+            end
         end
 
         -- ===============================================================================================--

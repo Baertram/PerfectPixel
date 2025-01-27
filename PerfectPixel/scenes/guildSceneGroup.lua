@@ -73,7 +73,9 @@ PP.guildSceneGroup = function()
 --guildRecruitmentKeyboard-------------------------------------------------------------------------
 	PP.Anchor(ZO_GuildRecruitment_Keyboard_TopLevelList, --[[#1]] TOPLEFT, ZO_GuildRecruitment_Keyboard_TopLevel, TOPLEFT,	0, 80)
 	PP.ScrollBar(ZO_GuildRecruitment_GuildListingInfo_Keyboard_TopLevelInfoPanel,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
-	ZO_Scroll_SetMaxFadeDistance(ZO_GuildRecruitment_GuildListingInfo_Keyboard_TopLevelInfoPanel, 10)
+    ZO_Scroll_SetMaxFadeDistance(ZO_GuildRecruitment_GuildListingInfo_Keyboard_TopLevelInfoPanel, 10)
+    PP.ScrollBar(ZO_GuildListing_Keyboard_TopLevelInfoPanelContainerListScrollBar,	--[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
+    ZO_Scroll_SetMaxFadeDistance(ZO_GuildListing_Keyboard_TopLevelInfoPanelContainerListContents, 10)
 
 --KEYBOARD_LINK_GUILD_INFO_SCENE GUILD_BROWSER_GUILD_INFO_KEYBOARD.control
 	PP:HideBackgroundForScene(KEYBOARD_GUILD_BROWSER_SCENE, GUILD_BROWSER_GUILD_INFO_KEYBOARD.control.PP_BG)

@@ -1,44 +1,51 @@
 local PP = PP ---@class PP
 local removeFragmentsFromScene = PP.removeFragmentsFromScene
 
-PP.allianceWarSceneGroup = function()
-	local scenes = {
-		{ scene = CAMPAIGN_OVERVIEW_SCENE,	gVar = CAMPAIGN_OVERVIEW,	},
-		{ scene = CAMPAIGN_BROWSER_SCENE,	gVar = CAMPAIGN_BROWSER,	},
-	}
-	local fragments	= { FRAME_PLAYER_FRAGMENT, RIGHT_BG_FRAGMENT, TREE_UNDERLAY_FRAGMENT, TITLE_FRAGMENT, ALLIANCE_WAR_TITLE_FRAGMENT, }
+local DEFAULT_ALLIANCE_WAR_SCENES = {
+	{
+		sceneObj = CAMPAIGN_OVERVIEW_SCENE,
+		someGlobalObj = CAMPAIGN_OVERVIEW,
+	},
+	{
+		sceneObj = CAMPAIGN_BROWSER_SCENE,
+		someGlobalObj = CAMPAIGN_BROWSER,
+	},
+}
 
-	for _, sceneInfo in ipairs(scenes) do
-		local scene = sceneInfo.scene
-		local gVar = sceneInfo.gVar
+local FRAGMENTS_TO_REMOVE = {
+	FRAME_PLAYER_FRAGMENT,
+	RIGHT_BG_FRAGMENT,
+	TREE_UNDERLAY_FRAGMENT,
+	TITLE_FRAGMENT,
+	ALLIANCE_WAR_TITLE_FRAGMENT,
+}
 
-		-- Remove fragments from the current scene
-		removeFragmentsFromScene(scene, fragments)
+local function MainStuffMustDoneHere(scene, topLevelControl)
+	removeFragmentsFromScene(scene, FRAGMENTS_TO_REMOVE)
 
-		local tlc	= gVar.control
-		--local list	= gVar.list
+	PP:CreateBackground(topLevelControl, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10)
+	PP.Anchor(topLevelControl, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 120, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -70)
+end
+PP.allianceWarSceneGroupMainStuff = MainStuffMustDoneHere
 
-		PP:CreateBackground(tlc, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10)
-		PP.Anchor(tlc, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 120, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -70)
-		-- ZO_ScrollList_Commit(list)
-	end
-
---ZO_CampaignOverview------------------------------------------------------------------------------------------------------------------------------
+local function AdditionalStuff()
 	PP.Anchor(ZO_CampaignOverviewCategories, --[[#1]] TOPLEFT, ZO_CampaignOverview, TOPLEFT, 0, 68)
 	PP.Anchor(ZO_CampaignSelector, --[[#1]] BOTTOMRIGHT, ZO_CampaignOverviewTopDivider, TOPRIGHT, -165, 25)
 
---ZO_CampaignBrowser
-	local campaignBrowserScene = scenes[2].scene -- CAMPAIGN_BROWSER_SCENE
-	--local campaignBrowserObj = scenes[2].gVar -- CAMPAIGN_BROWSER
-
 	local campaignBrowserXPBarChanged = false
-	campaignBrowserScene:RegisterCallback("StateChange", function(oldState, newState)
+	CAMPAIGN_BROWSER_SCENE:RegisterCallback("StateChange", function(oldState, newState)
 		if newState == SCENE_SHOWN and not campaignBrowserXPBarChanged then
 			PP.Bar(GetControl(ZO_CampaignAvARank, "XPBar"), 14, 15, nil, nil, true)
 			campaignBrowserXPBarChanged = true
         --elseif newState == SCENE_HIDDEN then
         end
 	end)
+end
 
----------------------------------------------------------------------------------------------------
+PP.allianceWarSceneGroup = function()
+	for _, scene in ipairs(DEFAULT_ALLIANCE_WAR_SCENES) do
+		MainStuffMustDoneHere(scene.sceneObj, scene.someGlobalObj.control)
+	end
+
+	AdditionalStuff()
 end

@@ -6,8 +6,11 @@ local PP = PP
 PP.compatibilityFunctions = {}
 PP.compatibility = function ()
     local function Compatibility()
+        local sv = PP.savedVars.Compatibility
+        if not sv.toggle then return end
+
         -- ==LibCustomMenu==--
-        if LibCustomMenu then
+        if LibCustomMenu and sv.addons.LibCustomMenu then
             local lcmSM = LibCustomMenuSubmenu
             local lcmSMBG = GetControl(lcmSM, "BG")
             local lcmSMBGMungeOverlay = GetControl(lcmSMBG, "MungeOverlay")
@@ -37,7 +40,7 @@ PP.compatibility = function ()
 
         -- ===============================================================================================--
         -- ==LibScrollableMenu==--
-        if LibScrollableMenu then
+        if LibScrollableMenu and sv.addons.LibScrollableMenu then
             local lsm = LibScrollableMenu
             local lsm_SetCustomScrollableMenuOptions = SetCustomScrollableMenuOptions
 
@@ -299,7 +302,7 @@ PP.compatibility = function ()
 
 
         -- ==CraftBagExtended==--
-        if CraftBagExtended then
+        if CraftBagExtended and sv.addons.CraftBagExtended then
             CraftBagExtendedVendorMenu:SetParent(ZO_StoreWindowMenu)
             PP.Anchor(CraftBagExtendedVendorMenu, --[[#1]] TOPLEFT, ZO_StoreWindowMenu, TOPLEFT, 80, 0)
 
@@ -321,7 +324,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==AddonSelector==--
-        if AddonSelector then
+        if AddonSelector and sv.addons.AddonSelector then
             local SV_VER = 0.1
             local addonSV = ZO_SavedVars:NewAccountWide(PP.ADDON_NAME, SV_VER, "GameMenuScene", {}, GetWorldName())
             if addonSV.addons_toggle then
@@ -362,7 +365,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==MailLooter==--
-        if MailLooter then
+        if MailLooter and sv.addons.MailLooter then
             MAIL_LOOTER_SCENE:RemoveFragment(TITLE_FRAGMENT)
             MAIL_LOOTER_SCENE:RemoveFragment(MAIL_TITLE_FRAGMENT)
             MAIL_LOOTER_SCENE:RemoveFragment(FRAME_PLAYER_FRAGMENT)
@@ -371,7 +374,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==ESO Master Recipe List==--
-        if ESOMRL then
+        if ESOMRL and sv.addons.ESOMRL then
             local resultTooltip = PROVISIONER.resultTooltip
             PP:SetLockFn(resultTooltip, "SetAnchor")
             PP:SetLockFn(resultTooltip, "ClearAnchors")
@@ -379,7 +382,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==Potion Maker==--
-        if PotMaker then
+        if PotMaker and sv.addons.PotMaker then
             PP.Anchor(ZO_AlchemyTopLevelContent, --[[#1]] TOPRIGHT, ZO_AlchemyTopLevel, TOPRIGHT, 0, 100, --[[#2]] true, BOTTOMRIGHT, ZO_AlchemyTopLevel, BOTTOMRIGHT, 0, -80)
             ZO_AlchemyTopLevelContent:SetWidth(565)
             --PP:CreateBackground(ZO_AlchemyTopLevelPotionMaker, --[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
@@ -390,14 +393,14 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==KyzderpsDerps==--
-        if KyzderpsDerps then
+        if KyzderpsDerps and sv.addons.KyzderpsDerps then
             PP:CreateBackground(SpawnTimerContainerBackdrop, --[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
         end
 
         -- ===============================================================================================--
 
         -- ==VotansMiniMap==--
-        if VOTANS_MINIMAP then
+        if VOTANS_MINIMAP and sv.addons.VotansMiniMap then
             WORLD_MAP_SCENE:RegisterCallback("StateChange", function (oldState, newState)
                 if newState == SCENE_SHOWN then
                     WORLD_MAP_FRAGMENT.duration = PP.savedVars.SceneManager.fade_scene_duration
@@ -421,7 +424,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==Azurah==--
-        if Azurah then
+        if Azurah and sv.addons.Azurah then
             if PP.savedVars.Compass.toggle then
                 ZO_CompassFrameLeft:SetHidden(true)
                 ZO_CompassFrameRight:SetHidden(true)
@@ -438,7 +441,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==InventoryInsightFromAshes==--
-        if IIFA_GUI then
+        if IIFA_GUI and sv.addons.InventoryInsightFromAshes then
             PP:CreateBackground(IIFA_GUI_BG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
             PP.ScrollBar(IIFA_GUI_ListHolder_Slider)
             PP.Anchor(IIFA_GUI_ListHolder_Slider, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, 14, 0)
@@ -464,7 +467,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==WizardsWardrobe==--
-        if WizardsWardrobe then
+        if WizardsWardrobe and sv.addons.WizardsWardrobe then
             PP.ScrollBar(WizardsWardrobeWindowSetupListScrollBar)
             PP.ScrollBar(WizardsWardrobeArrangeDialogListScrollBar)
             ZO_Scroll_SetMaxFadeDistance(WizardsWardrobeWindowSetupList, PP.savedVars.ListStyle.list_fade_distance)
@@ -487,7 +490,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==WPamA==--
-        if WPamA then
+        if WPamA and sv.addons.WPamA then
             PP:CreateBackground(WPamA_WinBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
             WPamA_WinBGMungeOverlay:SetHidden(true)
         end
@@ -495,7 +498,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==TimWitchesUI==--
-        if tim99_WitchesFestival then
+        if tim99_WitchesFestival and sv.addons.TimWitchesUI then
             PP:CreateBackground(TimWitchesUIBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
             TimWitchesUIBGMungeOverlay:SetHidden(true)
         end
@@ -503,7 +506,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==DolgubonSetCrafterWindow==--
-        if DolgubonSetCrafter then
+        if DolgubonSetCrafter and sv.addons.DolgubonSetCrafter then
             -- Define all scroll bars and their associated content elements
             local scrollElements =
             {
@@ -564,7 +567,7 @@ PP.compatibility = function ()
         end
 
         --Dolgubons Lazy Writ Creator
-        if DolgubonsWrits then
+        if DolgubonsWrits and sv.addons.DolgubonsWrits then
             local dlwcSmallUI = DolgubonsWrits
             if dlwcSmallUI then
                 if DolgubonsWritCrafterSavedVars and 
@@ -640,7 +643,7 @@ PP.compatibility = function ()
 
         -- ===============================================================================================--
         -- ==LibSets==--
-        if LibSets then
+        if LibSets and sv.addons.LibSets then
             PP:CreateBackground(LibSets_SearchUI_TLC_KeyboardBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
             PP.ScrollBar(LibSets_SearchUI_TLC_KeyboardContentListScrollBar)
             PP.Anchor(LibSets_SearchUI_TLC_KeyboardContentListScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
@@ -658,17 +661,8 @@ PP.compatibility = function ()
 
         -- ===============================================================================================--
 
-        -- ==PortToFriend==--
-        -- if PortToFriend then
-        -- PP:CreateBackground(PortToFriend_Body_Backdrop, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
-        -- PortToFriend_Body_BackdropMungeOverlay:SetHidden(true)
-        -- end
-
-        -- ===============================================================================================--
-        -- ===============================================================================================--
-
         -- ==MailHistory==--
-        if MailHistory then
+        if MailHistory and sv.addons.MailHistory then
             PP:CreateBackground(MailHistory_MainWindow_Backdrop, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
             PP.ScrollBar(MailHistory_ScrollListScrollBar)
             PP.Anchor(MailHistory_ScrollListScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
@@ -680,7 +674,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==ITTsGhostwriter==--
-        if ITTsGhostwriter then
+        if ITTsGhostwriter and sv.addons.ITTsGhostwriter then
             PP:CreateBackground(GW_NotePad, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
             PP.ScrollBar(GW_NotePad_ComposeScrollContainerScrollBar)
             PP.Anchor(GW_NotePad_ComposeScrollContainerScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
@@ -693,7 +687,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==LuiExtended==--
-        if LUIE then
+        if LUIE and sv.addons.LuiExtended then
             PP:CreateBackground(LUIE_Changelog_Background, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
             PP.ScrollBar(LUIE_Changelog_ContainerScrollBar)
             PP.Anchor(LUIE_Changelog_ContainerScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
@@ -703,7 +697,7 @@ PP.compatibility = function ()
 
         -- ===============================================================================================--
         -- ==displayleads==--
-        if RDL then
+        if RDL and sv.addons.RDL then
             PP:CreateBackground(RDLMainWindowBG, --[[#1]] nil, nil, nil, 6, 6, --[[#2]] nil, nil, nil, -6, -6)
             PP.ScrollBar(RDLMainWindowListScrollBar)
             PP.Anchor(RDLMainWindowListScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
@@ -713,7 +707,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==DebugLogViewer==--
-        if DebugLogViewer then
+        if DebugLogViewer and sv.addons.DebugLogViewer then
             PP:CreateBackground(DebugLogViewerMainWindowBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
             DebugLogViewerMainWindowBGMungeOverlay:SetHidden(true)
 
@@ -741,7 +735,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==WritWorthy==--
-        if WritWorthy then
+        if WritWorthy and sv.addons.WritWorthy then
             PP.ScrollBar(WritWorthyUIInventoryListListContents)
             PP.ScrollBar(WritWorthyMatUIListContainerListContents)
             ZO_Scroll_SetMaxFadeDistance(WritWorthyMatUIListContainerListScrollBar, PP.savedVars.ListStyle.list_fade_distance)
@@ -757,7 +751,7 @@ PP.compatibility = function ()
             WritWorthyUIInventoryListListEmptyRowBG:SetHidden(true)
         end
         -- ==AwesomeGuildStore==--z
-        if AwesomeGuildStore then
+        if AwesomeGuildStore and sv.addons.AwesomeGuildStore then
             local function AwesomeGuildStore_Compatibility()
                 PP.Anchor(AwesomeGuildStoreFooter, nil, nil, nil, nil, 50)
                 PP.Anchor(AwesomeGuildStoreActivityStatusLine, nil, nil, nil, nil, -2)
@@ -791,7 +785,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- == ArkadiusTradeTools == --
-        if ArkadiusTradeTools then
+        if ArkadiusTradeTools and sv.addons.ArkadiusTradeTools then
             local att_tab =
             {
                 bg =
@@ -910,7 +904,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==MasterMerchant==--
-        if MasterMerchant then
+        if MasterMerchant and sv.addons.MasterMerchant then
             local mm_tab =
             {
                 bg = { MasterMerchantWindowBG, MasterMerchantReportsWindowBG, MasterMerchantListingWindowBG, MasterMerchantGuildWindowBG, MasterMerchantPurchaseWindowBG, MasterMerchantStatsWindowBG, MasterMerchantFeedbackBG },
@@ -983,7 +977,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==LibAddonMenu-2.0==--
-        if LibAddonMenu2 then
+        if LibAddonMenu2 and sv.addons.LibAddonMenu2 then
             PP.ScrollBar(LAMAddonSettingsWindowAddonListScrollBar)
             PP.Anchor(LAMAddonSettingsWindowAddonListScrollBar, --[[#1]] nil, nil, nil, nil, nil, --[[#2]] true, nil, nil, nil, nil, nil)
             ZO_Scroll_SetMaxFadeDistance(LAMAddonSettingsWindowAddonListContents, PP.savedVars.ListStyle.list_fade_distance)
@@ -1028,7 +1022,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==pChat==--
-        if pChat then
+        if pChat and sv.addons.pChat then
             pChat.ChangeChatWindowDarkness = PP.Dummy
             ZO_PostHook(pChat, "ApplyChatConfig", function (...)
                 PP:UpdateBackgrounds("ChatWindow")
@@ -1038,7 +1032,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==rChat==--
-        if rChat then
+        if rChat and sv.addons.rChat then
             rChat.ChangeChatWindowDarkness = PP.Dummy
             ZO_PostHook(rChat, "ApplyChatConfig", function (...)
                 PP:UpdateBackgrounds("ChatWindow")
@@ -1047,7 +1041,7 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==LibHistoire==--
-        if LibHistoire then
+        if LibHistoire and sv.addons.LibHistoire then
             local wasHistyHooked = false
             SecurePostHook(ZO_GuildHistory_Keyboard, "OnDeferredInitialize", function ()
                 if not wasHistyHooked then
@@ -1085,7 +1079,7 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
         -- ===============================================================================================--
 
         -- ==FCO ChangeStuff==--
-        if FCOCS then
+        if FCOCS and sv.addons.FCOCS then
             MAIL_SEND_SCENE:RegisterCallback("StateChange", function (oldState, newState)
                 if newState == SCENE_SHOWN then
                     local mailSettingsGearButton = ZO_MailSend_FCOChangeStuff_FCOCS_MailSettingsContextMenu
@@ -1128,7 +1122,7 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
         -- ===============================================================================================--
 
         -- ==FarmingParty==--
-        if FarmingParty then
+        if FarmingParty and sv.addons.FarmingParty then
             PP:CreateBackground(FarmingPartyWindowBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
             PP:CreateBackground(FarmingPartyMembersWindowBG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
             PP.Font(FarmingPartyMembersWindowHeadersFarmerName, --[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
@@ -1142,7 +1136,7 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
         -- ==ExtendedJournal==
         --Initial compatibility started by DakJaniels. Many thanks!
         -->Proper function SetAlternateMode added by code65536 -> Many thanks for adding this
-        if LibExtendedJournal and LibExtendedJournal.SetAlternateMode then
+        if LibExtendedJournal and LibExtendedJournal.SetAlternateMode and sv.addons.LibExtendedJournal then
             local callbackMain = function ()
                 local frame = LibExtendedJournal.GetFrame()
                 PP:CreateBackground(frame, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 10)

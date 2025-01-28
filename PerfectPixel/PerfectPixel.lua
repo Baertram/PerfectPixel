@@ -40,6 +40,44 @@ function PP.Core()
 		blur_background_toggle	= true,
 		fade_scene_duration		= 20,
 	})
+
+	PP:AddNewSavedVars(0.1, 'Compatibility', {
+		toggle = true,
+		addons = {
+			LibCustomMenu = true,
+			LibScrollableMenu = true,
+			CraftBagExtended = true,
+			AddonSelector = true,
+			MailLooter = true,
+			ESOMRL = true,
+			PotMaker = true,
+			KyzderpsDerps = true,
+			VotansMiniMap = true,
+			Azurah = true,
+			InventoryInsightFromAshes = true,
+			WizardsWardrobe = true,
+			WPamA = true,
+			TimWitchesUI = true,
+			DolgubonSetCrafter = true,
+			DolgubonsWrits = true,
+			LibSets = true,
+			MailHistory = true,
+			ITTsGhostwriter = true,
+			LuiExtended = true,
+			RDL = true,
+			DebugLogViewer = true,
+			WritWorthy = true,
+			AwesomeGuildStore = true,
+			ArkadiusTradeTools = true,
+			MasterMerchant = true,
+			pChat = true,
+			rChat = true,
+			LibHistoire = true,
+			FCOCS = true,
+			FarmingParty = true,
+			LibExtendedJournal = true,
+		},
+	})
 	--===============================================================================================--
 	local function OnCreateFn(control, data, dataType)
 		control:SetHeight(PP.savedVars.ListStyle.list_control_height)

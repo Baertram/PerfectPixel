@@ -46,28 +46,25 @@ function PP:GetSavedVars(namespace)
 	return SV, SV.default
 end
 
-function PP.Dummy() end
-local Dummy = PP.Dummy
+function PP.Empty() end
+local empty = PP.Empty
 
 function PP.PostHooksSetupCallback(list, mode, typeId, onCreateFn, onUpdateFn)
 	local dataType = list.dataTypes[typeId]
 	if not dataType then return end
 
-	local pool				= dataType.pool
-	local _hooks			= dataType.hooks
-	local _customFactory	= pool.customFactoryBehavior
-	local _setupCallback	= dataType.setupCallback
+    local hooks = dataType.hooks or {}
 
-	if not _hooks then
-		dataType.hooks = {}
+	if not dataType.hooks then
 		for m = 1, 3 do
-			dataType.hooks[m] = {
-				OnCreate	= Dummy,
-				OnUpdate	= Dummy,
-			}
+			hooks[m] = { OnCreate = empty, OnUpdate = empty }
 		end
 
-		local hooks = dataType.hooks
+		dataType.hooks = hooks
+
+		local pool				= dataType.pool
+		local _customFactory	= pool.customFactoryBehavior
+		local _setupCallback	= dataType.setupCallback
 
 		if _customFactory then
 			pool.customFactoryBehavior = function(...)
@@ -84,38 +81,23 @@ function PP.PostHooksSetupCallback(list, mode, typeId, onCreateFn, onUpdateFn)
 			_setupCallback(...)
 			hooks[list.mode].OnUpdate(...)
 		end
+	end
 
-		if onCreateFn then
-			hooks[mode].OnCreate = onCreateFn
+	local modeHooks = hooks[mode]
+	local _OnCreate = modeHooks.OnCreate
+	local _OnUpdate = modeHooks.OnUpdate
+
+	if onCreateFn then
+		modeHooks.OnCreate = _OnCreate == empty and onCreateFn or function(...)
+			_OnCreate(...)
+			onCreateFn(...)
 		end
+	end
 
-		if onUpdateFn then
-			hooks[mode].OnUpdate = onUpdateFn
-		end
-	elseif _hooks then
-		local exOnCreate = _hooks[mode].OnCreate
-		local exOnUpdate = _hooks[mode].OnUpdate
-
-		if onCreateFn then
-			if exOnCreate == Dummy then
-				_hooks[mode].OnCreate = onCreateFn
-			else
-				_hooks[mode].OnCreate = function(...)
-					exOnCreate(...)
-					onCreateFn(...)
-				end
-			end
-		end
-
-		if onUpdateFn then
-			if exOnUpdate == Dummy then
-				_hooks[mode].OnUpdate = onUpdateFn
-			else
-				_hooks[mode].OnUpdate = function(...)
-					exOnUpdate(...)
-					onUpdateFn(...)
-				end
-			end
+	if onUpdateFn then
+		modeHooks.OnUpdate = _OnUpdate == empty and onUpdateFn or function(...)
+			_OnUpdate(...)
+			onUpdateFn(...)
 		end
 	end
 end

@@ -44,8 +44,12 @@ function PP.Core()
 	PP:AddNewSavedVars(0.1, 'Compatibility', {
 		toggle = true,
 		addons = {
+			LibAddonMenu2 = true,
 			LibCustomMenu = true,
 			LibScrollableMenu = true,
+			LibExtendedJournal = true,
+			LibHistoire = true,
+			LibSets = true,
 			CraftBagExtended = true,
 			AddonSelector = true,
 			MailLooter = true,
@@ -60,7 +64,6 @@ function PP.Core()
 			TimWitchesUI = true,
 			DolgubonSetCrafter = true,
 			DolgubonsWrits = true,
-			LibSets = true,
 			MailHistory = true,
 			ITTsGhostwriter = true,
 			LuiExtended = true,
@@ -72,10 +75,8 @@ function PP.Core()
 			MasterMerchant = true,
 			pChat = true,
 			rChat = true,
-			LibHistoire = true,
 			FCOCS = true,
 			FarmingParty = true,
-			LibExtendedJournal = true,
 		},
 	})
 	--===============================================================================================--

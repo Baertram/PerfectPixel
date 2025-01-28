@@ -34,7 +34,7 @@ function PP.PackTables(...)
 
 	for _, t in ipairs(tables) do
 		for _, v in ipairs(t) do
-			table.insert(pack, v)
+			tinsert(pack, v)
 		end
 	end
 
@@ -178,7 +178,7 @@ function PP.Settings()
 
 --==Compatibility Settings=============================================================================================--
 	local sv, def = PP:GetSavedVars('Compatibility')
-	table.insert(PP.optionsData,
+	tinsert(PP.optionsData,
 	{	type = "submenu",
 		name = "Compatibility",
 		controls = {
@@ -486,7 +486,7 @@ function PP.Settings()
 	})
 
 --==WindowStyle=============================================================================================--
-	table.insert(PP.optionsData,
+	tinsert(PP.optionsData,
 	{	type = "submenu", name = GetString(PP_LAM_WINDOW_STYLE),
 		controls = PP.PackTables(
 			PP:AddBackdropSettings('WindowStyle'),
@@ -494,7 +494,7 @@ function PP.Settings()
 		),
 	})
 --==ListStyle=============================================================================================--
-	table.insert(PP.optionsData,
+	tinsert(PP.optionsData,
 	{	type = "submenu", name = GetString(PP_LAM_LIST_STYLE),
 		controls = {
 			{	type = "header", name = GetString(PP_LAM_LIST_STYLE_BACKDROP), },
@@ -624,7 +624,7 @@ function PP.Settings()
 		},
 	})
 --==SceneManager=============================================================================================--
-	table.insert(PP.optionsData,
+	tinsert(PP.optionsData,
 	{	type				= "submenu",
 		name				= GetString(PP_LAM_OTHERS),
 		controls = {

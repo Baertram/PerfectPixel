@@ -1029,7 +1029,7 @@ PP.compatibility = function ()
 
         -- ==pChat==--
         if pChat then
-            pChat.ChangeChatWindowDarkness = PP.Dummy
+            pChat.ChangeChatWindowDarkness = PP.Empty
             ZO_PostHook(pChat, "ApplyChatConfig", function (...)
                 PP:UpdateBackgrounds("ChatWindow")
             end)
@@ -1039,7 +1039,7 @@ PP.compatibility = function ()
 
         -- ==rChat==--
         if rChat then
-            rChat.ChangeChatWindowDarkness = PP.Dummy
+            rChat.ChangeChatWindowDarkness = PP.Empty
             ZO_PostHook(rChat, "ApplyChatConfig", function (...)
                 PP:UpdateBackgrounds("ChatWindow")
             end)

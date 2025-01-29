@@ -695,7 +695,9 @@ end
 -- Function to remove fragments from a scene
 local removeFragmentsFromScene = function(scene, fragments)
 	for _, fragment in ipairs(fragments) do
-	  scene:RemoveFragment(fragment)
+		if scene and scene:HasFragment(fragment) then
+			scene:RemoveFragment(fragment)
+		end
 	end
 end
 

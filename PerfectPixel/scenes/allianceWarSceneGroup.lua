@@ -14,7 +14,7 @@ local FRAGMENTS_TO_REMOVE = {
 	ALLIANCE_WAR_TITLE_FRAGMENT,
 }
 
-local function EditScene(scene, topLevelControl, editElementsFunc)
+local function EditScene(scene, topLevelControl, editElementsFunc, ...)
 	-- Remove fragments from the current scene
 	removeFragmentsFromScene(scene, FRAGMENTS_TO_REMOVE)
 

@@ -1173,17 +1173,25 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
         -- ===============================================================================================--
 
         -- ==ESO_PROFILER==
-        if ESO_PROFILER then
+        local esoProfiler = ESO_PROFILER
+        if esoProfiler then
+            local scene = ESO_PROFILER_SCENE
+
             local function applyElementChanges()
                 --todo apply scrollbar etc.
-                PP.Bar(ESO_PROFILER.statusBar, 14, 15)
-                PP.ScrollBar(ESO_PROFILER.contentList,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+                PP.Bar(esoProfiler.statusBar, 14, 15)
+                PP.ScrollBar(esoProfiler.contentList,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+
+                esoProfiler.control.PP_BG:SetHidden(false) --Somehow ESO profiler hides the background on first open of the scene?
+
+                --Scripts
+                scene:RemoveFragment(LEFT_PANEL_BG_FRAGMENT)
+                PP:CreateBackground(esoProfiler.script, --[[#1]] nil, nil, nil, 0, -15, --[[#2]] nil, nil, nil, 20, 10)
             end
             local esoProfilerChanged = false
-            local scene = ESO_PROFILER_SCENE
             PP.onStateChangeCallback(scene, function(oldState, newState)
                 if newState == SCENE_SHOWN and not esoProfilerChanged then
-                    PP.journalSceneGroupEditScene(scene, ESOProfilerTopLevel, applyElementChanges)
+                    PP.journalSceneGroupEditScene(scene, esoProfiler.control, applyElementChanges)
                     esoProfilerChanged = true
                 end
             end)

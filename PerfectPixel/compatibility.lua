@@ -1170,7 +1170,7 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
             local scene = JQL_SCENE
             PP.onStateChangeCallback(scene, function(oldState, newState)
                 if newState == SCENE_SHOWN and not journalQuestLogChanged then
-                    PP.journalSceneGroupEditScene(scene, JQL_Window, applyElementChanges)
+                    PP.journalSceneGroupEditScene(scene, jql.control, applyElementChanges)
                     journalQuestLogChanged = true
                 end
             end)

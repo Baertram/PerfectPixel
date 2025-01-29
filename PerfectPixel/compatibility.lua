@@ -1158,8 +1158,13 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
 
         -- ==JournalQuestLog==
         if JournalQuestLog then
+            local jql = JournalQuestLog
             local function applyElementChanges()
-                --todo apply scrollbar etc.
+                local jqlWindowQuestIndexList = GetControl(jql.control, "QuestIndex")
+                PP.ScrollBar(jql.navigationTree.scrollControl,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+                PP.ScrollBar(jqlWindowQuestIndexList,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+
+                jql.control.PP_BG:SetHidden(false) --Somehow JQL hides the background on first open of the scene?
             end
             local journalQuestLogChanged = false
             local scene = JQL_SCENE
@@ -1178,7 +1183,6 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
             local scene = ESO_PROFILER_SCENE
 
             local function applyElementChanges()
-                --todo apply scrollbar etc.
                 PP.Bar(esoProfiler.statusBar, 14, 15)
                 PP.ScrollBar(esoProfiler.contentList,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
 

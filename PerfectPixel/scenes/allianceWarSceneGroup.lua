@@ -2,14 +2,8 @@ local PP = PP ---@class PP
 local removeFragmentsFromScene = PP.removeFragmentsFromScene
 
 local DEFAULT_ALLIANCE_WAR_SCENES = {
-	{
-		sceneObj = CAMPAIGN_OVERVIEW_SCENE,
-		someGlobalObj = CAMPAIGN_OVERVIEW,
-	},
-	{
-		sceneObj = CAMPAIGN_BROWSER_SCENE,
-		someGlobalObj = CAMPAIGN_BROWSER,
-	},
+	{ scene = CAMPAIGN_OVERVIEW_SCENE, gVar = CAMPAIGN_OVERVIEW, },
+	{ scene = CAMPAIGN_BROWSER_SCENE, gVar = CAMPAIGN_BROWSER, },
 }
 
 local FRAGMENTS_TO_REMOVE = {
@@ -20,15 +14,15 @@ local FRAGMENTS_TO_REMOVE = {
 	ALLIANCE_WAR_TITLE_FRAGMENT,
 }
 
-local function MainStuffMustDoneHere(scene, topLevelControl)
+local function EditScene(scene, topLevelControl)
 	removeFragmentsFromScene(scene, FRAGMENTS_TO_REMOVE)
 
 	PP:CreateBackground(topLevelControl, --[[#1]] nil, nil, nil, -10, -10, --[[#2]] nil, nil, nil, 0, 10)
 	PP.Anchor(topLevelControl, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, 120, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, -70)
 end
-PP.allianceWarSceneGroupMainStuff = MainStuffMustDoneHere
+PP.allianceWarSceneGroupEditScene = EditScene
 
-local function AdditionalStuff()
+local function EditElements()
 	PP.Anchor(ZO_CampaignOverviewCategories, --[[#1]] TOPLEFT, ZO_CampaignOverview, TOPLEFT, 0, 68)
 	PP.Anchor(ZO_CampaignSelector, --[[#1]] BOTTOMRIGHT, ZO_CampaignOverviewTopDivider, TOPRIGHT, -165, 25)
 
@@ -44,8 +38,8 @@ end
 
 PP.allianceWarSceneGroup = function()
 	for _, scene in ipairs(DEFAULT_ALLIANCE_WAR_SCENES) do
-		MainStuffMustDoneHere(scene.sceneObj, scene.someGlobalObj.control)
+		EditScene(scene.scene, scene.gVar.control)
 	end
 
-	AdditionalStuff()
+	EditElements()
 end

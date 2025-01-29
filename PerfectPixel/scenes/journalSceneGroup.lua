@@ -18,7 +18,7 @@ local FRAGMENTS_TO_REMOVE = {
 	JOURNAL_TITLE_FRAGMENT,
 }
 
-local function MainStuff(scene, topLevelControl)
+local function EditScene(scene, topLevelControl)
 	-- local filter 		= 		gVar.filter or gVar.categoryFilter
 	-- local progressBar   = 		gVar.categoryProgress
 	-- local sceneShowCallback = 	scenes[i].sceneShowCallback
@@ -55,7 +55,7 @@ local function MainStuff(scene, topLevelControl)
 	end
 	]=]
 end
-PP.journalSceneGroupMainStuff = MainStuff
+PP.journalSceneGroupEditScene = EditScene
 
 local SV
 
@@ -81,7 +81,7 @@ local function SetupSavedVariables()
 			})
 end
 
-local function PP_ZO_QuestJournal()
+local function Edit_ZO_QuestJournal()
 	SetupSavedVariables()
 
 	--questJournal--ZO_QuestJournal--------------------------------------------------------------------
@@ -179,7 +179,7 @@ local function PP_ZO_QuestJournal()
 	end
 end
 
-local function PP_ZO_Cadwell()
+local function Edit_ZO_Cadwell()
 	--Antiquities--ZO_Cadwell--------------------------------------------------------------------
 	--cadwellsAlmanac--ZO_Cadwell--------------------------------------------------------------------
 	--Antiquities--------------------------------------------------------------------
@@ -192,7 +192,7 @@ local function PP_ZO_Cadwell()
 	end, nil) -- ZO_AntiquityJournal_Keyboard:OnDeferredInitialize
 end
 
-local function PP_ZO_Achievements()
+local function Edit_ZO_Achievements()
 	--achievements--ZO_Achievements--------------------------------------------------------------------
 
 	--PTS API101043 2024-08-07
@@ -220,24 +220,24 @@ local function PP_ZO_Achievements()
 	-- end
 end
 
-local function PP_ZO_LoreLibrary()
+local function Edit_ZO_LoreLibrary()
 	--loreLibrary--ZO_LoreLibrary----------------------------------------------------------------------
 	local loreLibraryObj = LORE_LIBRARY  -- scenes[4].gVar --LORE_LIBRARY
 	PP.ScrollBar(loreLibraryObj.navigationTree.scrollControl, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false) --ZO_LoreLibraryNavigationContainer
 	PP.ScrollBar(loreLibraryObj.list.list, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
 end
 
-local function PP_ZO_Leaderboard()
+local function Edit_ZO_Leaderboard()
 	--leaderboards--ZO_Leaderboards--------------------------------------------------------------------
 	PP.ScrollBar(ZO_LeaderboardsList, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
 end
 
-local function AdditionalStuff()
-	PP_ZO_QuestJournal()
-	PP_ZO_Cadwell()
-	PP_ZO_Achievements()
-	PP_ZO_LoreLibrary()
-	PP_ZO_Leaderboard()
+local function EditElements()
+	Edit_ZO_QuestJournal()
+	Edit_ZO_Cadwell()
+	Edit_ZO_Achievements()
+	Edit_ZO_LoreLibrary()
+	Edit_ZO_Leaderboard()
 end
 
 PP.journalSceneGroup = function()
@@ -246,8 +246,8 @@ PP.journalSceneGroup = function()
 	-- end
 
 	for _, scene in ipairs(DEFAULT_JOURNAL_SCENES) do
-		MainStuff(scene.scene, scene.gVar.control)
+		EditScene(scene.scene, scene.gVar.control)
 	end
 
-	AdditionalStuff()
+	EditElements()
 end

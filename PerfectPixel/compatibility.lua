@@ -1154,7 +1154,28 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
             end
             LibExtendedJournal.SetAlternateMode(callbackMain, callbackList)
         end
+        -- ===============================================================================================--
 
+        -- ==JournalQuestLog==
+        if JournalQuestLog then
+            local function applyElementChanges()
+
+            end
+            ZO_PostHook(JournalQuestLog, 'Initialize', function()
+                PP.journalSceneGroupEditScene(JQL_SCENE, JQL_Window, applyElementChanges)
+            end)
+        end
+        -- ===============================================================================================--
+
+        -- ==ESO_PROFILER==
+        if ESO_PROFILER then
+            local function applyElementChanges()
+
+            end
+            ZO_PostHook(ESO_PROFILER, 'Initialize', function()
+                PP.journalSceneGroupEditScene(ESO_PROFILER_SCENE, ESOProfilerTopLevel, applyElementChanges)
+            end)
+        end
         -- ===============================================================================================--
 
 

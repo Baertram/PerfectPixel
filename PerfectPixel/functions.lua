@@ -477,18 +477,21 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 	end
 
 	bg:SetHidden(true)
-	overlay:SetHidden(true)
+	if overlay then
+		overlay:SetHidden(true)
+	end
 
 	bar:SetHeight(height)
 	bar:SetTexture(nil)
 	bar:SetLeadingEdge(nil)
 	bar:EnableLeadingEdge(false)
-	gloss:SetTexture(nil)
-	gloss:SetLeadingEdge(nil)
-	gloss:EnableLeadingEdge(false)
-	gloss:SetColor(0/255, 0/255, 0/255, 0.1)
-
---
+	if gloss then
+		gloss:SetTexture(nil)
+		gloss:SetLeadingEdge(nil)
+		gloss:EnableLeadingEdge(false)
+		gloss:SetColor(0/255, 0/255, 0/255, 0.1)
+	end
+	--
 	if not control:GetNamedChild("Backdrop") then
 		local barBG = CreateControl("$(parent)Backdrop", control, CT_BACKDROP)
 
@@ -725,6 +728,11 @@ function PP.onDeferredInitCheck(object, callbackFunc, preCheckFunc)
 			end
 		end
 	end
+end
+
+function PP.onStateChangeCallback(sceneOrFragment, callbackFunc)
+	if not sceneOrFragment or type(callbackFunc) ~= "function" then return end
+	sceneOrFragment:RegisterCallback("StateChange", callbackFunc)
 end
 
 -- Another stupidity from ZoS. -- GetUIMouseDeltas() does not work correctly at high frame rates.

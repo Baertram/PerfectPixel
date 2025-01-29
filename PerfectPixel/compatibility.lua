@@ -1159,10 +1159,15 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
         -- ==JournalQuestLog==
         if JournalQuestLog then
             local function applyElementChanges()
-
+                --todo apply scrollbar etc.
             end
-            ZO_PostHook(JournalQuestLog, 'Initialize', function()
-                PP.journalSceneGroupEditScene(JQL_SCENE, JQL_Window, applyElementChanges)
+            local journalQuestLogChanged = false
+            local scene = JQL_SCENE
+            PP.onStateChangeCallback(scene, function(oldState, newState)
+                if newState == SCENE_SHOWN and not journalQuestLogChanged then
+                    PP.journalSceneGroupEditScene(scene, JQL_Window, applyElementChanges)
+                    journalQuestLogChanged = true
+                end
             end)
         end
         -- ===============================================================================================--
@@ -1170,10 +1175,17 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
         -- ==ESO_PROFILER==
         if ESO_PROFILER then
             local function applyElementChanges()
-
+                --todo apply scrollbar etc.
+                PP.Bar(ESO_PROFILER.statusBar, 14, 15)
+                PP.ScrollBar(ESO_PROFILER.contentList,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
             end
-            ZO_PostHook(ESO_PROFILER, 'Initialize', function()
-                PP.journalSceneGroupEditScene(ESO_PROFILER_SCENE, ESOProfilerTopLevel, applyElementChanges)
+            local esoProfilerChanged = false
+            local scene = ESO_PROFILER_SCENE
+            PP.onStateChangeCallback(scene, function(oldState, newState)
+                if newState == SCENE_SHOWN and not esoProfilerChanged then
+                    PP.journalSceneGroupEditScene(scene, ESOProfilerTopLevel, applyElementChanges)
+                    esoProfilerChanged = true
+                end
             end)
         end
         -- ===============================================================================================--

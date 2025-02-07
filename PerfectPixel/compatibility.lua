@@ -1124,7 +1124,6 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
                 end
             end)
         end
-
         -- ===============================================================================================--
 
         -- ==FarmingParty==--
@@ -1151,6 +1150,9 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
             end
             local callbackList = function (control)
                 PP.ScrollBar(control)
+                local listCtrl = control:GetNamedChild("List")
+                ZO_Scroll_SetMaxFadeDistance(listCtrl, PP.savedVars.ListStyle.list_fade_distance)
+                ZO_ScrollList_Commit(listCtrl)
             end
             LibExtendedJournal.SetAlternateMode(callbackMain, callbackList)
         end
@@ -1163,6 +1165,8 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
                 local jqlWindowQuestIndexList = GetControl(jql.control, "QuestIndex")
                 PP.ScrollBar(jql.navigationTree.scrollControl,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
                 PP.ScrollBar(jqlWindowQuestIndexList,	--[[sb_c]] 180, 180, 180, .7, --[[bd_c]] 20, 20, 20, .7, false)
+                ZO_Scroll_SetMaxFadeDistance(jqlWindowQuestIndexList, PP.savedVars.ListStyle.list_fade_distance)
+                ZO_ScrollList_Commit(jqlWindowQuestIndexList)
 
                 jql.control.PP_BG:SetHidden(false) --Somehow JQL hides the background on first open of the scene?
             end

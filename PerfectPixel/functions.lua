@@ -445,7 +445,7 @@ PP.ScrollBar = function(control)
 end
 ]]
 
-PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColor, glowEdgeColor, reAnchorText)
+PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColor, glowEdgeColor, reAnchorText, doDebug)
 	--todo 20250117 param reAnchorText is not used anywhere?
 	local bar		= control
 	local barText	= control:GetNamedChild("Progress")
@@ -458,11 +458,13 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 	local glowR		= control:GetNamedChild("GlowContainerRight")
 
 	if glow then
+		if doDebug then d("[PP.Bar]glow found") end
 		glowC:SetHidden(true)
 		glowL:SetHidden(true)
 		glowR:SetHidden(true)
 
 		if not glow:GetNamedChild("Backdrop") then
+			if doDebug then d("[PP.Bar]glow backdrop created") end
 			local glowBG = CreateControl("$(parent)Backdrop", glow, CT_BACKDROP)
 			glowBG:SetCenterTexture("", 8, 0)
 			glowBG:SetCenterColor(0/255, 0/255, 0/255, 0)
@@ -473,6 +475,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 	end
 
 	if barText then
+		if doDebug then d("[PP.Bar]bartext found") end
 		PP_Font(barText, --[[Font]] PP.f.u67, fSize, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 	end
 
@@ -486,6 +489,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 	bar:SetLeadingEdge(nil)
 	bar:EnableLeadingEdge(false)
 	if gloss then
+		if doDebug then d("[PP.Bar]gloss found") end
 		gloss:SetTexture(nil)
 		gloss:SetLeadingEdge(nil)
 		gloss:EnableLeadingEdge(false)
@@ -493,6 +497,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 	end
 	--
 	if not control:GetNamedChild("Backdrop") then
+		if doDebug then d("[PP.Bar]backdrop created") end
 		local barBG = CreateControl("$(parent)Backdrop", control, CT_BACKDROP)
 
 		PP_Anchor(barBG, --[[#1]] TOPLEFT, control, TOPLEFT, -2, -2, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	2, 2)

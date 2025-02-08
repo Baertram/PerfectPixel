@@ -1151,8 +1151,10 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
             local callbackList = function (control)
                 PP.ScrollBar(control)
                 local listCtrl = control:GetNamedChild("List")
-                ZO_Scroll_SetMaxFadeDistance(listCtrl, PP.savedVars.ListStyle.list_fade_distance)
-                ZO_ScrollList_Commit(listCtrl)
+                if listCtrl then
+                    ZO_Scroll_SetMaxFadeDistance(listCtrl, PP.savedVars.ListStyle.list_fade_distance)
+                    ZO_ScrollList_Commit(listCtrl)
+                end
             end
             LibExtendedJournal.SetAlternateMode(callbackMain, callbackList)
         end

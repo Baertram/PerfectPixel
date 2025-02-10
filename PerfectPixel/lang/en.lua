@@ -72,6 +72,7 @@ local stringsEn = {
 	PP_LAM_KEYBINDSTRIP								= "Keybind strip",
 	--Chat
 	PP_LAM_SCENE_CHAT								= GetString(SI_CHAT_TAB_GENERAL),
+	PP_LAM_CHAT_MINBAR								= "Style chat min. bar",
 	--Companion SkillsScene
 	PP_LAM_SCENE_COMPANION_SKILLS					= "Companion Skills Scene",
 }

@@ -16,6 +16,7 @@ PP.chatWindow = function()
 		skin_edge_file_width			= 128,
 		skin_edge_file_height			= 16,
 		skin_edge_integral_wrapping		= false,
+		styleChatMinBar					= true,
 	})
 	---------------------------------------------
 	table.insert(PP.optionsData,
@@ -29,6 +30,14 @@ PP.chatWindow = function()
 					setFunc			= function(value) sv.toggle = value end,
 					default			= def.toggle,
 					requiresReload	= true,
+				},
+				{	type			= "checkbox",
+					name			= GetString(PP_LAM_CHAT_MINBAR),
+					getFunc			= function() return sv.styleChatMinBar end,
+					setFunc			= function(value) sv.styleChatMinBar = value end,
+					default			= def.styleChatMinBar,
+					disabled		= function() return not sv.toggle end,
+					--requiresReload	= true,
 				}
 			},
 			PP:AddBackdropSettings(namespace),
@@ -51,12 +60,13 @@ PP.chatWindow = function()
 	local cwMinBar  = ZO_ChatWindowMinBar
 	local bgMinBar  = cwMinBar:GetNamedChild('BG')
 	PP:CreateBackground(bgMinBar, --[[#1]] BOTTOMLEFT, nil, BOTTOMLEFT, 1, -20, --[[#2]] nil, nil, nil, 0, 0, nil, 39, 235)
-	--20241115 PP:CreateBackground does not hide these 2 texture files, as usually those are hidden by removing fragments from a ddfined layout. But chat does not use such fragments.
+	--20241115 PP:CreateBackground does not hide these 2 texture files, as usually those are hidden by removing fragments from a defined layout. But chat does not use such fragments.
 	--"EsoUI/Art/ChatWindow/chat_minimized_mungeBG.dds"
 	--"EsoUI/Art/ChatWindow/chat_minimized_mungeBG_highlight.dds"  alpha 0
 	--So we prehook the ShowMinBar function to remove the background textures ourselves
 	ZO_PreHook(KEYBOARD_CHAT_SYSTEM, 'ShowMinBar', function()
 		bgMinBar:SetAlpha(0)
+		ZO_ChatWindowMinBarBG:SetHidden(not sv.styleChatMinBar)
 	end)
 
 	ZO_PostHook(KEYBOARD_CHAT_SYSTEM, 'OnPlayerActivated', function(...)

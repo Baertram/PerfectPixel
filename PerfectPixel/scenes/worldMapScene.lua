@@ -207,7 +207,7 @@ PP.worldMapScene = function ()
         local zoom = ZO_WorldMap_GetPanAndZoom()
 
         local function MapSize()
-            if WORLD_MAP_SCENE:IsShowing() and modes[ZO_WorldMap_GetMode()] then
+            if WORLD_MAP_SCENE:IsShowing() and modes[WORLD_MAP_MANAGER:GetMode()] then
                 PP.Anchor(ZO_WorldMap, --[[#1]] TOP, nil, TOP, 70, 80, --[[#2]] true, BOTTOM, nil, BOTTOM, 70, -70)
                 local x = ZO_WorldMap:GetHeight()
                 local currentZoom = zoom:GetCurrentNormalizedZoom()
@@ -237,7 +237,7 @@ PP.worldMapScene = function ()
 
         local orig_ZO_WorldMap_RefreshMapFrameAnchor = ZO_WorldMap_RefreshMapFrameAnchor
         function ZO_WorldMap_RefreshMapFrameAnchor(...)
-            if WORLD_MAP_SCENE:IsShowing() and modes[ZO_WorldMap_GetMode()] then
+            if WORLD_MAP_SCENE:IsShowing() and modes[WORLD_MAP_MANAGER:GetMode()] then
                 return
             end
             return orig_ZO_WorldMap_RefreshMapFrameAnchor(...)

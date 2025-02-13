@@ -217,7 +217,7 @@ PP.inventoryScene = function()
 		PP.Font(timerBarLabel, PP.f.u67, 16, "outline", nil, nil, nil, nil, nil, 0, 0, 0, 0.5)
 
 		local timerBar = timerBarParent:GetNamedChild("ZO_LockpickTimerBarStatus1")
-		PP.Bar(timerBar, 14, 15, nil, nil, nil, true)
+		PP.Bar(timerBar, 14, 15, nil, nil, nil, nil)
 	end
 
 	PP.onStateChangeCallback(LOCK_PICK_SCENE, function(oldState, newState)

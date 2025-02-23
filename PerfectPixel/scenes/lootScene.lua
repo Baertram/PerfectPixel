@@ -209,7 +209,7 @@ PP.lootScene = function()
 	ZO_PreHook(LOOT_WINDOW_FRAGMENT, "Show", function(self)
 		SHARED_INFORMATION_AREA:SetHidden(self.control, false)
 
-		ZO_PlayMonsterLootSound(false)
+		ZO_PlayLootWindowSound(false)
 
 		TUTORIAL_SYSTEM:SuppressTutorialType(TUTORIAL_TYPE_HUD_INFO_BOX, true, TUTORIAL_SUPPRESSED_BY_LOOT)
 

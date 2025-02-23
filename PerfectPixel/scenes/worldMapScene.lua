@@ -120,6 +120,12 @@ PP.worldMapScene = function ()
         if ZO_WorldMapFiltersPvPContainer then
             table.insert(scrollableControls, ZO_WorldMapFiltersPvPContainer)
         end
+        if ZO_WorldMapFiltersImperialPvPContainer then
+            table.insert(scrollableControls, ZO_WorldMapFiltersImperialPvPContainer)
+        end
+        if ZO_WorldMapFiltersBattlegroundContainer then
+            table.insert(scrollableControls, ZO_WorldMapFiltersBattlegroundContainer)
+        end
 
         for _, control in ipairs(scrollableControls) do
             PP.ScrollBar(control, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)

@@ -11,7 +11,7 @@ PP = {
 	ADDON_NAME		= 'PerfectPixel',
 	ADDON_AUTHOR	= '@KL1SK, Baertram',
 	ADDON_WEBSITE	= 'https://www.esoui.com/downloads/info2103-PerfectPixel.html',
-	ADDON_VERSION 	= '0.13.21',
+	ADDON_VERSION 	= '0.13.22',
 }
 
 local PP = PP ---@class PP
@@ -52,6 +52,7 @@ EVENT_MANAGER:RegisterForEvent(PP.ADDON_NAME, EVENT_ADD_ON_LOADED, function(even
 		PP.gameMenuInGameScene()
 		PP.performanceMeter()
 		PP.companionsScene()
+		PP.lockpickingScene()
 
 		PP.compatibility()
 

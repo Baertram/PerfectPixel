@@ -1,6 +1,6 @@
 ## APIVersion: 101044 101045
-## Version: 0.13.21
-## AddOnVersion: 001321
+## Version: 0.13.22
+## AddOnVersion: 001322
 ## Title: PerfectPixel
 ## Author: @KL1SK
 ## Description: PerfectPixle changes a lot UI elements.
@@ -43,6 +43,7 @@ scenes\notificationsScene.lua
 scenes\helpSceneGroup.lua
 scenes\gameMenuInGameScene.lua
 scenes\companion.lua
+scenes\lockpickingScene.lua
 
 modules\chatWindow.lua
 modules\compass.lua

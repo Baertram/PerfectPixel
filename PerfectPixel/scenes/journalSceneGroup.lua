@@ -229,6 +229,7 @@ local function Edit_ZO_LoreLibrary()
 	local loreLibraryObj = LORE_LIBRARY  -- scenes[4].gVar --LORE_LIBRARY
 	PP.ScrollBar(loreLibraryObj.navigationTree.scrollControl, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false) --ZO_LoreLibraryNavigationContainer
 	PP.ScrollBar(loreLibraryObj.list.list, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
+    ZO_Scroll_SetMaxFadeDistance(ZO_LoreLibraryNavigationContainer, PP.savedVars.ListStyle.list_fade_distance)
 end
 
 local function Edit_ZO_Leaderboard()

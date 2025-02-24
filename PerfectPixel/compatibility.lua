@@ -729,6 +729,7 @@ PP.compatibility = function ()
 
         --DebugLogViewer - Quicklog window
         if DebugLogWindow then
+            PP:CreateBackground(DebugLogWindowBg, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
             PP.ScrollBar(DebugLogWindowScrollbar)
             ZO_Scroll_SetMaxFadeDistance(DebugLogWindow, 10)
             DebugLogWindowScrollbar:ClearAnchors()

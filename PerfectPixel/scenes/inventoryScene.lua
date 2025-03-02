@@ -22,17 +22,6 @@ PP.inventoryScene = function()
 		 },
 	})
 	--===============================================================================================--
-	local children = {
-		{ 'List', 'Backpack'	},	--1	list
-		{ 'SortBy'				},	--2	sortBy
-		{ 'Tabs'				},	--3	tabs
-		{ 'FilterDivider'		},	--4	filterDivider
-		{ 'SearchFilters'		},	--5	searchFilters
-		{ 'SearchDivider'		},	--6	searchDivider
-		{ 'InfoBar'				},	--7	infoBar
-		{ 'Menu'				}	--8	menu
-	}
-
 	local tlcs = {
 		{ ZO_PlayerInventory, 'inventory' }, { ZO_CraftBag }, { ZO_InventoryWallet }, { ZO_QuestItems }, { ZO_QuickSlot_Keyboard_TopLevel },
 		{ ZO_PlayerBank, 'bank' }, { ZO_HouseBank, 'houseBank' }, { ZO_GuildBank, 'guildBank' },
@@ -47,25 +36,25 @@ PP.inventoryScene = function()
 
 	for i = 1, #tlcs do
 		local control, scene  = tlcs[i][1], tlcs[i][2]
-		local inventoryLayout = PP:GetLayout('inventory', control)
+		local l_inventory = PP:GetLayout('inventory', control)
 		
 		if control then
-			local tlc, list, sortBy, tabs, filterDivider, searchFilters, searchDivider, infoBar, menu = PP.GetLinks(control, children)
-			menu = inventoryLayout.menu or menu
+			local tlc, list, sortBy, tabs, filterDivider, searchFilters, searchDivider, infoBar, menu = PP.GetLinks(control, l_inventory)
+			menu = l_inventory.options.menu or menu
 
 			PP:CreateBackground(tlc,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
-			PP.Anchor(tlc,					--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, inventoryLayout.tl_t_y, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, inventoryLayout.tl_b_y)
+			PP.Anchor(tlc,					--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, l_inventory.tlc.t_y, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, l_inventory.tlc.b_y)
 
 			if list then
 				PP.ScrollBar(list)
-				PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, inventoryLayout.list_t_y, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, inventoryLayout.list_b_y)
-				list:SetWidth(inventoryLayout.list_w)
+				PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, l_inventory.list.t_y, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, l_inventory.list.b_y)
+				list:SetWidth(l_inventory.list.w)
 			end
 			if sortBy then
 				PP.Anchor(sortBy,			--[[#1]] BOTTOM, list, TOP, 0, 0)
 				local sortByName = sortBy:GetNamedChild("Name")
-				sortByName:SetWidth(inventoryLayout.sort_name_w)
-				sortByName:SetAnchorOffsets(inventoryLayout.sort_name_t_x, nil, 1)
+				sortByName:SetWidth(l_inventory.sort.name_w)
+				sortByName:SetAnchorOffsets(l_inventory.sort.name_t_x, nil, 1)
 			end
 			local emptyLabel = tlc:GetNamedChild("Empty")
 			if emptyLabel then
@@ -73,12 +62,12 @@ PP.inventoryScene = function()
 			end
 			if tabs then
 				PP.Anchor(tabs,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, -20, 10)
-				tabs:SetHidden(inventoryLayout.noTabs)
+				tabs:SetHidden(l_inventory.options.noTabs)
 				PP:RefreshStyle_MenuBar(tabs, l_tabs)
 			end
 			if filterDivider then
 				PP.Anchor(filterDivider,	--[[#1]] TOP, tlc, TOP, 0, 52)
-				filterDivider:SetHidden(inventoryLayout.noFDivider)
+				filterDivider:SetHidden(l_inventory.options.noFDivider)
 			end
 			if searchFilters then
 				PP.Anchor(searchFilters,	--[[#1]] TOPRIGHT, tlc, TOPRIGHT, -20, 60)
@@ -91,15 +80,15 @@ PP.inventoryScene = function()
 				PP:RefreshStyle_MenuBar(menu, l_menu)
 			end
 			if infoBar then
-				PP:RefreshStyle_InfoBar(infoBar, inventoryLayout)
+				PP:RefreshStyle_InfoBar(infoBar, l_inventory)
 			end
 		end
 
 		if scene then
 			local s		= SCENE_MANAGER:GetScene(scene)
-			local a_f	= inventoryLayout.addFragments
-			local r_f	= inventoryLayout.removeFragments
-			local h_bg	= inventoryLayout.hideBgForScene
+			local a_f	= l_inventory.fragments.add
+			local r_f	= l_inventory.fragments.remove
+			local h_bg	= l_inventory.fragments.hideBgForScene
 			
 			for j = 1, #a_f do
 				s:AddFragment(a_f[j])

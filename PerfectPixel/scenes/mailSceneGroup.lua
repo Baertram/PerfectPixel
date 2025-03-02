@@ -66,13 +66,7 @@ PP.mailSceneGroup = function()
 		-- control:GetNamedChild("BG"):SetTexture("PerfectPixel/tex/tex_clear.dds")
 
 		-- if typeId == 1 then
-			-- local backdrop = PP.CreateBackdrop(control)
-			-- backdrop:SetCenterColor(SV.list_skin_backdrop_col[1], SV.list_skin_backdrop_col[2], SV.list_skin_backdrop_col[3], SV.list_skin_backdrop_col[4])
-			-- backdrop:SetCenterTexture(SV.list_skin_backdrop, SV.list_skin_backdrop_tile_size, SV.list_skin_backdrop_tile and 1 or 0)
-			-- backdrop:SetEdgeColor(SV.list_skin_edge_col[1], SV.list_skin_edge_col[2], SV.list_skin_edge_col[3], SV.list_skin_edge_col[4])
-			-- backdrop:SetEdgeTexture(SV.list_skin_edge, SV.list_skin_edge_file_width, SV.list_skin_edge_file_height, SV.list_skin_edge_thickness, 0)
-			-- backdrop:SetInsets(SV.list_skin_backdrop_insets, SV.list_skin_backdrop_insets, -SV.list_skin_backdrop_insets, -SV.list_skin_backdrop_insets)
-			-- backdrop:SetIntegralWrapping(SV.list_skin_edge_integral_wrapping)
+			-- PP:CreateBgToSlot(control)
 
 			-- local icon = control:GetNamedChild("Icon")
 			-- PP.Anchor(icon, --[[#1]] LEFT, control, LEFT, 5, 0)

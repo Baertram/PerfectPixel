@@ -590,7 +590,7 @@ PP.compatibility = function ()
 
                 -- Create backdrop if it doesn't exist
                 if not control.backdrop then
-                    local backdrop = PP.CreateBackdrop(control)
+                    local backdrop = PP:CreateBgToSlot(control)
                     backdrop:SetCenterColor(20 / 255, 20 / 255, 20 / 255, 0.8)
                     backdrop:SetEdgeColor(40 / 255, 40 / 255, 40 / 255, 0.9)
                     backdrop:SetEdgeTexture("", 1, 1, 1, 0)

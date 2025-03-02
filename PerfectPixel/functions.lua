@@ -26,24 +26,22 @@ over = ( 232, 232, 184 )
 ---@return T savedVars The saved variables for this namespace
 ---@return T defaults The default values
 function PP:AddNewSavedVars(version, namespace, defaults)
-	local SV = self.savedVars
+	local sv = self.savedVars
 
-	if not SV[namespace] then
-		SV[namespace] = ZO_SavedVars:NewAccountWide(self.ADDON_NAME, version, namespace, defaults, GetWorldName())
+	if not sv[namespace] then
+		sv[namespace] = ZO_SavedVars:NewAccountWide(self.ADDON_NAME, version, namespace, defaults, GetWorldName())
 	end
 
-	return SV[namespace], SV[namespace].default
+	return sv[namespace], sv[namespace].default
 end
 
 ---@param namespace string Namespace to get saved variables for
 ---@return table|nil savedVars The saved variables for this namespace, or nil if not found
 ---@return table|nil defaults The default values for this namespace, or nil if not found 
 function PP:GetSavedVars(namespace)
-	local SV = self.savedVars[namespace]
+	local sv = self.savedVars[namespace]
 
-	if not SV then return SV end
-
-	return SV, SV.default
+	return sv, sv and sv.default
 end
 
 function PP.Empty() end
@@ -110,10 +108,13 @@ TLW_BG:SetDrawTier(0)
 PP.TLW_BG = TLW_BG
 
 function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1, --[[#2]] point2, relTo2, relPoint2, x2, y2, namespace, width, height)
-	namespace		= namespace or 'WindowStyle'
+	namespace			= namespace or 'WindowStyle'
+	parent				= parent
+
 	local sv			= self:GetSavedVars(namespace)
 	local insets		= sv.skin_backdrop_insets
-	parent		= parent
+	local bg_c			= sv.skin_backdrop_col
+	local edge_c		= sv.skin_edge_col
 	local bg
 	local exBG
 
@@ -136,10 +137,10 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 	end
 
 	bg:SetCenterTexture(sv.skin_backdrop, sv.skin_backdrop_tile_size, sv.skin_backdrop_tile and 1 or 0)
-	bg:SetCenterColor(unpack(sv.skin_backdrop_col))
+	bg:SetCenterColor(bg_c[1], bg_c[2], bg_c[3], bg_c[4])
 	bg:SetInsets(insets, insets, -insets, -insets)
 	bg:SetEdgeTexture(sv.skin_edge, sv.skin_edge_file_width, sv.skin_edge_file_height, sv.skin_edge_thickness, 0)
-	bg:SetEdgeColor(unpack(sv.skin_edge_col))
+	bg:SetEdgeColor(edge_c[1], edge_c[2], edge_c[3], edge_c[4])
 	bg:SetIntegralWrapping(sv.skin_edge_integral_wrapping)
 
 	if width ~= nil and height ~= nil then
@@ -174,10 +175,13 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 end
 
 function PP:UpdateBackgrounds(namespace)
-	namespace		= namespace or 'WindowStyle'
-	local sv			= self:GetSavedVars(namespace)
+	namespace			= namespace or 'WindowStyle'
+
 	local backgrounds	= self.backgrounds[namespace]
+	local sv			= self:GetSavedVars(namespace)
 	local insets		= sv.skin_backdrop_insets
+	local bg_c			= sv.skin_backdrop_col
+	local edge_c		= sv.skin_edge_col
 	local normInsets	= self.lastInsets - insets
 
 	self.lastInsets	= insets
@@ -195,10 +199,10 @@ function PP:UpdateBackgrounds(namespace)
 		bg:SetAnchor(p2, rTo2, rp2, x2 - normInsets, y2 - normInsets)
 
 		bg:SetCenterTexture(sv.skin_backdrop, sv.skin_backdrop_tile_size, sv.skin_backdrop_tile and 1 or 0)
-		bg:SetCenterColor(unpack(sv.skin_backdrop_col))
+		bg:SetCenterColor(bg_c[1], bg_c[2], bg_c[3], bg_c[4])
 		bg:SetInsets(insets, insets, -insets, -insets)
 		bg:SetEdgeTexture(sv.skin_edge, sv.skin_edge_file_width, sv.skin_edge_file_height, sv.skin_edge_thickness, 0)
-		bg:SetEdgeColor(unpack(sv.skin_edge_col))
+		bg:SetEdgeColor(edge_c[1], edge_c[2], edge_c[3], edge_c[4])
 		bg:SetIntegralWrapping(sv.skin_edge_integral_wrapping)
 	end
 end
@@ -290,32 +294,28 @@ PP.Font = function(control, --[[Font]] font, size, outline, --[[Alpha]] a, --[[C
 end
 local PP_Font = PP.Font
 
-PP.ListBackdrop = function(control, x_1, y_1, x_2, y_2, --[[tex]] tex, size, mod, --[[bd]] c_r, c_g, c_b, c_a, --[[edge]] edge_r, edge_g, edge_b, edge_a, --[[e_tex]] e_tex, e_t)
-	if not control:GetNamedChild("Backdrop") then
-		local targetBackdrop = CreateControl(control:GetName() .. "Backdrop", control, CT_BACKDROP)
-		targetBackdrop:SetDrawLayer(0)
-		targetBackdrop:SetDrawLevel(0)
-		targetBackdrop:SetDrawTier(0)
-		targetBackdrop:SetAnchor(TOPLEFT,		control, TOPLEFT,		x_1, y_1)
-		targetBackdrop:SetAnchor(BOTTOMRIGHT,	control, BOTTOMRIGHT,	x_2, y_2)
-		targetBackdrop:SetCenterTexture(tex, size, mod)
-		targetBackdrop:SetCenterColor(c_r/255, c_g/255, c_b/255, c_a)
-		targetBackdrop:SetEdgeTexture(e_tex or nil, 128, 16, e_t or 1, 0)
-		targetBackdrop:SetEdgeColor(edge_r/255, edge_g/255, edge_b/255, edge_a)
-		-- targetBackdrop:SetInsets(1, 1, -1, -1)
-	end
-end
-
 ----------------------------------
-PP.CreateBackdrop = function(control)
-	if control.backdrop then return control.backdrop end
+-- PP.CreateBackdrop = function(control)
+function PP:CreateBgToSlot(control, namespace)
+	namespace		= namespace or 'ListStyle'
+	local sv		= self:GetSavedVars(namespace)
+	local bg_c		= sv.list_skin_backdrop_col
+	local edge_c	= sv.list_skin_edge_col
+	local backdrop	= control.backdrop
 
-	local backdrop = CreateControl("$(parent)Backdrop", control, CT_BACKDROP)
+	if not backdrop then
+		backdrop = CreateControl("$(parent)Backdrop", control, CT_BACKDROP)
+		backdrop:SetAnchorFill(control)
+		backdrop:SetDrawTier(0)
+		control.backdrop = backdrop
+	end
 
-	backdrop:SetAnchorFill(control)
-	backdrop:SetDrawTier(0)
-
-	control.backdrop = backdrop
+	backdrop:SetCenterColor(bg_c[1], bg_c[2], bg_c[3], bg_c[4])
+	backdrop:SetCenterTexture(sv.list_skin_backdrop, sv.list_skin_backdrop_tile_size, sv.list_skin_backdrop_tile and 1 or 0)
+	backdrop:SetEdgeColor(edge_c[1], edge_c[2], edge_c[3], edge_c[4])
+	backdrop:SetEdgeTexture(sv.list_skin_edge, sv.list_skin_edge_file_width, sv.list_skin_edge_file_height, sv.list_skin_edge_thickness, 0)
+	backdrop:SetInsets(sv.list_skin_backdrop_insets, sv.list_skin_backdrop_insets, -sv.list_skin_backdrop_insets, -sv.list_skin_backdrop_insets)
+	backdrop:SetIntegralWrapping(sv.list_skin_edge_integral_wrapping)
 
 	return backdrop
 end
@@ -767,10 +767,13 @@ function PP.SetMovableControl(targetControl, movableControl, --[[table > pos.x a
 	end)
 end
 
-function PP.GetLinks(tlc, children)
-	local cache = {}
-
-	for k, name in ipairs(children) do
+function PP.GetLinks(tlc, layout, custom)
+	local cache		= {}
+	local suffixs	= custom or layout.childSuffixs
+	local tbl		= custom or rawget(layout, 'childSuffixs') and getmetatable(suffixs) or suffixs
+	
+	for k, v in ipairs(tbl) do
+		local name = suffixs[k] or v
 		for i = 1, #name do
 			local control = tlc:GetNamedChild(name[i])
 			-- local control = GetControl(tlc, name[i])
@@ -786,34 +789,33 @@ function PP.GetLinks(tlc, children)
 			if control then break end
 		end
 	end
-
 	return tlc, unpack(cache)
-end
-
-function PP:SetLayoutLinks()
-	for _, t1 in pairs(self.layouts) do
-		for k2, t2 in pairs(t1) do
-			if k2 ~= 'default' then
-				local def = t1.default
-				setmetatable(t2, {__index = def})
-				-- for k3, t3 in pairs(t2) do
-					-- setmetatable(t3, {__index = def[k3]})
-				-- end
-			end
-		end
-	end
-end
-
-function PP:AddNewLayout(name, data)
-	self.layouts[name] = data
-	
-	PP:SetLayoutLinks()
 end
 
 function PP:GetLayout(name, extra)
 	local layout = PP.layouts[name]
 
 	return layout[extra] or layout.default
+end
+
+function PP:NewLayout(name, data)
+	local def = data.default
+	def.__index = def
+
+	for key_1, table_1 in pairs(data) do
+		if key_1 ~= 'default' then
+			setmetatable(table_1, def)
+
+			for key_2, table_2 in pairs(table_1) do
+				if type(table_2) == "table" then
+					def[key_2].__index = def[key_2]
+					setmetatable(table_2, def[key_2])
+				end
+			end
+		end
+	end
+
+	self.layouts[name] = data
 end
 
 --InfoBar----------------------------------------
@@ -833,9 +835,9 @@ function PP:RefreshStyle_InfoBar(infoBar, layout)
 	local retrait	= infoBar:GetNamedChild("RetraitCurrency")
 	local currency1	= infoBar:GetNamedChild("Currency1")
 	local currency2	= infoBar:GetNamedChild("Currency2")
-	layout	= layout or { infoBar_y = 6 }
+	layout	= layout or { infoBar = { y = 6 }}
 	
-	PP_Anchor(infoBar, --[[#1]] TOPLEFT, nil, BOTTOMLEFT, 0, layout.infoBar_y, --[[#2]] true, TOPRIGHT, nil, BOTTOMRIGHT, 0, layout.infoBar_y)
+	PP_Anchor(infoBar, --[[#1]] TOPLEFT, nil, BOTTOMLEFT, 0, layout.infoBar.y, --[[#2]] true, TOPRIGHT, nil, BOTTOMRIGHT, 0, layout.infoBar.y)
 
 	if divider and divider:GetType() == CT_CONTROL then
 		divider:SetHidden(true)

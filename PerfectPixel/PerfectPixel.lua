@@ -118,13 +118,7 @@ function PP.Core()
 			-- highlight:SetTexture("PerfectPixel/tex/tex_clear.dds")
 		end
 		--"Backdrop"-------------
-		local backdrop = PP.CreateBackdrop(control)
-		backdrop:SetCenterColor(unpack(PP.savedVars.ListStyle.list_skin_backdrop_col))
-		backdrop:SetCenterTexture(PP.savedVars.ListStyle.list_skin_backdrop, PP.savedVars.ListStyle.list_skin_backdrop_tile_size, PP.savedVars.ListStyle.list_skin_backdrop_tile and 1 or 0)
-		backdrop:SetEdgeColor(unpack(PP.savedVars.ListStyle.list_skin_edge_col))
-		backdrop:SetEdgeTexture(PP.savedVars.ListStyle.list_skin_edge, PP.savedVars.ListStyle.list_skin_edge_file_width, PP.savedVars.ListStyle.list_skin_edge_file_height, PP.savedVars.ListStyle.list_skin_edge_thickness, 0)
-		backdrop:SetInsets(PP.savedVars.ListStyle.list_skin_backdrop_insets, PP.savedVars.ListStyle.list_skin_backdrop_insets, -PP.savedVars.ListStyle.list_skin_backdrop_insets, -PP.savedVars.ListStyle.list_skin_backdrop_insets)
-		backdrop:SetIntegralWrapping(PP.savedVars.ListStyle.list_skin_edge_integral_wrapping)
+		PP:CreateBgToSlot(control)
 		---------------------------------
 	end
 

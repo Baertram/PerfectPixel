@@ -80,13 +80,7 @@ PP.tradingHouseScene = function()
 			sellerName:SetWrapMode(1)
 			PP.Font(sellerName, --[[Font]] PP.f.u57, 15, "outline", --[[Alpha]] 0.4, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 			--"Backdrop"-------------
-			local backdrop = PP.CreateBackdrop(rowControl)
-			backdrop:SetCenterColor(unpack(PP.savedVars.ListStyle.list_skin_backdrop_col))
-			backdrop:SetCenterTexture(PP.savedVars.ListStyle.list_skin_backdrop, PP.savedVars.ListStyle.list_skin_backdrop_tile_size, PP.savedVars.ListStyle.list_skin_backdrop_tile and 1 or 0)
-			backdrop:SetEdgeColor(unpack(PP.savedVars.ListStyle.list_skin_edge_col))
-			backdrop:SetEdgeTexture(PP.savedVars.ListStyle.list_skin_edge, PP.savedVars.ListStyle.list_skin_edge_file_width, PP.savedVars.ListStyle.list_skin_edge_file_height, PP.savedVars.ListStyle.list_skin_edge_thickness, 0)
-			backdrop:SetInsets(PP.savedVars.ListStyle.list_skin_backdrop_insets, PP.savedVars.ListStyle.list_skin_backdrop_insets, -PP.savedVars.ListStyle.list_skin_backdrop_insets, -PP.savedVars.ListStyle.list_skin_backdrop_insets)
-			backdrop:SetIntegralWrapping(PP.savedVars.ListStyle.list_skin_edge_integral_wrapping)
+			PP:CreateBgToSlot(rowControl)
 
 			PP:SetLockFn(sellPrice,		'SetFont')
 			PP:SetLockFn(pricePerUnit,	'SetFont')
@@ -247,13 +241,7 @@ PP.tradingHouseScene = function()
 			description:SetWrapMode(1)
 		end
 		--"Backdrop"-------------
-		local backdrop = PP.CreateBackdrop(rowControl)
-		backdrop:SetCenterColor(unpack(PP.savedVars.ListStyle.list_skin_backdrop_col))
-		backdrop:SetCenterTexture(PP.savedVars.ListStyle.list_skin_backdrop, PP.savedVars.ListStyle.list_skin_backdrop_tile_size, PP.savedVars.ListStyle.list_skin_backdrop_tile and 1 or 0)
-		backdrop:SetEdgeColor(unpack(PP.savedVars.ListStyle.list_skin_edge_col))
-		backdrop:SetEdgeTexture(PP.savedVars.ListStyle.list_skin_edge, PP.savedVars.ListStyle.list_skin_edge_file_width, PP.savedVars.ListStyle.list_skin_edge_file_height, PP.savedVars.ListStyle.list_skin_edge_thickness, 0)
-		backdrop:SetInsets(PP.savedVars.ListStyle.list_skin_backdrop_insets, PP.savedVars.ListStyle.list_skin_backdrop_insets, -PP.savedVars.ListStyle.list_skin_backdrop_insets, -PP.savedVars.ListStyle.list_skin_backdrop_insets)
-		backdrop:SetIntegralWrapping(PP.savedVars.ListStyle.list_skin_edge_integral_wrapping)
+		PP:CreateBgToSlot(rowControl)
 	end
 
 	ZO_PreHook("ZO_TradingHouseSearchHistoryRow_Keyboard_OnMouseEnter", function(rowControl)

@@ -153,17 +153,6 @@ PP.companionsScene = function()
 	local companionEquipmentKeyboardFragment = COMPANION_EQUIPMENT_KEYBOARD_FRAGMENT
 	--OnDeferredInit: No
 
-	local companionEquipmentChildren = {
-		{ 'List', 'Backpack'	},	--1	list
-		{ 'SortBy'				},	--2	sortBy
-		{ 'Tabs'				},	--3	tabs
-		{ 'FilterDivider'		},	--4	filterDivider
-		{ 'SearchFilters'		},	--5	searchFilters
-		{ 'SearchDivider'		},	--6	searchDivider
-		{ 'InfoBar'				},	--7	infoBar
-		{ 'Menu'				}	--8	menu
-	}
-
 	local companionEquipmentFragmentDone = false
 	local function onCompanionEQuipmentFragmentShown()
 		local companionEquipmentControl = companionEquipmentKeyboard.control
@@ -172,23 +161,23 @@ PP.companionsScene = function()
 		--Get layout of "companionInventory" and apply it to the companion equipment (inventory list)
 		local l_tabs = PP:GetLayout('menuBar', 'tabs')
 		local l_menu = PP:GetLayout('menuBar', 'menu')
-		local companionLayout = PP:GetLayout('companionInventory', companionEquipmentControl)
-		local tlc, list, sortBy, tabs, filterDivider, searchFilters, searchDivider, infoBar, menu = PP.GetLinks(companionEquipmentControl, companionEquipmentChildren)
-		menu = companionLayout.menu or menu
+		local l_companion = PP:GetLayout('inventory', companionEquipmentControl)
+		local tlc, list, sortBy, tabs, filterDivider, searchFilters, searchDivider, infoBar, menu = PP.GetLinks(companionEquipmentControl, l_companion)
+		menu = l_companion.options.menu or menu
 
-		PP.Anchor(tlc,					--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, companionLayout.tl_t_y, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, companionLayout.tl_b_y)
+		PP.Anchor(tlc,					--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, l_companion.tlc.t_y, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, l_companion.tlc.b_y)
 
 		if list then
 			PP.ScrollBar(list)
-			PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, companionLayout.list_t_y, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, companionLayout.list_b_y)
-			list:SetWidth(companionLayout.list_w)
+			PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, l_companion.list.t_y, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, l_companion.list.b_y)
+			list:SetWidth(l_companion.list.w)
 			ZO_ScrollList_Commit(list)
 		end
 		if sortBy then
 			PP.Anchor(sortBy,			--[[#1]] BOTTOM, list, TOP, 0, 0)
 			local sortByName = sortBy:GetNamedChild("Name")
-			sortByName:SetWidth(companionLayout.sort_name_w)
-			sortByName:SetAnchorOffsets(companionLayout.sort_name_t_x, nil, 1)
+			sortByName:SetWidth(l_companion.sort.name_w)
+			sortByName:SetAnchorOffsets(l_companion.sort.name_t_x, nil, 1)
 		end
 		local emptyLabel = tlc:GetNamedChild("Empty")
 		if emptyLabel then
@@ -196,12 +185,12 @@ PP.companionsScene = function()
 		end
 		if tabs then
 			PP.Anchor(tabs,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, -20, 10)
-			tabs:SetHidden(companionLayout.noTabs)
+			tabs:SetHidden(l_companion.options.noTabs)
 			PP:RefreshStyle_MenuBar(tabs, l_tabs)
 		end
 		if filterDivider then
 			PP.Anchor(filterDivider,	--[[#1]] TOP, tlc, TOP, 0, 52)
-			filterDivider:SetHidden(companionLayout.noFDivider)
+			filterDivider:SetHidden(l_companion.options.noFDivider)
 		end
 		if searchFilters then
 			PP.Anchor(searchFilters,	--[[#1]] TOPRIGHT, tlc, TOPRIGHT, -20, 60)
@@ -214,7 +203,7 @@ PP.companionsScene = function()
 			PP:RefreshStyle_MenuBar(menu, l_menu)
 		end
 		if infoBar then
-			PP:RefreshStyle_InfoBar(infoBar, companionLayout)
+			PP:RefreshStyle_InfoBar(infoBar, l_companion)
 		end
 
 		--Scene fragment add/remove is handled in companionCharacterKeyboardScene state change callback as this fires indenependently from the companion equipment fragment

@@ -41,23 +41,23 @@ PP.craftStationScenes = function()
 
 	for i = 1, #tlcs do
 		local control, scene     = tlcs[i][1], tlcs[i][2]
-		local craftStationLayout = PP:GetLayout('inventory', control)
+		local l_craftStation = PP:GetLayout('inventory', control)
 
 		if control then
-			local tlc, list, categories, sortBy, tabs, filterDivider, listDivider, infoBar = PP.GetLinks(control, children)
+			local tlc, list, categories, sortBy, tabs, filterDivider, listDivider, infoBar = PP.GetLinks(control, false, children)
 			local menu = tlc:GetParent():GetNamedChild("ModeMenu")
 
 			if tlc == ZO_ProvisionerTopLevel then
 				tlc = CreateControl("$(parent)Panel", tlc, CT_CONTROL)
 				tlc:SetAnchorFill(ZO_SmithingTopLevelRefinementPanel)
-				tlc:SetWidth(craftStationLayout.list_w)
+				tlc:SetWidth(l_craftStation.list.w)
 
 				PP:CreateBackground(ZO_ProvisionerTopLevelFilletPanelSlotContainer,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
 				ZO_ProvisionerTopLevelFilletPanelSlotContainerBg:SetHidden(true)
 			end
 
 			PP:CreateBackground(tlc,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
-			PP.Anchor(tlc,					--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, craftStationLayout.tl_t_y, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, craftStationLayout.tl_b_y)
+			PP.Anchor(tlc,					--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, l_craftStation.tlc.t_y, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, l_craftStation.tlc.b_y)
 
 			if tlc:GetNamedChild('Inventory') then
 				tlc:GetNamedChild('Inventory'):SetAnchorFill(tlc)
@@ -68,22 +68,22 @@ PP.craftStationScenes = function()
 --[[
 Checking type on argument offsetY failed in ControlSetAnchorLua
 if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess for enchanting mode create and mode extarct?)
-->local craftStationLayout = PP:GetLayout('inventory', ZO_EnchantingTopLevelInventory)
+->local l_craftStation = PP:GetLayout('inventory', ZO_EnchantingTopLevelInventory)
 -->Will be properly applying the table's entry Y offset then at e.g. ENCHANTING inventory:SetMode function below
 ]]
-				local listOffsetY = craftStationLayout.list_t_y
+				local listOffsetY = l_craftStation.list.t_y
 				local listOffsetYCopy = listOffsetY --remove reference so we do not overwrite the original layout
 				if type(listOffsetY) == "table" then
 					listOffsetYCopy = 0
 				end
-				local listOffsetBY = craftStationLayout.list_b_y
+				local listOffsetBY = l_craftStation.list.b_y
 				local listOffsetBYCopy = listOffsetBY --remove reference so we do not overwrite the original layout
 				if type(listOffsetBYCopy) == "table" then
 					listOffsetBYCopy = 0
 				end
 				PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, listOffsetYCopy, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, listOffsetBYCopy)
 
-				list:SetWidth(craftStationLayout.list_w)
+				list:SetWidth(l_craftStation.list.w)
 			end
 			-- if categories then
 				-- PP.ScrollBar(categories)
@@ -91,17 +91,17 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 			if sortBy then
 				PP.Anchor(sortBy,			--[[#1]] BOTTOM, list, TOP, 0, 0)
 				local sortByName = sortBy:GetNamedChild("Name")
-				sortByName:SetWidth(craftStationLayout.sort_name_w)
-				sortByName:SetAnchorOffsets(craftStationLayout.sort_name_t_x, nil, 1)
+				sortByName:SetWidth(l_craftStation.sort.name_w)
+				sortByName:SetAnchorOffsets(l_craftStation.sort.name_t_x, nil, 1)
 			end
 			if tabs then
 				PP.Anchor(tabs,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, -20, 10)
-				tabs:SetHidden(craftStationLayout.noTabs)
+				tabs:SetHidden(l_craftStation.options.noTabs)
 				PP:RefreshStyle_MenuBar(tabs, l_tabs)
 			end
 			if filterDivider then
 				PP.Anchor(filterDivider,	--[[#1]] TOP, tlc, TOP, 0, 52)
-				filterDivider:SetHidden(craftStationLayout.noFDivider)
+				filterDivider:SetHidden(l_craftStation.options.noFDivider)
 			end
 			if listDivider then
 				PP.Anchor(listDivider,		--[[#1]] TOP, tlc, TOP, 0, 98)
@@ -111,7 +111,7 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 				PP:RefreshStyle_MenuBar(menu, l_menu)
 			end
 			if infoBar then
-				PP:RefreshStyle_InfoBar(infoBar, craftStationLayout)
+				PP:RefreshStyle_InfoBar(infoBar, l_craftStation)
 			end
 
 			local slotContainer = control:GetNamedChild("SlotContainer")
@@ -133,10 +133,10 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 
 		if scene then
 			local s		= SCENE_MANAGER:GetScene(scene)
-			local a_f	= craftStationLayout.addFragments
-			local r_f	= craftStationLayout.removeFragments
-			local fr_f	= craftStationLayout.forceRemoveFragment
-			local h_bg	= craftStationLayout.hideBgForScene
+			local a_f	= l_craftStation.fragments.add
+			local r_f	= l_craftStation.fragments.remove
+			local fr_f	= l_craftStation.fragments.forceRemove
+			local h_bg	= l_craftStation.fragments.hideBgForScene
 
 			for j = 1, #a_f do
 				s:AddFragment(a_f[j])
@@ -194,7 +194,7 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 
 	local el = PP:GetLayout('inventory', ZO_EnchantingTopLevelInventory)
 	ZO_PreHook(ZO_EnchantingInventory, "ChangeMode", function(self, enchantingMode)
-		self.list:SetAnchorOffsets(0, el.list_t_y[enchantingMode], 1)
+		self.list:SetAnchorOffsets(0, el.list.t_y[enchantingMode], 1)
 
 		ZO_EnchantingTopLevelRuneSlotContainerBg:SetHidden(true)
 		ZO_EnchantingTopLevelExtractionSlotContainerBg:SetHidden(true)

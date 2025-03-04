@@ -63,6 +63,7 @@ PP.craftStationScenes = function()
 				tlc:GetNamedChild('Inventory'):SetAnchorFill(tlc)
 			end
 			if list then
+				PP:RefreshStyle_InventoryList(list)
 				PP.ScrollBar(list)
 
 --[[

@@ -1,5 +1,75 @@
 local PP = PP ---@class PP
 
+PP:NewLayout('inventorySlot', {
+		default = {
+			onCreate = {
+				['parent'] = function(c, sv)
+					PP:CreateBgToSlot(c, nil, sv)
+					c:SetHeight(sv.list_control_height)
+				end,
+				['SellPrice'] = function(c, sv)
+					c:SetHidden(false)
+				end,
+				['SellPriceText'] = function(c, sv)
+					PP.Font(c, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+					PP:SetLockFn(c, 'SetFont')
+				end,
+				['Button'] = function(c, sv)
+					c:SetDimensions(36, 36)
+					PP.Anchor(c, --[[#1]] CENTER, c:GetParent(), LEFT, 60, 0)
+					if GridList then
+						c.customTooltipAnchor = nil
+					end
+				end,
+				['ButtonStackCount'] = function(c, sv)
+					PP.Font(c, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+					PP.Anchor(c, --[[#1]] LEFT, c:GetParent():GetNamedChild("ButtonIcon"), LEFT, 34, 8)
+				end,
+				['Status'] = function(c, sv)
+					c:SetDimensions(26, 26)
+					PP.Anchor(c, --[[#1]] CENTER, c:GetParent(), LEFT, 18, 0)
+					c:SetAlpha(1)
+					c:SetMouseEnabled(true)
+					c:SetDrawLevel(1)
+
+					c:GetNamedChild("Texture"):SetMouseEnabled(true)
+					c:GetNamedChild("Texture"):SetDrawLevel(1)
+				end,
+				['Name'] = function(c, sv)
+					PP.Font(c, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+					PP.Anchor(c, --[[#1]] LEFT, c:GetParent(), LEFT, 110, -1)
+					c:SetLineSpacing(0)
+					c:SetVerticalAlignment(TEXT_ALIGN_CENTER)
+					c:SetHidden(false)
+				end,
+				['SellInformation'] = function(c, sv)
+					c:SetDimensions(32, 32)
+					c:ClearAnchors()
+					c:SetAnchor(RIGHT, c:GetParent():GetNamedChild("SellPrice"), LEFT, -5, 0)
+					c:SetAlpha(1)
+					c:SetMouseEnabled(true)
+					c:SetDrawLayer(1)
+					c:SetDrawLevel(1)
+				end,
+				['TraitInfo'] = function(c, sv)
+					c:SetDimensions(32, 32)
+					c:SetAnchorFill(c:GetParent():GetNamedChild("SellInformation"))
+					c:SetAlpha(1)
+					c:SetMouseEnabled(true)
+					c:SetDrawLevel(1)
+				end,
+				['Bg'] = function(c, sv)
+					c:SetTexture("PerfectPixel/tex/tex_clear.dds")
+				end,
+				['Highlight'] = function(c, sv)
+					c:SetHidden(true)
+					-- c:SetTexture("PerfectPixel/tex/tex_clear.dds")
+				end,
+			},
+		}
+	}
+)
+
 PP:NewLayout('inventory', {
 		default = {
 			tlc = {
@@ -183,4 +253,3 @@ PP:NewLayout('menuBar', {
 		}
 	}
 )
-

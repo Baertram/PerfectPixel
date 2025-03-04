@@ -76,6 +76,7 @@ PP.dialogsMenu = function()
 			PP.Font(title,	--[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 		end
 		if list then
+			PP:RefreshStyle_InventoryList(list)
 			list:SetWidth(dialogControl:GetWidth() - 30)
 			PP.Anchor(list, --[[#1]] nil, nil, nil, 2, nil)
 			PP.ScrollBar(list)

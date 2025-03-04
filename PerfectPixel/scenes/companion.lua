@@ -168,6 +168,7 @@ PP.companionsScene = function()
 		PP.Anchor(tlc,					--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, 0, l_companion.tlc.t_y, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, l_companion.tlc.b_y)
 
 		if list then
+			PP:RefreshStyle_InventoryList(list)
 			PP.ScrollBar(list)
 			PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, l_companion.list.t_y, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, l_companion.list.b_y)
 			list:SetWidth(l_companion.list.w)

@@ -5,6 +5,7 @@ local tinsert	= table.insert
 -- media
 PP.backgrounds = {}
 PP.backgroundsHiddenForScene = {}
+PP.inventoryLists = {}
 
 --[[colors
 def2 = ( 197, 194, 158 )
@@ -296,9 +297,9 @@ local PP_Font = PP.Font
 
 ----------------------------------
 -- PP.CreateBackdrop = function(control)
-function PP:CreateBgToSlot(control, namespace)
+function PP:CreateBgToSlot(control, namespace, sv)
 	namespace		= namespace or 'ListStyle'
-	local sv		= self:GetSavedVars(namespace)
+	local sv		= sv or self:GetSavedVars(namespace)
 	local bg_c		= sv.list_skin_backdrop_col
 	local edge_c	= sv.list_skin_edge_col
 	local backdrop	= control.backdrop
@@ -531,7 +532,7 @@ PP.Bars = function(progressBarsOverviewContainer --[[parentControl]], isProgress
 end
 
 PP.ResetStyle = function()
-	for _, list in ipairs(PP.TabList) do
+	for _, list in pairs(PP.inventoryLists) do
 		for typeId in pairs(list.dataTypes) do
 			if typeId == 1 or typeId == 2 or typeId == 3 then
 				local dataType = ZO_ScrollList_GetDataTypeTable(list, typeId)
@@ -816,6 +817,58 @@ function PP:NewLayout(name, data)
 	end
 
 	self.layouts[name] = data
+end
+
+function PP.Inv_Slot(control, suffixs, layout, event, sv, ...)
+	for i = 1, #suffixs do
+		local suffix	= suffixs[i]
+		local c			= control:GetNamedChild(suffix) or suffix == 'parent' and control
+
+		if not c then return end
+
+		layout[event][suffix](c, sv, ...)
+	end
+end
+
+function PP:RefreshStyle_InventoryList(list, layout, savedVars, onCreateFn, onUpdateFn)
+	if not list.dataTypes then return end
+
+	self.inventoryLists[list] = list
+
+	layout		= layout or self:GetLayout('inventorySlot')
+	savedVars	= savedVars or self:GetSavedVars('ListStyle')
+
+	local function defaultOnCreateFn(control, ...)
+		self.Inv_Slot(control, { 'parent', 'SellPrice', 'SellPriceText', 'Button', 'ButtonStackCount', 'Status', 'Name', 'SellInformation', 'TraitInfo', 'Bg', 'Highlight' }, layout, 'onCreate', savedVars, ...)
+	end
+
+	onCreateFn = onCreateFn or defaultOnCreateFn
+	
+	for typeId in pairs(list.dataTypes) do
+		if typeId == 1 or typeId == 2 or typeId == 3 then
+			local dataType	= ZO_ScrollList_GetDataTypeTable(list, typeId)
+			local pool		= dataType.pool
+			local mode		= list.mode
+
+			if dataType.height then
+				dataType.height = savedVars.list_control_height
+			end
+
+			self.PostHooksSetupCallback(list, 1, typeId, onCreateFn, onUpdateFn)
+			self.PostHooksSetupCallback(list, 2, typeId, onCreateFn, onUpdateFn)
+
+			if mode ~= 3 then
+				for _, control in pairs(pool.m_Free) do
+					dataType.hooks[mode].OnCreate(control)
+				end
+				for _, control in pairs(pool.m_Active) do
+					dataType.hooks[mode].OnCreate(control)
+				end
+			end
+		end
+	end
+	list.uniformControlHeight = savedVars.list_uniform_control_height
+	ZO_Scroll_SetMaxFadeDistance(list, savedVars.list_fade_distance)
 end
 
 --InfoBar----------------------------------------

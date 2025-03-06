@@ -277,20 +277,11 @@ local PP_Anchor = PP.Anchor
 
 --outline, thick-outline, soft-shadow-thin, soft-shadow-thick, shadow
 PP.Font = function(control, --[[Font]] font, size, outline, --[[Alpha]] a, --[[Color]] c_r, c_g, c_b, c_a, --[[StyleColor]] sc_r, sc_g, sc_b, sc_a)
-	if not control then
-		return
-	end
-	if font then
-		control:SetFont(string.format("%s|%s|%s", font, size, outline))
-	end
-	if a then
-		control:SetAlpha(a)
-	end
-	if c_r and c_g and c_b and c_a then
+	control:SetFont(string.format("%s|%s|%s", font, size, outline))
+	control:SetAlpha(a or 1.0)
+	control:SetStyleColor((sc_r or 0) /255, (sc_g or 0) /255, (sc_b or 0) /255, sc_a or .5)
+	if c_r then
 		control:SetColor(c_r/255, c_g/255, c_b/255, c_a)
-	end
-	if sc_r and sc_g and sc_b and sc_a then
-		control:SetStyleColor(sc_r/255, sc_g/255, sc_b/255, sc_a)
 	end
 end
 local PP_Font = PP.Font
@@ -477,7 +468,7 @@ PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColo
 
 	if barText then
 		if doDebug then d("[PP.Bar]bartext found") end
-		PP_Font(barText, --[[Font]] PP.f.u67, fSize, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+		PP_Font(barText, --[[Font]] PP.f.u67, fSize, "outline")
 	end
 
 	bg:SetHidden(true)
@@ -819,14 +810,15 @@ function PP:NewLayout(name, data)
 	self.layouts[name] = data
 end
 
-function PP.Inv_Slot(control, suffixs, layout, event, sv, ...)
+function PP.Inv_Slot(control, event, suffixs, layout, sv, ...)
 	for i = 1, #suffixs do
 		local suffix	= suffixs[i]
 		local c			= control:GetNamedChild(suffix) or suffix == 'parent' and control
 
-		if not c then return end
-
-		layout[event][suffix](c, sv, ...)
+		if c then
+			c.parent = control
+			layout[event][suffix](c, sv, ...)
+		end
 	end
 end
 
@@ -835,17 +827,16 @@ function PP:RefreshStyle_InventoryList(list, layout, savedVars, onCreateFn, onUp
 
 	self.inventoryLists[list] = list
 
-	layout		= layout or self:GetLayout('inventorySlot')
+	layout		= layout or self:GetLayout('inventorySlot', list)
+	modes		= layout.modes
+	typeIds		= layout.typeIds
 	savedVars	= savedVars or self:GetSavedVars('ListStyle')
-
-	local function defaultOnCreateFn(control, ...)
-		self.Inv_Slot(control, { 'parent', 'SellPrice', 'SellPriceText', 'Button', 'ButtonStackCount', 'Status', 'Name', 'SellInformation', 'TraitInfo', 'Bg', 'Highlight' }, layout, 'onCreate', savedVars, ...)
+	onCreateFn	= onCreateFn or function(control, ...)
+		self.Inv_Slot(control, 'onCreate', {'parent', 'SellPrice', 'SellPriceText', 'Button', 'ButtonStackCount', 'Status', 'Name', 'SellInformation', 'TraitInfo', 'Bg', 'Highlight'}, layout, savedVars, ...)
 	end
 
-	onCreateFn = onCreateFn or defaultOnCreateFn
-	
 	for typeId in pairs(list.dataTypes) do
-		if typeId == 1 or typeId == 2 or typeId == 3 then
+		if typeIds[typeId] then
 			local dataType	= ZO_ScrollList_GetDataTypeTable(list, typeId)
 			local pool		= dataType.pool
 			local mode		= list.mode
@@ -854,10 +845,13 @@ function PP:RefreshStyle_InventoryList(list, layout, savedVars, onCreateFn, onUp
 				dataType.height = savedVars.list_control_height
 			end
 
-			self.PostHooksSetupCallback(list, 1, typeId, onCreateFn, onUpdateFn)
-			self.PostHooksSetupCallback(list, 2, typeId, onCreateFn, onUpdateFn)
-
-			if mode ~= 3 then
+			for i = 1, #modes do
+				if modes[i] then
+					self.PostHooksSetupCallback(list, i, typeId, onCreateFn, onUpdateFn)
+				end
+			end
+			
+			if modes[mode] then
 				for _, control in pairs(pool.m_Free) do
 					dataType.hooks[mode].OnCreate(control)
 				end

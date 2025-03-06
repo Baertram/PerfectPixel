@@ -2,6 +2,8 @@ local PP = PP ---@class PP
 
 PP:NewLayout('inventorySlot', {
 		default = {
+			modes	= { [1] = true, [2] = true, [3] = false },
+			typeIds	= { [1] = true, [2] = true, [3] = true },
 			onCreate = {
 				['parent'] = function(c, sv)
 					PP:CreateBgToSlot(c, nil, sv)
@@ -11,23 +13,23 @@ PP:NewLayout('inventorySlot', {
 					c:SetHidden(false)
 				end,
 				['SellPriceText'] = function(c, sv)
-					PP.Font(c, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+					PP.Font(c, --[[Font]] PP.f.u67, 15, "shadow")
 					PP:SetLockFn(c, 'SetFont')
 				end,
 				['Button'] = function(c, sv)
 					c:SetDimensions(36, 36)
-					PP.Anchor(c, --[[#1]] CENTER, c:GetParent(), LEFT, 60, 0)
+					PP.Anchor(c, --[[#1]] CENTER, c.parent, LEFT, 60, 0)
 					if GridList then
 						c.customTooltipAnchor = nil
 					end
 				end,
 				['ButtonStackCount'] = function(c, sv)
-					PP.Font(c, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-					PP.Anchor(c, --[[#1]] LEFT, c:GetParent():GetNamedChild("ButtonIcon"), LEFT, 34, 8)
+					PP.Font(c, --[[Font]] PP.f.u67, 15, "shadow")
+					PP.Anchor(c, --[[#1]] LEFT, c.parent:GetNamedChild("ButtonIcon"), LEFT, 34, 8)
 				end,
 				['Status'] = function(c, sv)
 					c:SetDimensions(26, 26)
-					PP.Anchor(c, --[[#1]] CENTER, c:GetParent(), LEFT, 18, 0)
+					PP.Anchor(c, --[[#1]] CENTER, c.parent, LEFT, 18, 0)
 					c:SetAlpha(1)
 					c:SetMouseEnabled(true)
 					c:SetDrawLevel(1)
@@ -36,16 +38,17 @@ PP:NewLayout('inventorySlot', {
 					c:GetNamedChild("Texture"):SetDrawLevel(1)
 				end,
 				['Name'] = function(c, sv)
-					PP.Font(c, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-					PP.Anchor(c, --[[#1]] LEFT, c:GetParent(), LEFT, 110, -1)
-					c:SetLineSpacing(0)
+					PP.Font(c, --[[Font]] PP.f.u67, 15, "shadow")
+					PP.Anchor(c, --[[#1]] LEFT, c.parent:GetNamedChild("ButtonIcon"), RIGHT, 30, 0)
 					c:SetVerticalAlignment(TEXT_ALIGN_CENTER)
 					c:SetHidden(false)
+					c:SetLineSpacing(-2)
+					PP:SetLockFn(c, 'SetLineSpacing')
 				end,
 				['SellInformation'] = function(c, sv)
 					c:SetDimensions(32, 32)
 					c:ClearAnchors()
-					c:SetAnchor(RIGHT, c:GetParent():GetNamedChild("SellPrice"), LEFT, -5, 0)
+					c:SetAnchor(RIGHT, c.parent:GetNamedChild("SellPrice"), LEFT, -5, 0)
 					c:SetAlpha(1)
 					c:SetMouseEnabled(true)
 					c:SetDrawLayer(1)
@@ -53,7 +56,7 @@ PP:NewLayout('inventorySlot', {
 				end,
 				['TraitInfo'] = function(c, sv)
 					c:SetDimensions(32, 32)
-					c:SetAnchorFill(c:GetParent():GetNamedChild("SellInformation"))
+					c:SetAnchorFill(c.parent:GetNamedChild("SellInformation"))
 					c:SetAlpha(1)
 					c:SetMouseEnabled(true)
 					c:SetDrawLevel(1)
@@ -64,8 +67,56 @@ PP:NewLayout('inventorySlot', {
 				['Highlight'] = function(c, sv)
 					c:SetHidden(true)
 					-- c:SetTexture("PerfectPixel/tex/tex_clear.dds")
-				end,
+				end
 			},
+			onUpdate = {}
+		},
+		[ZO_LootAlphaContainerList] = {
+			modes	= { [1] = true },
+			typeIds	= { [1] = true, [2] = true },
+			onCreate = {
+				['parent'] = function(c, sv)
+					PP:CreateBgToSlot(c, nil, sv)
+					c:SetHeight(sv.list_control_height)
+
+					local sp = CreateControl("$(parent)SellPrice", c, CT_LABEL)
+					PP.Font(sp, --[[Font]] PP.f.u67, 15, "shadow")
+					PP.Anchor(sp, --[[#1]] RIGHT, c, RIGHT, -10, 0)
+					sp:SetDimensionConstraints(40, 0, 0, 0)
+					sp:SetHorizontalAlignment(TEXT_ALIGN_RIGHT)
+				end,
+				['MultiIcon'] = function(c, sv)
+					c:SetHidden(true)
+				end,
+				['Button'] = function(c, sv)
+					c:SetDimensions(36, 36)
+					PP.Anchor(c, --[[#1]] LEFT, c.parent, LEFT, 10, 0)
+				end,
+				['Name'] = function(c, sv)
+					PP.Font(c, --[[Font]] PP.f.u67, 15, "shadow")
+					PP.Anchor(c, --[[#1]] LEFT, c.parent:GetNamedChild("ButtonIcon"), RIGHT, 24, 0, --[[#2]] true, RIGHT, c.parent:GetNamedChild("SellPrice"), LEFT, -10, 0)
+					c:SetVerticalAlignment(TEXT_ALIGN_CENTER)
+					c:SetMaxLineCount(2)
+					c:SetLineSpacing(-2)
+					PP:SetLockFn(c, 'SetLineSpacing')
+				end
+			},
+			onUpdate = {
+				['Backdrop'] = function(c, sv, data)
+					local col =  data.isStolen and sv.list_skin_edge_col_stolen or data.isQuest and sv.list_skin_edge_col_quest or sv.list_skin_edge_col
+					c:SetEdgeColor(col[1], col[2], col[3], col[4])
+				end,
+				['MultiIcon'] = function(c, sv)
+					c:SetHidden(true)
+				end,
+				['ButtonIcon'] = function(c, sv, data)
+					c:SetHidden(false)
+					c:SetTexture(data.icon)
+				end,
+				['SellPrice'] = function(c, sv, data)
+					c:SetText("|u0:4:currency:" .. (data.value or '0') .. "|u|t14:14:/esoui/art/currency/gold_mipmap.dds|t")
+				end,
+			}
 		}
 	}
 )

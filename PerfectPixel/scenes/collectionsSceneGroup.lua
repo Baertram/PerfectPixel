@@ -126,7 +126,7 @@ PP.collectionsSceneGroup = function()
 			end
 			if control:GetNamedChild("Title") then
 				local title = control:GetNamedChild("Title")
-				PP.Font(title, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+				PP.Font(title, --[[Font]] PP.f.u67, 16, "outline")
 			end
 		end
 	end, nil)

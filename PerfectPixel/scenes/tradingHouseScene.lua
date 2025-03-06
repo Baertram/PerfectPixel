@@ -46,10 +46,10 @@ PP.tradingHouseScene = function()
 			button:SetDimensions(36, 36)
 			PP.Anchor(button, --[[#1]] LEFT, nil, LEFT, 5, 0)
 			--"ButtonStackCount"-------------
-			PP.Font(stack, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			PP.Font(stack, --[[Font]] PP.f.u67, 15, "outline")
 			PP.Anchor(stack, --[[#1]] BOTTOMRIGHT, nil, BOTTOMRIGHT, 8, 2)
 			--"Name"-------------
-			PP.Font(name, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			PP.Font(name, --[[Font]] PP.f.u67, 15, "shadow")
 			PP.Anchor(name, --[[#1]] TOPLEFT, nil, TOPLEFT, 60, 2)
 			name:SetWidth(250)
 			name:SetLineSpacing(0)
@@ -58,7 +58,7 @@ PP.tradingHouseScene = function()
 			name:SetWrapMode(1)
 			-- "SellPrice"--------------------
 			PP.Anchor(sellPrice, --[[#1]] TOPRIGHT, rowControl, TOPRIGHT, -5, 2)
-			PP.Font(sellPrice, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			PP.Font(sellPrice, --[[Font]] PP.f.u67, 15, "shadow")
 			sellPrice:SetVerticalAlignment(TEXT_ALIGN_BOTTOM)
 			--SellPricePerUnit--------------------
 			PP.Font(pricePerUnit, --[[Font]] PP.f.u67, 14, "shadow", --[[Alpha]] 0.8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
@@ -194,7 +194,7 @@ PP.tradingHouseScene = function()
 	ZO_TradingHouseBrowseItemsLeftPaneGlobalFeatureAreaPriceRangeMinPrice:SetDimensionConstraints(105, 26, 105, 26)
 
 	local function LeftPaneUpdate()
-		PP.Font(ZO_TradingHouseBrowseItemsLeftPaneGlobalFeatureAreaQualitySelectedItemText, --[[Font]] PP.f.u67, 15, "", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+		PP.Font(ZO_TradingHouseBrowseItemsLeftPaneGlobalFeatureAreaQualitySelectedItemText, --[[Font]] PP.f.u67, 15, "")
 	end
 
 --==ZO_TradingHouseSearchHistoryTopLevel_Keyboard================================================--

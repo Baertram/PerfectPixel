@@ -30,6 +30,8 @@ function PP.Core()
 		list_skin_edge_file_width			= 128,
 		list_skin_edge_file_height			= 16,
 		list_skin_edge_integral_wrapping	= false,
+		list_skin_edge_col_stolen			= {130/255, 20/255, 20/255, 255/255},
+		list_skin_edge_col_quest			= {220/255, 216/255, 34/255, 255/255},
 		list_fade_distance					= 6,
 		list_uniform_control_height			= 42,
 		list_control_height					= 40,
@@ -61,8 +63,8 @@ function PP.Core()
 --CROWN_CRATE_KEYBOARD_SCENE
 	PP.Anchor(ZO_CrownCratesGemsCounter, --[[#1]] BOTTOMLEFT, GuiRoot, BOTTOMLEFT, 10, -2)
 	ZO_CrownCratesGemsCounterGemIcon:SetDimensions(22, 22)
-	PP.Font(ZO_CrownCratesGemsCounterGemsHeader, --[[Font]] PP.f.u67, 20, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-	PP.Font(ZO_CrownCratesGemsCounterGems, --[[Font]] PP.f.u67, 20, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+	PP.Font(ZO_CrownCratesGemsCounterGemsHeader, --[[Font]] PP.f.u67, 20, "outline")
+	PP.Font(ZO_CrownCratesGemsCounterGems, --[[Font]] PP.f.u67, 20, "outline")
 	
 --FadeAnimations---------------------------------------------------------------------------------------
 	-- treasureMapQuickSlot

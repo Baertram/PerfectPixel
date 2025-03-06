@@ -92,7 +92,7 @@ local function Edit_ZO_QuestJournal()
 	PP.ScrollBar(ZO_QuestJournalNavigationContainer, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
 	PP.Anchor(ZO_QuestJournalQuestCount, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, -6)
 	PP.Anchor(ZO_QuestJournalNavigationContainerScroll, --[[#1]] TOPLEFT, nil, TOPLEFT, 5, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 0, 0)
-	PP.Font(ZO_QuestJournalQuestCount, --[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+	PP.Font(ZO_QuestJournalQuestCount, --[[Font]] PP.f.u67, 24, "outline")
 	ZO_Scroll_SetMaxFadeDistance(ZO_QuestJournalNavigationContainer, 10)
 
 	if SV.largeQuestList then
@@ -141,7 +141,7 @@ local function Edit_ZO_QuestJournal()
 		local existingSetupCallback = treeEntry.setupFunction
 		treeEntry.setupFunction = function(node, control, data, open)
 			existingSetupCallback(node, control, data, open)
-			PP.Font(control, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			PP.Font(control, --[[Font]] PP.f.u67, 16, "outline")
 			control:SetDimensions(290, 22)
 			control:SetVerticalAlignment(TEXT_ALIGN_CENTER)
 			control:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling

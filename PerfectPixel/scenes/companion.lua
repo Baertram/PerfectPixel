@@ -287,7 +287,7 @@ PP.companionsScene = function()
 			existingSetupCallback01(node, control, skillLineData, open)
 			control:SetHeight(22)
 			control:SetVerticalAlignment(TEXT_ALIGN_CENTER)
-			PP.Font(control, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+			PP.Font(control, --[[Font]] PP.f.u67, 16, "outline")
 			--StatusIcon--
 			PP.Anchor(control:GetNamedChild("StatusIcon"), --[[#1]] nil, nil, nil, -2, 0)
 			control:SetPixelRoundingEnabled(false) -- Fix shaking when scrolling
@@ -454,7 +454,7 @@ PP.companionsScene = function()
 			end
 			if control:GetNamedChild("Title") then
 				local title = control:GetNamedChild("Title")
-				PP.Font(title, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+				PP.Font(title, --[[Font]] PP.f.u67, 16, "outline")
 			end
 		end
 

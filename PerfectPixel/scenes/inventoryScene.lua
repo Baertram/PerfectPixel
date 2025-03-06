@@ -156,7 +156,7 @@ PP.inventoryScene = function()
 	for _, bar in pairs(tabStablesBar) do
 		PP.Bar(bar:GetNamedChild("StatusBarBar"), --[[height]] 8, --[[fontSize]] 15)
 		bar:GetNamedChild("StatusBar"):SetHeight(16)
-		PP.Font(bar:GetNamedChild("Value"), --[[Font]] PP.f.u67, 24, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+		PP.Font(bar:GetNamedChild("Value"), --[[Font]] PP.f.u67, 24, "outline")
 	end
 
 	--FENCE_KEYBOARD -> SI_FENCE_HAGGLING_SKILL_BONUS_LABEL

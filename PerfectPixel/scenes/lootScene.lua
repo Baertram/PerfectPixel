@@ -100,105 +100,24 @@ PP.lootScene = function()
 
 	PP.Anchor(button1, --[[#1]] BOTTOMRIGHT, alphaControl, BOTTOMRIGHT, -10, -10)
 
-	PP.Font(button1.keyLabel,	--[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-	PP.Font(button1.nameLabel,	--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-	PP.Font(button2.keyLabel,	--[[Font]] PP.f.u57, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-	PP.Font(button2.nameLabel,	--[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+	PP.Font(button1.keyLabel,	--[[Font]] PP.f.u57, 16, "outline")
+	PP.Font(button1.nameLabel,	--[[Font]] PP.f.u67, 18, "outline")
+	PP.Font(button2.keyLabel,	--[[Font]] PP.f.u57, 16, "outline")
+	PP.Font(button2.nameLabel,	--[[Font]] PP.f.u67, 18, "outline")
 -------------------------------------------------
-	local function RefreshControlMode_1(control, typeId)
-		control:SetHeight(PP.savedVars.ListStyle.list_control_height)
-		control:GetNamedChild("Bg"):SetTexture("PerfectPixel/tex/tex_clear.dds")
+	
+	local layout	= PP:GetLayout('inventorySlot', lootList)
+	local savedVars	= PP:GetSavedVars('ListStyle')
 
-		if (typeId == 1) then
-			control:GetNamedChild("Highlight"):SetHidden(true)
-
-			control.multiIcon = control:GetNamedChild("MultiIcon")
-			control.multiIcon:SetHidden(true)
-
-			PP:CreateBgToSlot(control)
-
-			control.status = CreateControl("$(parent)Status", control, CT_TEXTURE)
-			local status = control.status
-			PP.Anchor(status, --[[#1]] LEFT, control, LEFT, 5, 0)
-
-			control.sellPrice = CreateControl("$(parent)SellPrice", control, CT_LABEL)
-			local sellPrice = control.sellPrice
-			PP.Font(sellPrice, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-			PP.Anchor(sellPrice, --[[#1]] RIGHT, control, RIGHT, -5, -1)
-			sellPrice:SetDimensionConstraints(40, 0, 0, 0)
-			sellPrice:SetHorizontalAlignment(TEXT_ALIGN_RIGHT)
-
-			local stack = control:GetNamedChild("ButtonStackCount")
-			PP.Font(stack, --[[Font]] PP.f.u67, 15, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-			PP.Anchor(stack, --[[#1]] RIGHT, status, RIGHT, 42, 8)
-
-			local button = control:GetNamedChild("Button")
-			button:SetDimensions(36, 36)
-			PP.Anchor(button, --[[#1]] LEFT, status, RIGHT, 2, 0)
-
-			control.icon = control:GetNamedChild("ButtonIcon")
-
-			local name = control:GetNamedChild("Name")
-			PP.Font(name, --[[Font]] PP.f.u67, 15, "shadow", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-			PP.Anchor(name, --[[#1]] LEFT, status, RIGHT, 50, -1, --[[#2]] true, RIGHT, sellPrice, LEFT, -10, 0)
-			name:SetLineSpacing(0)
-			name:SetVerticalAlignment(TEXT_ALIGN_CENTER)
-			name:SetMaxLineCount(2)
-		end
+	local function onCreateFn(control, ...)
+		PP.Inv_Slot(control, 'onCreate', { 'parent', 'Bg', 'Highlight', 'MultiIcon', 'ButtonStackCount', 'Button', 'Name' }, layout, savedVars, ...)
 	end
 
-	local function RefreshControlMode_1_Dynamic(control, data)
-		control.multiIcon:SetHidden(true)
-
-		local icon = control.icon
-		icon:SetHidden(false)
-		icon:SetTexture(data.icon)
-
-		local status = control.status
-		status:SetTexture(data.isStolen and "EsoUI/Art/Inventory/inventory_stolenItem_icon.dds" or data.isQuest and "EsoUI/Art/Journal/journal_Quest_Selected.dds" or "")
-		if data.isStolen or data.isQuest then
-			status:SetDimensions(24, 24)
-			status:SetHidden(false)
-		else
-			status:SetDimensions(0, 0)
-			status:SetHidden(true)
-		end
-
-		local sellPrice = control.sellPrice
-		if data.value and data.value > 0 then
-			sellPrice:SetText("|u0:4:currency:" .. data.value .. "|u|t14:14:/esoui/art/currency/gold_mipmap.dds|t")
-			sellPrice:SetHidden(false)
-		else
-			sellPrice:SetHidden(true)
-		end
+	local function onUpdateFn(control, ...)
+		PP.Inv_Slot(control, 'onUpdate', {'MultiIcon', 'ButtonIcon', 'Status', 'SellPrice', 'Backdrop'}, layout, savedVars, ...)
 	end
 
-	ZO_Scroll_SetMaxFadeDistance(lootList, PP.savedVars.ListStyle.list_fade_distance)
-
-	lootList.refreshControlMode_1			= RefreshControlMode_1
-	lootList.refreshControlMode_1_dynamic	= RefreshControlMode_1_Dynamic
-	lootList.uniformControlHeight			= PP.savedVars.ListStyle.list_uniform_control_height
-
-	for typeId in pairs(lootList.dataTypes) do
-		if typeId == 1 or typeId == 2 then
-			local dataType = ZO_ScrollList_GetDataTypeTable(lootList, typeId)
-			local pool = dataType.pool
-
-			if dataType.height then
-				dataType.height = PP.savedVars.ListStyle.list_control_height
-			end
-
-			PP.Hook_m_Factory(dataType, function(control)
-				lootList.refreshControlMode_1(control, typeId)
-			end)
-
-			if typeId == 1 then
-				PP.Hook_SetupCallback(dataType, function(control, data)
-					lootList.refreshControlMode_1_dynamic(control, data)
-				end)
-			end
-		end
-	end
+	PP:RefreshStyle_InventoryList(lootList, layout, nil, onCreateFn, onUpdateFn)
 
 	ZO_PreHook(LOOT_WINDOW_FRAGMENT, "Show", function(self)
 		SHARED_INFORMATION_AREA:SetHidden(self.control, false)

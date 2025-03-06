@@ -162,7 +162,7 @@ PP.compass = function()
 	ZO_BossBarBracketRight:SetHidden(true)
 
 	PP.Anchor(ZO_BossBarHealth, --[[#1]] TOPLEFT, compassFrame, TOPLEFT, -8, 0, --[[#2]] true, BOTTOMRIGHT, compassFrame, BOTTOMRIGHT,	8, 0)
-	PP.Font(ZO_BossBarHealthText, --[[Font]] PP.f.u67, 16, "outline", --[[Alpha]] nil, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+	PP.Font(ZO_BossBarHealthText, --[[Font]] PP.f.u67, 16, "outline")
 
 	local barLeft =			ZO_BossBarHealth:GetNamedChild("BarLeft")
 	local barLeftGloss =	ZO_BossBarHealth:GetNamedChild("BarLeftGloss")

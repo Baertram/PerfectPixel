@@ -2,19 +2,17 @@ local PP = PP ---@class PP
 
 PP:NewLayout('inventorySlot', {
 		default = {
+			isDeferredInitialize = false,
 			modes	= { [1] = true, [2] = true, [3] = false },
 			typeIds	= { [1] = true, [2] = true, [3] = true },
 			onCreate = {
+				suffixs = {'parent', 'Bg', 'Button', 'ButtonStackCount', 'Highlight', 'Name', 'SellPrice', 'SellPriceText', 'Status', 'SellInformation', 'TraitInfo'},
 				['parent'] = function(c, sv)
 					PP:CreateBgToSlot(c, nil, sv)
 					c:SetHeight(sv.list_control_height)
 				end,
-				['SellPrice'] = function(c, sv)
-					c:SetHidden(false)
-				end,
-				['SellPriceText'] = function(c, sv)
-					PP.Font(c, --[[Font]] PP.f.u67, 15, "shadow")
-					PP:SetLockFn(c, 'SetFont')
+				['Bg'] = function(c, sv)
+					c:SetTexture("PerfectPixel/tex/tex_clear.dds")
 				end,
 				['Button'] = function(c, sv)
 					c:SetDimensions(36, 36)
@@ -27,15 +25,9 @@ PP:NewLayout('inventorySlot', {
 					PP.Font(c, --[[Font]] PP.f.u67, 15, "shadow")
 					PP.Anchor(c, --[[#1]] LEFT, c.parent:GetNamedChild("ButtonIcon"), LEFT, 34, 8)
 				end,
-				['Status'] = function(c, sv)
-					c:SetDimensions(26, 26)
-					PP.Anchor(c, --[[#1]] CENTER, c.parent, LEFT, 18, 0)
-					c:SetAlpha(1)
-					c:SetMouseEnabled(true)
-					c:SetDrawLevel(1)
-
-					c:GetNamedChild("Texture"):SetMouseEnabled(true)
-					c:GetNamedChild("Texture"):SetDrawLevel(1)
+				['Highlight'] = function(c, sv)
+					c:SetHidden(true)
+					-- c:SetTexture("PerfectPixel/tex/tex_clear.dds")
 				end,
 				['Name'] = function(c, sv)
 					PP.Font(c, --[[Font]] PP.f.u67, 15, "shadow")
@@ -54,27 +46,43 @@ PP:NewLayout('inventorySlot', {
 					c:SetDrawLayer(1)
 					c:SetDrawLevel(1)
 				end,
+				['SellPrice'] = function(c, sv)
+					c:SetHidden(false)
+				end,
+				['SellPriceText'] = function(c, sv)
+					PP.Font(c, --[[Font]] PP.f.u67, 15, "shadow")
+					PP:SetLockFn(c, 'SetFont')
+				end,
+				['Status'] = function(c, sv)
+					c:SetDimensions(26, 26)
+					PP.Anchor(c, --[[#1]] CENTER, c.parent, LEFT, 18, 0)
+					c:SetAlpha(1)
+					c:SetMouseEnabled(true)
+					c:SetDrawLevel(1)
+
+					c:GetNamedChild("Texture"):SetMouseEnabled(true)
+					c:GetNamedChild("Texture"):SetDrawLevel(1)
+				end,
 				['TraitInfo'] = function(c, sv)
 					c:SetDimensions(32, 32)
 					c:SetAnchorFill(c.parent:GetNamedChild("SellInformation"))
 					c:SetAlpha(1)
 					c:SetMouseEnabled(true)
 					c:SetDrawLevel(1)
-				end,
-				['Bg'] = function(c, sv)
-					c:SetTexture("PerfectPixel/tex/tex_clear.dds")
-				end,
-				['Highlight'] = function(c, sv)
-					c:SetHidden(true)
-					-- c:SetTexture("PerfectPixel/tex/tex_clear.dds")
 				end
 			},
-			onUpdate = {}
+			onUpdate = {
+				suffixs = {}
+			}
+		},
+		[ZO_QuickSlot_Keyboard_TopLevelList] = {
+			isDeferredInitialize = 'QUICKSLOT_KEYBOARD'
 		},
 		[ZO_LootAlphaContainerList] = {
 			modes	= { [1] = true },
 			typeIds	= { [1] = true, [2] = true },
 			onCreate = {
+				suffixs = { 'parent', 'Bg', 'Button', 'ButtonStackCount', 'Highlight', 'MultiIcon', 'Name' },
 				['parent'] = function(c, sv)
 					PP:CreateBgToSlot(c, nil, sv)
 					c:SetHeight(sv.list_control_height)
@@ -85,12 +93,12 @@ PP:NewLayout('inventorySlot', {
 					sp:SetDimensionConstraints(40, 0, 0, 0)
 					sp:SetHorizontalAlignment(TEXT_ALIGN_RIGHT)
 				end,
-				['MultiIcon'] = function(c, sv)
-					c:SetHidden(true)
-				end,
 				['Button'] = function(c, sv)
 					c:SetDimensions(36, 36)
 					PP.Anchor(c, --[[#1]] LEFT, c.parent, LEFT, 10, 0)
+				end,
+				['MultiIcon'] = function(c, sv)
+					c:SetHidden(true)
 				end,
 				['Name'] = function(c, sv)
 					PP.Font(c, --[[Font]] PP.f.u67, 15, "shadow")
@@ -102,12 +110,10 @@ PP:NewLayout('inventorySlot', {
 				end
 			},
 			onUpdate = {
+				suffixs = { 'Backdrop', 'ButtonIcon', 'MultiIcon', 'SellPrice' },
 				['Backdrop'] = function(c, sv, data)
-					local col =  data.isStolen and sv.list_skin_edge_col_stolen or data.isQuest and sv.list_skin_edge_col_quest or sv.list_skin_edge_col
+					local col =  data.isQuest and sv.list_skin_edge_col_quest or sv.list_skin_edge_col
 					c:SetEdgeColor(col[1], col[2], col[3], col[4])
-				end,
-				['MultiIcon'] = function(c, sv)
-					c:SetHidden(true)
 				end,
 				['ButtonIcon'] = function(c, sv, data)
 					c:SetHidden(false)
@@ -116,6 +122,9 @@ PP:NewLayout('inventorySlot', {
 				['SellPrice'] = function(c, sv, data)
 					c:SetText("|u0:4:currency:" .. (data.value or '0') .. "|u|t14:14:/esoui/art/currency/gold_mipmap.dds|t")
 				end,
+				['MultiIcon'] = function(c, sv)
+					c:SetHidden(true)
+				end
 			}
 		}
 	}

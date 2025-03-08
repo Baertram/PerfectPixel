@@ -30,7 +30,6 @@ function PP.Core()
 		list_skin_edge_file_width			= 128,
 		list_skin_edge_file_height			= 16,
 		list_skin_edge_integral_wrapping	= false,
-		list_skin_edge_col_stolen			= {130/255, 20/255, 20/255, 255/255},
 		list_skin_edge_col_quest			= {220/255, 216/255, 34/255, 255/255},
 		list_fade_distance					= 6,
 		list_uniform_control_height			= 42,

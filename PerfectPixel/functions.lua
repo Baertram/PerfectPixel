@@ -811,6 +811,7 @@ function PP:NewLayout(name, data)
 end
 
 function PP.Inv_Slot(control, event, suffixs, layout, sv, ...)
+	suffixs = suffixs or layout[event].suffixs
 	for i = 1, #suffixs do
 		local suffix	= suffixs[i]
 		local c			= control:GetNamedChild(suffix) or suffix == 'parent' and control
@@ -828,41 +829,51 @@ function PP:RefreshStyle_InventoryList(list, layout, savedVars, onCreateFn, onUp
 	self.inventoryLists[list] = list
 
 	layout		= layout or self:GetLayout('inventorySlot', list)
-	modes		= layout.modes
-	typeIds		= layout.typeIds
 	savedVars	= savedVars or self:GetSavedVars('ListStyle')
 	onCreateFn	= onCreateFn or function(control, ...)
-		self.Inv_Slot(control, 'onCreate', {'parent', 'SellPrice', 'SellPriceText', 'Button', 'ButtonStackCount', 'Status', 'Name', 'SellInformation', 'TraitInfo', 'Bg', 'Highlight'}, layout, savedVars, ...)
+		self.Inv_Slot(control, 'onCreate', nil, layout, savedVars, ...)
 	end
 
-	for typeId in pairs(list.dataTypes) do
-		if typeIds[typeId] then
-			local dataType	= ZO_ScrollList_GetDataTypeTable(list, typeId)
-			local pool		= dataType.pool
-			local mode		= list.mode
+	local modes		= layout.modes
+	local typeIds	= layout.typeIds
+	local isDefInit	= layout.isDeferredInitialize
 
-			if dataType.height then
-				dataType.height = savedVars.list_control_height
-			end
+	local function setStyle()
+		for typeId in pairs(list.dataTypes) do
+			if typeIds[typeId] then
+				local dataType	= ZO_ScrollList_GetDataTypeTable(list, typeId)
+				local pool		= dataType.pool
+				local mode		= list.mode
 
-			for i = 1, #modes do
-				if modes[i] then
-					self.PostHooksSetupCallback(list, i, typeId, onCreateFn, onUpdateFn)
+				if dataType.height then
+					dataType.height = savedVars.list_control_height
 				end
-			end
-			
-			if modes[mode] then
-				for _, control in pairs(pool.m_Free) do
-					dataType.hooks[mode].OnCreate(control)
+
+				for i = 1, #modes do
+					if modes[i] then
+						self.PostHooksSetupCallback(list, i, typeId, onCreateFn, onUpdateFn)
+					end
 				end
-				for _, control in pairs(pool.m_Active) do
-					dataType.hooks[mode].OnCreate(control)
+				
+				if modes[mode] then
+					for _, control in pairs(pool.m_Free) do
+						dataType.hooks[mode].OnCreate(control)
+					end
+					for _, control in pairs(pool.m_Active) do
+						dataType.hooks[mode].OnCreate(control)
+					end
 				end
 			end
 		end
+		list.uniformControlHeight = savedVars.list_uniform_control_height
+		ZO_Scroll_SetMaxFadeDistance(list, savedVars.list_fade_distance)
 	end
-	list.uniformControlHeight = savedVars.list_uniform_control_height
-	ZO_Scroll_SetMaxFadeDistance(list, savedVars.list_fade_distance)
+
+	if isDefInit then
+		ZO_PostHook(_G[isDefInit], 'OnDeferredInitialize',  function() setStyle() end)
+	else
+		setStyle()
+	end
 end
 
 --InfoBar----------------------------------------

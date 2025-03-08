@@ -110,11 +110,11 @@ PP.lootScene = function()
 	local savedVars	= PP:GetSavedVars('ListStyle')
 
 	local function onCreateFn(control, ...)
-		PP.Inv_Slot(control, 'onCreate', { 'parent', 'Bg', 'Highlight', 'MultiIcon', 'ButtonStackCount', 'Button', 'Name' }, layout, savedVars, ...)
+		PP.Inv_Slot(control, 'onCreate', nil, layout, savedVars, ...)
 	end
 
 	local function onUpdateFn(control, ...)
-		PP.Inv_Slot(control, 'onUpdate', {'MultiIcon', 'ButtonIcon', 'Status', 'SellPrice', 'Backdrop'}, layout, savedVars, ...)
+		PP.Inv_Slot(control, 'onUpdate', nil, layout, savedVars, ...)
 	end
 
 	PP:RefreshStyle_InventoryList(lootList, layout, nil, onCreateFn, onUpdateFn)

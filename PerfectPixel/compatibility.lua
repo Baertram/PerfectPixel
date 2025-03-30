@@ -901,7 +901,8 @@ PP.compatibility = function ()
                 PP.PostHooksSetupCallback(list, 2, 3, OnCreateFn, OnUpdateFn)
 
                 if not AwesomeGuildStore then
-                    PP.Anchor(ZO_TradingHouseBrowseItemsRightPaneSearchSortByTimeRemainingName, RIGHT, ZO_TradingHouseBrowseItemsRightPaneSearchSortByPricePerUnitName, LEFT, -180, 0)
+                    --PP.Anchor(ZO_TradingHouseBrowseItemsRightPaneSearchSortByTimeRemainingName, RIGHT, ZO_TradingHouseBrowseItemsRightPaneSearchSortByPricePerUnitName, LEFT, -180, 0)
+                    PP.Anchor(ZO_TradingHouseBrowseItemsRightPaneSearchSortByTimeRemainingName, RIGHT, ZO_TradingHouseBrowseItemsRightPaneSearchSortByPricePerUnitName, LEFT, 0, 0) --fix "Time" header to not overlay the name header at guildstore (with ATT enabled)
                     ZO_TradingHouse:SetWidth(1000)
                 end
             end

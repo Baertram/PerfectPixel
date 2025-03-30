@@ -1,7 +1,7 @@
 local CM = CALLBACK_MANAGER
 local tinsert = table.insert
 
-local PP = PP
+local PP = PP ---@class PP
 
 PP.compatibilityFunctions = {}
 PP.compatibility = function ()

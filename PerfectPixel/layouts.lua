@@ -78,6 +78,11 @@ PP:NewLayout('inventorySlot', {
 		[ZO_QuickSlot_Keyboard_TopLevelList] = {
 			isDeferredInitialize = 'QUICKSLOT_KEYBOARD'
 		},
+	--vvv-- Temporary correction
+		[ZO_AlchemyTopLevelInventoryBackpack] = {
+			typeIds	= { [1] = false, [2] = false },
+		},
+	--xxx--
 		[ZO_LootAlphaContainerList] = {
 			modes	= { [1] = true },
 			typeIds	= { [1] = true, [2] = true },

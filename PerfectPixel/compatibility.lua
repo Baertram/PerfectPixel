@@ -670,12 +670,14 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==PortToFriend==--
-        -- if PortToFriend then
-        -- PP:CreateBackground(PortToFriend_Body_Backdrop, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
-        -- PortToFriend_Body_BackdropMungeOverlay:SetHidden(true)
-        -- end
+        if PortToFriend then
+            PP:CreateBackground(PortToFriend_Body_Backdrop, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+            PortToFriend_Body_BackdropMungeOverlay:SetHidden(true)
+            PP:CreateBackground(PortToFriend_Header_Backdrop, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+            PortToFriend_Header_BackdropMungeOverlay:SetHidden(true)
+            PP.Font(PortToFriend_Header, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+        end
 
-        -- ===============================================================================================--
         -- ===============================================================================================--
 
         -- ==MailHistory==--

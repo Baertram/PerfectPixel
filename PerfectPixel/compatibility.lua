@@ -6,6 +6,17 @@ local PP = PP ---@class PP
 PP.compatibilityFunctions = {}
 PP.compatibility = function ()
     local function Compatibility()
+
+        -- ==LibMainMenu2==--
+        if LibMainMenu2 then
+            local LMMXML = GetControl("LMMXML")
+            local sceneGroupBar = LMMXML:GetNamedChild("SceneGroupBar")
+            local sceneGroupBarLabel = sceneGroupBar:GetNamedChild("Label")
+		    PP.Anchor(sceneGroupBar, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, -30, 64)
+	        PP.Font(sceneGroupBarLabel, --[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+        end
+
+        -- ===============================================================================================--
         -- ==LibCustomMenu==--
         if LibCustomMenu then
             local lcmSM = LibCustomMenuSubmenu

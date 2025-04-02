@@ -51,7 +51,7 @@ modules\contextMenu.lua
 modules\dialogsMenu.lua
 modules\keybindStrip.lua
 modules\performanceMeter.lua
-modules\playerProgressBar.lua
+;modules\playerProgressBar.lua
 modules\reticle.lua
 modules\scrolling.lua
 modules\tabs.lua

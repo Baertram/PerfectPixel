@@ -104,7 +104,8 @@ PP.inventoryScene = function()
 	end
 	---------------------------------------------------------------------------------------------------
 	-- CHARACTER_WINDOW_STATS_FRAGMENT
-	PP:CreateBackground(ZO_Character,		--[[#1]] nil, nil, nil, 0, 16, --[[#2]] nil, ZO_CharacterWindowStats, nil, -2, 32)
+	ZO_Character:SetAnchorOffsets(0, -28, 2)
+	PP:CreateBackground(ZO_Character,		--[[#1]] nil, nil, nil, 0, 16, --[[#2]] nil, ZO_CharacterWindowStats, nil, -2, 30)
 	ZO_CharacterWindowStats:SetWidth(30)
 	ZO_PreHookHandler(ZO_CharacterWindowStats, 'OnEffectivelyShown', function(self, hidden) self:SetWidth(303) end)
 	ZO_PreHookHandler(ZO_CharacterWindowStats, 'OnEffectivelyHidden', function(self, hidden) self:SetWidth(30) end)
@@ -112,7 +113,6 @@ PP.inventoryScene = function()
 	if sv.NoSpin then
 		TREASURE_MAP_INVENTORY_SCENE:RemoveFragment(FRAME_TARGET_CENTERED_FRAGMENT)
 		TREASURE_MAP_INVENTORY_SCENE:RemoveFragment(FRAME_PLAYER_FRAGMENT)
-
 
 		local inventoryScene = SCENE_MANAGER:GetScene('inventory')
 		PP.RemoveFragmentFromSceneAndKeepPreviewFunctionality(inventoryScene, FRAME_PLAYER_FRAGMENT, {"PreviewInventoryItem"}, nil)

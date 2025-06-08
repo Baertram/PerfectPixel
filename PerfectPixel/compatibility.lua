@@ -8,13 +8,13 @@ PP.compatibility = function ()
     local function Compatibility()
 
         -- ==LibMainMenu2==--
-        -- if LibMainMenu2 then
-            -- local LMMXML = GetControl("LMMXML")
-            -- local sceneGroupBar = LMMXML:GetNamedChild("SceneGroupBar")
-            -- local sceneGroupBarLabel = sceneGroupBar:GetNamedChild("Label")
-		    -- PP.Anchor(sceneGroupBar, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, -30, 64)
-	        -- PP.Font(sceneGroupBarLabel, --[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-        -- end
+        if LibMainMenu2 then
+            local LMMXML = GetControl("LMMXML")
+            local sceneGroupBar = LMMXML:GetNamedChild("SceneGroupBar")
+            local sceneGroupBarLabel = sceneGroupBar:GetNamedChild("Label")
+		    PP.Anchor(sceneGroupBar, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, -30, 64)
+	        PP.Font(sceneGroupBarLabel, --[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+        end
 
         -- ===============================================================================================--
         -- ==LibCustomMenu==--
@@ -462,8 +462,12 @@ PP.compatibility = function ()
                 IIFA_GUI_ListHolder_Counts_Slots:SetAnchorOffsets(0, 59)
             end
             IIFA_GUI_BGMungeOverlay:SetHidden(true)
-            PP.SetStyle_Tooltip(GetControl("IIFA_ITEM_TOOLTIP"))
-            PP.SetStyle_Tooltip(GetControl("IIFA_POPUP_TOOLTIP"))
+            if IIFA_ITEM_TOOLTIP then
+                PP.SetStyle_Tooltip(GetControl("IIFA_ITEM_TOOLTIP"))
+            end
+            if IIFA_POPUP_TOOLTIP then
+                PP.SetStyle_Tooltip(GetControl("IIFA_POPUP_TOOLTIP"))
+            end
             PP:CreateBackground(IIFA_CharBagFrame, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
             PP:CreateBackground(IIFA_CharBagFrame_BG, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
             IIFA_CharBagFrame_BGMungeOverlay:SetHidden(true)
@@ -670,13 +674,13 @@ PP.compatibility = function ()
         -- ===============================================================================================--
 
         -- ==PortToFriend==--
-        -- if PortToFriend then
-            -- PP:CreateBackground(PortToFriend_Body_Backdrop, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
-            -- PortToFriend_Body_BackdropMungeOverlay:SetHidden(true)
-            -- PP:CreateBackground(PortToFriend_Header_Backdrop, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
-            -- PortToFriend_Header_BackdropMungeOverlay:SetHidden(true)
-            -- PP.Font(PortToFriend_Header, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
-        -- end
+        if PortToFriend then
+            PP:CreateBackground(PortToFriend_Body_Backdrop, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+            PortToFriend_Body_BackdropMungeOverlay:SetHidden(true)
+            PP:CreateBackground(PortToFriend_Header_Backdrop, --[[#1]] nil, nil, nil, 0, 0, --[[#2]] nil, nil, nil, 0, 0)
+            PortToFriend_Header_BackdropMungeOverlay:SetHidden(true)
+            PP.Font(PortToFriend_Header, --[[Font]] PP.f.u67, 18, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+        end
 
         -- ===============================================================================================--
 

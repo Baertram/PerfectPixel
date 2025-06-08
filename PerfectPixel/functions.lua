@@ -246,6 +246,8 @@ function PP:CallLockFn(object, fnName, ...)
 	end
 end
 
+
+-- CallLockFn
 ---------------------------------------------------------------------------------------------------
 -- SCENE_FRAGMENT_SHOWN		= "shown"
 -- SCENE_FRAGMENT_HIDDEN	= "hidden"
@@ -285,6 +287,7 @@ end
 local PP_Font = PP.Font
 
 ----------------------------------
+-- PP.CreateBackdrop = function(control)
 function PP:CreateBgToSlot(control, namespace, sv)
 	namespace		= namespace or 'ListStyle'
 	local sv		= sv or self:GetSavedVars(namespace)
@@ -309,11 +312,23 @@ function PP:CreateBgToSlot(control, namespace, sv)
 	return backdrop
 end
 
-local sb_width	= 4
-local sb_offset	= 4
+local function offset(slider, hidden)
+	local contents = slider:GetParent().contents
+	if contents == nil then return end
+	if hidden then
+		PP_Anchor(contents, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, -6, 0)
+	else
+		PP_Anchor(contents, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, -15, 0)
+	end
+end
 
 PP.ScrollBar = function (control, sb_r, sb_g, sb_b, sb_a, bd_r, bd_g, bd_b, bd_a, useDefaultInsets)
+    -- Early return if no control provided
+    if not control then return end
+
+    -- Get the actual slider control
     local slider = control:GetType() == CT_SLIDER and control or control.scrollbar or control:GetParent().scrollbar
+    if not slider then return end
 
     local sb = slider
     local up = slider:GetNamedChild("Up") or slider:GetNamedChild("ScrollUp")
@@ -322,37 +337,105 @@ PP.ScrollBar = function (control, sb_r, sb_g, sb_b, sb_a, bd_r, bd_g, bd_b, bd_a
     local contents = slider:GetParent().contents
     local tex = "PerfectPixel/tex/tex_white.dds"
 
-    up:SetHidden(true)
-    down:SetHidden(true)
+    -- Hide scroll buttons
+    if up then up:SetHidden(true) end
+    if down then down:SetHidden(true) end
 
+    -- Set default colors if not provided
+    local scrollbar_color =
+    {
+        r = sb_r and (sb_r / 255) or (120 / 255),
+        g = sb_g and (sb_g / 255) or (120 / 255),
+        b = sb_b and (sb_b / 255) or (120 / 255),
+        a = sb_a or 1
+    }
+
+    local backdrop_color =
+    {
+        r = bd_r and (bd_r / 255) or (50 / 255),
+        g = bd_g and (bd_g / 255) or (50 / 255),
+        b = bd_b and (bd_b / 255) or (50 / 255),
+        a = bd_a or 0.6
+    }
+
+    -- Configure scrollbar
     sb:SetBackgroundMiddleTexture(tex)
     sb:SetBackgroundTopTexture(nil)
     sb:SetBackgroundBottomTexture(nil)
-    sb:SetColor(.2, .2, .2, .6)
+    sb:SetColor(backdrop_color.r, backdrop_color.g, backdrop_color.b, backdrop_color.a)
     sb:ClearAnchors()
     sb:SetAnchor(TOPLEFT, nil, TOPRIGHT, 0, 0)
     sb:SetAnchor(BOTTOMLEFT, nil, BOTTOMRIGHT, -10, 0)
-    sb:SetHitInsets(useDefaultInsets and 0 or -sb_offset, 0, useDefaultInsets and 0 or sb_offset + 1, 0)
-    sb:SetWidth(sb_width)
+    sb:SetAlpha(backdrop_color.a)
+    sb:SetHitInsets(useDefaultInsets and 0 or -4, 0, useDefaultInsets and 0 or 5, 0)
+    sb:SetWidth(4)
     sb.thumb = thumb
 
-	thumb:SetWidth(sb_width)
-	thumb:SetTexture(tex)
-	thumb:SetColor(.5, .5, .5, 1)
-	thumb:SetHitInsets(useDefaultInsets and 0 or -sb_offset, 0, useDefaultInsets and 0 or sb_offset + 1, 0)
+    -- Configure thumb
+    if thumb then
+        thumb:SetWidth(4)
+        thumb:SetTexture(tex)
+        thumb:SetColor(scrollbar_color.r, scrollbar_color.g, scrollbar_color.b, scrollbar_color.a)
+        thumb:SetHitInsets(useDefaultInsets and 0 or -4, 0, useDefaultInsets and 0 or 5, 0)
+    end
 
     if not contents then return end
 
-    contents:SetAnchorOffsets(-6, 0, 2)
+    -- Handle content offset
+    offset(sb, true)
 
     ZO_PreHookHandler(sb, "OnEffectivelyShown", function ()
-        contents:SetAnchorOffsets(-6 + -sb_width + -sb_offset + -1, 0, 2)
+        offset(sb, false)
     end)
-
     ZO_PreHookHandler(sb, "OnEffectivelyHidden", function ()
-        contents:SetAnchorOffsets(-6, 0, 2)
+        offset(sb, true)
     end)
 end
+
+--[[
+PP.ScrollBar = function(control)
+	local slider	= control:GetType() == CT_SLIDER and control or control.scrollbar or control:GetParent().scrollbar
+	local sb		= slider
+	local up		= slider:GetNamedChild("Up")	or slider:GetNamedChild("ScrollUp")
+	local down		= slider:GetNamedChild("Down")	or slider:GetNamedChild("ScrollDown")
+	local thumb		= slider:GetThumbTextureControl()
+	local contents	= slider:GetParent().contents
+	local tex		= "PerfectPixel/tex/tex_white.dds"
+
+	up:SetHidden(true)
+	down:SetHidden(true)
+
+	sb:SetBackgroundMiddleTexture(tex) --(string fileName, number texTop, number texLeft, number texBottom, number texRight)
+	sb:SetBackgroundTopTexture(nil)
+	sb:SetBackgroundBottomTexture(nil)
+	sb:SetColor(50/255, 50/255, 50/255, 1)
+	sb:ClearAnchors()
+	sb:SetAnchor(TOPLEFT, nil, TOPRIGHT, 0, 0)
+	sb:SetAnchor(BOTTOMLEFT, nil, BOTTOMRIGHT, -10, 0)
+	sb:SetAlpha(0.6)
+	sb:SetHitInsets(-4, 0, 5, 0)
+	sb:SetWidth(4)
+	sb.thumb = thumb
+
+	thumb:SetWidth(4)
+	thumb:SetTexture(tex)	--(string filename, string disabledFilename, string highlightedFilename, number thumbWidth, number thumbHeight, number texTop, number texLeft, number texBottom, number texRight)
+	thumb:SetColor(120/255, 120/255, 120/255, 1)
+	thumb:SetHitInsets(-4, 0, 5, 0)
+
+	if not contents then return end
+
+
+	offset(sb, true)
+
+	ZO_PreHookHandler(sb, 'OnEffectivelyShown', function()
+		offset(sb, false)
+	end)
+	ZO_PreHookHandler(sb, 'OnEffectivelyHidden', function()
+		offset(sb, true)
+	end)
+
+end
+]]
 
 PP.Bar = function(control, --[[height]] height, --[[fontSize]] fSize, bgEdgeColor, glowEdgeColor, reAnchorText, doDebug)
 	--todo 20250117 param reAnchorText is not used anywhere?
@@ -438,6 +521,7 @@ PP.Bars = function(progressBarsOverviewContainer --[[parentControl]], isProgress
 		end
 	end
 end
+
 
 function PP:ResetStyleList()
 	local sv = self:GetSavedVars('ListStyle')

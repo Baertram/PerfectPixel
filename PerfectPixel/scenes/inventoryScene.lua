@@ -28,6 +28,7 @@ PP.inventoryScene = function()
 		{ ZO_StoreWindow, 'store' }, { ZO_BuyBack }, { ZO_RepairWindow },
 		{ ZO_StablePanel, 'stables' },
 		{ ZO_Trade, 'trade' },
+		{ ZO_FurnitureVault, "furnitureVault" },
 		{ false, 'fence_keyboard' }
 	}
 

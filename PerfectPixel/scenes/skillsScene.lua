@@ -51,7 +51,7 @@ PP.skillsScene = function()
 	local skillList = ZO_SkillsSkillList
 
 	PP.ScrollBar(skillList)
-	PP.Anchor(skillList, --[[#1]] TOPLEFT, ZO_SkillsSkillInfo, BOTTOMLEFT, -60, 2, --[[#2]] true, BOTTOMRIGHT, ZO_Skills, BOTTOMRIGHT, 0, -40)
+	PP.Anchor(skillList, --[[#1]] TOPLEFT, ZO_SkillsSkillInfo, BOTTOMLEFT, -40, 2, --[[#2]] true, BOTTOMRIGHT, ZO_Skills, BOTTOMRIGHT, 0, -40)
 
 	-- skillList.useFadeGradient = nil
 	ZO_Scroll_SetMaxFadeDistance(skillList, 10)
@@ -65,7 +65,7 @@ PP.skillsScene = function()
 		end
 	end)
 
-	PP.Anchor(ZO_SkillsAssignableActionBar, --[[#1]] TOPLEFT, skillList, BOTTOMLEFT, -50, 0)
+	PP.Anchor(ZO_SkillsAssignableActionBar, --[[#1]] TOPLEFT, skillList, BOTTOMLEFT, 0, 0)
 
 --ZO_SkillsSkillLinesContainer
 

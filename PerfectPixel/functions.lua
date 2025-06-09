@@ -526,9 +526,15 @@ end
 function PP:ResetStyleList()
 	local sv = self:GetSavedVars('ListStyle')
 
+	local supportedListDataTypes = {
+		[1] = true,
+		[2] = true,
+		[3] = true,
+	}
+
 	for _, list in pairs(self.inventoryLists) do
 		for typeId in pairs(list.dataTypes) do
-			if typeId == 1 or typeId == 2 or typeId == 3 then
+			if supportedListDataTypes[typeId] then
 				local dataType = ZO_ScrollList_GetDataTypeTable(list, typeId)
 				local pool = dataType.pool
 

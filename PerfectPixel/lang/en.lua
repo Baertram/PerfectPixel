@@ -75,6 +75,8 @@ local stringsEn = {
 	PP_LAM_CHAT_MINBAR								= "Style chat min. bar",
 	--Companion SkillsScene
 	PP_LAM_SCENE_COMPANION_SKILLS					= "Companion Skills Scene",
+	--Font in lists
+	PP_LAM_LIST_FONT								= "List Font",
 }
 
 ---@class PP

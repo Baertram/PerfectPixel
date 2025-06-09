@@ -3,6 +3,8 @@ local media		= PP.media
 local unpack	= unpack
 local tinsert	= table.insert
 
+local LMP = LibMediaProvider
+
 PP.LAM_MediaTable	= {
 	name_backdrop	= {},
 	backdrop		= {},
@@ -22,10 +24,29 @@ for k, v in ipairs(media.edges) do
 	LAM_MediaTable.name_edge[k]	= v.name
 	LAM_MediaTable.edge[k]		= v.item
 end
+
+--todo 20250610 local mediaTypeFont
 for k, v in ipairs(media.fonts) do
 	LAM_MediaTable.name_font[k]	= v.name
 	LAM_MediaTable.font[k]		= v.item
+
+--[[ --todo 20250610
+	if LMP then
+		mediaTypeFont = mediaTypeFont or LMP.MediaType.FONT
+		LMP:Register(mediaTypeFont, v.name, v.item)
+	end
+]]
 end
+
+--[[ --todo 20250610
+local fontChoices = {"PP 67"} --default font
+local fontChoicesValues
+if LMP then
+	fontChoices = LMP:List(mediaTypeFont)
+end
+fontChoicesValues = fontChoices
+]]
+
 
 --==Settings template===================================================================--
 function PP.PackTables(...)
@@ -188,6 +209,19 @@ function PP.Settings()
 	tinsert(PP.optionsData,
 	{	type = "submenu", name = GetString(PP_LAM_LIST_STYLE),
 		controls = {
+			--[[ --todo 20250610
+			{	type				= 'dropdown',
+				name				= GetString(PP_LAM_LIST_FONT),
+				choices				= fontChoices,
+				choicesValues       = fontChoicesValues,
+				getFunc				= function() return PP.savedVars.ListStyle.list_font end,
+				setFunc				= function(value) PP.savedVars.ListStyle.list_font = value PP:ResetStyleList() end,
+				default				= PP.savedVars.ListStyle.default.list_font,
+				width				= "full",
+				scrollable          = 20,
+			},
+			]]
+
 			{	type = "header", name = GetString(PP_LAM_LIST_STYLE_BACKDROP), },
 			{	type				= 'iconpicker',
 				-- name				= "Backdrop",

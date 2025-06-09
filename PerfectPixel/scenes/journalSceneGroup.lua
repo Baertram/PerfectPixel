@@ -181,6 +181,11 @@ local function Edit_ZO_QuestJournal()
 
 		questJournalKeyboardObj.listDirty = true
 	end
+	if ZO_QuestJournalShowOnMap then
+		--shrink size of the keybind like at the keybind strip
+		ZO_QuestJournalShowOnMapNameLabel:SetFont(PP.f.u67 .. "|18|outline")
+		ZO_QuestJournalShowOnMapKeyLabel:SetFont(PP.f.u67 .. "|18|outline")
+	end
 end
 
 local function Edit_ZO_Cadwell()

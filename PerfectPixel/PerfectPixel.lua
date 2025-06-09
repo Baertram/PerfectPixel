@@ -34,6 +34,7 @@ function PP.Core()
 		list_fade_distance					= 6,
 		list_uniform_control_height			= 42,
 		list_control_height					= 40,
+		--todo 20250610 list_font							= "PP 57",
 	})
 
 	PP:AddNewSavedVars(0.3, 'SceneManager', {

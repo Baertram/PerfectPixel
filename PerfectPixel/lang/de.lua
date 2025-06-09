@@ -26,6 +26,7 @@ local stringsDe = {
 	PP_LAM_OTHERS									= "Anderes",
 	PP_LAM_DONOTINTERRUPT							= "Interaktive Aktionen nicht unterbrechen.",
 	PP_LAM_BLUR_BG									= "Hintergrund Unschärfe",
+	PP_LAM_FADE_SCENE_DURATION						= "Ausblenden Szenen Dauer (ms)",
 	--Reticle
 	PP_LAM_RETICLE									= "Fadenkreutz",
 	PP_LAM_RETICLE_HIDE_STEALTH						= "Verstecke \"" .. GetString(SI_STEALTH_HIDDEN) .. "\" Text",
@@ -72,6 +73,8 @@ local stringsDe = {
 	PP_LAM_CHAT_MINBAR								= "Chat min. Leiste stylen",
 	--Companion SkillsScene
 	PP_LAM_SCENE_COMPANION_SKILLS					= "Gefährten Fertigkeiten",
+	--Font in lists
+	PP_LAM_LIST_FONT								= "Listen Font",
 }
 
 ---@class PP

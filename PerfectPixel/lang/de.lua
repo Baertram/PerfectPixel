@@ -74,7 +74,7 @@ local stringsDe = {
 	--Companion SkillsScene
 	PP_LAM_SCENE_COMPANION_SKILLS					= "Gefährten Fertigkeiten",
 	--Font in lists
-	PP_LAM_LIST_FONT								= "Listen Font",
+	--PP_LAM_LIST_FONT								= "Listen Font",
 }
 
 ---@class PP

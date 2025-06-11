@@ -2,7 +2,7 @@
 ## Version: 0.13.22
 ## AddOnVersion: 001322
 ## Title: PerfectPixel
-## Author: @KL1SK, Baertram
+## Author: @KL1SK
 ## Description: PerfectPixle changes a lot UI elements.
 ## SavedVariables: PerfectPixel
 

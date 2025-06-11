@@ -75,6 +75,18 @@ PP:NewLayout('inventorySlot', {
 				suffixs = {}
 			}
 		},
+		[ZO_CraftBagList] = {
+			onCreate = {
+				['Name'] = function(c, sv)
+					PP.Font(c, --[[Font]] PP.f.u67, 15, "shadow")
+					PP.Anchor(c, --[[#1]] LEFT, c.parent:GetNamedChild("ButtonIcon"), RIGHT, 50, 0)
+					c:SetVerticalAlignment(TEXT_ALIGN_CENTER)
+					c:SetHidden(false)
+					c:SetLineSpacing(-2)
+					PP:SetLockFn(c, 'SetLineSpacing')
+				end,
+			}
+		},
 		[ZO_QuickSlot_Keyboard_TopLevelList] = {
 			isDeferredInitialize = 'QUICKSLOT_KEYBOARD'
 		},
@@ -178,6 +190,12 @@ PP:NewLayout('inventory', {
 			}
 		},
 		--extra
+		[ZO_CraftBag] = {
+			sort = {
+				name_t_x	= 112,
+				name_w		= 211,
+			},
+		},
 		[ZO_InventoryWallet] = {
 			list = {
 				t_y = 84

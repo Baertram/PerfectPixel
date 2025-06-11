@@ -229,6 +229,14 @@ if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess f
 	ZO_RetraitStation_KeyboardTopLevelRetraitPanelTraitContainerBGMungeOverlay:SetHidden(true)
 
 	ZO_PreHook("ZO_RetraitStation_Retrait_Keyboard_OnTraitRowMouseEnter", function(control)
+		-- Create backdrop if it doesn't exist
+		if not control.backdrop then
+			local backdrop = PP:CreateBgToSlot(control)
+			backdrop:SetCenterColor(20 / 255, 20 / 255, 20 / 255, 0.8)
+			backdrop:SetEdgeColor(40 / 255, 40 / 255, 40 / 255, 0.9)
+			backdrop:SetEdgeTexture("", 1, 1, 1, 0)
+			backdrop:SetInsets(1, 1, -1, -1)
+		end
 		control.backdrop:SetCenterColor(unpack(PP.savedVars.ListStyle.list_skin_backdrop_hl_col))
 	end)
 	ZO_PreHook("ZO_RetraitStation_Retrait_Keyboard_OnTraitRowMouseExit", function(control)

@@ -10,10 +10,11 @@ PP.compatibility = function ()
         -- ==LibMainMenu2==--
         if LibMainMenu2 then
             local LMMXML = GetControl("LMMXML")
+            if LMMXML == nil then return end
             local sceneGroupBar = LMMXML:GetNamedChild("SceneGroupBar")
             local sceneGroupBarLabel = sceneGroupBar:GetNamedChild("Label")
-		    PP.Anchor(sceneGroupBar, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, -30, 64)
-	        PP.Font(sceneGroupBarLabel, --[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
+            PP.Anchor(sceneGroupBar, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, -30, 64)
+            PP.Font(sceneGroupBarLabel, --[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
         end
 
         -- ===============================================================================================--

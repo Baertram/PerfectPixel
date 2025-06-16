@@ -23,7 +23,7 @@ PP.dialogsMenu = function()
 		end
 		return dialogControls
 	end
-	
+
 	local function RestyleDialogControl(dialogControl)
 		if not dialogControl then return end
 
@@ -40,6 +40,13 @@ PP.dialogsMenu = function()
 		local listBgRight		= dialogControl:GetNamedChild("ListBgRight")
 		local title				= dialogControl:GetNamedChild("Title")
 
+		-- Promotional Events Dialog Controls
+		local nextCampaignButton	= dialogControl:GetNamedChild("NextCampaignButton")
+		local viewInCollectionsButton = dialogControl:GetNamedChild("ViewInCollectionsButton")
+		local closeButton			= dialogControl:GetNamedChild("CloseButton")
+		local confirmButton			= dialogControl:GetNamedChild("ConfirmButton")
+		local overlayGlow			= dialogControl:GetNamedChild("OverlayGlow")
+
 		--ANIMATION******************
 		-- local anim = CreateSimpleAnimation(ANIMATION_ALPHA, hl)
 		-- anim:SetEndAlpha(.8)
@@ -50,7 +57,7 @@ PP.dialogsMenu = function()
 		-- if not dialogControl.animation then																		--zo_dialog.xml -> OnEffectivelyShown
 			-- dialogControl.animation = ANIMATION_MANAGER:CreateTimelineFromVirtual("DialogModalUnderlay", dialogControl)
 		-- end
-		
+
 		if bg:GetType() == CT_BACKDROP then
 			bg:SetCenterTexture("PerfectPixel/tex/tex_white.dds", 8, 0)
 			bg:SetCenterColor(10/255, 10/255, 10/255, 0.9)
@@ -76,9 +83,14 @@ PP.dialogsMenu = function()
 			PP.Font(title,	--[[Font]] PP.f.u67, 22, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
 		end
 		if list then
-			PP:RefreshStyle_InventoryList(list)
-			list:SetWidth(dialogControl:GetWidth() - 30)
-			PP.Anchor(list, --[[#1]] nil, nil, nil, 2, nil)
+			-- Don't apply inventory list styling to promotional events dialogs
+			local isPromotionalDialog = dialogControl:GetName():find("PromotionalEvent") or dialogControl:GetName():find("ClaimChoice")
+			if not isPromotionalDialog then
+				PP:RefreshStyle_InventoryList(list)
+				list:SetWidth(dialogControl:GetWidth() - 30)
+				PP.Anchor(list, --[[#1]] nil, nil, nil, 2, nil)
+			end
+
 			PP.ScrollBar(list)
 			if listBgLeft and listBgRight then
 				listBgLeft:SetHidden(true)
@@ -90,12 +102,29 @@ PP.dialogsMenu = function()
 			PP.Anchor(pane, --[[#1]] nil, nil, nil, 2, nil)
 			PP.ScrollBar(pane)
 		end
+
+		-- Style Promotional Events Dialog specific controls
+		if nextCampaignButton then
+			PP.Font(nextCampaignButton:GetNamedChild("NameLabel"), PP.f.u67, 18, "outline")
+		end
+		if viewInCollectionsButton then
+			PP.Font(viewInCollectionsButton:GetNamedChild("NameLabel"), PP.f.u67, 18, "outline")
+		end
+		if closeButton then
+			PP.Font(closeButton:GetNamedChild("NameLabel"), PP.f.u67, 18, "outline")
+		end
+		if confirmButton then
+			PP.Font(confirmButton:GetNamedChild("NameLabel"), PP.f.u67, 18, "outline")
+		end
+		if overlayGlow then
+			overlayGlow:SetHidden(true) -- Hide the promotional glow effect for cleaner look
+		end
 	end
 
 	for _, dialogControl in ipairs(GetDialogControls()) do
 		RestyleDialogControl(dialogControl)
 	end
-	
+
 	SecurePostHook("ZO_Dialogs_RegisterCustomDialog", function(dialogName, dialogInfo)
 		RestyleDialogControl(dialogInfo.customControl)
 	end)

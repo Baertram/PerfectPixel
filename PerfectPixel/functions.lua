@@ -173,6 +173,25 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 	ZO_PreHookHandler(parent, 'OnEffectivelyHidden', function(self, bool)
 		self.PP_BG:SetHidden(bool)
 	end)
+
+	-- Handle dynamic resizing for backgrounds with fixed dimensions
+	if width ~= nil or height ~= nil then
+		ZO_PreHookHandler(parent, 'OnRectChanged', function(self, newLeft, newTop, newRight, newBottom)
+			if self.PP_BG then
+				local bg = self.PP_BG
+				local newWidth = newRight - newLeft
+				local newHeight = newBottom - newTop
+
+				if width ~= nil and height ~= nil then
+					bg:SetDimensions(newWidth + (insets * 2), newHeight + (insets * 2))
+				elseif width ~= nil then
+					bg:SetWidth(newWidth + (insets * 2))
+				elseif height ~= nil then
+					bg:SetHeight(newHeight + (insets * 2))
+				end
+			end
+		end)
+	end
 end
 
 function PP:UpdateBackgrounds(namespace)

@@ -296,7 +296,13 @@ local PP_Anchor = PP.Anchor
 
 --outline, thick-outline, soft-shadow-thin, soft-shadow-thick, shadow
 PP.Font = function(control, --[[Font]] font, size, outline, --[[Alpha]] a, --[[Color]] c_r, c_g, c_b, c_a, --[[StyleColor]] sc_r, sc_g, sc_b, sc_a)
-	control:SetFont(string.format("%s|%s|%s", font, size, outline))
+	local fontString
+	if outline then
+		fontString = font .. "|" .. size .. "|" .. outline
+	else
+		fontString = font .. "|" .. size
+	end
+	control:SetFont(fontString)
 	control:SetAlpha(a or 1.0)
 	control:SetStyleColor((sc_r or 0) /255, (sc_g or 0) /255, (sc_b or 0) /255, sc_a or .5)
 	if c_r then

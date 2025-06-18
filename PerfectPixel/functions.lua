@@ -173,6 +173,25 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 	ZO_PreHookHandler(parent, 'OnEffectivelyHidden', function(self, bool)
 		self.PP_BG:SetHidden(bool)
 	end)
+
+	-- Handle dynamic resizing for backgrounds with fixed dimensions
+	if width ~= nil or height ~= nil then
+		ZO_PreHookHandler(parent, 'OnRectChanged', function(self, newLeft, newTop, newRight, newBottom)
+			if self.PP_BG then
+				local bg = self.PP_BG
+				local newWidth = newRight - newLeft
+				local newHeight = newBottom - newTop
+
+				if width ~= nil and height ~= nil then
+					bg:SetDimensions(newWidth + (insets * 2), newHeight + (insets * 2))
+				elseif width ~= nil then
+					bg:SetWidth(newWidth + (insets * 2))
+				elseif height ~= nil then
+					bg:SetHeight(newHeight + (insets * 2))
+				end
+			end
+		end)
+	end
 end
 
 function PP:UpdateBackgrounds(namespace)
@@ -277,7 +296,13 @@ local PP_Anchor = PP.Anchor
 
 --outline, thick-outline, soft-shadow-thin, soft-shadow-thick, shadow
 PP.Font = function(control, --[[Font]] font, size, outline, --[[Alpha]] a, --[[Color]] c_r, c_g, c_b, c_a, --[[StyleColor]] sc_r, sc_g, sc_b, sc_a)
-	control:SetFont(string.format("%s|%s|%s", font, size, outline))
+	local fontString
+	if outline then
+		fontString = font .. "|" .. size .. "|" .. outline
+	else
+		fontString = font .. "|" .. size
+	end
+	control:SetFont(fontString)
 	control:SetAlpha(a or 1.0)
 	control:SetStyleColor((sc_r or 0) /255, (sc_g or 0) /255, (sc_b or 0) /255, sc_a or .5)
 	if c_r then

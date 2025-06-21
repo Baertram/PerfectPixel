@@ -75,6 +75,21 @@ PP.keybindStrip = function()
 		keybindStrip.rightAnchorOffset		= -10
 	end
 
+	-- Hook the utility wheel initialization to fix taint issues
+	ZO_PostHook(ZO_AssignableUtilityWheel_Keyboard, "InitializeKeybindStripDescriptors", function(self)
+		-- Fix the callback to use CallSecureProtected instead of direct ClearSlot call
+		if self.mouseOverKeybindStripDescriptor and self.mouseOverKeybindStripDescriptor[1] then
+			local removeDescriptor = self.mouseOverKeybindStripDescriptor[1]
+			if removeDescriptor.callback then
+				removeDescriptor.callback = function()
+					local slotId = self.mouseOverSlot.slotNum
+					CallSecureProtected("ClearSlot", slotId, self:GetHotbarCategory())
+					PlaySound(SOUNDS.QUICKSLOT_CLEAR)
+				end
+			end
+		end
+	end)
+
 	RedirectTexture("EsoUI/Art/Miscellaneous/interactKeyFrame_edge.dds", "PerfectPixel/tex/RedirectTextures/EsoUI/Art/Miscellaneous/interactKeyFrame_edge.dds")
 	RedirectTexture("EsoUI/Art/Miscellaneous/interactkeyframe_center.dds", "PerfectPixel/tex/RedirectTextures/EsoUI/Art/Miscellaneous/interactkeyframe_center.dds")
 end

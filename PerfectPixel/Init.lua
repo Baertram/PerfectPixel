@@ -9,9 +9,9 @@ PP = {
 	optionsData		= {},
 
 	ADDON_NAME		= 'PerfectPixel',
-	ADDON_AUTHOR	= '@KL1SK, Baertram',
+	ADDON_AUTHOR	= '@KL1SK, Baertram, Dakjaniels',
 	ADDON_WEBSITE	= 'https://www.esoui.com/downloads/info2103-PerfectPixel.html',
-	ADDON_VERSION 	= '0.13.24',
+	ADDON_VERSION 	= '0.13.25',
 }
 
 local PP = PP ---@class PP

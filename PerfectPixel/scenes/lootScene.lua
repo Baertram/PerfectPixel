@@ -110,6 +110,16 @@ PP.lootScene = function()
 	local savedVars	= PP:GetSavedVars('ListStyle')
 
 	local function onCreateFn(control, ...)
+		if control and control.GetNumChildren then
+			local children = {}
+			for i = 1, control:GetNumChildren() do
+				local child = control:GetChild(i)
+				if child and child.GetName then
+					table.insert(children, child:GetName() or "unnamed")
+				end
+			end
+		end
+		
 		PP.Inv_Slot(control, 'onCreate', nil, layout, savedVars, ...)
 	end
 
@@ -118,6 +128,20 @@ PP.lootScene = function()
 	end
 
 	PP:RefreshStyle_InventoryList(lootList, layout, nil, onCreateFn, onUpdateFn)
+
+	if lootList.dataTypes then
+		for typeId in pairs(lootList.dataTypes) do
+			local dataType = ZO_ScrollList_GetDataTypeTable(lootList, typeId)
+			if dataType and dataType.pool then
+				local pool = dataType.pool
+				for _, control in pairs(pool.m_Active) do
+					if control and layout.onCreate then
+						PP.Inv_Slot(control, 'onCreate', nil, layout, savedVars)
+					end
+				end
+			end
+		end
+	end
 
 	ZO_PreHook(LOOT_WINDOW_FRAGMENT, "Show", function(self)
 		SHARED_INFORMATION_AREA:SetHidden(self.control, false)

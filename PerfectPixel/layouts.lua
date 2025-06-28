@@ -99,7 +99,7 @@ PP:NewLayout('inventorySlot', {
 			modes	= { [1] = true },
 			typeIds	= { [1] = true, [2] = true },
 			onCreate = {
-				suffixs = { 'parent', 'Bg', 'Button', 'ButtonStackCount', 'Highlight', 'MultiIcon', 'Name' },
+				suffixs = { 'parent', 'Bg', 'Button', 'ButtonStackCount', 'Highlight', 'StatusIcon', 'MultiIcon', 'Name' },
 				['parent'] = function(c, sv)
 					PP:CreateBgToSlot(c, nil, sv)
 					c:SetHeight(sv.list_control_height)
@@ -113,6 +113,24 @@ PP:NewLayout('inventorySlot', {
 				['Button'] = function(c, sv)
 					c:SetDimensions(36, 36)
 					PP.Anchor(c, --[[#1]] LEFT, c.parent, LEFT, 10, 0)
+				end,
+				['StatusIcon'] = function(c, sv)
+					if not c then
+						return
+					end
+					
+					local button = c.parent:GetNamedChild("Button")
+					if not button then
+						c:SetDimensions(26, 26)
+						PP.Anchor(c, --[[#1]] CENTER, c.parent, LEFT, 18, 0)
+					else
+						c:SetDimensions(26, 26)
+						PP.Anchor(c, --[[#1]] CENTER, button, CENTER, 0, 0)
+					end
+					
+					c:SetAlpha(1)
+					c:SetMouseEnabled(true)
+					c:SetDrawLevel(3)
 				end,
 				['MultiIcon'] = function(c, sv)
 					c:SetHidden(true)
@@ -136,11 +154,11 @@ PP:NewLayout('inventorySlot', {
 					c:SetHidden(false)
 					c:SetTexture(data.icon)
 				end,
-				['SellPrice'] = function(c, sv, data)
-					c:SetText("|u0:4:currency:" .. (data.value or '0') .. "|u|t14:14:/esoui/art/currency/gold_mipmap.dds|t")
-				end,
 				['MultiIcon'] = function(c, sv)
 					c:SetHidden(true)
+				end,
+				['SellPrice'] = function(c, sv, data)
+					c:SetText("|u0:4:currency:" .. (data.value or '0') .. "|u|t14:14:/esoui/art/currency/gold_mipmap.dds|t")
 				end
 			}
 		}

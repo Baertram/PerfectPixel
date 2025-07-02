@@ -1278,10 +1278,12 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
                         --BMU.control_global = self_listview.control
 
                         local function updateBMUListBackdrop(doHide)
-                            PP:CreateBackground(bmuGlobalBGCtrl, nil, nil, nil, -2, 1, nil, nil, nil, -2, -1)
-                            bmuGlobalBGCtrl.PP_BG:SetHidden(doHide)
                             --Set the texture of the backdrop to an invisible one
-                            BMU.control_global.bd:SetTexture("/esoui/art/icons/heraldrycrests_misc_blank_01.dds") --original one was: "/esoui/art/miscellaneous/centerscreen_left.dds"
+                            bmuGlobalBGCtrl:SetTexture("/esoui/art/icons/heraldrycrests_misc_blank_01.dds") --original one was: "/esoui/art/miscellaneous/centerscreen_left.dds"
+                            --Create and reanchor PP BG texture
+                            PP:CreateBackground(bmuGlobalBGCtrl, nil, nil, nil, -2, 50, nil, nil, nil, -2, -110)
+                            local bmuPPBG = bmuGlobalBGCtrl.PP_BG
+                            bmuPPBG:SetHidden(doHide)
                         end
 
                         local function updateBMUListSlider()

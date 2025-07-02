@@ -1269,7 +1269,7 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
                     --SavedVariable references
                     local bmuSVAcc = BMU.savedVarsAcc
                     if not bmuSVAcc then return end
-                    local BMUscaleSV = bmuSVAcc.Scale
+                    --local BMUscaleSV = bmuSVAcc.Scale
 
 
                     --Check if BMU main control is currently shown

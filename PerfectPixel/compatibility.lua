@@ -1,5 +1,6 @@
 local CM = CALLBACK_MANAGER
 local tinsert = table.insert
+local tos = tostring
 
 local PP = PP ---@class PP
 
@@ -69,7 +70,7 @@ PP.compatibility = function ()
             end
 
             local function styleLSMHighlight(highlight, entryType)
-                --d("[PP]styleLSMHighlight - highlight: " .. tostring(highlight ~= nil and highlight:GetName() or "nil"))
+                --d("[PP]styleLSMHighlight - highlight: " .. tos(highlight ~= nil and highlight:GetName() or "nil"))
                 if not highlight or styledLSMControls[highlight] or not entryType then return end
 
                 local entryTypeToLayout =
@@ -106,7 +107,7 @@ PP.compatibility = function ()
 
             --Called from XML code to apply the row's highlight values
             function PP.compatibilityFunctions.ApplyLSMRowHighlight(highlightControl, entryType)
-                --d("[PP]applyPPLSMRowHighlight - highlight: " .. tostring(highlightControl:GetName()))
+                --d("[PP]applyPPLSMRowHighlight - highlight: " .. tos(highlightControl:GetName()))
                 styleLSMHighlight(highlightControl, entryType)
             end
 
@@ -122,7 +123,7 @@ PP.compatibility = function ()
                 }
                 for _, control in ipairs(overlayControls) do
                     if control then
-                        --d(">sethidden true on " .. tostring(control:GetName()))
+                        --d(">sethidden true on " .. tos(control:GetName()))
                         control:SetHidden(true)
                     end
                 end
@@ -138,7 +139,7 @@ PP.compatibility = function ()
             end
 
             local function addPPStyle(control, data, templateName)
-                --d("[PP]addPP - control: " .. tostring(control) .. ", data: " .. tostring(data) .. "; templateName: " ..tostring(templateName))
+                --d("[PP]addPP - control: " .. tos(control) .. ", data: " .. tos(data) .. "; templateName: " ..tos(templateName))
                 if control and not styledLSMControls[control] then
                     PP:CreateBackground(control, nil, nil, nil, -2, 1, nil, nil, nil, -2, -1)
                     hideControlMungeOverlays(control)
@@ -166,13 +167,13 @@ PP.compatibility = function ()
 
                 -- Style background only once
                 local bg = comboBoxDropdownCtrl ~= nil and GetControl(comboBoxDropdownCtrl, "BG")
-                --d(">bg found: " ..tostring(bg))
+                --d(">bg found: " ..tos(bg))
                 addPPStyle(bg, nil, nil)
 
                 -- Style scrollbar only once
                 local scrollList = dropdownObject.scroll
                 if scrollList and not styledLSMControls[scrollList] then
-                    --d(">scrollList found: " ..tostring(scrollList))
+                    --d(">scrollList found: " ..tos(scrollList))
                     PP.ScrollBar(scrollList)
                     styledLSMControls[scrollList] = true
                 end
@@ -235,7 +236,7 @@ PP.compatibility = function ()
             }
 
             local function mixinPPOptionsToLSMOptions(dropdownObject, options)
-                --d(">mixinPPOptionsToLSMOptions - dropdownObject: " .. tostring(dropdownObject and dropdownObject.m_container or nil) .. ", options: " ..tostring(options))
+                --d(">mixinPPOptionsToLSMOptions - dropdownObject: " .. tos(dropdownObject and dropdownObject.m_container or nil) .. ", options: " ..tos(options))
                 if options == nil then
                     if dropdownObject then
                         if dropdownObject.GetOptions then
@@ -270,7 +271,7 @@ PP.compatibility = function ()
 
                 --[[
 				d("[PP]================================================================")
-				d("[PP]LSM OnDropdownMenuAdded - dropdown: " ..tostring(lsm.GetControlName(dropDownTLCCtrl)))
+				d("[PP]LSM OnDropdownMenuAdded - dropdown: " ..tos(lsm.GetControlName(dropDownTLCCtrl)))
 				d("[PP]================================================================")
 				]]
                 --Overwrite the options of the LSM with the PP styled options
@@ -280,7 +281,7 @@ PP.compatibility = function ()
             lsm:RegisterCallback("OnMenuShow", function (dropdownControl, dropdownObject)
                 --[[
 				d("[PP]--------------------------------------------------")
-				d("[PP]LSM OnMenuShow - dropdown: " .. tostring(lsm.GetControlName(dropdownControl)) .. ", name: " .. tostring(lsm.GetControlName(dropdownControl)))
+				d("[PP]LSM OnMenuShow - dropdown: " .. tos(lsm.GetControlName(dropdownControl)) .. ", name: " .. tos(lsm.GetControlName(dropdownControl)))
 				d("[PP]--------------------------------------------------")
 				]]
                 addPPBackgroundToLSMDropdown(dropdownControl, dropdownObject)
@@ -290,7 +291,7 @@ PP.compatibility = function ()
             lsm:RegisterCallback("OnSubMenuShow", function (dropdownControl, dropdownObject)
                 local dropDownTLCCtrl = dropdownObject.m_container
                 --[[
-				d("[PP]LSM OnSubMenuShow - dropdown: " .. tostring(lsm.GetControlName(dropDownTLCCtrl)) .. ", name: " .. tostring(lsm.GetControlName(dropdownControl)))
+				d("[PP]LSM OnSubMenuShow - dropdown: " .. tos(lsm.GetControlName(dropDownTLCCtrl)) .. ", name: " .. tos(lsm.GetControlName(dropdownControl)))
 				]]
                 addPPBackgroundToLSMDropdown(dropdownControl, dropdownObject)
                 --options of mainMenu should be copied to submenu automatically so no need to PPify (mixin) it explicitly here
@@ -300,7 +301,7 @@ PP.compatibility = function ()
                 local dropDownTLCCtrl = dropdownObject.m_container
                 --[[
 				d("[PP]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-				d("[PP]LSM " .. tostring(contextMenuCallback) .." - dropdown: " .. tostring(lsm.GetControlName(dropDownTLCCtrl)) .. ", name: " .. tostring(lsm.GetControlName(dropdownControl)))
+				d("[PP]LSM " .. tos(contextMenuCallback) .." - dropdown: " .. tos(lsm.GetControlName(dropDownTLCCtrl)) .. ", name: " .. tos(lsm.GetControlName(dropdownControl)))
 				d("[PP]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 				]]
                 addPPBackgroundToLSMDropdown(dropdownControl, dropdownObject)
@@ -1228,6 +1229,143 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
         end
         -- ===============================================================================================--
 
+        -- ==BeamMeUp==
+        local BMU = BMU
+        if BMU and BMU.OpenTeleporter then
+            local bmuTeleporterOpenedHooked = false
+            --WORLD_MAP_SCENE:RegisterCallback("StateChange", BMU.onWorldMapStateChanged)
+            -->BMU.OpenTeleporter -> BMU.updatePosition -> Always clears anchors on BMU.control_global etc. so we need to
+            --> reanchor again and again
+            if not bmuTeleporterOpenedHooked then
+                --[[
+                ZO_PostHook(BMU, "HideTeleporter", function()
+                    local bmuGlobalCtrl = BMU.control_global --the BMU global control changes position with the scale of BMU savedVars! x=15*BMU.savedVarsAcc.Scale
+                    if not bmuGlobalCtrl or not bmuGlobalCtrl.PP_BG then return end
+                    bmuGlobalCtrl.PP_BG:SetHidden(true)
+                end)
+                ]]
+
+                ZO_PostHook(BMU, "OpenTeleporter", function(doRefresh)
+                    --Do nothing in GanmePad input mode, or when HarvestMap farm UI is shown
+                    if IsInGamepadPreferredMode() or SCENE_MANAGER:IsShowing("HarvestFarmScene") then return end
+
+                    --d("[PP]BMU OpenTeleporter - doRefresh: " .. tos(doRefresh))
+                    --if doRefresh == true then
+
+                    --Control references
+                    local bmuGlobalCtrl = BMU.control_global --the BMU global control changes position with the scale of BMU savedVars! x=15*BMU.savedVarsAcc.Scale
+                    if not bmuGlobalCtrl then return end
+
+                    local bmuGlobalBGCtrl = bmuGlobalCtrl.bd --BMU.control_global.bd:SetTexture("/esoui/art/miscellaneous/centerscreen_left.dds")
+                    if not bmuGlobalBGCtrl then return end
+
+                    local bmuMainCtrl = BMU.win.Main_Control
+                    if not bmuMainCtrl then return end
+
+                    --List control and slider
+                    local bmuTeleporterList = BMU.TeleporterList
+                    local slider = bmuMainCtrl.slider
+
+                    --SavedVariable references
+                    local bmuSVAcc = BMU.savedVarsAcc
+                    if not bmuSVAcc then return end
+                    local BMUscaleSV = bmuSVAcc.Scale
+
+
+                    --Check if BMU main control is currently shown
+                    if not bmuMainCtrl:IsHidden() then
+                        --d(" ========== [PP]BeamMeUp main control is shown ==========")
+                        --BMU.control_global = self_listview.control
+
+                        local function updateBMUListBackdrop(doHide)
+                            PP:CreateBackground(bmuGlobalBGCtrl, nil, nil, nil, -2, 1, nil, nil, nil, -2, -1)
+                            bmuGlobalBGCtrl.PP_BG:SetHidden(doHide)
+                            --Set the texture of the backdrop to an invisible one
+                            BMU.control_global.bd:SetTexture("/esoui/art/icons/heraldrycrests_misc_blank_01.dds") --original one was: "/esoui/art/miscellaneous/centerscreen_left.dds"
+                        end
+
+                        local function updateBMUListSlider()
+                            if slider == nil then return end
+                            --Overwrite self.slider_texture with PP's so on next "local _on_resize(self)" it will use this texture now for the slider
+                            bmuTeleporterList.slider_texture = "PerfectPixel/tex/tex_white.dds"
+                            --local tex = bmuTeleporterList.slider_texture
+                            PP.ScrollBar(slider)
+
+                            slider:ClearAnchors()
+                            slider:SetAnchor(TOPLEFT, nil, TOPRIGHT, 0, 85)
+                            slider:SetAnchor(BOTTOMLEFT, nil, BOTTOMRIGHT, 20, 0)
+                        end
+
+                        --Replace the BMU backdrop with the PP one
+                        updateBMUListBackdrop(false)
+
+                        --Scrollbar
+                        --Teleporter_Location_MainController_Slider
+                        updateBMUListSlider()
+
+                        --List
+                        --BMU.ListView.new(teleporterWin.Main_Control, ...) -> _initialize_listview -> _create_listview_lines_if_needed -> _create_listview_row
+                        -->List lines setupFunc ??? All custom BMU code wtf... Why Isn't it simply using ZO_ScrollList templates etc. :-(
+
+                        ZO_PostHookHandler(bmuGlobalCtrl, "OnResizeStop", function(self)
+                            updateBMUListSlider()
+                        end)
+                        CALLBACK_MANAGER:RegisterCallback('BMU_List_Updated', function()
+--d("[PP]CALLBACK fired - BMU List updated")
+                            --updateBMUListBackdrop(false)
+                            updateBMUListSlider()
+                        end)
+
+
+                        --[[
+                        --Current state of list shown
+                        local bmuCurrentlistType = 1
+                        --Players
+                        if BMU.state == BMU.indexListSearchPlayer then
+                            bmuCurrentlistType = 1
+                            --Zones
+                        elseif BMU.state == BMU.indexListSearchZone then
+                            bmuCurrentlistType = 2
+
+                            -- own houses or guilds or Dungeon Finder or quests
+                        elseif (BMU.state == BMU.indexListOwnHouses or BMU.state == BMU.indexListGuilds or BMU.state == BMU.indexListDungeons or BMU.state == BMU.indexListQuests) then
+                            bmuCurrentlistType = 3
+
+                            --Other public houses
+                        elseif BMU.state == BMU.indexListPTFHouses then
+                            bmuCurrentlistType = 4
+                        end
+
+                        --Show at the map
+                        if SCENE_MANAGER:IsShowing("worldMap") then
+                            --d(">PP: Map is shown")
+                            --Anchor to the map?
+                            if bmuSVAcc.anchorOnMap then
+                                --d(">>PP: Anchor to map")
+                                --bmuGlobalBGCtrl:ClearAnchors()
+                                --bmuGlobalBGCtrl:SetAnchor(TOPRIGHT, ZO_WorldMap, TOPLEFT, bmuSVAcc.anchorMapOffset_x, (-70*bmuSVAcc.Scale) + bmuSVAcc.anchorMapOffset_y)
+                            else
+                                --d(">>PP: Free moved while map opened")
+                                -- use saved pos when map is open
+                                --bmuGlobalBGCtrl:ClearAnchors()
+                                --bmuGlobalBGCtrl:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, LEFT + bmuSVAcc.pos_MapScene_x, bmuSVAcc.pos_MapScene_y)
+                            end
+                        else
+                            --Show elsewhere on UI (opened from chat button e.g.)
+                            --d(">>PP: Show somewhere on UI")
+                            --- use saved pos when map is NOT open
+                            --bmuGlobalBGCtrl:ClearAnchors()
+                            --bmuGlobalBGCtrl:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, LEFT + bmuSVAcc.pos_x, bmuSVAcc.pos_y)
+                        end
+                        ]]
+
+                    end
+                    --end
+
+                    bmuTeleporterOpenedHooked = true
+                end)
+            end
+        end
 
         -- ===============================================================================================--
         -- ==Misc ZO things==--

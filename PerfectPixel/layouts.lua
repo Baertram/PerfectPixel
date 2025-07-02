@@ -114,11 +114,12 @@ PP:NewLayout('inventorySlot', {
 					c:SetDimensions(36, 36)
 					PP.Anchor(c, --[[#1]] LEFT, c.parent, LEFT, 10, 0)
 				end,
+				--GitHub PullRequest #27 Dakjaniel: handle zos unknown icon in loot container list
 				['StatusIcon'] = function(c, sv)
 					if not c then
 						return
 					end
-					
+
 					local button = c.parent:GetNamedChild("Button")
 					if not button then
 						c:SetDimensions(26, 26)
@@ -127,7 +128,7 @@ PP:NewLayout('inventorySlot', {
 						c:SetDimensions(26, 26)
 						PP.Anchor(c, --[[#1]] CENTER, button, CENTER, 0, 0)
 					end
-					
+
 					c:SetAlpha(1)
 					c:SetMouseEnabled(true)
 					c:SetDrawLevel(3)

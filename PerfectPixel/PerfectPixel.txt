@@ -1,5 +1,5 @@
 ## APIVersion: 101046 101047
-## Version: 0.13.25
+## Version: 0.13.26
 ## AddOnVersion: 001324
 ## Title: PerfectPixel
 ## Author: @KL1SK
@@ -7,7 +7,7 @@
 ## SavedVariables: PerfectPixel
 
 ## OptionalDependsOn: LibAddonMenu-2.0>=40 LibCustomMenu>=730 LibMapPins-1.0>=10043 LibScrollableMenu>=020306 LibVotansAddonList>=10903 LibMediaProvider>=34
-## OptionalDependsOn: AdvancedFilters>=1649 SpentSkillPoints FCOLockPicker>=002080 PreUpdate101046UI
+## OptionalDependsOn: AdvancedFilters>=1649 SpentSkillPoints FCOLockPicker>=002080 PreUpdate101046UI BeamMeUp
 
 Init.lua
 fonts.xml

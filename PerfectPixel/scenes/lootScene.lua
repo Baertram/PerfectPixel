@@ -110,6 +110,7 @@ PP.lootScene = function()
 	local savedVars	= PP:GetSavedVars('ListStyle')
 
 	local function onCreateFn(control, ...)
+		--GitHub PullRequest #27 Dakjaniel: handle zos unknown icon in loot container list
 		if control and control.GetNumChildren then
 			local children = {}
 			for i = 1, control:GetNumChildren() do
@@ -129,6 +130,7 @@ PP.lootScene = function()
 
 	PP:RefreshStyle_InventoryList(lootList, layout, nil, onCreateFn, onUpdateFn)
 
+	--GitHub PullRequest #27 Dakjaniel: handle zos unknown icon in loot container list
 	if lootList.dataTypes then
 		for typeId in pairs(lootList.dataTypes) do
 			local dataType = ZO_ScrollList_GetDataTypeTable(lootList, typeId)

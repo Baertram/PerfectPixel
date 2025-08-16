@@ -71,6 +71,11 @@ PP.groupMenuKeyboardScene = function()
 		if newState == SCENE_FRAGMENT_SHOWN and not sceneFragmentsShown[goldenPursuitsFragment] then
 			local goldenPursuitsScrollList = goldenPursuitsKeyboard.activityList
 			local orig_ScrollListDataType1SetupCallback = goldenPursuitsScrollList.dataTypes[1].setupCallback
+			local goldenPursuitsCampaignPanel = ZO_PromotionalEvents_KeyboardTLContentsCampaignPanel
+			local goldenPursuitsCampaignPanelBG = goldenPursuitsCampaignPanel:GetNamedChild("BG")
+			local goldenPursuitsCampaignPanelDuration = goldenPursuitsCampaignPanel:GetNamedChild("Duration")
+			local goldenPursuitsCampaignPanelProgress = goldenPursuitsCampaignPanel:GetNamedChild("Progress")
+			local goldenPursuitsCampaignPanelHelp = goldenPursuitsCampaignPanel:GetNamedChild("Help")
 
 			goldenPursuitsScrollList.dataTypes[1].setupCallback = function(ctrl, ...)
 				orig_ScrollListDataType1SetupCallback(ctrl, ...)
@@ -82,6 +87,23 @@ PP.groupMenuKeyboardScene = function()
 
 			local goldenPursuitScrollListContents = goldenPursuitsScrollList:GetNamedChild("Contents")
 			if goldenPursuitScrollListContents then
+				--Hide the image at the top of Golden Pursuits and move the list etc. to the top
+				goldenPursuitsCampaignPanelBG:SetHidden(true)      --Title Background
+				goldenPursuitsCampaignPanelHelp:SetHidden(true)    --Help Icon
+
+				goldenPursuitsCampaignPanelDuration:ClearAnchors() --Duration and Title
+				goldenPursuitsCampaignPanelDuration:SetAnchor(TOPLEFT, GUI_Root, TOPLEFT, 0, -75)
+
+				goldenPursuitsCampaignPanelProgress:ClearAnchors() --Progress bar
+				goldenPursuitsCampaignPanelProgress:SetAnchor(TOPLEFT,	goldenPursuitsCampaignPanelDuration, BOTTOMLEFT, 9, 120)
+
+				--List
+				goldenPursuitsScrollList:ClearAnchors() --Scroll List
+				goldenPursuitsScrollList:SetAnchor(TOPELFT,	goldenPursuitsCampaignPanelProgress, BOTTOMLEFT, 0, 20)
+				goldenPursuitsScrollList:SetAnchor(BOTTOMRIGHT, GUI_Root, BOTTOMRIGHT, 0, 0)
+				ZO_Scroll_SetMaxFadeDistance(goldenPursuitsScrollList, PP.savedVars.ListStyle.list_fade_distance)
+				ZO_ScrollList_Commit(goldenPursuitsScrollList)
+
 				--Change the overall campaign bar
 				PP.Bar(goldenPursuitsKeyboard.campaignProgress, 18, 16, nil, nil, true)
 

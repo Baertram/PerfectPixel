@@ -1369,6 +1369,24 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
             end
         end
 
+        -- ==ImprovedGoldenPursuits==
+        if IGP then
+            SecurePostHook(PROMOTIONAL_EVENTS_KEYBOARD, "OnDeferredInitialize", function()
+                -- Move combobox (and attached checkboxes) a bit lower
+                IGP.controls.sortingDropdown.m_container:ClearAnchors()
+                IGP.controls.sortingDropdown.m_container:SetAnchor(BOTTOMRIGHT, ZO_PromotionalEvents_KeyboardTL, TOPRIGHT, 2, 12)
+                -- Reanchor content to show below combobox
+                local shown = false
+                PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT:RegisterCallback("StateChange", function(oldState, newState)
+                    if newState == SCENE_FRAGMENT_SHOWN and not shown then
+                        ZO_PromotionalEvents_KeyboardTLContentsCampaignPanelProgress:ClearAnchors() --Progress bar
+                        ZO_PromotionalEvents_KeyboardTLContentsCampaignPanelProgress:SetAnchor(TOPLEFT,	ZO_PromotionalEvents_KeyboardTLContentsCampaignPanelName, BOTTOMLEFT, 9, 120)
+                        shown = true
+                    end
+                end)
+            end)
+        end
+
         -- ===============================================================================================--
         -- ==Misc ZO things==--
         -- ===============================================================================================--

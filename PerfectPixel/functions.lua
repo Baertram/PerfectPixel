@@ -739,8 +739,9 @@ PP.removeFragmentsFromScene = removeFragmentsFromScene
 
 --Added with API101043 - ZOs uses more and more DeferredInitialization meanwhile so we craete a wrapper function for that
 local postHookedOnDeferredInitControls = {}
-function PP.onDeferredInitCheck(object, callbackFunc, preCheckFunc)
+function PP.onDeferredInitCheck(object, callbackFunc, preCheckFunc, objectHookCounter)
 	if callbackFunc == nil then return end
+
 	--PreCheck funtion is needed?
 	local doNow = true
 	if type(preCheckFunc) == "function" then
@@ -753,9 +754,11 @@ function PP.onDeferredInitCheck(object, callbackFunc, preCheckFunc)
 		if object.OnDeferredInitialize == nil then
 			callbackFunc(object)
 		else
-			if not postHookedOnDeferredInitControls[object] then
+			objectHookCounter = objectHookCounter or 1
+			postHookedOnDeferredInitControls[object] = postHookedOnDeferredInitControls[object] or {}
+			if not postHookedOnDeferredInitControls[object][objectHookCounter] then
 				SecurePostHook(object, "OnDeferredInitialize", function(...) callbackFunc(object, ...) end)
-				postHookedOnDeferredInitControls[object] = true
+				postHookedOnDeferredInitControls[object][objectHookCounter] = true
 			end
 		end
 	end

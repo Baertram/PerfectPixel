@@ -66,72 +66,91 @@ PP.groupMenuKeyboardScene = function()
 	--API101044 Golden pursuits - PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT
 	local goldenPursuitsFragment = PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT
 	local goldenPursuitsKeyboard = PROMOTIONAL_EVENTS_KEYBOARD
-	goldenPursuitsFragment:RegisterCallback("StateChange", function(oldState, newState)
-		goldenPursuitsKeyboard = goldenPursuitsKeyboard or PROMOTIONAL_EVENTS_KEYBOARD
-		if newState == SCENE_FRAGMENT_SHOWN and not sceneFragmentsShown[goldenPursuitsFragment] then
-			local goldenPursuitsScrollList = goldenPursuitsKeyboard.activityList
-			local orig_ScrollListDataType1SetupCallback = goldenPursuitsScrollList.dataTypes[1].setupCallback
-			local goldenPursuitsCampaignPanel = ZO_PromotionalEvents_KeyboardTLContentsCampaignPanel
-			local goldenPursuitsCampaignPanelBG = goldenPursuitsCampaignPanel:GetNamedChild("BG")
-			local goldenPursuitsCampaignPanelDuration = goldenPursuitsCampaignPanel:GetNamedChild("Duration")
-			local goldenPursuitsCampaignPanelProgress = goldenPursuitsCampaignPanel:GetNamedChild("Progress")
-			local goldenPursuitsCampaignPanelHelp = goldenPursuitsCampaignPanel:GetNamedChild("Help")
 
-			goldenPursuitsScrollList.dataTypes[1].setupCallback = function(ctrl, ...)
-				orig_ScrollListDataType1SetupCallback(ctrl, ...)
-				local progressBar = ctrl:GetNamedChild("Progress")
-				if progressBar then
-					PP.Bar(progressBar, 18, 16, nil, nil, true)
-				end
-			end
+	local function reanchorGoldenPursuitControls()
+		local goldenPursuitsScrollList = goldenPursuitsKeyboard.activityList
+		local orig_ScrollListDataType1SetupCallback = goldenPursuitsScrollList.dataTypes[1].setupCallback
+		local goldenPursuitsCampaignPanel = ZO_PromotionalEvents_KeyboardTLContentsCampaignPanel
+		local goldenPursuitsCampaignPanelBG = goldenPursuitsCampaignPanel:GetNamedChild("BG")
+		local goldenPursuitsCampaignPanelName = goldenPursuitsCampaignPanel:GetNamedChild("Name") --ZO_PromotionalEvents_KeyboardTLContentsCampaignPanelName
+		local goldenPursuitsCampaignPanelDuration = goldenPursuitsCampaignPanel:GetNamedChild("Duration") --ZO_PromotionalEvents_KeyboardTLContentsCampaignPanelDuration
+		local goldenPursuitsCampaignPanelProgress = goldenPursuitsCampaignPanel:GetNamedChild("Progress")
+		local goldenPursuitsCampaignPanelHelp = goldenPursuitsCampaignPanel:GetNamedChild("Help")
 
-			local goldenPursuitScrollListContents = goldenPursuitsScrollList:GetNamedChild("Contents")
-			if goldenPursuitScrollListContents then
-				--Hide the image at the top of Golden Pursuits and move the list etc. to the top
-				goldenPursuitsCampaignPanelBG:SetHidden(true)      --Title Background
-				goldenPursuitsCampaignPanelHelp:SetHidden(true)    --Help Icon
+		--Hide the image at the top of Golden Pursuits and move the list etc. to the top
+		goldenPursuitsCampaignPanelBG:SetHidden(true)      --Title Background
+		goldenPursuitsCampaignPanelHelp:SetHidden(true)    --Help Icon
 
-				goldenPursuitsCampaignPanelDuration:ClearAnchors() --Duration and Title
-				goldenPursuitsCampaignPanelDuration:SetAnchor(TOPLEFT, GUI_Root, TOPLEFT, 0, -75)
+		goldenPursuitsCampaignPanelName:ClearAnchors() --Name
+		goldenPursuitsCampaignPanelName:SetAnchor(TOPLEFT, goldenPursuitsCampaignPanel, TOPLEFT, 0, -75, ANCHOR_CONSTRAINS_XY)
 
-				goldenPursuitsCampaignPanelProgress:ClearAnchors() --Progress bar
-				goldenPursuitsCampaignPanelProgress:SetAnchor(TOPLEFT,	goldenPursuitsCampaignPanelDuration, BOTTOMLEFT, 9, 120)
+		goldenPursuitsCampaignPanelDuration:ClearAnchors() --Duration
+		goldenPursuitsCampaignPanelDuration:SetAnchor(TOPRIGHT, goldenPursuitsCampaignPanel, TOPRIGHT, 0, -73, ANCHOR_CONSTRAINS_XY)
+
+		goldenPursuitsCampaignPanelProgress:ClearAnchors() --Progress bar
+		goldenPursuitsCampaignPanelProgress:SetAnchor(TOPLEFT,	goldenPursuitsCampaignPanelName, BOTTOMLEFT, 9, 120)
+
+		return goldenPursuitsScrollList, goldenPursuitsCampaignPanelProgress, orig_ScrollListDataType1SetupCallback
+	end
+	PP.ReanchorGoldenPursuitControls = reanchorGoldenPursuitControls
+
+	PP.onDeferredInitCheck(PROMOTIONAL_EVENTS_KEYBOARD, function()
+--d("[PP]GoldenPursuits - onDeferredInitCheck")
+		goldenPursuitsFragment:RegisterCallback("StateChange", function(oldState, newState)
+			goldenPursuitsKeyboard = goldenPursuitsKeyboard or PROMOTIONAL_EVENTS_KEYBOARD
+			if newState == SCENE_FRAGMENT_SHOWN then --and not sceneFragmentsShown[goldenPursuitsFragment] then
+	--d("[PP]GoldenPursuits - Shown")
+				local goldenPursuitsScrollList, goldenPursuitsCampaignPanelProgress, orig_ScrollListDataType1SetupCallback = reanchorGoldenPursuitControls()
 
 				--List
 				goldenPursuitsScrollList:ClearAnchors() --Scroll List
-				goldenPursuitsScrollList:SetAnchor(TOPELFT,	goldenPursuitsCampaignPanelProgress, BOTTOMLEFT, 0, 20)
+				goldenPursuitsScrollList:SetAnchor(TOPLEFT,	goldenPursuitsCampaignPanelProgress, BOTTOMLEFT, 0, 20)
 				goldenPursuitsScrollList:SetAnchor(BOTTOMRIGHT, GUI_Root, BOTTOMRIGHT, 0, 0)
 				ZO_Scroll_SetMaxFadeDistance(goldenPursuitsScrollList, PP.savedVars.ListStyle.list_fade_distance)
 				ZO_ScrollList_Commit(goldenPursuitsScrollList)
 
-				--Change the overall campaign bar
-				PP.Bar(goldenPursuitsKeyboard.campaignProgress, 18, 16, nil, nil, true)
+				if not sceneFragmentsShown[goldenPursuitsFragment] then
+					local goldenPursuitScrollListContents = goldenPursuitsScrollList:GetNamedChild("Contents")
+					if goldenPursuitScrollListContents then
 
-				--Change the bars of each possible task
-				PP.Bars(goldenPursuitScrollListContents, true, 18, 16, nil, nil, true)
-				--Move the progessBar of the tasks a bit to the right to show the left edge
-				for i=1, goldenPursuitScrollListContents:GetNumChildren(), 1 do
-					local childCtrl = goldenPursuitScrollListContents:GetChild(i)
-					if childCtrl ~= nil then
-						local name = childCtrl:GetNamedChild("Name")
-						local progressBar = childCtrl:GetNamedChild("ProgressBar")
-						local rewardContainer = childCtrl:GetNamedChild("RewardContainer")
-						if name ~= nil and rewardContainer ~= nil and progressBar ~= nil then
-							--Do not use PP.Anchor, else it will call ClearAnchors() and break the right (2nd) anchor
-							progressBar:SetAnchor(TOPLEFT, name, BOTTOMLEFT, 2, 5)
+						goldenPursuitsScrollList.dataTypes[1].setupCallback = function(ctrl, ...)
+							orig_ScrollListDataType1SetupCallback(ctrl, ...)
+							local progressBar = ctrl:GetNamedChild("Progress")
+							if progressBar then
+								PP.Bar(progressBar, 18, 16, nil, nil, true)
+							end
 						end
+
+						--Change the overall campaign bar
+						PP.Bar(goldenPursuitsKeyboard.campaignProgress, 18, 16, nil, nil, true)
+
+						--Change the bars of each possible task
+						PP.Bars(goldenPursuitScrollListContents, true, 18, 16, nil, nil, true)
+						--Move the progessBar of the tasks a bit to the right to show the left edge
+						for i=1, goldenPursuitScrollListContents:GetNumChildren(), 1 do
+							local childCtrl = goldenPursuitScrollListContents:GetChild(i)
+							if childCtrl ~= nil then
+								local name = childCtrl:GetNamedChild("Name")
+								local progressBar = childCtrl:GetNamedChild("ProgressBar")
+								local rewardContainer = childCtrl:GetNamedChild("RewardContainer")
+								if name ~= nil and rewardContainer ~= nil and progressBar ~= nil then
+									--Do not use PP.Anchor, else it will call ClearAnchors() and break the right (2nd) anchor
+									progressBar:SetAnchor(TOPLEFT, name, BOTTOMLEFT, 2, 5)
+								end
+							end
+						end
+
+						PP.ScrollBar(goldenPursuitsScrollList)
 					end
 				end
-
-				PP.ScrollBar(goldenPursuitsScrollList)
+				sceneFragmentsShown[PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT] = true
 			end
-			sceneFragmentsShown[PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT] = true
-		end
-	end)
+		end)
+	end, nil, 1)
 
 	--Tribute finder
 	local tributeFinderObj = TRIBUTE_FINDER_KEYBOARD
 	local tributeFinderClubRankControl = tributeFinderObj.clubRankControl
 	local tributeFinderClubRankControlXPBar = GetControl(tributeFinderClubRankControl, "XPBar") --ZO_TributeFinder_KeyboardClubRankXPBar
- 	PP.Bar(tributeFinderClubRankControlXPBar, 14, 15, nil, nil, true)
+	PP.Bar(tributeFinderClubRankControlXPBar, 14, 15, nil, nil, true)
 end

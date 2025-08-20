@@ -1369,22 +1369,37 @@ d("[PP]GUILD_HISTORY_KEYBOARD_SCENE:SHown")
             end
         end
 
-        -- ==ImprovedGoldenPursuits==
+        -- ==ImprovedGoldenPursuits== 20250820
         if IGP then
-            SecurePostHook(PROMOTIONAL_EVENTS_KEYBOARD, "OnDeferredInitialize", function()
-                -- Move combobox (and attached checkboxes) a bit lower
-                IGP.controls.sortingDropdown.m_container:ClearAnchors()
-                IGP.controls.sortingDropdown.m_container:SetAnchor(BOTTOMRIGHT, ZO_PromotionalEvents_KeyboardTL, TOPRIGHT, 2, 12)
-                -- Reanchor content to show below combobox
-                local shown = false
+            PP.onDeferredInitCheck(PROMOTIONAL_EVENTS_KEYBOARD, function()
+               -- d("[PP]Compatibility -ImprovedGoldenPursuits- OnDeferredInit of GoldenPursuits")
+
                 PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT:RegisterCallback("StateChange", function(oldState, newState)
-                    if newState == SCENE_FRAGMENT_SHOWN and not shown then
-                        ZO_PromotionalEvents_KeyboardTLContentsCampaignPanelProgress:ClearAnchors() --Progress bar
-                        ZO_PromotionalEvents_KeyboardTLContentsCampaignPanelProgress:SetAnchor(TOPLEFT,	ZO_PromotionalEvents_KeyboardTLContentsCampaignPanelName, BOTTOMLEFT, 9, 120)
-                        shown = true
+                    if newState == SCENE_FRAGMENT_SHOWN then
+                --d("[PP]Compatibility -ImprovedGoldenPursuits- GoldenPursuits shown")
+                        local IGPSortingDropdownContainer = IGP.controls.sortingDropdown.m_container
+                        local IGPSortingDropdownContainerBG = IGPSortingDropdownContainer:GetNamedChild("BG")
+
+                        local promotionalEventsKBTL = ZO_PromotionalEvents_KeyboardTL
+                        local goldenPursuitsCampaignPanel = ZO_PromotionalEvents_KeyboardTLContentsCampaignPanel
+                        local goldenPursuitsCampaignPanelName = goldenPursuitsCampaignPanel:GetNamedChild("Duration") --ZO_PromotionalEvents_KeyboardTLContentsCampaignPanelName
+                        local goldenPursuitsCampaignPanelDuration = goldenPursuitsCampaignPanel:GetNamedChild("Duration") --ZO_PromotionalEvents_KeyboardTLContentsCampaignPanelDuration
+                        local goldenPursuitsCampaignPanelProgress = goldenPursuitsCampaignPanel:GetNamedChild("Progress")
+
+                        PP.ReanchorGoldenPursuitControls()
+
+                        --Hide the combobox's Background
+                        IGPSortingDropdownContainerBG:SetHidden(true)
+                         -- Move combobox (and attached checkboxes) a bit lower
+                        IGPSortingDropdownContainer:ClearAnchors()
+                        IGPSortingDropdownContainer:SetAnchor(TOPRIGHT, goldenPursuitsCampaignPanelDuration, BOTTOMRIGHT, 2, 5)
+
+                        -- Reanchor content to show below combobox
+                        --goldenPursuitsCampaignPanelProgress:ClearAnchors() --Progress bar
+                        --goldenPursuitsCampaignPanelProgress:SetAnchor(TOPLEFT,	goldenPursuitsCampaignPanelName, BOTTOMLEFT, 9, 120)
                     end
                 end)
-            end)
+            end, nil, 2) --SecurePostHook 1 to PROMOTIONAL_EVENTS_KEYBOARD was done in /scenes/groupMenuKeyboardScene.lua
         end
 
         -- ===============================================================================================--

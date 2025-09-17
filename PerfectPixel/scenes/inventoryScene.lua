@@ -23,7 +23,7 @@ PP.inventoryScene = function()
 	})
 	--===============================================================================================--
 	local tlcs = {
-		{ ZO_PlayerInventory, 'inventory' }, { ZO_CraftBag }, { ZO_InventoryWallet }, { ZO_QuestItems }, { ZO_QuickSlot_Keyboard_TopLevel },
+		{ ZO_PlayerInventory, 'inventory' }, { ZO_CraftBag }, { ZO_InventoryWallet }, { ZO_QuestItems }, { ZO_QuickSlot_Keyboard_TopLevel }, { ZO_VengeanceInventory },
 		{ ZO_PlayerBank, 'bank' }, { ZO_HouseBank, 'houseBank' }, { ZO_GuildBank, 'guildBank' },
 		{ ZO_StoreWindow, 'store' }, { ZO_BuyBack }, { ZO_RepairWindow },
 		{ ZO_StablePanel, 'stables' },

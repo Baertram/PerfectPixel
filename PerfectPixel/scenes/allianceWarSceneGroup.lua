@@ -32,6 +32,52 @@ local function EditElements()
 	PP.Anchor(ZO_CampaignOverviewCategories, --[[#1]] TOPLEFT, ZO_CampaignOverview, TOPLEFT, 0, 68)
 	PP.Anchor(ZO_CampaignSelector, --[[#1]] BOTTOMRIGHT, ZO_CampaignOverviewTopDivider, TOPRIGHT, -165, 25)
 
+
+	--PTS API101048 2025-09-19
+	if VENGEANCE_PERKS_KEYBOARD then
+		local function EmptyCellHidden(control, data)
+			if data.isEmptyCell then
+				control:SetHidden(true)
+			end
+		end
+
+		PP.onDeferredInitCheck(VENGEANCE_PERKS_KEYBOARD, function()
+			PP.ScrollBar(ZO_Vengeance_Perks_Keyboard_TopLevelListContainerListScrollBar)
+
+			local dataType00 = ZO_ScrollList_GetDataTypeTable(ZO_Vengeance_Perks_Keyboard_TopLevelListContainerList, 1)
+			local existingSetupCallback00 = dataType00.setupCallback
+			dataType00["controlHeight"] = 120
+			dataType00["controlWidth"] = 180
+			dataType00["spacingX"] = 6
+			dataType00["spacingY"] = 6
+			dataType00.setupCallback = function(control, data)
+				existingSetupCallback00(control, data)
+				EmptyCellHidden(control, data)
+
+				control:SetDimensions(dataType00["controlWidth"], dataType00["controlHeight"])
+				if control:GetNamedChild("OverlayBorder") then
+					local backdrop = control:GetNamedChild("OverlayBorder")
+					backdrop:SetCenterColor(10/255, 10/255, 10/255, 0.7)
+					backdrop:SetCenterTexture("", 4, 0)
+					backdrop:SetEdgeColor(40/255, 40/255, 40/255, 0.9)
+					backdrop:SetEdgeTexture("", 1, 1, 1, 0)
+					backdrop:SetInsets(1, 1, -1, -1)
+					backdrop:SetDrawLayer(0)
+					backdrop:SetDrawTier(0)
+				end
+				if control:GetNamedChild("Highlight") then
+					local highlight = control:GetNamedChild("Highlight")
+					highlight:SetTextureCoords(0.29, 0.575, 0.002, 0.3)
+					PP.Anchor(highlight, --[[#1]] TOPLEFT, control, TOPLEFT, 1, 1, --[[#2]] true, BOTTOMRIGHT, control, BOTTOMRIGHT,	-1, -1)
+				end
+				if control:GetNamedChild("Title") then
+					local title = control:GetNamedChild("Title")
+					PP.Font(title, --[[Font]] PP.f.u67, 16, "outline")
+				end
+			end
+		end, nil)
+	end
+
 --ZO_CampaignBrowser
 	local campaignBrowserXPBarChanged = false
 	CAMPAIGN_BROWSER_SCENE:RegisterCallback("StateChange", function(oldState, newState)

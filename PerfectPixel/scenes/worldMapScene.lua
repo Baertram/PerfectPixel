@@ -235,12 +235,18 @@ PP.worldMapScene = function ()
         end)
 
         -- Hook map update functions
+        --[[
         local orig_ZO_WorldMap_UpdateMap = ZO_WorldMap_UpdateMap
         function ZO_WorldMap_UpdateMap()
             orig_ZO_WorldMap_UpdateMap()
             MapSize()
         end
+        ]]
+        ZO_PostHook("ZO_WorldMap_UpdateMap", function()
+            MapSize()
+        end)
 
+        --[[
         local orig_ZO_WorldMap_RefreshMapFrameAnchor = ZO_WorldMap_RefreshMapFrameAnchor
         function ZO_WorldMap_RefreshMapFrameAnchor(...)
             if WORLD_MAP_SCENE:IsShowing() and modes[WORLD_MAP_MANAGER:GetMode()] then
@@ -248,6 +254,13 @@ PP.worldMapScene = function ()
             end
             return orig_ZO_WorldMap_RefreshMapFrameAnchor(...)
         end
+        ]]
+        ZO_PreHook("ZO_WorldMap_RefreshMapFrameAnchor", function(...)
+            if WORLD_MAP_SCENE:IsShowing() and modes[WORLD_MAP_MANAGER:GetMode()] then
+                return true --abort before original function call
+            end
+            return false
+        end)
     end
 
     -- Initialize everything

@@ -102,9 +102,9 @@ function PP.PostHooksSetupCallback(list, mode, typeId, onCreateFn, onUpdateFn)
 end
 
 local TLW_BG = CreateTopLevelWindow(nil)
-TLW_BG:SetDrawLayer(0)
-TLW_BG:SetDrawLevel(0)
-TLW_BG:SetDrawTier(0)
+TLW_BG:SetDrawLayer(DL_BACKGROUND)
+TLW_BG:SetDrawLevel(1)
+TLW_BG:SetDrawTier(DT_LOW)
 
 PP.TLW_BG = TLW_BG
 

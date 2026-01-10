@@ -1,13 +1,12 @@
-## APIVersion: 101047 101048
-## Version: 0.13.29
-## AddOnVersion: 001329
+## APIVersion: 101048 101049
+## Version: 0.13.30
+## AddOnVersion: 001330
 ## Title: PerfectPixel
 ## Author: @KL1SK
 ## Description: PerfectPixle changes a lot UI elements.
 ## SavedVariables: PerfectPixel
 
-## OptionalDependsOn: LibAddonMenu-2.0>=40 LibCustomMenu>=730 LibMapPins-1.0>=10043 LibScrollableMenu>=020306 LibVotansAddonList>=10903 LibMediaProvider>=35
-## OptionalDependsOn: AdvancedFilters>=1649 SpentSkillPoints FCOLockPicker>=002080 PreUpdate101046UI BeamMeUp ImprovedGoldenPursuits
+## OptionalDependsOn: LibAddonMenu-2.0>=40 LibCustomMenu>=730 LibMapPins-1.0>=10043 LibScrollableMenu>=020306 LibVotansAddonList>=10903 LibMediaProvider>=35 AdvancedFilters>=1649 BeamMeUp FCOLockPicker>=002080 ImprovedGoldenPursuits PreUpdate101046UI SpentSkillPoints
 
 Init.lua
 fonts.xml

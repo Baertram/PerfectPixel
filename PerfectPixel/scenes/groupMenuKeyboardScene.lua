@@ -105,7 +105,7 @@ PP.groupMenuKeyboardScene = function()
 				--List
 				goldenPursuitsScrollList:ClearAnchors() --Scroll List
 				goldenPursuitsScrollList:SetAnchor(TOPLEFT,	goldenPursuitsCampaignPanelProgress, BOTTOMLEFT, 0, 20)
-				goldenPursuitsScrollList:SetAnchor(BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, 0)
+				goldenPursuitsScrollList:SetAnchor(BOTTOMRIGHT, nil, BOTTOMRIGHT, 0, 0)
 				ZO_Scroll_SetMaxFadeDistance(goldenPursuitsScrollList, PP.savedVars.ListStyle.list_fade_distance)
 				ZO_ScrollList_Commit(goldenPursuitsScrollList)
 

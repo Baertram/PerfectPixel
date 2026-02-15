@@ -163,31 +163,31 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 
 	if exBG then return end
 
-	ZO_PreHookHandler(parent, 'OnEffectivelyShown', function(self, bool)
-		local bg		= self.PP_BG
-		local isValid	= PP.backgroundsHiddenForScene[bg]
+	ZO_PreHookHandler(parent, 'OnEffectivelyShown', function(ctrl, bool)
+		local theBg	= ctrl.PP_BG
+		local isValid	= PP.backgroundsHiddenForScene[theBg]
 		local isHide	= isValid and isValid[SM:GetCurrentScene()]
 
-		bg:SetHidden(isHide or bool)
+		theBg:SetHidden(isHide or bool)
 	end)
-	ZO_PreHookHandler(parent, 'OnEffectivelyHidden', function(self, bool)
-		self.PP_BG:SetHidden(bool)
+	ZO_PreHookHandler(parent, 'OnEffectivelyHidden', function(ctrl, bool)
+		ctrl.PP_BG:SetHidden(bool)
 	end)
 
 	-- Handle dynamic resizing for backgrounds with fixed dimensions
 	if width ~= nil or height ~= nil then
-		ZO_PreHookHandler(parent, 'OnRectChanged', function(self, newLeft, newTop, newRight, newBottom)
-			if self.PP_BG then
-				local bg = self.PP_BG
+		ZO_PreHookHandler(parent, 'OnRectChanged', function(ctrl, newLeft, newTop, newRight, newBottom)
+			if ctrl.PP_BG then
+				local theBg = ctrl.PP_BG
 				local newWidth = newRight - newLeft
 				local newHeight = newBottom - newTop
 
 				if width ~= nil and height ~= nil then
-					bg:SetDimensions(newWidth + (insets * 2), newHeight + (insets * 2))
+					theBg:SetDimensions(newWidth + (insets * 2), newHeight + (insets * 2))
 				elseif width ~= nil then
-					bg:SetWidth(newWidth + (insets * 2))
+					theBg:SetWidth(newWidth + (insets * 2))
 				elseif height ~= nil then
-					bg:SetHeight(newHeight + (insets * 2))
+					theBg:SetHeight(newHeight + (insets * 2))
 				end
 			end
 		end)
@@ -315,7 +315,7 @@ local PP_Font = PP.Font
 -- PP.CreateBackdrop = function(control)
 function PP:CreateBgToSlot(control, namespace, sv)
 	namespace		= namespace or 'ListStyle'
-	local sv		= sv or self:GetSavedVars(namespace)
+	sv				= sv or self:GetSavedVars(namespace)
 	local bg_c		= sv.list_skin_backdrop_col
 	local edge_c	= sv.list_skin_edge_col
 	local backdrop	= control.backdrop
@@ -656,7 +656,7 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 	--anim--
 
 	function control:SetState(checkState)
-		local checkBox			= self.checkBox
+		local cb				= self.checkBox
 		local checkStateType	= type(checkState)
 		local state				= false
 
@@ -667,7 +667,7 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 		end
 
 		local r, g, b, a = unpack(stateColor[state])
-		checkBox:SetColor(r, g, b, a)
+		cb:SetColor(r, g, b, a)
 		control:SetMouseEnabled(true)
 
 		if state == BSTATE_DISABLED or state == BSTATE_DISABLED_PRESSED then
@@ -679,27 +679,27 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 		self.toggleFunction = tFn
 	end
 
-	control:SetHandler("OnMouseEnter", function(self)
-		self.over:SetAlpha(0.2)
+	control:SetHandler("OnMouseEnter", function(ctrl)
+		ctrl.over:SetAlpha(0.2)
 
-		if not self.tooltipText then return end
+		if not ctrl.tooltipText then return end
 		InitializeTooltip(InformationTooltip, control, BOTTOM, 0, -10)
-		SetTooltipText(InformationTooltip, self.tooltipText)
+		SetTooltipText(InformationTooltip, ctrl.tooltipText)
 	end)
-	control:SetHandler("OnMouseExit", function(self)
-		self.over:SetAlpha(0)
+	control:SetHandler("OnMouseExit", function(ctrl)
+		ctrl.over:SetAlpha(0)
 
-		if not self.tooltipText then return end
+		if not ctrl.tooltipText then return end
 		ClearTooltip(InformationTooltip)
 	end)
-	control:SetHandler("OnMouseDown", function(self, button)
-		self.checkBox.timeline:PlayForward()
+	control:SetHandler("OnMouseDown", function(ctrl, button)
+		ctrl.checkBox.timeline:PlayForward()
 	end)
 	control:SetHandler("OnMouseDoubleClick", control:GetHandler("OnMouseDown"))
-	control:SetHandler("OnMouseUp", function(self, button, upInside)
-		local state = self.toggleFunction()
-		self:SetState(state)
-		self.checkBox.timeline:PlayBackward()
+	control:SetHandler("OnMouseUp", function(ctrl, button, upInside)
+		local state = ctrl.toggleFunction()
+		ctrl:SetState(state)
+		ctrl.checkBox.timeline:PlayBackward()
 		PlaySound(SOUNDS.DEFAULT_CLICK)
 	end)
 

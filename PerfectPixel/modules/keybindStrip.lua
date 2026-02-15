@@ -92,4 +92,8 @@ PP.keybindStrip = function()
 
 	RedirectTexture("EsoUI/Art/Miscellaneous/interactKeyFrame_edge.dds", "PerfectPixel/tex/RedirectTextures/EsoUI/Art/Miscellaneous/interactKeyFrame_edge.dds")
 	RedirectTexture("EsoUI/Art/Miscellaneous/interactkeyframe_center.dds", "PerfectPixel/tex/RedirectTextures/EsoUI/Art/Miscellaneous/interactkeyframe_center.dds")
+	if Pre101046UI_TextureRedirects then
+		RedirectTexture("Pre101046UI/art/miscellaneous/interactKeyframe_edge.dds", "PerfectPixel/tex/RedirectTextures/esoui/art/miscellaneous/interactkeyframe_edge.dds")
+		RedirectTexture("Pre101046UI/art/miscellaneous/interactkeyframe_center.dds", "PerfectPixel/tex/RedirectTextures/esoui/art/miscellaneous/interactkeyframe_center.dds")
+	end
 end

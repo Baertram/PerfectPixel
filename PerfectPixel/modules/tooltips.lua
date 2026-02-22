@@ -212,17 +212,15 @@ PP.tooltips = function()
 				PP.Anchor(glow, --[[#1]] TOPLEFT, bg, TOPLEFT, -30, -30, --[[#2]] true, BOTTOMRIGHT, bg, BOTTOMRIGHT, 30, 30)
 			end
 
-			if charges then
-				SetStyle_Bar(charges)
-			end
-			if condition then
-				SetStyle_Bar(condition)
-			end
-
-			applyLayout(tooltip, specialLayout, bg)
-		else
-			applyLayout(tooltip, specialLayout, bg)
+		if charges then
+			SetStyle_Bar(charges)
 		end
+		if condition then
+			SetStyle_Bar(condition)
+		end
+	end
+
+	applyLayout(tooltip, specialLayout, bg)
 	end
 	PP.SetStyle_Tooltip = SetStyle_Tooltip
 
@@ -247,6 +245,7 @@ PP.tooltips = function()
 	SetStyle_Tooltip(PopupTooltip)
 	SetStyle_Tooltip(ZO_ProvisionerTopLevelTooltip)
 	SetStyle_Tooltip(ZO_AlchemyTopLevelTooltip)
+	PP.Anchor(ZO_AlchemyTopLevelTooltip, --[[#1]] CENTER, GuiRoot, CENTER, 0, -25)
 	SetStyle_Tooltip(ZO_EnchantingTopLevelTooltip)
 	SetStyle_Tooltip(ZO_SmithingTopLevelCreationPanelResultTooltip)
 	SetStyle_Tooltip(ZO_KeepTooltip)

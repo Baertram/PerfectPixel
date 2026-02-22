@@ -783,7 +783,7 @@ PP.compatibility = function ()
                 PP.Anchor(AwesomeGuildStoreActivityStatusLine, nil, nil, nil, nil, -2)
                 PP.Anchor(AwesomeGuildStoreGuildSelector, LEFT, ZO_TradingHouseTitle, LEFT, 0, -2)
                 PP.Anchor(AwesomeGuildStoreGuildSelectorComboBoxOpenDropdown, LEFT, AwesomeGuildStoreGuildSelectorComboBoxSelectedItemText, RIGHT, 3, 5)
-                PP.Font(AwesomeGuildStoreGuildSelectorComboBoxSelectedItemText, PP.f.u67, 30, "outline", 0.9, nil, nil, nil, nil, 0, 0, 0, 0.8)
+                PP.Font(AwesomeGuildStoreGuildSelectorComboBoxSelectedItemText, PP.f.u67, 30, "outline", --[[Alpha]] 0.9, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.8)
                 PP.ScrollBar(AwesomeGuildStoreFilterArea)
                 ZO_Scroll_SetMaxFadeDistance(AwesomeGuildStoreFilterArea, 10)
                 PP.ScrollBar(AwesomeGuildStoreActivityWindowContainerListContents)
@@ -887,12 +887,12 @@ PP.compatibility = function ()
                     local averagePrice = rowControl:GetNamedChild("AveragePrice")
 
                     if profitMargin then
-                        PP.Font(profitMargin, PP.f.u67, 15, "shadow", 0.8, nil, nil, nil, nil, 0, 0, 0, 0.5)
+                        PP.Font(profitMargin, PP.f.u67, 15, "shadow", --[[Alpha]] 0.8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
                         PP.Anchor(profitMargin, nil, nil, nil, 0, 0)
                         PP:SetLockFn(profitMargin, "SetFont")
 
                         if averagePrice then
-                            PP.Font(averagePrice, PP.f.u67, 14, "shadow", 0.8, nil, nil, nil, nil, 0, 0, 0, 0.5)
+                            PP.Font(averagePrice, PP.f.u67, 14, "shadow", --[[Alpha]] 0.8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
                             PP.Anchor(averagePrice, TOPRIGHT, rowControl, TOPRIGHT, -145, 2)
                             PP:SetLockFn(averagePrice, "SetFont")
                             PP:SetLockFn(averagePrice, "SetAnchor")
@@ -900,7 +900,7 @@ PP.compatibility = function ()
                         end
 
                         if averagePricePerUnit then
-                            PP.Font(averagePricePerUnit, PP.f.u67, 14, "shadow", 0.8, nil, nil, nil, nil, 0, 0, 0, 0.5)
+                            PP.Font(averagePricePerUnit, PP.f.u67, 14, "shadow", --[[Alpha]] 0.8, --[[Color]] nil, nil, nil, nil, --[[StyleColor]] 0, 0, 0, 0.5)
                             PP.Anchor(averagePricePerUnit, TOPRIGHT, averagePrice, BOTTOMRIGHT, 0, -2)
                             PP:SetLockFn(averagePricePerUnit, "SetFont")
                             PP:SetLockFn(averagePricePerUnit, "SetAnchor")

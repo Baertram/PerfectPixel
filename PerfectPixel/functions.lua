@@ -294,20 +294,61 @@ PP.Anchor = function(control, --[[#1]] set1_p, set1_rTo, set1_rp, set1_x, set1_y
 end
 local PP_Anchor = PP.Anchor
 
---outline, thick-outline, soft-shadow-thin, soft-shadow-thick, shadow
-PP.Font = function(control, --[[Font]] font, size, outline, --[[Alpha]] a, --[[Color]] c_r, c_g, c_b, c_a, --[[StyleColor]] sc_r, sc_g, sc_b, sc_a)
-	local fontString
-	if outline then
-		fontString = font .. "|" .. size .. "|" .. outline
-	else
-		fontString = font .. "|" .. size
-	end
-	control:SetFont(fontString)
-	control:SetAlpha(a or 1.0)
-	control:SetStyleColor((sc_r or 0) /255, (sc_g or 0) /255, (sc_b or 0) /255, sc_a or .5)
-	if c_r then
-		control:SetColor(c_r/255, c_g/255, c_b/255, c_a)
-	end
+-- Mapping from string-based font styles to ZOS numeric constants
+local FONT_STYLE_TO_CONSTANT =
+{
+    ["normal"] = FONT_STYLE_NORMAL,
+    ["|normal"] = FONT_STYLE_NORMAL,
+    [""] = FONT_STYLE_NORMAL,
+    ["shadow"] = FONT_STYLE_SHADOW,
+    ["|shadow"] = FONT_STYLE_SHADOW,
+    ["outline"] = FONT_STYLE_OUTLINE,
+    ["|outline"] = FONT_STYLE_OUTLINE,
+    ["thick-outline"] = FONT_STYLE_OUTLINE_THICK,
+    ["|thick-outline"] = FONT_STYLE_OUTLINE_THICK,
+    ["soft-shadow-thin"] = FONT_STYLE_SOFT_SHADOW_THIN,
+    ["|soft-shadow-thin"] = FONT_STYLE_SOFT_SHADOW_THIN,
+    ["soft-shadow-thick"] = FONT_STYLE_SOFT_SHADOW_THICK,
+    ["|soft-shadow-thick"] = FONT_STYLE_SOFT_SHADOW_THICK,
+}
+
+--- In update 101049, we can utilize GetFontStyleString(FontStyle) instead of table lookup
+--- Creates a font string using ZOS's ZO_CreateFontString function
+--- Supports both string-based and numeric font styles for backwards compatibility
+--- @param faceName string Font face name
+--- @param size number Font size
+--- @param style string|number|nil Font style (string will be converted to constant)
+--- @return string Font string
+local function CreateFontString(faceName, size, style)
+    local styleConstant = style
+    -- Convert string styles to numeric constants if needed
+    if type(style) == "string" then
+        styleConstant = FONT_STYLE_TO_CONSTANT[style]
+    end
+    return ZO_CreateFontString(faceName, size, styleConstant)
+end
+
+--- Applies font, alpha, optional color, and style color (outline/shadow) to a control.
+--- @param control userdata Control (e.g. label) to style
+--- @param font string Font face (e.g. PP.f.u67)
+--- @param size number Font size
+--- @param outline string|nil Style: "outline", "shadow", "thick-outline", "soft-shadow-thin", "soft-shadow-thick", or nil for normal
+--- @param a number|nil Alpha (0-1); nil = 1.0
+--- @param c_r number|nil Text color R (0-255); nil = no change
+--- @param c_g number|nil Text color G (0-255)
+--- @param c_b number|nil Text color B (0-255)
+--- @param c_a number|nil Text color A (0-1)
+--- @param sc_r number|nil Style (outline/shadow) color R (0-255); nil = 0
+--- @param sc_g number|nil Style color G (0-255)
+--- @param sc_b number|nil Style color B (0-255)
+--- @param sc_a number|nil Style color A (0-1); nil = 0.5
+PP.Font = function (control, font, size, outline, a, c_r, c_g, c_b, c_a, sc_r, sc_g, sc_b, sc_a)
+    control:SetFont(CreateFontString(font, size, outline))
+    control:SetAlpha(a or 1.0)
+    control:SetStyleColor((sc_r or 0) / 255, (sc_g or 0) / 255, (sc_b or 0) / 255, sc_a or .5)
+    if c_r then
+        control:SetColor(c_r / 255, c_g / 255, c_b / 255, c_a)
+    end
 end
 local PP_Font = PP.Font
 

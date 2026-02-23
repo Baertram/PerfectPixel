@@ -6,7 +6,7 @@
 ## Description: PerfectPixle changes a lot UI elements.
 ## SavedVariables: PerfectPixel
 
-## OptionalDependsOn: LibAddonMenu-2.0>=40 LibCustomMenu>=730 LibMapPins-1.0>=10043 LibScrollableMenu>=020306 LibVotansAddonList>=10903 LibMediaProvider>=35 AdvancedFilters>=1649 BeamMeUp FCOLockPicker>=002080 ImprovedGoldenPursuits PreUpdate101046UI SpentSkillPoints
+## OptionalDependsOn: LibAddonMenu-2.0 LibCustomMenu LibMapPins-1.0 LibScrollableMenu LibVotansAddonList LibMediaProvider AdvancedFilters BeamMeUp FCOLockPicker ImprovedGoldenPursuits PreUpdate101046UI SpentSkillPoints
 
 Init.lua
 fonts.xml

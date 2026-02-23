@@ -152,7 +152,7 @@ PP.compass = function()
 		areaTexture.backdrop:SetEdgeColor(SV.qa_col_e[1], SV.qa_col_e[2], SV.qa_col_e[3], SV.qa_col_e[4])
 	end)
 --CARDINAL_DIRECTION---------------------------------------------------------------------------------------
-	local font = PP.f.u67 .. "|17|outline"
+	local font = ZO_CreateFontString(PP.f.u67, 17, FONT_STYLE_OUTLINE)
 	COMPASS.container:SetCardinalDirection(GetString(SI_COMPASS_NORTH_ABBREVIATION),	font, CARDINAL_DIRECTION_NORTH)
 	COMPASS.container:SetCardinalDirection(GetString(SI_COMPASS_EAST_ABBREVIATION),		font, CARDINAL_DIRECTION_EAST)
 	COMPASS.container:SetCardinalDirection(GetString(SI_COMPASS_WEST_ABBREVIATION),		font, CARDINAL_DIRECTION_WEST)

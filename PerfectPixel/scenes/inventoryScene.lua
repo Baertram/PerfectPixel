@@ -23,7 +23,7 @@ PP.inventoryScene = function()
 	})
 	--===============================================================================================--
 	local tlcs = {
-		{ ZO_PlayerInventory, 'inventory' }, { ZO_CraftBag }, { ZO_InventoryWallet }, { ZO_QuestItems }, { ZO_QuickSlot_Keyboard_TopLevel }, { ZO_VengeanceInventory },
+		{ ZO_PlayerInventory, 'inventory' }, { ZO_CraftBag }, { ZO_InventoryWallet }, { ZO_QuestItems }, { ZO_QuickSlot_Keyboard_TopLevel }, { ZO_VengeanceInventory }, { ZO_CrownGemification_KeyboardTopLevel, "crownCrateKeyboard" },
 		{ ZO_PlayerBank, 'bank' }, { ZO_HouseBank, 'houseBank' }, { ZO_GuildBank, 'guildBank' },
 		{ ZO_StoreWindow, 'store' }, { ZO_BuyBack }, { ZO_RepairWindow },
 		{ ZO_StablePanel, 'stables' },
@@ -52,12 +52,27 @@ PP.inventoryScene = function()
 				PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, l_inventory.list.t_y, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, l_inventory.list.b_y)
 				list:SetWidth(l_inventory.list.w)
 			end
-			if sortBy then
-				PP.Anchor(sortBy,			--[[#1]] BOTTOM, list, TOP, 0, 0)
-				local sortByName = sortBy:GetNamedChild("Name")
-				sortByName:SetWidth(l_inventory.sort.name_w)
-				sortByName:SetAnchorOffsets(l_inventory.sort.name_t_x, nil, 1)
-			end
+            if sortBy then
+                local gemTotal = sortBy:GetNamedChild("GemTotal")
+                if gemTotal then
+                    local menuBarDivider = tlc:GetNamedChild("MenuBarDivider")
+                    if menuBarDivider then
+                        PP.Anchor(sortBy, --[[#1]] TOPLEFT, menuBarDivider, BOTTOMLEFT, 0, 5, --[[#2]] true, TOPRIGHT, menuBarDivider, BOTTOMRIGHT, -20, 5)
+                        if list then
+                            PP.Anchor(list, --[[#1]] TOPLEFT, sortBy, BOTTOMLEFT, 0, 5, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, l_inventory.list.b_y)
+                        end
+                    else
+                        PP.Anchor(sortBy, --[[#1]] BOTTOM, list, TOP, 0, 0)
+                    end
+                else
+                    PP.Anchor(sortBy, --[[#1]] BOTTOM, list, TOP, 0, 0)
+                    local sortByName = sortBy:GetNamedChild("Name")
+                    if sortByName then
+                        sortByName:SetWidth(l_inventory.sort.name_w)
+                        sortByName:SetAnchorOffsets(l_inventory.sort.name_t_x, nil, 1)
+                    end
+                end
+            end
 			local emptyLabel = tlc:GetNamedChild("Empty")
 			if emptyLabel then
 				PP.Anchor(emptyLabel,		--[[#1]] TOPLEFT, tlc, TOPLEFT, 50, 200, --[[#2]] true, TOPRIGHT, tlc, TOPRIGHT, -50, 200)
@@ -84,6 +99,17 @@ PP.inventoryScene = function()
 			if infoBar then
 				PP:RefreshStyle_InfoBar(infoBar, l_inventory)
 			end
+            if control == ZO_CrownGemification_KeyboardTopLevel then
+                ZO_SharedRightPanelBackgroundLeft:SetHidden(true)
+                local titleBarDivider = tlc:GetNamedChild("TitleBarDivider")
+                if titleBarDivider then
+                    titleBarDivider:SetHidden(true)
+                end
+                local title = tlc:GetNamedChild("Title")
+                if title then
+                    PP.Anchor(title, --[[#1]] BOTTOMLEFT, tlc, TOPLEFT, 0, 0)
+                end
+            end
 		end
 
 		if scene then

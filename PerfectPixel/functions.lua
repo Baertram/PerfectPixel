@@ -163,31 +163,31 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 
 	if exBG then return end
 
-	ZO_PreHookHandler(parent, 'OnEffectivelyShown', function(self, bool)
-		local bg		= self.PP_BG
-		local isValid	= PP.backgroundsHiddenForScene[bg]
+	ZO_PreHookHandler(parent, 'OnEffectivelyShown', function(ctrl, bool)
+		local theBg	= ctrl.PP_BG
+		local isValid	= PP.backgroundsHiddenForScene[theBg]
 		local isHide	= isValid and isValid[SM:GetCurrentScene()]
 
-		bg:SetHidden(isHide or bool)
+		theBg:SetHidden(isHide or bool)
 	end)
-	ZO_PreHookHandler(parent, 'OnEffectivelyHidden', function(self, bool)
-		self.PP_BG:SetHidden(bool)
+	ZO_PreHookHandler(parent, 'OnEffectivelyHidden', function(ctrl, bool)
+		ctrl.PP_BG:SetHidden(bool)
 	end)
 
 	-- Handle dynamic resizing for backgrounds with fixed dimensions
 	if width ~= nil or height ~= nil then
-		ZO_PreHookHandler(parent, 'OnRectChanged', function(self, newLeft, newTop, newRight, newBottom)
-			if self.PP_BG then
-				local bg = self.PP_BG
+		ZO_PreHookHandler(parent, 'OnRectChanged', function(ctrl, newLeft, newTop, newRight, newBottom)
+			if ctrl.PP_BG then
+				local theBg = ctrl.PP_BG
 				local newWidth = newRight - newLeft
 				local newHeight = newBottom - newTop
 
 				if width ~= nil and height ~= nil then
-					bg:SetDimensions(newWidth + (insets * 2), newHeight + (insets * 2))
+					theBg:SetDimensions(newWidth + (insets * 2), newHeight + (insets * 2))
 				elseif width ~= nil then
-					bg:SetWidth(newWidth + (insets * 2))
+					theBg:SetWidth(newWidth + (insets * 2))
 				elseif height ~= nil then
-					bg:SetHeight(newHeight + (insets * 2))
+					theBg:SetHeight(newHeight + (insets * 2))
 				end
 			end
 		end)
@@ -294,20 +294,61 @@ PP.Anchor = function(control, --[[#1]] set1_p, set1_rTo, set1_rp, set1_x, set1_y
 end
 local PP_Anchor = PP.Anchor
 
---outline, thick-outline, soft-shadow-thin, soft-shadow-thick, shadow
-PP.Font = function(control, --[[Font]] font, size, outline, --[[Alpha]] a, --[[Color]] c_r, c_g, c_b, c_a, --[[StyleColor]] sc_r, sc_g, sc_b, sc_a)
-	local fontString
-	if outline then
-		fontString = font .. "|" .. size .. "|" .. outline
-	else
-		fontString = font .. "|" .. size
-	end
-	control:SetFont(fontString)
-	control:SetAlpha(a or 1.0)
-	control:SetStyleColor((sc_r or 0) /255, (sc_g or 0) /255, (sc_b or 0) /255, sc_a or .5)
-	if c_r then
-		control:SetColor(c_r/255, c_g/255, c_b/255, c_a)
-	end
+-- Mapping from string-based font styles to ZOS numeric constants
+local FONT_STYLE_TO_CONSTANT =
+{
+    ["normal"] = FONT_STYLE_NORMAL,
+    ["|normal"] = FONT_STYLE_NORMAL,
+    [""] = FONT_STYLE_NORMAL,
+    ["shadow"] = FONT_STYLE_SHADOW,
+    ["|shadow"] = FONT_STYLE_SHADOW,
+    ["outline"] = FONT_STYLE_OUTLINE,
+    ["|outline"] = FONT_STYLE_OUTLINE,
+    ["thick-outline"] = FONT_STYLE_OUTLINE_THICK,
+    ["|thick-outline"] = FONT_STYLE_OUTLINE_THICK,
+    ["soft-shadow-thin"] = FONT_STYLE_SOFT_SHADOW_THIN,
+    ["|soft-shadow-thin"] = FONT_STYLE_SOFT_SHADOW_THIN,
+    ["soft-shadow-thick"] = FONT_STYLE_SOFT_SHADOW_THICK,
+    ["|soft-shadow-thick"] = FONT_STYLE_SOFT_SHADOW_THICK,
+}
+
+--- In update 101049, we can utilize GetFontStyleString(FontStyle) instead of table lookup
+--- Creates a font string using ZOS's ZO_CreateFontString function
+--- Supports both string-based and numeric font styles for backwards compatibility
+--- @param faceName string Font face name
+--- @param size number Font size
+--- @param style string|number|nil Font style (string will be converted to constant)
+--- @return string Font string
+local function CreateFontString(faceName, size, style)
+    local styleConstant = style
+    -- Convert string styles to numeric constants if needed
+    if type(style) == "string" then
+        styleConstant = FONT_STYLE_TO_CONSTANT[style]
+    end
+    return ZO_CreateFontString(faceName, size, styleConstant)
+end
+
+--- Applies font, alpha, optional color, and style color (outline/shadow) to a control.
+--- @param control userdata Control (e.g. label) to style
+--- @param font string Font face (e.g. PP.f.u67)
+--- @param size number Font size
+--- @param outline string|nil Style: "outline", "shadow", "thick-outline", "soft-shadow-thin", "soft-shadow-thick", or nil for normal
+--- @param a number|nil Alpha (0-1); nil = 1.0
+--- @param c_r number|nil Text color R (0-255); nil = no change
+--- @param c_g number|nil Text color G (0-255)
+--- @param c_b number|nil Text color B (0-255)
+--- @param c_a number|nil Text color A (0-1)
+--- @param sc_r number|nil Style (outline/shadow) color R (0-255); nil = 0
+--- @param sc_g number|nil Style color G (0-255)
+--- @param sc_b number|nil Style color B (0-255)
+--- @param sc_a number|nil Style color A (0-1); nil = 0.5
+PP.Font = function (control, font, size, outline, a, c_r, c_g, c_b, c_a, sc_r, sc_g, sc_b, sc_a)
+    control:SetFont(CreateFontString(font, size, outline))
+    control:SetAlpha(a or 1.0)
+    control:SetStyleColor((sc_r or 0) / 255, (sc_g or 0) / 255, (sc_b or 0) / 255, sc_a or .5)
+    if c_r then
+        control:SetColor(c_r / 255, c_g / 255, c_b / 255, c_a)
+    end
 end
 local PP_Font = PP.Font
 
@@ -315,7 +356,7 @@ local PP_Font = PP.Font
 -- PP.CreateBackdrop = function(control)
 function PP:CreateBgToSlot(control, namespace, sv)
 	namespace		= namespace or 'ListStyle'
-	local sv		= sv or self:GetSavedVars(namespace)
+	sv				= sv or self:GetSavedVars(namespace)
 	local bg_c		= sv.list_skin_backdrop_col
 	local edge_c	= sv.list_skin_edge_col
 	local backdrop	= control.backdrop
@@ -656,7 +697,7 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 	--anim--
 
 	function control:SetState(checkState)
-		local checkBox			= self.checkBox
+		local cb				= self.checkBox
 		local checkStateType	= type(checkState)
 		local state				= false
 
@@ -667,7 +708,7 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 		end
 
 		local r, g, b, a = unpack(stateColor[state])
-		checkBox:SetColor(r, g, b, a)
+		cb:SetColor(r, g, b, a)
 		control:SetMouseEnabled(true)
 
 		if state == BSTATE_DISABLED or state == BSTATE_DISABLED_PRESSED then
@@ -679,27 +720,27 @@ function PP:CreateAnimatedButton(parent, --[[#1]] point1, relTo1, relPoint1, x1,
 		self.toggleFunction = tFn
 	end
 
-	control:SetHandler("OnMouseEnter", function(self)
-		self.over:SetAlpha(0.2)
+	control:SetHandler("OnMouseEnter", function(ctrl)
+		ctrl.over:SetAlpha(0.2)
 
-		if not self.tooltipText then return end
+		if not ctrl.tooltipText then return end
 		InitializeTooltip(InformationTooltip, control, BOTTOM, 0, -10)
-		SetTooltipText(InformationTooltip, self.tooltipText)
+		SetTooltipText(InformationTooltip, ctrl.tooltipText)
 	end)
-	control:SetHandler("OnMouseExit", function(self)
-		self.over:SetAlpha(0)
+	control:SetHandler("OnMouseExit", function(ctrl)
+		ctrl.over:SetAlpha(0)
 
-		if not self.tooltipText then return end
+		if not ctrl.tooltipText then return end
 		ClearTooltip(InformationTooltip)
 	end)
-	control:SetHandler("OnMouseDown", function(self, button)
-		self.checkBox.timeline:PlayForward()
+	control:SetHandler("OnMouseDown", function(ctrl, button)
+		ctrl.checkBox.timeline:PlayForward()
 	end)
 	control:SetHandler("OnMouseDoubleClick", control:GetHandler("OnMouseDown"))
-	control:SetHandler("OnMouseUp", function(self, button, upInside)
-		local state = self.toggleFunction()
-		self:SetState(state)
-		self.checkBox.timeline:PlayBackward()
+	control:SetHandler("OnMouseUp", function(ctrl, button, upInside)
+		local state = ctrl.toggleFunction()
+		ctrl:SetState(state)
+		ctrl.checkBox.timeline:PlayBackward()
 		PlaySound(SOUNDS.DEFAULT_CLICK)
 	end)
 

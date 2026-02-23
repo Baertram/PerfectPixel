@@ -36,10 +36,9 @@ PP.groupMenuKeyboardScene = function()
 	ZO_Scroll_SetMaxFadeDistance(ZO_DungeonFinder_KeyboardListSection, 10)
 
     --- ???
+    local sceneFragmentsShown = {}
     -- Endeavours - TIMED_ACTIVITIES_KEYBOARD removed in updated 101049!
     if GetAPIVersion() <= 101048 then
-        local sceneFragmentsShown = {}
-
         TIMED_ACTIVITIES_FRAGMENT:RegisterCallback("StateChange", function (oldState, newState)
             if newState == SCENE_FRAGMENT_SHOWN and not sceneFragmentsShown[TIMED_ACTIVITIES_FRAGMENT] then
                 local timedActivitiesKeyboard = TIMED_ACTIVITIES_KEYBOARD

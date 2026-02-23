@@ -43,6 +43,7 @@ scenes\helpSceneGroup.lua
 scenes\gameMenuInGameScene.lua
 scenes\companion.lua
 scenes\lockpickingScene.lua
+scenes\tamrielTomesScene.lua
 
 modules\chatWindow.lua
 modules\compass.lua

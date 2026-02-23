@@ -55,6 +55,10 @@ EVENT_MANAGER:RegisterForEvent(PP.ADDON_NAME, EVENT_ADD_ON_LOADED, function(even
 		PP.companionsScene()
 		PP.lockpickingScene()
 
+        if GetAPIVersion() >= 101049 then
+            PP.tamrielTomesScene()
+        end
+
 		PP.compatibility()
 
 		if LibAddonMenu2 then

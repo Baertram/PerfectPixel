@@ -598,26 +598,31 @@ function PP:ResetStyleList()
 		[3] = true,
 	}
 
-	for _, list in pairs(self.inventoryLists) do
-		for typeId in pairs(list.dataTypes) do
-			if supportedListDataTypes[typeId] then
-				local dataType = ZO_ScrollList_GetDataTypeTable(list, typeId)
-				local pool = dataType.pool
+    for _, list in pairs(self.inventoryLists) do
+        for typeId in pairs(list.dataTypes) do
+            if supportedListDataTypes[typeId] then
+                local dataType = ZO_ScrollList_GetDataTypeTable(list, typeId)
+                if not dataType or not dataType.pool then
+                    -- skip typeId when dataType or pool not yet available
+                else
+                    local pool = dataType.pool
+                    if dataType.height then
+                        dataType.height = sv.list_control_height
+                    end
 
-				if dataType.height then
-					dataType.height = sv.list_control_height
-				end
-
-				if list.mode == 3 then return end
-
-				for _, control in pairs(pool.m_Free) do
-					dataType.hooks[list.mode].OnCreate(control)
-				end
-				for _, control in pairs(pool.m_Active) do
-					dataType.hooks[list.mode].OnCreate(control)
-				end
-			end
-		end
+                    local hooks = dataType.hooks
+                    local modeHooks = hooks and hooks[list.mode]
+                    if modeHooks and modeHooks.OnCreate and list.mode ~= 3 then
+                        for _, control in pairs(pool.m_Free) do
+                            modeHooks.OnCreate(control)
+                        end
+                        for _, control in pairs(pool.m_Active) do
+                            modeHooks.OnCreate(control)
+                        end
+                    end
+                end
+            end
+        end
 
 		if list.uniformControlHeight then
 			list.uniformControlHeight = sv.list_uniform_control_height

@@ -264,6 +264,24 @@ PP:NewLayout('inventory', {
 				menu = ZO_Fence_Keyboard_WindowMenu
 			}
 		},
+		[ZO_CrownGemification_KeyboardTopLevel] =
+		{
+			list =
+			{
+				t_y = 84
+			},
+			childSuffixs =
+			{
+				[1] = { "List" },
+				[2] = { "Headers" },
+				[3] = { "Tabs" }
+			},
+			fragments =
+			{
+				remove      = { RIGHT_PANEL_BG_FRAGMENT },
+				forceRemove = { THIN_LEFT_PANEL_BG_FRAGMENT, MEDIUM_LEFT_PANEL_BG_FRAGMENT }
+			}
+		},
 		[ZO_SmithingTopLevelRefinementPanel] = {
 			list = {
 				t_y = 84

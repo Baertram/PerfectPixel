@@ -1,6 +1,10 @@
 local PP = PP --- @class PP
 
 PP.tamrielTomesScene = function ()
+    --Tamriel Tomes will be added with API101049 first
+    if TAMRIEL_TOMES_SCREEN_KEYBOARD == nil then return end
+
+
     -- TimedActivities keyboard scene - ZO_TimedActivities_KeyboardTL--------------------------------
     local timedActivitiesScene = SCENE_MANAGER:GetScene("TimedActivitiesKeyboard")
 

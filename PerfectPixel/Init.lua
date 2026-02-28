@@ -54,10 +54,7 @@ EVENT_MANAGER:RegisterForEvent(PP.ADDON_NAME, EVENT_ADD_ON_LOADED, function(even
 		PP.performanceMeter()
 		PP.companionsScene()
 		PP.lockpickingScene()
-
-        if GetAPIVersion() >= 101049 then
-            PP.tamrielTomesScene()
-        end
+		PP.tamrielTomesScene()
 
 		PP.compatibility()
 

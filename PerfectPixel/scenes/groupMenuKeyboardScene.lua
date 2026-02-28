@@ -38,31 +38,31 @@ PP.groupMenuKeyboardScene = function()
     --- ???
     local sceneFragmentsShown = {}
     -- Endeavours - TIMED_ACTIVITIES_KEYBOARD removed in updated 101049!
-    if GetAPIVersion() <= 101048 then
-        TIMED_ACTIVITIES_FRAGMENT:RegisterCallback("StateChange", function (oldState, newState)
-            if newState == SCENE_FRAGMENT_SHOWN and not sceneFragmentsShown[TIMED_ACTIVITIES_FRAGMENT] then
-                local timedActivitiesKeyboard = TIMED_ACTIVITIES_KEYBOARD
-                local timedActivitiesScrollChild = timedActivitiesKeyboard.activitiesScrollChild
-                if timedActivitiesScrollChild then
-                    PP.Bars(timedActivitiesScrollChild, true, 18, 16, nil, nil, true)
-                    -- Move the progessBar a bit to the right to show the left edge
-                    for i = 1, timedActivitiesScrollChild:GetNumChildren(), 1 do
-                        local childCtrl = timedActivitiesScrollChild:GetChild(i)
-                        if childCtrl ~= nil then
-                            local name = childCtrl:GetNamedChild("Name")
-                            local progressBar = childCtrl:GetNamedChild("ProgressBar")
-                            local rewardContainer = childCtrl:GetNamedChild("RewardContainer")
-                            if name ~= nil and rewardContainer ~= nil and progressBar ~= nil then
-                                -- Do not use PP.Anchor, else it will call ClearAnchors() and break the right (2nd) anchor
-                                progressBar:SetAnchor(TOPLEFT, name, BOTTOMLEFT, 2, 5)
-                            end
-                        end
-                    end
-                end
-                sceneFragmentsShown[TIMED_ACTIVITIES_FRAGMENT] = true
-            end
-        end)
-    end
+	if TIMED_ACTIVITIES_FRAGMENT then
+		TIMED_ACTIVITIES_FRAGMENT:RegisterCallback("StateChange", function (oldState, newState)
+			if newState == SCENE_FRAGMENT_SHOWN and not sceneFragmentsShown[TIMED_ACTIVITIES_FRAGMENT] then
+				local timedActivitiesKeyboard = TIMED_ACTIVITIES_KEYBOARD
+				local timedActivitiesScrollChild = timedActivitiesKeyboard.activitiesScrollChild
+				if timedActivitiesScrollChild then
+					PP.Bars(timedActivitiesScrollChild, true, 18, 16, nil, nil, true)
+					-- Move the progessBar a bit to the right to show the left edge
+					for i = 1, timedActivitiesScrollChild:GetNumChildren(), 1 do
+						local childCtrl = timedActivitiesScrollChild:GetChild(i)
+						if childCtrl ~= nil then
+							local name = childCtrl:GetNamedChild("Name")
+							local progressBar = childCtrl:GetNamedChild("ProgressBar")
+							local rewardContainer = childCtrl:GetNamedChild("RewardContainer")
+							if name ~= nil and rewardContainer ~= nil and progressBar ~= nil then
+								-- Do not use PP.Anchor, else it will call ClearAnchors() and break the right (2nd) anchor
+								progressBar:SetAnchor(TOPLEFT, name, BOTTOMLEFT, 2, 5)
+							end
+						end
+					end
+				end
+				sceneFragmentsShown[TIMED_ACTIVITIES_FRAGMENT] = true
+			end
+		end)
+	end
 
 	--API101044 Golden pursuits - PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT
 	local goldenPursuitsFragment = PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT
@@ -142,6 +142,9 @@ PP.groupMenuKeyboardScene = function()
 						end
 
 						PP.ScrollBar(goldenPursuitsScrollList)
+						--PROMOTIONAL_EVENTS_KEYBOARD.gridListControl == ZO_PromotionalEvents_KeyboardTLContentsReturningUserRewardsGridListContainer
+						local goldenPursuitsHeroReturnUserRewardsList = ZO_PromotionalEvents_KeyboardTLContentsReturningUserRewardsGridListContainerListScrollBar
+						PP.ScrollBar(ZO_PromotionalEvents_KeyboardTLContentsReturningUserRewardsGridListContainerListScrollBar)
 					end
 				end
 				sceneFragmentsShown[PROMOTIONAL_EVENTS_PREVIEW_OPTIONS_FRAGMENT] = true

@@ -57,6 +57,5 @@ setmetatable(stringsRu, {__index = PP.stringsEn})
 
 --Overwrite the EN strings with a new version
 for stringId, stringValue in pairs(stringsRu) do
-    ZO_CreateStringId(stringId, stringValue)
-    SafeAddVersion(stringId, 1)
+	SafeAddString(_G[stringId], stringValue, 1)  --Add a new version 1 for the global _G[stringId], overwriting it'S old version 1 from ZO_CreateStringId in en.lua
 end

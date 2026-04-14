@@ -86,6 +86,5 @@ PP.stringsEn = stringsEn
 
 --Create the strings so they are available via function GetString(stringId) ingame
 for stringId, stringValue in pairs(stringsEn) do
-	ZO_CreateStringId(stringId, stringValue)
-	SafeAddVersion(stringId, 1)
+	ZO_CreateStringId(stringId, stringValue) --Create the global _G[stringId] now
 end

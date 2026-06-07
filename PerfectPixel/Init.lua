@@ -39,6 +39,7 @@ EVENT_MANAGER:RegisterForEvent(PP.ADDON_NAME, EVENT_ADD_ON_LOADED, function(even
 		PP.restyleStationKeyboardSceneGroup()
 		PP.craftStationScenes()
 		PP.statsScene()
+        PP.challengeDifficultyScene()
 		PP.skillsScene()
 		PP.journalSceneGroup()
 		PP.collectionsSceneGroup()

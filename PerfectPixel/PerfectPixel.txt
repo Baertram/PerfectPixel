@@ -29,6 +29,7 @@ scenes\lootScene.lua
 scenes\restyleStationKeyboardSceneGroup.lua
 scenes\craftStationScenes.lua
 scenes\statsScene.lua
+scenes\challengeDifficultyScene.lua
 scenes\skillsScene.lua
 scenes\journalSceneGroup.lua
 scenes\collectionsSceneGroup.lua

@@ -85,19 +85,35 @@ local function SetupSavedVariables()
 			})
 end
 
+local JOURNAL_SCROLLBAR_SB = { 180, 180, 180, 0.7 }
+local JOURNAL_SCROLLBAR_BD = { 20, 20, 20, 0.7 }
+
 local function Edit_ZO_QuestJournal()
 	SetupSavedVariables()
 
+	-- Update 50: quest list UI lives on ZO_QUEST_JOURNAL_QUESTS_KEYBOARD (QuestsPanel), not flat globals
+	local questsKeyboard = ZO_QUEST_JOURNAL_QUESTS_KEYBOARD
+	if not questsKeyboard or not questsKeyboard.control then
+		return
+	end
+
+	local questCount = questsKeyboard.questCount
+	local navContainer = questsKeyboard.control:GetNamedChild("NavigationContainer")
+	local navScroll = navContainer and navContainer:GetNamedChild("Scroll")
+	if not questCount or not navContainer or not navScroll then
+		return
+	end
+
 	--questJournal--ZO_QuestJournal--------------------------------------------------------------------
-	PP.ScrollBar(ZO_QuestJournalNavigationContainer, --[[sb_c]] 180, 180, 180, 0.7, --[[bd_c]] 20, 20, 20, 0.7, false)
-	PP.Anchor(ZO_QuestJournalQuestCount, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, -6)
-	PP.Anchor(ZO_QuestJournalNavigationContainerScroll, --[[#1]] TOPLEFT, nil, TOPLEFT, 5, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 0, 0)
-	PP.Font(ZO_QuestJournalQuestCount, --[[Font]] PP.f.u67, 24, "outline")
-	ZO_Scroll_SetMaxFadeDistance(ZO_QuestJournalNavigationContainer, 10)
+	PP.ScrollBar(navContainer, --[[sb_c]] JOURNAL_SCROLLBAR_SB[1], JOURNAL_SCROLLBAR_SB[2], JOURNAL_SCROLLBAR_SB[3], JOURNAL_SCROLLBAR_SB[4], --[[bd_c]] JOURNAL_SCROLLBAR_BD[1], JOURNAL_SCROLLBAR_BD[2], JOURNAL_SCROLLBAR_BD[3], JOURNAL_SCROLLBAR_BD[4], false)
+	PP.Anchor(questCount, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, -6)
+	PP.Anchor(navScroll, --[[#1]] TOPLEFT, nil, TOPLEFT, 5, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 0, 0)
+	PP.Font(questCount, --[[Font]] PP.f.u67, 24, "outline")
+	ZO_Scroll_SetMaxFadeDistance(navContainer, 10)
 
 	if SV.largeQuestList then
-		local questJournalKeyboardObj = QUEST_JOURNAL_KEYBOARD  -- scenes[1].gVar -- QUEST_JOURNAL_KEYBOARD
-		local tree = questJournalKeyboardObj.navigationTree
+		local tree = questsKeyboard.navigationTree
+		if tree then
 		tree.defaultIndent = 50		--[[def (40)]]
 		tree.defaultSpacing = 0		--[[def (-10)]]
 		tree.width = 340			--[[def (300)]]
@@ -106,7 +122,7 @@ local function Edit_ZO_QuestJournal()
 			treeNode:SetOpen(true, false)
 		end
 
-		PP.Anchor(ZO_QuestJournalNavigationContainerScroll, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 0, 0)
+		PP.Anchor(navScroll, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, 0, --[[#2]] true, BOTTOMRIGHT, nil, BOTTOMRIGHT, 0, 0)
 
 		--TreeHeaderSetup(node, control, name, open)
 		local treeHeader = tree.templateInfo.ZO_SimpleArrowIconHeader
@@ -179,12 +195,55 @@ local function Edit_ZO_QuestJournal()
 			treeEntrySetHandler(control)
 		end
 
-		questJournalKeyboardObj.listDirty = true
+		questsKeyboard.listDirty = true
+		end
 	end
-	if ZO_QuestJournalShowOnMap then
+	local showOnMap = questsKeyboard.showOnMapKeybindButton
+	if showOnMap then
 		--shrink size of the keybind like at the keybind strip
-		ZO_QuestJournalShowOnMapNameLabel:SetFont(PP.f.u67 .. "|18|outline")
-		ZO_QuestJournalShowOnMapKeyLabel:SetFont(PP.f.u67 .. "|18|outline")
+		local nameLabel = showOnMap:GetNamedChild("NameLabel")
+		local keyLabel = showOnMap:GetNamedChild("KeyLabel")
+		if nameLabel then
+			nameLabel:SetFont(PP.f.u67 .. "|18|outline")
+		end
+		if keyLabel then
+			keyLabel:SetFont(PP.f.u67 .. "|18|outline")
+		end
+	end
+end
+
+local function Edit_ZO_QuestJournal_Rumors()
+	local rumorsKeyboard = ZO_QUEST_JOURNAL_RUMORS_KEYBOARD
+	if not rumorsKeyboard or not rumorsKeyboard.control then
+		return
+	end
+
+	local rumorCount = rumorsKeyboard.rumorCountLabel
+	if rumorCount then
+		PP.Anchor(rumorCount, --[[#1]] TOPLEFT, nil, TOPLEFT, 0, -6)
+		PP.Font(rumorCount, --[[Font]] PP.f.u67, 24, "outline")
+	end
+
+	local navContainer = rumorsKeyboard.navigationContainer
+	if navContainer then
+		PP.ScrollBar(navContainer, --[[sb_c]] JOURNAL_SCROLLBAR_SB[1], JOURNAL_SCROLLBAR_SB[2], JOURNAL_SCROLLBAR_SB[3], JOURNAL_SCROLLBAR_SB[4], --[[bd_c]] JOURNAL_SCROLLBAR_BD[1], JOURNAL_SCROLLBAR_BD[2], JOURNAL_SCROLLBAR_BD[3], JOURNAL_SCROLLBAR_BD[4], false)
+		ZO_Scroll_SetMaxFadeDistance(navContainer, 10)
+	end
+
+	local rumorList = rumorsKeyboard.rumorList
+	if rumorList then
+		PP.ScrollBar(rumorList, --[[sb_c]] JOURNAL_SCROLLBAR_SB[1], JOURNAL_SCROLLBAR_SB[2], JOURNAL_SCROLLBAR_SB[3], JOURNAL_SCROLLBAR_SB[4], --[[bd_c]] JOURNAL_SCROLLBAR_BD[1], JOURNAL_SCROLLBAR_BD[2], JOURNAL_SCROLLBAR_BD[3], JOURNAL_SCROLLBAR_BD[4], false)
+		ZO_Scroll_SetMaxFadeDistance(rumorList, PP.savedVars.ListStyle.list_fade_distance)
+	end
+
+	local rumorInfoContainer = rumorsKeyboard.rumorInfoContainer
+	if rumorInfoContainer then
+		PP.ScrollBar(rumorInfoContainer, --[[sb_c]] JOURNAL_SCROLLBAR_SB[1], JOURNAL_SCROLLBAR_SB[2], JOURNAL_SCROLLBAR_SB[3], JOURNAL_SCROLLBAR_SB[4], --[[bd_c]] JOURNAL_SCROLLBAR_BD[1], JOURNAL_SCROLLBAR_BD[2], JOURNAL_SCROLLBAR_BD[3], JOURNAL_SCROLLBAR_BD[4], false)
+	end
+
+	local rumorClueContainer = rumorsKeyboard.rumorClueContainer
+	if rumorClueContainer then
+		PP.ScrollBar(rumorClueContainer, --[[sb_c]] JOURNAL_SCROLLBAR_SB[1], JOURNAL_SCROLLBAR_SB[2], JOURNAL_SCROLLBAR_SB[3], JOURNAL_SCROLLBAR_SB[4], --[[bd_c]] JOURNAL_SCROLLBAR_BD[1], JOURNAL_SCROLLBAR_BD[2], JOURNAL_SCROLLBAR_BD[3], JOURNAL_SCROLLBAR_BD[4], false)
 	end
 end
 
@@ -245,10 +304,24 @@ end
 
 local function EditElements()
 	Edit_ZO_QuestJournal()
+	Edit_ZO_QuestJournal_Rumors()
 	Edit_ZO_Cadwell()
 	Edit_ZO_Achievements()
 	Edit_ZO_LoreLibrary()
 	Edit_ZO_Leaderboard()
+end
+
+local function EditQuestJournalSceneFootprint(scene)
+	-- Update 50: quest/rumor UI is on child panels with their own ZO_RightPanelFootPrint (GuiRoot anchors).
+	-- PP must style those panels like the pre-U50 single ZO_QuestJournal top level.
+	local questsPanel = ZO_QUEST_JOURNAL_QUESTS_KEYBOARD and ZO_QUEST_JOURNAL_QUESTS_KEYBOARD.control
+	local rumorsPanel = ZO_QUEST_JOURNAL_RUMORS_KEYBOARD and ZO_QUEST_JOURNAL_RUMORS_KEYBOARD.control
+	if questsPanel then
+		EditScene(scene, questsPanel)
+	end
+	if rumorsPanel then
+		EditScene(scene, rumorsPanel)
+	end
 end
 
 PP.journalSceneGroup = function()
@@ -257,7 +330,11 @@ PP.journalSceneGroup = function()
 	-- end
 
 	for _, scene in ipairs(DEFAULT_JOURNAL_SCENES) do
-		EditScene(scene.scene, scene.gVar.control)
+		if scene.gVar == QUEST_JOURNAL_KEYBOARD then
+			EditQuestJournalSceneFootprint(scene.scene)
+		else
+			EditScene(scene.scene, scene.gVar.control)
+		end
 	end
 
 	EditElements()

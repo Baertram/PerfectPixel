@@ -49,6 +49,9 @@ PP.tamrielTomesScene = function ()
 
         PP.ScrollBar(ZO_TamrielTomes_KeyboardTLBookGridList, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
         ZO_Scroll_SetMaxFadeDistance(ZO_TamrielTomes_KeyboardTLBookGridList, 10)
+
+        PP.ScrollBar(ZO_TimedActivities_KeyboardTLContentListContainerList, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
+        ZO_Scroll_SetMaxFadeDistance(ZO_TimedActivities_KeyboardTLContentListContainerList, 10)
     end)
 
     -- TamrielTomes intro sub-scene - ZO_TamrielTomesIntro_KeyboardTL-----------------------------

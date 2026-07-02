@@ -112,7 +112,7 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 	namespace			= namespace or 'WindowStyle'
 	parent				= parent
 
-	local sv			= self:GetSavedVars(namespace)
+	local sv			= PP:GetSavedVars(namespace)
 	local insets		= sv.skin_backdrop_insets
 	local bg_c			= sv.skin_backdrop_col
 	local edge_c		= sv.skin_edge_col
@@ -198,7 +198,7 @@ function PP:UpdateBackgrounds(namespace)
 	namespace			= namespace or 'WindowStyle'
 
 	local backgrounds	= self.backgrounds[namespace]
-	local sv			= self:GetSavedVars(namespace)
+	local sv			= PP:GetSavedVars(namespace)
 	local insets		= sv.skin_backdrop_insets
 	local bg_c			= sv.skin_backdrop_col
 	local edge_c		= sv.skin_edge_col
@@ -356,7 +356,7 @@ local PP_Font = PP.Font
 -- PP.CreateBackdrop = function(control)
 function PP:CreateBgToSlot(control, namespace, sv)
 	namespace		= namespace or 'ListStyle'
-	sv				= sv or self:GetSavedVars(namespace)
+	sv				= sv or PP:GetSavedVars(namespace)
 	local bg_c		= sv.list_skin_backdrop_col
 	local edge_c	= sv.list_skin_edge_col
 	local backdrop	= control.backdrop
@@ -590,7 +590,7 @@ end
 
 
 function PP:ResetStyleList()
-	local sv = self:GetSavedVars('ListStyle')
+	local sv = PP:GetSavedVars('ListStyle')
 
 	local supportedListDataTypes = {
 		[1] = true,
@@ -911,8 +911,8 @@ function PP:RefreshStyle_InventoryList(list, layout, savedVars, onCreateFn, onUp
 
 	self.inventoryLists[list] = list
 
-	layout		= layout or self:GetLayout('inventorySlot', list)
-	savedVars	= savedVars or self:GetSavedVars('ListStyle')
+	layout		= layout or PP:GetLayout('inventorySlot', list)
+	savedVars	= savedVars or PP:GetSavedVars('ListStyle')
 	onCreateFn	= onCreateFn or function(control, ...)
 		self.Inv_Slot(control, 'onCreate', nil, layout, savedVars, ...)
 	end
@@ -1165,3 +1165,51 @@ local function RemoveFragmentFromSceneAndKeepPreviewFunctionality(scene, fragmen
 	sceneCallbacksForPreviewDone[scene] = true
 end
 PP.RemoveFragmentFromSceneAndKeepPreviewFunctionality = RemoveFragmentFromSceneAndKeepPreviewFunctionality
+
+
+--Check if the topLevelControl passed in was enabled in the settings to be resized to another size
+--> TLC controls supported and the new width for them
+local defaultNormalWidthForTLCs = 930
+local defaultWiderWidthForTLCs = 1275
+
+local TLCControlsWidthSupported = {
+	["ZO_CollectionsBook_TopLevel"] 					= { new = defaultWiderWidthForTLCs, default = defaultNormalWidthForTLCs },
+	["ZO_DLCBook_Keyboard"] 							= { new = defaultWiderWidthForTLCs, default = defaultNormalWidthForTLCs },
+	["ZO_HousingBook_Keyboard"] 						= { new = defaultWiderWidthForTLCs, default = defaultNormalWidthForTLCs },
+	["ZO_OutfitStylesBook_Keyboard_TopLevel"] 			= { new = defaultWiderWidthForTLCs, default = defaultNormalWidthForTLCs },
+	["ZO_OutfitStylesPanelTopLevel_Keyboard"] 			= { new = 1000, default = 595 },
+	["ZO_RestyleStationTopLevel_Keyboard"] 				= { new = defaultWiderWidthForTLCs, default = defaultNormalWidthForTLCs },
+	["ZO_ItemSetsBook_Keyboard_TopLevel"] 				= { new = defaultWiderWidthForTLCs, default = defaultNormalWidthForTLCs },
+	["ZO_TributePatronBook_Keyboard_TopLevel"] 			= { new = 1310, default = defaultNormalWidthForTLCs },
+	["ZO_PlayerEmote_Keyboard_TopLevelEmoteContainer"] 	= { new = 1100, default = 630 },
+}
+local function PP_topLevelResizeWidthCheck(tlcControl, settingName, newWidth, defWidth)
+	if not tlcControl or not settingName then return end
+	--Update the width of the TLC
+	if tlcControl.SetWidth then
+		local sv, def = PP:GetSavedVars('WindowStyle')
+		if sv ~= nil and sv[settingName] ~= nil then
+			tlcControl:SetWidth((sv[settingName] == true and (newWidth or defaultWiderWidthForTLCs)) or (defWidth or defaultNormalWidthForTLCs))
+		end
+	end
+end
+
+function PP.GetAllTopLevelResizeWidth()
+	for tlcControlName, data in pairs(TLCControlsWidthSupported) do
+		local tlcControl = GetControl(tlcControlName)
+		if tlcControl ~= nil then
+			d("[PP]Found TLC: " ..tostring(tlcControlName) .. " - width: " ..tostring(tlcControl:GetWidth()))
+		end
+	end
+end
+
+function PP.AllTopLevelResizeChecks()
+	for tlcControlName, data in pairs(TLCControlsWidthSupported) do
+		local newWidth = data.new or defaultWiderWidthForTLCs
+		local defWidth =  data.default or defaultNormalWidthForTLCs
+		local tlcControl = GetControl(tlcControlName)
+		if tlcControl ~= nil then
+			PP_topLevelResizeWidthCheck(tlcControl, "window_style_wider", newWidth, defWidth)
+		end
+	end
+end

@@ -65,49 +65,49 @@ end
 function PP:AddBackdropSettings(namespace, updateFn)
 	namespace			= namespace	or 'WindowStyle'
 	updateFn			= updateFn	or self.UpdateBackgrounds
-	local sv, def			= self:GetSavedVars(namespace)
+	local sv, def			= PP:GetSavedVars(namespace)
 
 	return
 	{
 		{	type = "header", name = GetString(PP_LAM_WINDOW_STYLE), },
 		{	type				= 'iconpicker', name = GetString(PP_LAM_LIST_STYLE_BACKDROP),
-			choices				= LAM_MediaTable.backdrop,
-			choicesTooltips		= LAM_MediaTable.name_backdrop,
-			getFunc				= function() return sv.skin_backdrop end,
-			setFunc				= function(str) sv.skin_backdrop = str updateFn(self, namespace) end,
-			maxColumns			= 3,
-			visibleRows			= 5,
-			iconSize			= 52,
-			default				= def.skin_backdrop,
-			width				= "half",
+			 choices				= LAM_MediaTable.backdrop,
+			 choicesTooltips		= LAM_MediaTable.name_backdrop,
+			 getFunc				= function() return sv.skin_backdrop end,
+			 setFunc				= function(str) sv.skin_backdrop = str updateFn(self, namespace) end,
+			 maxColumns			= 3,
+			 visibleRows			= 5,
+			 iconSize			= 52,
+			 default				= def.skin_backdrop,
+			 width				= "half",
 		},
 		{	type 				= "slider", name = GetString(PP_LAM_LIST_STYLE_INSETS),
-			max					= 100, min = 0,
-			getFunc				= function() return sv.skin_backdrop_insets end,
-			setFunc				= function(value) sv.skin_backdrop_insets = value updateFn(self, namespace) end,
-			default				= def.skin_backdrop_insets,
-			width				= "half",
+			 max					= 100, min = 0,
+			 getFunc				= function() return sv.skin_backdrop_insets end,
+			 setFunc				= function(value) sv.skin_backdrop_insets = value updateFn(self, namespace) end,
+			 default				= def.skin_backdrop_insets,
+			 width				= "half",
 		},
 		{	type				= "checkbox", name = GetString(PP_LAM_LIST_STYLE_TILE_LAYING),
-			getFunc				= function() return sv.skin_backdrop_tile end,
-			setFunc				= function(value) sv.skin_backdrop_tile = value updateFn(self, namespace) end,
-			default				= def.skin_backdrop_tile,
-			width				= "half",
+			 getFunc				= function() return sv.skin_backdrop_tile end,
+			 setFunc				= function(value) sv.skin_backdrop_tile = value updateFn(self, namespace) end,
+			 default				= def.skin_backdrop_tile,
+			 width				= "half",
 		},
 		{	type				= 'dropdown',
-			name				= GetString(PP_LAM_LIST_STYLE_TILE_SIZE),
-			choices				= {2, 4, 8, 16, 32, 64, 128, 256, 512, 1024},
-			getFunc				= function() return sv.skin_backdrop_tile_size end,
-			setFunc				= function(value) sv.skin_backdrop_tile_size = value updateFn(self, namespace) end,
-			default				= def.skin_backdrop_tile_size,
-			width				= "half",
-			disabled			= function() return not sv.skin_backdrop_tile end,
+			 name				= GetString(PP_LAM_LIST_STYLE_TILE_SIZE),
+			 choices				= {2, 4, 8, 16, 32, 64, 128, 256, 512, 1024},
+			 getFunc				= function() return sv.skin_backdrop_tile_size end,
+			 setFunc				= function(value) sv.skin_backdrop_tile_size = value updateFn(self, namespace) end,
+			 default				= def.skin_backdrop_tile_size,
+			 width				= "half",
+			 disabled			= function() return not sv.skin_backdrop_tile end,
 		},
 		{	type				= "colorpicker", name = GetString(PP_LAM_LIST_STYLE_COLOR),
-			getFunc				= function() return unpack(sv.skin_backdrop_col) end,
-			setFunc				= function(r, g, b, a) sv.skin_backdrop_col = { r, g, b, a } updateFn(self, namespace) end,
-			width				= "half",
-			default				= {r = def.skin_backdrop_col[1], g = def.skin_backdrop_col[2], b = def.skin_backdrop_col[3], a = def.skin_backdrop_col[4]},
+			 getFunc				= function() return unpack(sv.skin_backdrop_col) end,
+			 setFunc				= function(r, g, b, a) sv.skin_backdrop_col = { r, g, b, a } updateFn(self, namespace) end,
+			 width				= "half",
+			 default				= {r = def.skin_backdrop_col[1], g = def.skin_backdrop_col[2], b = def.skin_backdrop_col[3], a = def.skin_backdrop_col[4]},
 		},
 	}
 end
@@ -115,7 +115,7 @@ end
 function PP:AddEdgeSettings(namespace, updateFn)
 	namespace			= namespace	or 'WindowStyle'
 	updateFn			= updateFn	or self.UpdateBackgrounds
-	local sv, def			= self:GetSavedVars(namespace)
+	local sv, def			= PP:GetSavedVars(namespace)
 
 	return
 	{
@@ -170,6 +170,22 @@ function PP:AddEdgeSettings(namespace, updateFn)
 	}
 end
 
+function PP:AddWindowWidthSettings(namespace)
+	namespace			= namespace	or 'WindowStyle'
+	local sv, def		= PP:GetSavedVars(namespace)
+
+	return
+	{
+		{ type = "header", name = GetString(PP_LAM_WINDOW_WIDTH),
+		},
+		{ type    = "checkbox", name = GetString(PP_LAM_WINDOW_STYLE_WIDER),
+		  getFunc = function() return sv.window_style_wider end,
+		  setFunc = function(value) sv.window_style_wider = value PP.AllTopLevelResizeChecks() end,
+		  default = def.window_style_wider,
+		},
+	}
+end
+
 --===============================================================================================--
 function PP.Settings()
 
@@ -202,7 +218,8 @@ function PP.Settings()
 	{	type = "submenu", name = GetString(PP_LAM_WINDOW_STYLE),
 		controls = PP.PackTables(
 			PP:AddBackdropSettings('WindowStyle'),
-			PP:AddEdgeSettings('WindowStyle')
+			PP:AddEdgeSettings('WindowStyle'),
+		 	PP:AddWindowWidthSettings('WindowStyle')
 		),
 	})
 --==ListStyle=============================================================================================--

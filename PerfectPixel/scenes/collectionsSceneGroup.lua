@@ -97,7 +97,6 @@ PP.collectionsSceneGroup = function()
 		PP.ScrollBar(COLLECTIONS_BOOK.gridListPanelList.list, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
 		PP.ScrollBar(COLLECTIONS_BOOK.categoryTree.scrollControl, --[[sb_c]] 180, 180, 180, 0.8, --[[bd_c]] 20, 20, 20, 0.6, false)
 
-
 		local dataType00 = ZO_ScrollList_GetDataTypeTable(ZO_CollectionsBook_TopLevelListContainerList, 1)
 		local existingSetupCallback00 = dataType00.setupCallback
 		dataType00["controlHeight"] = 120

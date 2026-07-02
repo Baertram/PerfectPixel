@@ -8,6 +8,8 @@ local stringsDe = {
 	--Window & list style
 	PP_LAM_WINDOW_STYLE 							= "Fenster Stil",
 	PP_LAM_LIST_STYLE 								= "Listen Stil",
+	PP_LAM_WINDOW_WIDTH								= "Fenster Breite",
+	PP_LAM_WINDOW_STYLE_WIDER						= "Breitere Fenster - Sammlungen u.a.",
 	PP_LAM_LIST_STYLE_BACKDROP 						= "Hintergrund",
 	PP_LAM_LIST_STYLE_EDGE 							= "Kante",
 	PP_LAM_LIST_STYLE_LIST 							= "Liste",

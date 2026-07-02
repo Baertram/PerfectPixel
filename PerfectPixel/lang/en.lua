@@ -7,6 +7,8 @@ local stringsEn = {
 	PP_LAM_LIST_BG									= "List background",
 	--Window & list style
 	PP_LAM_WINDOW_STYLE 							= "Window style",
+	PP_LAM_WINDOW_WIDTH								= "Window width",
+	PP_LAM_WINDOW_STYLE_WIDER						= "Wider windows - Collections, etc.",
 	PP_LAM_LIST_STYLE 								= "List style",
 	PP_LAM_LIST_STYLE_BACKDROP 						= "Backdrop",
 	PP_LAM_LIST_STYLE_EDGE 							= "Edge",

@@ -14,6 +14,7 @@ function PP.Core()
 		skin_edge_file_width			= 128,
 		skin_edge_file_height			= 16,
 		skin_edge_integral_wrapping		= false,
+		window_style_wider				= false,
 	})
 
 	PP:AddNewSavedVars(0.2, 'ListStyle', {

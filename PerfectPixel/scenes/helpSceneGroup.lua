@@ -33,5 +33,7 @@ PP.helpSceneGroup = function()
         end
     end)
 
+	--Emotes help scrollbar
+	PP.ScrollBar(ZO_PlayerEmote_Keyboard_TopLevelEmoteContainerContainerListScrollBar)
 end
 

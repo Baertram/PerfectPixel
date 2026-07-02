@@ -1179,26 +1179,43 @@ local TLCControlsWidthSupported = {
 	["ZO_OutfitStylesBook_Keyboard_TopLevel"] 			= { new = defaultWiderWidthForTLCs, default = defaultNormalWidthForTLCs },
 	["ZO_OutfitStylesPanelTopLevel_Keyboard"] 			= { new = 1000, default = 595 },
 	["ZO_RestyleStationTopLevel_Keyboard"] 				= { new = defaultWiderWidthForTLCs, default = defaultNormalWidthForTLCs },
+	["ZO_DyeingTopLevel_Keyboard"] 						= { new = 950, default = 595 },
 	["ZO_ItemSetsBook_Keyboard_TopLevel"] 				= { new = defaultWiderWidthForTLCs, default = defaultNormalWidthForTLCs },
 	["ZO_TributePatronBook_Keyboard_TopLevel"] 			= { new = 1310, default = defaultNormalWidthForTLCs },
-	["ZO_PlayerEmote_Keyboard_TopLevelEmoteContainer"] 	= { new = 1100, default = 630 },
 }
-local function PP_topLevelResizeWidthCheck(tlcControl, settingName, newWidth, defWidth)
-	if not tlcControl or not settingName then return end
+local TLCControlsHeightSupported = {
+	["ZO_PlayerEmote_Keyboard_TopLevelEmoteContainer"] 	= { new = 1100, default = 600 },
+}
+
+
+local function PP_topLevelResizeCheck(widthOrHeight, tlcControl, settingName, newValue, defValue)
+	if widthOrHeight == nil or not tlcControl or not settingName or not newValue or not defValue then return end
 	--Update the width of the TLC
-	if tlcControl.SetWidth then
-		local sv, def = PP:GetSavedVars('WindowStyle')
-		if sv ~= nil and sv[settingName] ~= nil then
-			tlcControl:SetWidth((sv[settingName] == true and (newWidth or defaultWiderWidthForTLCs)) or (defWidth or defaultNormalWidthForTLCs))
+
+	local sv = PP:GetSavedVars('WindowStyle')
+	if sv ~= nil and sv[settingName] ~= nil then
+		if widthOrHeight == true and tlcControl.SetWidth then
+			tlcControl:SetWidth((sv[settingName] == true and newValue) or defValue)
+		elseif widthOrHeight == false and tlcControl.SetHeight then
+			tlcControl:SetHeight((sv[settingName] == true and newValue) or defValue)
 		end
 	end
 end
 
 function PP.GetAllTopLevelResizeWidth()
-	for tlcControlName, data in pairs(TLCControlsWidthSupported) do
+	for tlcControlName, _ in pairs(TLCControlsWidthSupported) do
 		local tlcControl = GetControl(tlcControlName)
 		if tlcControl ~= nil then
 			d("[PP]Found TLC: " ..tostring(tlcControlName) .. " - width: " ..tostring(tlcControl:GetWidth()))
+		end
+	end
+end
+
+function PP.GetAllTopLevelResizeHeight()
+	for tlcControlName, _ in pairs(TLCControlsHeightSupported) do
+		local tlcControl = GetControl(tlcControlName)
+		if tlcControl ~= nil then
+			d("[PP]Found TLC: " ..tostring(tlcControlName) .. " - height: " ..tostring(tlcControl:GetHeight()))
 		end
 	end
 end
@@ -1209,7 +1226,15 @@ function PP.AllTopLevelResizeChecks()
 		local defWidth =  data.default or defaultNormalWidthForTLCs
 		local tlcControl = GetControl(tlcControlName)
 		if tlcControl ~= nil then
-			PP_topLevelResizeWidthCheck(tlcControl, "window_style_wider", newWidth, defWidth)
+			PP_topLevelResizeCheck(true, tlcControl, "window_style_wider", newWidth, defWidth)
+		end
+	end
+	for tlcControlName, data in pairs(TLCControlsHeightSupported) do
+		local newHeight = data.new
+		local defHeight =  data.default
+		local tlcControl = GetControl(tlcControlName)
+		if tlcControl ~= nil then
+			PP_topLevelResizeCheck(false, tlcControl, "window_style_wider", newHeight, defHeight)
 		end
 	end
 end

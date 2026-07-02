@@ -11,14 +11,16 @@ PP = {
 	ADDON_NAME		= 'PerfectPixel',
 	ADDON_AUTHOR	= '@KL1SK, Baertram, Dakjaniels',
 	ADDON_WEBSITE	= 'https://www.esoui.com/downloads/info2103-PerfectPixel.html',
-	ADDON_VERSION 	= '0.13.34',
+	ADDON_VERSION 	= '0.13.35',
 }
 
 local PP = PP ---@class PP
 
 function PP.loadAtEndOfOnAddOnLoaded()
 	--Check if TLC width changes should be applied
-	--PP.GetAllTopLevelResizeWidth() -- Debug function to get the TLC's default width values
+	-- Debug functions to get the TLC's default width and height values:
+		--PP.GetAllTopLevelResizeWidth()
+		--PP.GetAllTopLevelResizeHeight
 	PP.AllTopLevelResizeChecks()
 end
 

@@ -2,6 +2,11 @@ local PP = PP ---@class PP
 local SM		= SCENE_MANAGER
 local tinsert	= table.insert
 
+local constants = PP.Constants
+local TLCControlsWidthSupported = constants.TLCControlsWidthSupported
+local TLCControlsHeightSupported = constants.TLCControlsHeightSupported
+
+
 -- media
 PP.backgrounds = {}
 PP.backgroundsHiddenForScene = {}
@@ -1169,25 +1174,6 @@ PP.RemoveFragmentFromSceneAndKeepPreviewFunctionality = RemoveFragmentFromSceneA
 
 --Check if the topLevelControl passed in was enabled in the settings to be resized to another size
 --> TLC controls supported and the new width for them
-local defaultNormalWidthForTLCs = 930
-local defaultWiderWidthForTLCs = 1275
-
-local TLCControlsWidthSupported = {
-	["ZO_CollectionsBook_TopLevel"] 					= { new = defaultWiderWidthForTLCs, default = defaultNormalWidthForTLCs },
-	["ZO_DLCBook_Keyboard"] 							= { new = defaultWiderWidthForTLCs, default = defaultNormalWidthForTLCs },
-	["ZO_HousingBook_Keyboard"] 						= { new = defaultWiderWidthForTLCs, default = defaultNormalWidthForTLCs },
-	["ZO_OutfitStylesBook_Keyboard_TopLevel"] 			= { new = defaultWiderWidthForTLCs, default = defaultNormalWidthForTLCs },
-	["ZO_OutfitStylesPanelTopLevel_Keyboard"] 			= { new = 1000, default = 595 },
-	["ZO_RestyleStationTopLevel_Keyboard"] 				= { new = defaultWiderWidthForTLCs, default = defaultNormalWidthForTLCs },
-	["ZO_DyeingTopLevel_Keyboard"] 						= { new = 950, default = 595 },
-	["ZO_ItemSetsBook_Keyboard_TopLevel"] 				= { new = defaultWiderWidthForTLCs, default = defaultNormalWidthForTLCs },
-	["ZO_TributePatronBook_Keyboard_TopLevel"] 			= { new = 1310, default = defaultNormalWidthForTLCs },
-}
-local TLCControlsHeightSupported = {
-	["ZO_PlayerEmote_Keyboard_TopLevelEmoteContainer"] 	= { new = 1100, default = 600 },
-}
-
-
 local function PP_topLevelResizeCheck(widthOrHeight, tlcControl, settingName, newValue, defValue)
 	if widthOrHeight == nil or not tlcControl or not settingName or not newValue or not defValue then return end
 	--Update the width of the TLC
@@ -1222,8 +1208,8 @@ end
 
 function PP.AllTopLevelResizeChecks()
 	for tlcControlName, data in pairs(TLCControlsWidthSupported) do
-		local newWidth = data.new or defaultWiderWidthForTLCs
-		local defWidth =  data.default or defaultNormalWidthForTLCs
+		local newWidth = data.new
+		local defWidth =  data.default
 		local tlcControl = GetControl(tlcControlName)
 		if tlcControl ~= nil then
 			PP_topLevelResizeCheck(true, tlcControl, "window_style_wider", newWidth, defWidth)

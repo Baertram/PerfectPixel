@@ -393,7 +393,9 @@ local function offset(slider, hidden)
 	end
 end
 
-PP.ScrollBar = function (control, sb_r, sb_g, sb_b, sb_a, bd_r, bd_g, bd_b, bd_a, useDefaultInsets)
+local defaultScrollbarColor = (120 / 255)
+local defaultScrollbarBackdropColor = (50 / 255)
+PP.ScrollBar = function (control, sb_r, sb_g, sb_b, sb_a, bd_r, bd_g, bd_b, bd_a, useDefaultInsets, insetLeft, insetRight, newWidth)
     -- Early return if no control provided
     if not control then return end
 
@@ -408,6 +410,8 @@ PP.ScrollBar = function (control, sb_r, sb_g, sb_b, sb_a, bd_r, bd_g, bd_b, bd_a
     local contents = slider:GetParent().contents
     local tex = "PerfectPixel/tex/tex_white.dds"
 
+	newWidth = newWidth or 4
+
     -- Hide scroll buttons
     if up then up:SetHidden(true) end
     if down then down:SetHidden(true) end
@@ -415,17 +419,17 @@ PP.ScrollBar = function (control, sb_r, sb_g, sb_b, sb_a, bd_r, bd_g, bd_b, bd_a
     -- Set default colors if not provided
     local scrollbar_color =
     {
-        r = sb_r and (sb_r / 255) or (120 / 255),
-        g = sb_g and (sb_g / 255) or (120 / 255),
-        b = sb_b and (sb_b / 255) or (120 / 255),
+        r = sb_r and (sb_r / 255) or defaultScrollbarColor,
+        g = sb_g and (sb_g / 255) or defaultScrollbarColor,
+        b = sb_b and (sb_b / 255) or defaultScrollbarColor,
         a = sb_a or 1
     }
 
     local backdrop_color =
     {
-        r = bd_r and (bd_r / 255) or (50 / 255),
-        g = bd_g and (bd_g / 255) or (50 / 255),
-        b = bd_b and (bd_b / 255) or (50 / 255),
+        r = bd_r and (bd_r / 255) or defaultScrollbarBackdropColor,
+        g = bd_g and (bd_g / 255) or defaultScrollbarBackdropColor,
+        b = bd_b and (bd_b / 255) or defaultScrollbarBackdropColor,
         a = bd_a or 0.6
     }
 
@@ -438,16 +442,19 @@ PP.ScrollBar = function (control, sb_r, sb_g, sb_b, sb_a, bd_r, bd_g, bd_b, bd_a
     sb:SetAnchor(TOPLEFT, nil, TOPRIGHT, 0, 0)
     sb:SetAnchor(BOTTOMLEFT, nil, BOTTOMRIGHT, -10, 0)
     sb:SetAlpha(backdrop_color.a)
-    sb:SetHitInsets(useDefaultInsets and 0 or -4, 0, useDefaultInsets and 0 or 5, 0)
-    sb:SetWidth(4)
+
+	local newInsetLeft = useDefaultInsets and 0 or ((insetLeft ~= nil and insetLeft) or -4)
+	local NewInsetRight = useDefaultInsets and 0 or ((insetRight ~= nil and insetRight) or 5)
+    sb:SetHitInsets(newInsetLeft, 0, NewInsetRight, 0)
+    sb:SetWidth(newWidth)
     sb.thumb = thumb
 
     -- Configure thumb
     if thumb then
-        thumb:SetWidth(4)
+        thumb:SetWidth(newWidth)
         thumb:SetTexture(tex)
         thumb:SetColor(scrollbar_color.r, scrollbar_color.g, scrollbar_color.b, scrollbar_color.a)
-        thumb:SetHitInsets(useDefaultInsets and 0 or -4, 0, useDefaultInsets and 0 or 5, 0)
+        thumb:SetHitInsets(newInsetLeft, 0, NewInsetRight, 0)
     end
 
     if not contents then return end

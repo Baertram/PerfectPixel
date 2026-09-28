@@ -48,7 +48,8 @@ function PP.Core()
 	PP.Anchor(ZO_MainMenuSceneGroupBar, --[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, -30, 64)
 
 --FIX market scene
-	local tabMarketScenes = {"market", "gildbarStoreSceneKeyboard", "endeavorSealStoreSceneKeyboard", "esoPlusOffersSceneKeyboard", "dailyLoginRewards", "giftInventoryKeyboard"}
+	local tabMarketScenes = {"market", "endeavorSealStoreSceneKeyboard", "esoPlusOffersSceneKeyboard", "dailyLoginRewards", "giftInventoryKeyboard", "gildbarStoreSceneKeyboard"}
+
 	for _, scene in pairs(tabMarketScenes) do
 		SCENE_MANAGER:GetScene(scene):RegisterCallback("StateChange", function(oldState, newState)
 			if newState == SCENE_SHOWING then

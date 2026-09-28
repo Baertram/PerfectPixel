@@ -201,11 +201,12 @@ PP.worldMapScene = function ()
 
         local modes =
         {
-            [MAP_MODE_LARGE_CUSTOM] = true,
-            [MAP_MODE_KEEP_TRAVEL] = true,
-            [MAP_MODE_FAST_TRAVEL] = true,
-            [MAP_MODE_AVA_RESPAWN] = true,
-            [MAP_MODE_AVA_KEEP_RECALL] = true,
+            [MAP_MODE_LARGE_CUSTOM]     = true,
+            [MAP_MODE_KEEP_TRAVEL]      = true,
+            [MAP_MODE_FAST_TRAVEL]      = true,
+            [MAP_MODE_AVA_RESPAWN]      = true,
+            [MAP_MODE_AVA_KEEP_RECALL]  = true,
+            [MAP_MODE_DIG_SITES]        = true,
         }
 
         PP.Anchor(ZO_WorldMapZoom, --[[#1]] TOPLEFT, GuiRoot, TOPLEFT, 60, 100)

@@ -1,52 +1,47 @@
 local PP = PP ---@class PP
 local namespace	= 'CraftStations'
 
-PP.craftStationScenes = function()
-	--===============================================================================================--
-	local sv, def = PP:AddNewSavedVars(0.2, namespace, {
-		Provisioner_ShowTooltip	= true,
-	})
-	--===============================================================================================--
-	local children = {
-		{ 'InventoryBackpack', 'Backpack', 'NavigationContainer'										},	--1	list
-		{ 'Categories'																					},	--2	categories
-		{ 'SortBy', 'InventorySortBy'																	},	--3	sortBy
-		{ 'Tabs', 'InventoryTabs'																		},	--4	tabs
-		{ 'FilterDivider', 'InventoryFilterDivider', 'TabsDivider', 'ButtonDivider', 'MenuBarDivider'	},	--5	filterDivider
-		{ 'PatternListDivider', 'InventoryButtonDivider', 'ResearchLineList', 'ButtonDivider', 'ProvisioningFiltersNavigationDivider'			},	--6	listDivider
-		{ 'InfoBar', 'InventoryInfoBar'																	},	--7	infoBar
-	}
+--The crafting TopLevelControls and scenes
+local tlcs = {
+	--Smithing
+	{ ZO_SmithingTopLevelRefinementPanel, 'smithing' },
+	{ ZO_SmithingTopLevelCreationPanel },
+	{ ZO_SmithingTopLevelDeconstructionPanel },
+	{ ZO_SmithingTopLevelImprovementPanel },
+	{ ZO_SmithingTopLevelResearchPanel },
+	--Universal Deconstruction
+	{ ZO_UniversalDeconstructionTopLevel_KeyboardPanel, 'universalDeconstructionSceneKeyboard' },
+	--Enchanting
+	{ ZO_EnchantingTopLevelInventory, 'enchanting' },
+	--Alchemy
+	{ ZO_AlchemyTopLevelInventory, 'alchemy' },
+	--Provisioning
+	{ ZO_ProvisionerTopLevel, 'provisioner' },
+	--Retrait
+	{ ZO_RetraitStation_KeyboardTopLevelRetraitPanel, 'retrait_keyboard_root' },
+}
+local children = {
+	{ 'InventoryBackpack', 'Backpack', 'NavigationContainer'										},	--1	list
+	{ 'Categories'																					},	--2	categories
+	{ 'SortBy', 'InventorySortBy'																	},	--3	sortBy
+	{ 'Tabs', 'InventoryTabs'																		},	--4	tabs
+	{ 'FilterDivider', 'InventoryFilterDivider', 'TabsDivider', 'ButtonDivider', 'MenuBarDivider'	},	--5	filterDivider
+	{ 'PatternListDivider', 'InventoryButtonDivider', 'ResearchLineList', 'ButtonDivider', 'ProvisioningFiltersNavigationDivider'			},	--6	listDivider
+	{ 'InfoBar', 'InventoryInfoBar'																	},	--7	infoBar
+}
 
-	local tlcs = {
-		--Smithing
-		{ ZO_SmithingTopLevelRefinementPanel, 'smithing' },
-		{ ZO_SmithingTopLevelCreationPanel },
-		{ ZO_SmithingTopLevelDeconstructionPanel },
-		{ ZO_SmithingTopLevelImprovementPanel },
-		{ ZO_SmithingTopLevelResearchPanel },
-		--Universal Deconstruction
-		{ ZO_UniversalDeconstructionTopLevel_KeyboardPanel, 'universalDeconstructionSceneKeyboard' },
-		--Enchanting
-		{ ZO_EnchantingTopLevelInventory, 'enchanting' },
-		--Alchemy
-		{ ZO_AlchemyTopLevelInventory, 'alchemy' },
-		--Provisioning
-		{ ZO_ProvisionerTopLevel, 'provisioner' },
-		--Retrait
-		{ ZO_RetraitStation_KeyboardTopLevelRetraitPanel, 'retrait_keyboard_root' },
-	}
 
+local function updateCraftStationScene(control, scene, listOnly, offsetYTop, offsetYBottom)
 	local l_tabs = PP:GetLayout('menuBar', 'tabs')
 	local l_menu = PP:GetLayout('menuBar', 'menu')
 
-	for i = 1, #tlcs do
-		local control, scene     = tlcs[i][1], tlcs[i][2]
-		local l_craftStation = PP:GetLayout('inventory', control)
+	local l_craftStation = PP:GetLayout('inventory', control)
 
-		if control then
-			local tlc, list, categories, sortBy, tabs, filterDivider, listDivider, infoBar = PP.GetLinks(control, false, children)
-			local menu = tlc:GetParent():GetNamedChild("ModeMenu")
+	if control then
+		local tlc, list, categories, sortBy, tabs, filterDivider, listDivider, infoBar = PP.GetLinks(control, false, children)
 
+		if not listOnly then
+			--Special Provisioner crafting UI handling
 			if tlc == ZO_ProvisionerTopLevel then
 				tlc = CreateControl("$(parent)Panel", tlc, CT_CONTROL)
 				tlc:SetAnchorFill(ZO_SmithingTopLevelRefinementPanel)
@@ -62,75 +57,101 @@ PP.craftStationScenes = function()
 			if tlc:GetNamedChild('Inventory') then
 				tlc:GetNamedChild('Inventory'):SetAnchorFill(tlc)
 			end
-			if list then
-				PP:RefreshStyle_InventoryList(list)
-				PP.ScrollBar(list)
-
---[[
-Checking type on argument offsetY failed in ControlSetAnchorLua
-if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess for enchanting mode create and mode extarct?)
-->local l_craftStation = PP:GetLayout('inventory', ZO_EnchantingTopLevelInventory)
--->Will be properly applying the table's entry Y offset then at e.g. ENCHANTING inventory:SetMode function below
-]]
-				local listOffsetY = l_craftStation.list.t_y
-				local listOffsetYCopy = listOffsetY --remove reference so we do not overwrite the original layout
-				if type(listOffsetY) == "table" then
-					listOffsetYCopy = 0
-				end
-				local listOffsetBY = l_craftStation.list.b_y
-				local listOffsetBYCopy = listOffsetBY --remove reference so we do not overwrite the original layout
-				if type(listOffsetBYCopy) == "table" then
-					listOffsetBYCopy = 0
-				end
-				PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, listOffsetYCopy, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, listOffsetBYCopy)
-
-				list:SetWidth(l_craftStation.list.w)
-			end
-			-- if categories then
-				-- PP.ScrollBar(categories)
-			-- end
-			if sortBy then
-				PP.Anchor(sortBy,			--[[#1]] BOTTOM, list, TOP, 0, 0)
-				local sortByName = sortBy:GetNamedChild("Name")
-				sortByName:SetWidth(l_craftStation.sort.name_w)
-				sortByName:SetAnchorOffsets(l_craftStation.sort.name_t_x, nil, 1)
-			end
-			if tabs then
-				PP.Anchor(tabs,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, -20, 10)
-				tabs:SetHidden(l_craftStation.options.noTabs)
-				PP:RefreshStyle_MenuBar(tabs, l_tabs)
-			end
-			if filterDivider then
-				PP.Anchor(filterDivider,	--[[#1]] TOP, tlc, TOP, 0, 52)
-				filterDivider:SetHidden(l_craftStation.options.noFDivider)
-			end
-			if listDivider then
-				PP.Anchor(listDivider,		--[[#1]] TOP, tlc, TOP, 0, 98)
-			end
-			if menu then
-				PP.Anchor(menu,			--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, -30, 64)
-				PP:RefreshStyle_MenuBar(menu, l_menu)
-			end
-			if infoBar then
-				PP:RefreshStyle_InfoBar(infoBar, l_craftStation)
-			end
-
-			local slotContainer = control:GetNamedChild("SlotContainer")
-			if slotContainer then
-				PP:CreateBackground(slotContainer,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
-				local oldSlotContainerBg = slotContainer:GetNamedChild("Bg")
-				if oldSlotContainerBg then
-					oldSlotContainerBg:SetHidden(true)
-				end
-			elseif control == ZO_SmithingTopLevelCreationPanel then
-				PP:CreateBackground(ZO_SmithingTopLevelCreationPanelMultiCraftContainer,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
-				ZO_SmithingTopLevelCreationPanelMultiCraftContainerBg:SetHidden(true)
-			elseif control == ZO_AlchemyTopLevelInventory then
-				PP:CreateBackground(ZO_AlchemyTopLevelSlotContainer,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
-				ZO_AlchemyTopLevelSlotContainerBg:SetHidden(true)
-			end
-
 		end
+		if list then
+			PP:RefreshStyle_InventoryList(list)
+			PP.ScrollBar(list)
+			--[[
+			Checking type on argument offsetY failed in ControlSetAnchorLua
+			if control is ZO_EnchantingTopLevelInventory -> list_t_y got 2 enties (I guess for enchanting mode create and mode extarct?)
+			->local l_craftStation = PP:GetLayout('inventory', ZO_EnchantingTopLevelInventory)
+			-->Will be properly applying the table's entry Y offset then at e.g. ENCHANTING inventory:SetMode function below
+			]]
+			local listOffsetY = l_craftStation.list.t_y
+			local listOffsetYCopy = listOffsetY --remove reference so we do not overwrite the original layout
+			if type(listOffsetY) == "table" then
+				listOffsetYCopy = 0
+			end
+			if type(offsetYTop) == "number" then
+				listOffsetYCopy = listOffsetYCopy + offsetYTop
+			end
+			local listOffsetBY = l_craftStation.list.b_y
+			local listOffsetBYCopy = listOffsetBY --remove reference so we do not overwrite the original layout
+			if type(listOffsetBYCopy) == "table" then
+				listOffsetBYCopy = 0
+			end
+			if type(offsetYBottom) == "number" then
+				listOffsetBYCopy = listOffsetBYCopy + offsetYBottom
+			end
+
+			PP.Anchor(list,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, 0, listOffsetYCopy, --[[#2]] true, BOTTOMRIGHT, tlc, BOTTOMRIGHT, 0, listOffsetBYCopy)
+
+
+			list:SetWidth(l_craftStation.list.w)
+		end
+		if sortBy then
+			PP.Anchor(sortBy,			--[[#1]] BOTTOM, list, TOP, 0, 0)
+			local sortByName = sortBy:GetNamedChild("Name")
+			sortByName:SetWidth(l_craftStation.sort.name_w)
+			sortByName:SetAnchorOffsets(l_craftStation.sort.name_t_x, nil, 1)
+		end
+		if filterDivider then
+			PP.Anchor(filterDivider,	--[[#1]] TOP, tlc, TOP, 0, 52)
+			filterDivider:SetHidden(l_craftStation.options.noFDivider)
+		end
+		if listDivider then
+			PP.Anchor(listDivider,		--[[#1]] TOP, tlc, TOP, 0, 98)
+		end
+		if listOnly == true then return end
+
+
+		if tabs then
+			PP.Anchor(tabs,				--[[#1]] TOPRIGHT, tlc, TOPRIGHT, -20, 10)
+			tabs:SetHidden(l_craftStation.options.noTabs)
+			PP:RefreshStyle_MenuBar(tabs, l_tabs)
+		end
+
+		local menu = tlc:GetParent():GetNamedChild("ModeMenu")
+		if menu then
+			PP.Anchor(menu,			--[[#1]] TOPRIGHT, GuiRoot, TOPRIGHT, -30, 64)
+			PP:RefreshStyle_MenuBar(menu, l_menu)
+		end
+		if infoBar then
+			PP:RefreshStyle_InfoBar(infoBar, l_craftStation)
+		end
+
+		local slotContainer = control:GetNamedChild("SlotContainer")
+		if slotContainer then
+			PP:CreateBackground(slotContainer,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+			local oldSlotContainerBg = slotContainer:GetNamedChild("Bg")
+			if oldSlotContainerBg then
+				oldSlotContainerBg:SetHidden(true)
+			end
+		elseif control == ZO_SmithingTopLevelCreationPanel then
+			PP:CreateBackground(ZO_SmithingTopLevelCreationPanelMultiCraftContainer,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+			ZO_SmithingTopLevelCreationPanelMultiCraftContainerBg:SetHidden(true)
+		elseif control == ZO_AlchemyTopLevelInventory then
+			PP:CreateBackground(ZO_AlchemyTopLevelSlotContainer,		--[[#1]] nil, nil, nil, -6, 0, --[[#2]] nil, nil, nil, 0, 6)
+			ZO_AlchemyTopLevelSlotContainerBg:SetHidden(true)
+		end
+	end
+end
+PP.UpdateCraftStationScene = updateCraftStationScene
+
+
+PP.craftStationScenes = function()
+d("PP.craftStationScenes")
+	--===============================================================================================--
+	local sv, def = PP:AddNewSavedVars(0.2, namespace, {
+		Provisioner_ShowTooltip	= true,
+	})
+	--===============================================================================================--
+
+	for i = 1, #tlcs do
+		local control, scene     = tlcs[i][1], tlcs[i][2]
+		local l_craftStation = PP:GetLayout('inventory', control)
+
+		updateCraftStationScene(control, scene)
 
 		if scene then
 			local s		= SCENE_MANAGER:GetScene(scene)

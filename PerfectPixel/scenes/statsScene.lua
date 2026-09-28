@@ -67,7 +67,7 @@ PP.statsScene = function()
     PP.ScrollBar(ZO_StatsPanelPane,
         --[[sb_c]] 180, 180, 180, 0.7,
         --[[bd_c]] 20, 20, 20, 0.7,
-        true
+        false, -20, 10
     )
 
     -- Set fade distance.

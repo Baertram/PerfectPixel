@@ -140,7 +140,6 @@ PP.UpdateCraftStationScene = updateCraftStationScene
 
 
 PP.craftStationScenes = function()
-d("PP.craftStationScenes")
 	--===============================================================================================--
 	local sv, def = PP:AddNewSavedVars(0.2, namespace, {
 		Provisioner_ShowTooltip	= true,

@@ -30,6 +30,7 @@ scenes\restyleStationKeyboardSceneGroup.lua
 scenes\craftStationScenes.lua
 scenes\statsScene.lua
 scenes\challengeDifficultyScene.lua
+scenes\interactWindowScenes.lua
 scenes\skillsScene.lua
 scenes\journalSceneGroup.lua
 scenes\collectionsSceneGroup.lua

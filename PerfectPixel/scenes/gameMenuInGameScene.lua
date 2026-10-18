@@ -78,11 +78,35 @@ PP.gameMenuInGameScene = function()
 				if AddonSelector == nil then
 					reAnchorAddonsUINow()
 				end
-			elseif newState == SCENE_SHOWN then
-				ZO_AddOnsList2Row1Divider:SetHidden(true)
 			end
 		end
 		ADDONS_FRAGMENT:RegisterCallback("StateChange",  SceneStateChange)
+
+		-- SECTION_HEADER_DATA is 2 in ZO_AddOnManager.lua. The header template is the only row with a Divider.
+		-- The scroll list creates that row after layout, so it does not exist when the fragment hits shown.
+		local ADDON_SECTION_HEADER_DATA_TYPE = 2
+		local function HideAddOnSectionHeaderDivider(headerControl)
+			local headerDivider = headerControl:GetNamedChild("Divider")
+			if headerDivider then
+				headerDivider:SetHidden(true)
+			end
+		end
+		local addOnsList = ZO_AddOnsList
+		if addOnsList and addOnsList.dataTypes and addOnsList.dataTypes[ADDON_SECTION_HEADER_DATA_TYPE] then
+			-- Two row heights switch the list to non-uniform (mode 2). Hook both modes; setup uses list.mode.
+			PP.PostHooksSetupCallback(addOnsList, 1, ADDON_SECTION_HEADER_DATA_TYPE, HideAddOnSectionHeaderDivider, HideAddOnSectionHeaderDivider)
+			PP.PostHooksSetupCallback(addOnsList, 2, ADDON_SECTION_HEADER_DATA_TYPE, HideAddOnSectionHeaderDivider, HideAddOnSectionHeaderDivider)
+			local headerDataType = ZO_ScrollList_GetDataTypeTable(addOnsList, ADDON_SECTION_HEADER_DATA_TYPE)
+			local headerPool = headerDataType and headerDataType.pool
+			if headerPool then
+				for _, headerControl in pairs(headerPool.m_Free) do
+					HideAddOnSectionHeaderDivider(headerControl)
+				end
+				for _, headerControl in pairs(headerPool.m_Active) do
+					HideAddOnSectionHeaderDivider(headerControl)
+				end
+			end
+		end
 
 		ZO_PreHookHandler(ZO_AddOns, 'OnEffectivelyShown', function()
 			SetFullscreenEffect(FULLSCREEN_EFFECT_CHARACTER_FRAMING_BLUR, 0.75, 0.75)

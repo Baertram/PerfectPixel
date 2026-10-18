@@ -65,6 +65,7 @@ EVENT_MANAGER:RegisterForEvent(PP.ADDON_NAME, EVENT_ADD_ON_LOADED, function(even
 		PP.contextMenus()
 		PP.compass()
 		PP.reticle()
+		PP.hudTrackers()
 		PP.tabs()
 		PP.dialogsMenu()
 		PP.chatWindow()
@@ -80,6 +81,9 @@ EVENT_MANAGER:RegisterForEvent(PP.ADDON_NAME, EVENT_ADD_ON_LOADED, function(even
 		PP.craftStationScenes()
 		PP.statsScene()
         PP.challengeDifficultyScene()
+		PP.genericSelectorScene()
+		-- Trial progression UI is delayed until U52.
+		--PP.trialProgressionScene()
 		PP.skillsScene()
 		PP.journalSceneGroup()
 		PP.collectionsSceneGroup()

@@ -1,5 +1,5 @@
 ## APIVersion: 101051 101052
-## Version: 0.13.39
+## Version: 0.13.40
 ## AddOnVersion: 001339
 ## Title: PerfectPixel
 ## Author: @KL1SK, Baertram, Dakjaniels

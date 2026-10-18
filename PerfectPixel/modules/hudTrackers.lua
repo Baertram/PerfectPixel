@@ -47,6 +47,10 @@ PP.hudTrackers = function()
 		if infoBoxBackground then
 			infoBoxBackground:SetHidden(true)
 		end
+		--Make the background the same draw* as the HUD movable controls, and increase the level by 1 so it overlays it
+		infoBox.PP_BG:SetDrawTier(DT_HIGH)
+		infoBox.PP_BG:SetDrawLayer(DL_BACKGROUND)
+		infoBox.PP_BG:SetDrawLevel(5)
 
 		local infoBoxHeader = infoBox:GetNamedChild("Header")
 		local infoBoxSelector = infoBoxHeader and infoBoxHeader:GetNamedChild("Selector")

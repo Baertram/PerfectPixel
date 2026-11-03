@@ -234,7 +234,6 @@ PP.compass = function ()
                 compassFrameBackdrop:SetEdgeColor(SV.col_e[1], SV.col_e[2], SV.col_e[3], SV.col_e[4])
             end
         end
-        -- ZO_CompassFrame already owns EVENT_PLAYER_ACTIVATED (CompassFrame:OnPlayerActivated). A second RegisterForEvent replaces that handler.
         compassFrameBackdrop:RegisterForEvent(EVENT_PLAYER_COMBAT_STATE, OnPlayerCombatState)
         compassFrameBackdrop:RegisterForEvent(EVENT_PLAYER_ACTIVATED, OnPlayerCombatState)
     end

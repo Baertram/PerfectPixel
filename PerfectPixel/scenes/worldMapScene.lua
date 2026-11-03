@@ -231,7 +231,7 @@ PP.worldMapScene = function ()
             end
         end)
 
-        ZO_WorldMap:RegisterForEvent(EVENT_SCREEN_RESIZED, function ()
+        ZO_PostHook(WORLD_MAP_MANAGER, "ResizeAndReanchorMap", function ()
             MapSize()
         end)
 

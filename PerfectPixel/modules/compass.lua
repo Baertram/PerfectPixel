@@ -3,19 +3,19 @@ local PP = PP --- @class PP
 PP.compass = function ()
     local SV, DEF = PP:AddNewSavedVars(0.2, "Compass",
                                        {
-                                           toggle      = true,
-                                           col         = { 0 / 255, 0 / 255, 0 / 255, 0.6 },
-                                           col_e       = { 0 / 255, 0 / 255, 0 / 255, 1 },
+                                           toggle        = true,
+                                           col           = { 0 / 255, 0 / 255, 0 / 255, 0.6 },
+                                           col_e         = { 0 / 255, 0 / 255, 0 / 255, 1 },
                                            -- Quest area
-                                           qa_col      = { 96 / 255, 125 / 255, 139 / 255, 0.5 },
-                                           qa_col_e    = { 96 / 255, 125 / 255, 139 / 255, 0 },
+                                           qa_col        = { 96 / 255, 125 / 255, 139 / 255, 0.5 },
+                                           qa_col_e      = { 96 / 255, 125 / 255, 139 / 255, 0 },
                                            -- Combat indicator
-                                           ci_toggle   = true,
-                                           ci_col      = { 222 / 255, 36 / 255, 33 / 255, 0.7 },
+                                           ci_toggle     = true,
+                                           ci_col        = { 222 / 255, 36 / 255, 33 / 255, 0.7 },
                                            -- Boss bar
-                                           hideBossBar    = false,
-                                           skin_backdrop  = "PerfectPixel/tex/tex_white.dds",
-                                           skin_edge      = "PerfectPixel/tex/edge_outer_shadow_128x16.dds",
+                                           hideBossBar   = false,
+                                           skin_backdrop = "PerfectPixel/tex/tex_white.dds",
+                                           skin_edge     = "PerfectPixel/tex/edge_outer_shadow_128x16.dds",
                                        })
     local refreshCompassTextures
     ---------------------------------------------
@@ -34,42 +34,42 @@ PP.compass = function ()
                              requiresReload = true,
                          },
                          {
-                             type             = "iconpicker",
-                             name             = GetString(PP_LAM_LIST_STYLE_BACKDROP),
-                             choices          = PP.LAM_MediaTable.backdrop,
-                             choicesTooltips  = PP.LAM_MediaTable.name_backdrop,
-                             getFunc          = function () return SV.skin_backdrop end,
-                             setFunc          = function (texturePath)
+                             type            = "iconpicker",
+                             name            = GetString(PP_LAM_LIST_STYLE_BACKDROP),
+                             choices         = PP.LAM_MediaTable.backdrop,
+                             choicesTooltips = PP.LAM_MediaTable.name_backdrop,
+                             getFunc         = function () return SV.skin_backdrop end,
+                             setFunc         = function (texturePath)
                                  SV.skin_backdrop = texturePath
                                  if refreshCompassTextures then
                                      refreshCompassTextures()
                                  end
                              end,
-                             maxColumns       = 3,
-                             visibleRows      = 5,
-                             iconSize         = 52,
-                             default          = DEF.skin_backdrop,
-                             width            = "half",
-                             disabled         = function () return not SV.toggle end,
+                             maxColumns      = 3,
+                             visibleRows     = 5,
+                             iconSize        = 52,
+                             default         = DEF.skin_backdrop,
+                             width           = "half",
+                             disabled        = function () return not SV.toggle end,
                          },
                          {
-                             type             = "iconpicker",
-                             name             = GetString(PP_LAM_LIST_STYLE_EDGE),
-                             choices          = PP.LAM_MediaTable.edge,
-                             choicesTooltips  = PP.LAM_MediaTable.name_edge,
-                             getFunc          = function () return SV.skin_edge end,
-                             setFunc          = function (texturePath)
+                             type            = "iconpicker",
+                             name            = GetString(PP_LAM_LIST_STYLE_EDGE),
+                             choices         = PP.LAM_MediaTable.edge,
+                             choicesTooltips = PP.LAM_MediaTable.name_edge,
+                             getFunc         = function () return SV.skin_edge end,
+                             setFunc         = function (texturePath)
                                  SV.skin_edge = texturePath
                                  if refreshCompassTextures then
                                      refreshCompassTextures()
                                  end
                              end,
-                             maxColumns       = 3,
-                             visibleRows      = 5,
-                             iconSize         = 52,
-                             default          = DEF.skin_edge,
-                             width            = "half",
-                             disabled         = function () return not SV.toggle end,
+                             maxColumns      = 3,
+                             visibleRows     = 5,
+                             iconSize        = 52,
+                             default         = DEF.skin_edge,
+                             width           = "half",
+                             disabled        = function () return not SV.toggle end,
                          },
                          {
                              type           = "colorpicker",

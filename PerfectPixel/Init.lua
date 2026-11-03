@@ -11,21 +11,18 @@ PP = {
 	ADDON_NAME		= 'PerfectPixel',
 	ADDON_AUTHOR	= '@KL1SK, Baertram, Dakjaniels',
 	ADDON_WEBSITE	= 'https://www.esoui.com/downloads/info2103-PerfectPixel.html',
-	ADDON_VERSION 	= '0.13.40',
+	ADDON_VERSION 	= '0.13.41',
 }
 
 local PP = PP ---@class PP
 
 --[[ LATEST UPDATE
-Version:	0.13.40
-Date:		2026-10-18
+Version:	0.13.41
+Date:		2026-10-25
 Author:		@DakJaniels
 
-fix: edgecase error
-feat: add HUD trackers module and integrate with progress bars
-feat: add styling for Rumor Rewards dialog in dialogsMenu
-feat: implement generic selector scene and style interact window comp… -> prepared for Update 52
-feat: refactor mail scene layout and styling
+fix: contextMenus miss-align loadAtEndOfOnAddOnLoaded selected rows (stairs effect, thanks imPDA for the report)
+feat: refactor contextMenus module
 ]]
 
 

@@ -155,7 +155,7 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 		if width ~= nil then
 			bg:SetWidth(width)
 		elseif height ~= nil then
-			bg:SetHeigt(height)
+			bg:SetHeight(height)
 		end
 	end
 

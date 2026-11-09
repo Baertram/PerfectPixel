@@ -1,7 +1,31 @@
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 local removeFragmentsFromScene = PP.removeFragmentsFromScene
 
 PP.guildSceneGroup = function()
+--===============================================================================================--
+	local SV_VER		= 0.1
+	local DEF = {
+		enableScenesPPLook	= true,
+	}
+	local SV = PP:AddNewSavedVars(SV_VER, "GuildSceneGroup", DEF)
+	---------------------------------------------
+	table.insert(PP.optionsData,
+	{	type				= "submenu",
+		name				= GetString(PP_LAM_SCENE_GUILD),
+		controls = {
+			{	type				= "checkbox",
+				name				= GetString(PP_LAM_ACTIVATE),
+				getFunc				= function() return SV.enableScenesPPLook end,
+				setFunc				= function(value) SV.enableScenesPPLook = value end,
+				default				= DEF.enableScenesPPLook,
+				requiresReload		= true,
+			},
+		},
+	})
+--===============================================================================================--
+
+	if not SV.enableScenesPPLook then return end
+
 	local guildHistKB = GUILD_HISTORY_KEYBOARD
 
 

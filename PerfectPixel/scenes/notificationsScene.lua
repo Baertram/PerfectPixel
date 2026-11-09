@@ -1,4 +1,4 @@
-local PP = PP --- @class PP
+local PP = PP ---@class (partial) PP
 local removeFragmentsFromScene = PP.removeFragmentsFromScene
 
 -- Constants
@@ -39,6 +39,30 @@ local function setupNotificationsUI(tlc)
 end
 
 PP.notificationsScene = function ()
+--===============================================================================================--
+	local SV_VER		= 0.1
+	local DEF = {
+		enableScenesPPLook	= true,
+	}
+	local SV = PP:AddNewSavedVars(SV_VER, "NotificationsScene", DEF)
+	---------------------------------------------
+	table.insert(PP.optionsData,
+	{	type				= "submenu",
+		name				= GetString(PP_LAM_SCENE_NOTIFICATIONS),
+		controls = {
+			{	type				= "checkbox",
+				name				= GetString(PP_LAM_ACTIVATE),
+				getFunc				= function() return SV.enableScenesPPLook end,
+				setFunc				= function(value) SV.enableScenesPPLook = value end,
+				default				= DEF.enableScenesPPLook,
+				requiresReload		= true,
+			},
+		},
+	})
+--===============================================================================================--
+
+	if not SV.enableScenesPPLook then return end
+
     for _, sceneInfo in ipairs(SCENE_CONFIG) do
         removeFragmentsFromScene(sceneInfo.scene, NOTIFICATIONS_FRAGMENTS)
         local tlc = sceneInfo.gVar.control or sceneInfo.gVar

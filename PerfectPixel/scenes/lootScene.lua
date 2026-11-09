@@ -1,4 +1,4 @@
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 
 PP.lootScene = function()
 --===============================================================================================--
@@ -11,7 +11,7 @@ PP.lootScene = function()
 		movable			= true,
 		mouseFocus		= false,
 	}
-	local SV = ZO_SavedVars:NewAccountWide(PP.ADDON_NAME, SV_VER, "LootScene", DEF, GetWorldName())
+	local SV = PP:AddNewSavedVars(SV_VER, "LootScene", DEF)
 	---------------------------------------------
 	table.insert(PP.optionsData,
 	{	type				= "submenu",

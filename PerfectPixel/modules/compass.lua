@@ -1,4 +1,4 @@
-local PP = PP --- @class PP
+local PP = PP ---@class (partial) PP
 
 PP.compass = function ()
     local SV, DEF = PP:AddNewSavedVars(0.2, "Compass",

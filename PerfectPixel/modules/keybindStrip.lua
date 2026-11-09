@@ -1,4 +1,4 @@
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 local namespace	= 'KeybindStrip'
 
 PP.keybindStrip = function()

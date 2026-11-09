@@ -1,4 +1,4 @@
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 
 PP.popupList = function()
     ZO_PreHookHandler(ZO_PopupListTL, "OnEffectivelyShown", function()

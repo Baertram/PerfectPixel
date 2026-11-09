@@ -46,11 +46,43 @@ local stringsRu = {
 	PP_LAM_SCENE_PERFORMANCE_METER					= "Измеритель производительности",
 	--CraftStations
 	PP_LAM_CRAFT_STATIONS_PROVISIONER_SHOWTOOLTIP	= "Показать подсказку",
+	--Alliance War Scene
+	PP_LAM_SCENE_ALLIANCE_WAR						= "Сцена Войны Альянсов",
+	--Challenge Difficulty Scene
+	PP_LAM_SCENE_CHALLENGE_DIFFICULTY				= "Сцена Сложности Испытаний",
+	--Collections Scene
+	PP_LAM_SCENE_COLLECTIONS						= "Сцена Коллекций",
+	--Craft Stations Scene
+	PP_LAM_SCENE_CRAFT_STATIONS					= "Сцена Ремесленных Станций",
+	--Friends List Scene
+	PP_LAM_SCENE_FRIENDS_LIST						= "Сцена Списка Друзей",
+	--Group Menu Scene
+	PP_LAM_SCENE_GROUP_MENU							= "Сцена Меню Группы",
+	--Guild Scene
+	PP_LAM_SCENE_GUILD								= "Сцена Гильдии",
+	--Help Scene
+	PP_LAM_SCENE_HELP								= "Сцена Помощи",
+	--Generic Selector Scene
+	PP_LAM_SCENE_GENERIC_SELECTOR					= "Сцена Общего Выбора",
+	--Lockpicking Scene
+	PP_LAM_SCENE_LOCKPICKING						= "Сцена Взлома Замков",
+	--Mail Scene
+	PP_LAM_SCENE_MAIL								= "Сцена Почты",
+	--Notifications Scene
+	PP_LAM_SCENE_NOTIFICATIONS						= "Сцена Уведомлений",
+	--Stats Scene
+	PP_LAM_SCENE_STATS								= "Сцена Статистики",
+	--Tamriel Tomes Scene
+	PP_LAM_SCENE_TAMRIEL_TOMES						= "Сцена Фолиантов Тамриэля",
+	--Trading House Scene
+	PP_LAM_SCENE_TRADING_HOUSE						= "Сцена Торгового Дома",
+	--Restyle Station Scene
+	PP_LAM_SCENE_RESTYLE_STATION					= "Сцена Станции Перестройки",
 	--Chat
 	PP_LAM_SCENE_CHAT								= GetString(SI_CHAT_TAB_GENERAL),
 }
 
----@class PP
+---@class (partial) PP
 local PP = PP
 --Use the metatable to use EN strings for untranslated/missing stringIds
 setmetatable(stringsRu, {__index = PP.stringsEn})

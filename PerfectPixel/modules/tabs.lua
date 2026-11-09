@@ -1,4 +1,4 @@
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 
 PP.tabs = function()
 --===============================================================================================--
@@ -7,7 +7,7 @@ PP.tabs = function()
 		TopBarBG_toggle					= true,
 		MenuBarLabel_toggle				= true,
 	}
-	local SV = ZO_SavedVars:NewAccountWide(PP.ADDON_NAME, SV_VER, "Tabs", DEF, GetWorldName())
+	local SV = PP:AddNewSavedVars(SV_VER, "Tabs", DEF)
 	---------------------------------------------
 	table.insert(PP.optionsData,
 	{	type				= "submenu",

@@ -1,4 +1,4 @@
-local PP = PP --- @class PP
+local PP = PP ---@class (partial) PP
 
 PP.worldMapScene = function ()
     -- ===============================================================================================--
@@ -9,7 +9,7 @@ PP.worldMapScene = function ()
         toggle = true,
         large = true,
     }
-    local SV = ZO_SavedVars:NewAccountWide(PP.ADDON_NAME, SV_VER, "WorldMap", DEF, GetWorldName())
+    local SV = PP:AddNewSavedVars(SV_VER, "WorldMap", DEF)
 
     -- LAM Menu Options
     local function CreateOptions()

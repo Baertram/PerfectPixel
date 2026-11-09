@@ -1,4 +1,4 @@
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 local removeFragmentsFromScene = PP.removeFragmentsFromScene
 
 local DEFAULT_JOURNAL_SCENES = {
@@ -68,7 +68,7 @@ local function SetupSavedVariables()
 	local DEF = {
 		largeQuestList	= true,
 	}
-	SV = ZO_SavedVars:NewAccountWide(PP.ADDON_NAME, SV_VER, "JournalScene", DEF, GetWorldName())
+	SV = PP:AddNewSavedVars(SV_VER, "JournalScene", DEF)
 	---------------------------------------------
 	table.insert(PP.optionsData,
 			{	type				= "submenu",

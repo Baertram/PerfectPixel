@@ -2,7 +2,7 @@ local CM = CALLBACK_MANAGER
 local tinsert = table.insert
 local tos = tostring
 
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 
 PP.compatibilityFunctions = {}
 PP.compatibility = function ()
@@ -336,7 +336,7 @@ PP.compatibility = function ()
         -- ==AddonSelector==--
         if AddonSelector then
             local SV_VER = 0.1
-            local addonSV = ZO_SavedVars:NewAccountWide(PP.ADDON_NAME, SV_VER, "GameMenuScene", {}, GetWorldName())
+            local addonSV = PP:AddNewSavedVars(SV_VER, "GameMenuScene", {})
             if addonSV.addons_toggle then
                 local function reAnchorAddOnsUIForAddonSelectorNow()
 			        PP.Anchor(ZO_AddOns, --[[#1]] TOPLEFT, GuiRoot, TOPLEFT, 256, 35, --[[#2]] true, BOTTOMRIGHT, GuiRoot, BOTTOMLEFT, 1200, -80)

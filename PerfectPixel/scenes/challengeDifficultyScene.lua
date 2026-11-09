@@ -1,6 +1,30 @@
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 
 PP.challengeDifficultyScene = function()
+--===============================================================================================--
+	local SV_VER		= 0.1
+	local DEF = {
+		enableScenesPPLook	= true,
+	}
+	local SV = PP:AddNewSavedVars(SV_VER, "ChallengeDifficultyScene", DEF)
+	---------------------------------------------
+	table.insert(PP.optionsData,
+	{	type				= "submenu",
+		name				= GetString(PP_LAM_SCENE_CHALLENGE_DIFFICULTY),
+		controls = {
+			{	type				= "checkbox",
+				name				= GetString(PP_LAM_ACTIVATE),
+				getFunc				= function() return SV.enableScenesPPLook end,
+				setFunc				= function(value) SV.enableScenesPPLook = value end,
+				default				= DEF.enableScenesPPLook,
+				requiresReload		= true,
+			},
+		},
+	})
+--===============================================================================================--
+
+	if not SV.enableScenesPPLook then return end
+
 	local tlc = ZO_ChallengeDifficultyScreen_KeyboardTL
 	if not tlc then
 		local keyboard = ZO_CHALLENGE_DIFFICULTY_KEYBOARD

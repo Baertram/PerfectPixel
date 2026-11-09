@@ -1,4 +1,4 @@
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 
 PP.dialogsMenu = function()
 	local MAX_NUM_DIALOGS	= 1					--zo_dialog.lua -> local MAX_NUM_DIALOGS = 1, _G['ESO_Dialogs']

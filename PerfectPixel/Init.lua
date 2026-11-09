@@ -1,4 +1,4 @@
----@class PP
+---@class (partial) PP
 PP = {
 	media			= { textures = {}, edges = {}, fonts = {}, colors = {}, },
 	modules			= {},
@@ -9,20 +9,20 @@ PP = {
 	optionsData		= {},
 
 	ADDON_NAME		= 'PerfectPixel',
-	ADDON_AUTHOR	= '@KL1SK, Baertram, Dakjaniels',
+	ADDON_AUTHOR	= '@KL1SK, Baertram, DakJaniels',
 	ADDON_WEBSITE	= 'https://www.esoui.com/downloads/info2103-PerfectPixel.html',
 	ADDON_VERSION 	= '0.13.41',
 }
 
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 
 --[[ LATEST UPDATE
-Version:	0.13.41
-Date:		2026-10-25
-Author:		@DakJaniels
+Version:	0.13.43
+Date:		2026-11-09
+Author:		@DakJaniels, @Baertram
 
-fix: contextMenus miss-align loadAtEndOfOnAddOnLoaded selected rows (stairs effect, thanks imPDA for the report)
-feat: refactor contextMenus module
+feat: 	Add settings menu for each scene independently to enable/disable the PP-ified look
+rework: Compass frame, chat min bar, 2 other events, SavedVariables created via PP API func
 ]]
 
 

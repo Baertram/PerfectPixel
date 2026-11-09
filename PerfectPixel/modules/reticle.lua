@@ -1,4 +1,4 @@
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 
 PP.reticle = function()
 --===============================================================================================--
@@ -7,7 +7,7 @@ PP.reticle = function()
 		toggle				= true,
 		StealthText_toggle	= false,
 	}
-	local SV = ZO_SavedVars:NewAccountWide(PP.ADDON_NAME, SV_VER, "Reticle", DEF, GetWorldName())
+	local SV = PP:AddNewSavedVars(SV_VER, "Reticle", DEF)
 	---------------------------------------------
 	table.insert(PP.optionsData,
 	{	type				= "submenu",

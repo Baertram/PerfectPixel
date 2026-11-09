@@ -1,4 +1,4 @@
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 
 PP.hudTrackers = function()
 	local PROGRESS_LABEL_OFFSET_Y = 1

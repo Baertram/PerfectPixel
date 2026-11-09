@@ -1,4 +1,4 @@
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 local namespace	= 'CraftStations'
 
 --The crafting TopLevelControls and scenes
@@ -142,8 +142,26 @@ PP.UpdateCraftStationScene = updateCraftStationScene
 PP.craftStationScenes = function()
 	--===============================================================================================--
 	local sv, def = PP:AddNewSavedVars(0.2, namespace, {
+		enableScenesPPLook		= true,
 		Provisioner_ShowTooltip	= true,
 	})
+	---------------------------------------------
+	table.insert(PP.optionsData,
+	{	type				= "submenu",
+		name				= GetString(PP_LAM_SCENE_CRAFT_STATIONS),
+		controls = {
+			{	type				= "checkbox",
+				name				= GetString(PP_LAM_ACTIVATE),
+				getFunc				= function() return sv.enableScenesPPLook end,
+				setFunc				= function(value) sv.enableScenesPPLook = value end,
+				default				= def.enableScenesPPLook,
+				requiresReload		= true,
+			},
+		},
+	})
+--===============================================================================================--
+
+	if not sv.enableScenesPPLook then return end
 	--===============================================================================================--
 
 	for i = 1, #tlcs do

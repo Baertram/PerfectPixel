@@ -1,4 +1,4 @@
-local PP = PP --- @class PP
+local PP = PP ---@class (partial) PP
 
 local HIGHLIGHT_EDGE_OUTSET = 2
 

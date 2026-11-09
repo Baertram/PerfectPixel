@@ -1,6 +1,30 @@
-local PP = PP --- @class PP
+local PP = PP ---@class (partial) PP
 
 PP.tamrielTomesScene = function ()
+--===============================================================================================
+	local SV_VER		= 0.1
+	local DEF = {
+		enableScenesPPLook	= true,
+	}
+	local SV = PP:AddNewSavedVars(SV_VER, "TamrielTomesScene", DEF)
+	---------------------------------------------
+	table.insert(PP.optionsData,
+	{	type				= "submenu",
+		name				= GetString(PP_LAM_SCENE_TAMRIEL_TOMES),
+		controls = {
+			{	type				= "checkbox",
+				name				= GetString(PP_LAM_ACTIVATE),
+				getFunc				= function() return SV.enableScenesPPLook end,
+				setFunc				= function(value) SV.enableScenesPPLook = value end,
+				default				= DEF.enableScenesPPLook,
+				requiresReload		= true,
+			},
+		},
+	})
+--===============================================================================================
+
+	if not SV.enableScenesPPLook then return end
+
     --Tamriel Tomes will be added with API101049 first
     if TAMRIEL_TOMES_SCREEN_KEYBOARD == nil then return end
 

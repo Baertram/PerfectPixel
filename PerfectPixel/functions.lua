@@ -1,4 +1,4 @@
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 local SM		= SCENE_MANAGER
 local tinsert	= table.insert
 
@@ -155,7 +155,7 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 		if width ~= nil then
 			bg:SetWidth(width)
 		elseif height ~= nil then
-			bg:SetHeigt(height)
+			bg:SetHeight(height)
 		end
 	end
 
@@ -178,25 +178,6 @@ function PP:CreateBackground(parent, --[[#1]] point1, relTo1, relPoint1, x1, y1,
 	ZO_PreHookHandler(parent, 'OnEffectivelyHidden', function(ctrl, bool)
 		ctrl.PP_BG:SetHidden(bool)
 	end)
-
-	-- Handle dynamic resizing for backgrounds with fixed dimensions
-	if width ~= nil or height ~= nil then
-		ZO_PreHookHandler(parent, 'OnRectChanged', function(ctrl, newLeft, newTop, newRight, newBottom)
-			if ctrl.PP_BG then
-				local theBg = ctrl.PP_BG
-				local newWidth = newRight - newLeft
-				local newHeight = newBottom - newTop
-
-				if width ~= nil and height ~= nil then
-					theBg:SetDimensions(newWidth + (insets * 2), newHeight + (insets * 2))
-				elseif width ~= nil then
-					theBg:SetWidth(newWidth + (insets * 2))
-				elseif height ~= nil then
-					theBg:SetHeight(newHeight + (insets * 2))
-				end
-			end
-		end)
-	end
 end
 
 function PP:UpdateBackgrounds(namespace)
@@ -221,7 +202,9 @@ function PP:UpdateBackgrounds(namespace)
 
 		bg:ClearAnchors()
 		bg:SetAnchor(p1, rTo1, rp1, x1 + normInsets, y1 + normInsets)
-		bg:SetAnchor(p2, rTo2, rp2, x2 - normInsets, y2 - normInsets)
+		if get2_isA then
+			bg:SetAnchor(p2, rTo2, rp2, x2 - normInsets, y2 - normInsets)
+		end
 
 		bg:SetCenterTexture(sv.skin_backdrop, sv.skin_backdrop_tile_size, sv.skin_backdrop_tile and 1 or 0)
 		bg:SetCenterColor(bg_c[1], bg_c[2], bg_c[3], bg_c[4])

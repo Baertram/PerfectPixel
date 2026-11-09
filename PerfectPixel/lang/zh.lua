@@ -75,11 +75,43 @@ local stringsZh = {
 	PP_LAM_CHAT_MINBAR								= "聊天栏样式",
 	--Companion SkillsScene
 	PP_LAM_SCENE_COMPANION_SKILLS					= "同伴技能界面",
+	--Alliance War Scene
+	PP_LAM_SCENE_ALLIANCE_WAR						= "联盟战争界面",
+	--Challenge Difficulty Scene
+	PP_LAM_SCENE_CHALLENGE_DIFFICULTY				= "挑战难度界面",
+	--Collections Scene
+	PP_LAM_SCENE_COLLECTIONS						= "收藏界面",
+	--Craft Stations Scene
+	PP_LAM_SCENE_CRAFT_STATIONS					= "制作站界面",
+	--Friends List Scene
+	PP_LAM_SCENE_FRIENDS_LIST						= "好友列表界面",
+	--Group Menu Scene
+	PP_LAM_SCENE_GROUP_MENU							= "组队菜单界面",
+	--Guild Scene
+	PP_LAM_SCENE_GUILD								= "公会界面",
+	--Help Scene
+	PP_LAM_SCENE_HELP								= "帮助界面",
+	--Generic Selector Scene
+	PP_LAM_SCENE_GENERIC_SELECTOR					= "通用选择器界面",
+	--Lockpicking Scene
+	PP_LAM_SCENE_LOCKPICKING						= "开锁界面",
+	--Mail Scene
+	PP_LAM_SCENE_MAIL								= "邮件界面",
+	--Notifications Scene
+	PP_LAM_SCENE_NOTIFICATIONS						= "通知界面",
+	--Stats Scene
+	PP_LAM_SCENE_STATS								= "属性界面",
+	--Tamriel Tomes Scene
+	PP_LAM_SCENE_TAMRIEL_TOMES						= "泰姆瑞尔典籍界面",
+	--Trading House Scene
+	PP_LAM_SCENE_TRADING_HOUSE						= "交易行界面",
+	--Restyle Station Scene
+	PP_LAM_SCENE_RESTYLE_STATION					= "重塑站界面",
 	--Font in lists
 	--PP_LAM_LIST_FONT								= "列表字体",
 }
 
----@class PP
+---@class (partial) PP
 local PP = PP
 --Use the metatable to use EN strings for untranslated/missing stringIds
 setmetatable(stringsZh, {__index = PP.stringsEn})

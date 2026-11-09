@@ -77,11 +77,43 @@ local stringsEn = {
 	PP_LAM_CHAT_MINBAR								= "Style chat min. bar",
 	--Companion SkillsScene
 	PP_LAM_SCENE_COMPANION_SKILLS					= "Companion Skills Scene",
+	--Alliance War Scene
+	PP_LAM_SCENE_ALLIANCE_WAR						= "Alliance War Scene",
+	--Challenge Difficulty Scene
+	PP_LAM_SCENE_CHALLENGE_DIFFICULTY				= "Challenge Difficulty Scene",
+	--Collections Scene
+	PP_LAM_SCENE_COLLECTIONS						= "Collections Scene",
+	--Craft Stations Scene
+	PP_LAM_SCENE_CRAFT_STATIONS					= "Craft Stations Scene",
+	--Friends List Scene
+	PP_LAM_SCENE_FRIENDS_LIST						= "Friends List Scene",
+	--Group Menu Scene
+	PP_LAM_SCENE_GROUP_MENU							= "Group Menu Scene",
+	--Guild Scene
+	PP_LAM_SCENE_GUILD								= "Guild Scene",
+	--Help Scene
+	PP_LAM_SCENE_HELP								= "Help Scene",
+	--Generic Selector Scene
+	PP_LAM_SCENE_GENERIC_SELECTOR					= "Generic Selector Scene",
+	--Lockpicking Scene
+	PP_LAM_SCENE_LOCKPICKING						= "Lockpicking Scene",
+	--Mail Scene
+	PP_LAM_SCENE_MAIL								= "Mail Scene",
+	--Notifications Scene
+	PP_LAM_SCENE_NOTIFICATIONS						= "Notifications Scene",
+	--Stats Scene
+	PP_LAM_SCENE_STATS								= "Stats Scene",
+	--Tamriel Tomes Scene
+	PP_LAM_SCENE_TAMRIEL_TOMES						= "Tamriel Tomes Scene",
+	--Trading House Scene
+	PP_LAM_SCENE_TRADING_HOUSE						= "Trading House Scene",
+	--Restyle Station Scene
+	PP_LAM_SCENE_RESTYLE_STATION					= "Restyle Station Scene",
 	--Font in lists
 	--PP_LAM_LIST_FONT								= "List Font",
 }
 
----@class PP
+---@class (partial) PP
 local PP = PP
 --Provide the English strings as addon global values
 PP.stringsEn = stringsEn

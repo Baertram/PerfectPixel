@@ -1,7 +1,31 @@
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 local removeFragmentsFromScene = PP.removeFragmentsFromScene
 
 PP.helpSceneGroup = function()
+--===============================================================================================--
+	local SV_VER		= 0.1
+	local DEF = {
+		enableScenesPPLook	= true,
+	}
+	local SV = PP:AddNewSavedVars(SV_VER, "HelpSceneGroup", DEF)
+	---------------------------------------------
+	table.insert(PP.optionsData,
+	{	type				= "submenu",
+		name				= GetString(PP_LAM_SCENE_HELP),
+		controls = {
+			{	type				= "checkbox",
+				name				= GetString(PP_LAM_ACTIVATE),
+				getFunc				= function() return SV.enableScenesPPLook end,
+				setFunc				= function(value) SV.enableScenesPPLook = value end,
+				default				= DEF.enableScenesPPLook,
+				requiresReload		= true,
+			},
+		},
+	})
+--===============================================================================================--
+
+	if not SV.enableScenesPPLook then return end
+
 	local scenes = {
 		{ scene = SCENE_MANAGER:GetScene('helpTutorials'), fragment = HELP_TUTORIALS_FRAGMENT, 	gVar = HELP, },
 		{ scene = HELP_EMOTES_SCENE,                       										gVar = KEYBOARD_PLAYER_EMOTE, },

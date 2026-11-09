@@ -1,4 +1,4 @@
-local PP = PP --- @class PP
+local PP = PP ---@class (partial) PP
 local removeFragmentsFromScene = PP.removeFragmentsFromScene
 
 -- Constants for fragment removal
@@ -294,10 +294,34 @@ end
 
 -- Main mail scene group function
 PP.mailSceneGroup = function ()
-    local SV = PP.savedVars.ListStyle
+--===============================================================================================--
+	local SV_VER		= 0.1
+	local DEF = {
+		enableScenesPPLook	= true,
+	}
+	local SV = PP:AddNewSavedVars(SV_VER, "MailSceneGroup", DEF)
+	---------------------------------------------
+	table.insert(PP.optionsData,
+	{	type				= "submenu",
+		name				= GetString(PP_LAM_SCENE_MAIL),
+		controls = {
+			{	type				= "checkbox",
+				name				= GetString(PP_LAM_ACTIVATE),
+				getFunc				= function() return SV.enableScenesPPLook end,
+				setFunc				= function(value) SV.enableScenesPPLook = value end,
+				default				= DEF.enableScenesPPLook,
+				requiresReload		= true,
+			},
+		},
+	})
+--===============================================================================================--
+
+	if not SV.enableScenesPPLook then return end
+
+    local SV_ListStyle = PP.savedVars.ListStyle
 
     -- Edit Mail Inbox Scene
-    Edit_MailInbox(SV)
+    Edit_MailInbox(SV_ListStyle)
 
     -- Edit Mail Send Scene
     Edit_MailSend()

@@ -1,4 +1,4 @@
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 
 PP.gameMenuInGameScene = function()
 --===============================================================================================--
@@ -6,7 +6,7 @@ PP.gameMenuInGameScene = function()
 	local DEF = {
 		addons_toggle	= true,
 	}
-	local SV = ZO_SavedVars:NewAccountWide(PP.ADDON_NAME, SV_VER, "GameMenuScene", DEF, GetWorldName())
+	local SV = PP:AddNewSavedVars(SV_VER, "GameMenuScene", DEF)
 	---------------------------------------------
 	table.insert(PP.optionsData,
 	{	type				= "submenu",

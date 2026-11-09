@@ -1,4 +1,4 @@
-local PP = PP ---@class PP
+local PP = PP ---@class (partial) PP
 local media		= PP.media
 local unpack	= unpack
 local tinsert	= table.insert

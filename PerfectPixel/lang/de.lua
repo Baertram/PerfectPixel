@@ -75,11 +75,43 @@ local stringsDe = {
 	PP_LAM_CHAT_MINBAR								= "Chat min. Leiste stylen",
 	--Companion SkillsScene
 	PP_LAM_SCENE_COMPANION_SKILLS					= "Gefährten Fertigkeiten",
+	--Alliance War Scene
+	PP_LAM_SCENE_ALLIANCE_WAR						= "Allianz Krieg Szene",
+	--Challenge Difficulty Scene
+	PP_LAM_SCENE_CHALLENGE_DIFFICULTY				= "Herausforderungsschwierigkeit Szene",
+	--Collections Scene
+	PP_LAM_SCENE_COLLECTIONS						= "Sammlungen Szene",
+	--Craft Stations Scene
+	PP_LAM_SCENE_CRAFT_STATIONS					= "Handwerksstationen Szene",
+	--Friends List Scene
+	PP_LAM_SCENE_FRIENDS_LIST						= "Freundesliste Szene",
+	--Group Menu Scene
+	PP_LAM_SCENE_GROUP_MENU							= "Gruppenmenü Szene",
+	--Guild Scene
+	PP_LAM_SCENE_GUILD								= "Gilde Szene",
+	--Help Scene
+	PP_LAM_SCENE_HELP								= "Hilfe Szene",
+	--Generic Selector Scene
+	PP_LAM_SCENE_GENERIC_SELECTOR					= "Allgemeiner Auswahl Szene",
+	--Lockpicking Scene
+	PP_LAM_SCENE_LOCKPICKING						= "Schlosspicken Szene",
+	--Mail Scene
+	PP_LAM_SCENE_MAIL								= "Post Szene",
+	--Notifications Scene
+	PP_LAM_SCENE_NOTIFICATIONS						= "Benachrichtigungen Szene",
+	--Stats Scene
+	PP_LAM_SCENE_STATS								= "Statistiken Szene",
+	--Tamriel Tomes Scene
+	PP_LAM_SCENE_TAMRIEL_TOMES						= "Tamriel Folianten Szene",
+	--Trading House Scene
+	PP_LAM_SCENE_TRADING_HOUSE						= "Handelshaus Szene",
+	--Restyle Station Scene
+	PP_LAM_SCENE_RESTYLE_STATION					= "Umgestaltungsstation Szene",
 	--Font in lists
 	--PP_LAM_LIST_FONT								= "Listen Font",
 }
 
----@class PP
+---@class (partial) PP
 local PP = PP
 --Use the metatable to use EN strings for untranslated/missing stringIds
 setmetatable(stringsDe, {__index = PP.stringsEn})

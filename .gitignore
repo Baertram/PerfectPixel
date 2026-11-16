@@ -1,3 +1,4 @@
 /.editorconfig
 /.vscode
 /esoui/ingame
+.meta/PerfectPixel.lua
